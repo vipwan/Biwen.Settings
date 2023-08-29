@@ -92,7 +92,7 @@
 ### Enjoy!
 
 ```csharp
-
+    //模拟的配置项,注意描述信息,以及默认值.初始化将以默认值为准
     [Description("微信配置")]
     public class WeChatSetting : SettingBase
     {
