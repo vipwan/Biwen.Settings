@@ -1,4 +1,10 @@
 # Biwen.Settings
+
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/b438393b-f5d9-4d78-b2aa-c20851fb9880)
+
+
+
+
 ## NuGet 包
 
 - dotnet add package Biwen.Settings --version 1.0.1
@@ -61,7 +67,7 @@
 
 - AddBiwenSettings & UseBiwenSettings
 
-  ```csharp
+```csharp
 
     builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
     {
@@ -80,8 +86,46 @@
    //...............
 
    app.UseBiwenSettings();
+```
+
+### Enjoy!
+
+```csharp
+
+    [Description("微信配置")]
+    public class WeChatSetting : SettingBase
+    {
+        [Description("AppId")]
+        public string AppId { get; set; } = "wx1234567890";
+
+        [Description("AppSecret")]
+        public string AppSecret { get; set; } = "1234567890";
+
+        [Description("Token")]
+        public string Token { get; set; } = "1234567890";
+
+        [Description("EncodingAESKey")]
+        public string EncodingAESKey { get; set; } = "1234567890";
+
+        public override int Order => 999;
+    }
+
+    //anywhere you can inject
+    //View:
+    //@inject Settings.WeChatSetting WeChatSetting;
+
+    //Service:
+    //public class MyClass
+    //{
+    //    private readonly WeChatSetting _weChatSetting;
+    //    public MyClass(WeChatSetting weChatSetting)
+    //    {
+    //        _weChatSetting = weChatSetting;
+    //    }
+    //}
 
 ```
+
 
 ## 项目地址
 
