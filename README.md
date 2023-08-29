@@ -50,6 +50,14 @@
     }
 
 ```
+#### 1.1 Migration
+
+- Add a new Entity Framework Core migration to save your changes
+
+```bash
+dotnet ef migrations add biwenSettings
+dotnet ef database update
+```
 
 ### step 2
 
