@@ -59,6 +59,7 @@
     builder.Services.AddDbContext<MyDbContext>(options =>
     {
         //根据您的情况使用任意EFCore支持的数据库
+        //当前使用内存数据库作为演示.生产环境务必修改!
         options.UseInMemoryDatabase("BiwenSettings");
     });
   
