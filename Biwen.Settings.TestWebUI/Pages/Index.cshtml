@@ -1,0 +1,21 @@
+﻿@page
+@inject Settings.WeChatSetting WeChatSetting;
+
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<p>
+    @WeChatSetting.AppId 
+</p>
+
+<p>
+    @WeChatSetting.AppSecret
+</p>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>

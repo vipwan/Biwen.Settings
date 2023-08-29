@@ -1,6 +1,7 @@
 ﻿﻿@using Microsoft.AspNetCore.Hosting
 @using Microsoft.AspNetCore.Mvc.ViewEngines
 @inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -9,10 +10,12 @@
     <title>@ViewData["Title"] @Environment.ApplicationName</title>
 </head>
 <body>
+
     <div class="container">
+
         <main role="main" class="pb-1">
             <div>
-                <h2>配置中心</h2>
+                <h2>我的配置中心</h2>
                 <hr />
                 <div class="row">
                     <div class="col-md-3">
@@ -25,5 +28,6 @@
             </div>
         </main>
     </div>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
