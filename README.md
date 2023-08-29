@@ -65,9 +65,12 @@
 
     builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
     {
+        //自定义布局
         options.Layout = "~/Views/Shared/_Layout.cshtml";
         options.Title = "Biwen.Settings";
+        //路由地址 ,http://..../system/settings
         options.Route = "system/settings";
+        //授权规则
         options.Valider = (context) =>
         {
             return true;
