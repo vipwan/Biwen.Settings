@@ -127,7 +127,10 @@
 
 ```
 
+## License 
+- MIT
+
 
 ## 项目地址
 
-- [GitHub][(https://github.com/vipwan/Biwen)](https://github.com/vipwan/Biwen.Settings)
+- [GitHub][(https://github.com/vipwan)](https://github.com/vipwan/Biwen.Settings)
