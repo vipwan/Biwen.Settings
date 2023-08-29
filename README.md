@@ -43,9 +43,9 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Setting>().HasKey(x => x.SettingName);
-            builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
-            builder.Entity<Setting>().Property(x => x.Order);
+            //可以根据自己的情况约束存储列
+            //builder.Entity<Setting>().HasKey(x => x.SettingName);
+            //builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
         }
     }
 
