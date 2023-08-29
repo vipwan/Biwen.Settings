@@ -1,0 +1,34 @@
+﻿@using Biwen.Settings;
+@using Microsoft.Extensions.Options;
+@using System.Text.Json;
+@inject IOptions<SettingOptions> SettingOptions;
+
+@{
+    var setting = ViewBag.Setting as Biwen.Settings.Domains.Setting;
+    var settingValues = ViewBag.SettingValues as List<Tuple<string, string?, string?>>;
+    Layout = SettingOptions.Value.Layout;
+    ViewData["Title"] = SettingOptions.Value.Title;
+
+    //var nodes = JsonSerializer.Deserialize(setting.SettingContent);
+}
+
+@using (Html.BeginForm())
+{
+
+    <h3>@(setting!.SettingName)</h3>
+    <h5>@(setting!.Description)</h5>
+
+    foreach (var kv in settingValues!)
+    {
+        <div class="editor-label">
+            <label for="@kv.Item1">
+                @(kv.Item1)&nbsp;&nbsp; @kv.Item2
+            </label>
+        </div>
+        <div class="editor-field">
+            @Html.TextBox(kv.Item1, kv.Item3, new { id = kv.Item1,placeholder= kv.Item2 , @class = "form-control" })
+        </div>
+    }
+
+    <button class="btn btn-primary btn-block" onclick="return confirm('确定要修改吗!?如果格式错误将使系统异常!');">确认修改</button>
+}

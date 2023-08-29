@@ -1,0 +1,40 @@
+﻿﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] @Environment.ApplicationName</title>
+</head>
+<body>
+
+    <div class="container">
+
+        <main role="main" class="pb-1">
+            <div>
+                <h2>配置中心</h2>
+                <hr />
+                <div class="row">
+                    <div class="col-md-3">
+                        <partial name="_ManageNav" />
+                    </div>
+                    <div class="col-md-9">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="footer border-top pl-3 text-muted">
+        <div class="container">
+            &copy; @DateTime.Now.Year - @Environment.ApplicationName
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
