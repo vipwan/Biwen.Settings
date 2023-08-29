@@ -58,6 +58,7 @@
   ```csharp
     builder.Services.AddDbContext<MyDbContext>(options =>
     {
+        //根据您的情况使用任意EFCore支持的数据库
         options.UseInMemoryDatabase("BiwenSettings");
     });
   
