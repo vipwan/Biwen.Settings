@@ -1,4 +1,5 @@
-﻿namespace Biwen.Settings.TestWebUI.Settings
+﻿
+namespace Biwen.Settings.TestWebUI.Settings
 {
 
     [Description("微信配置")]
