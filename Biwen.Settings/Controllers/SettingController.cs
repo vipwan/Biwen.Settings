@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Biwen.Settings.Domains;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -16,7 +17,6 @@ namespace Biwen.Settings.Controllers
             _options = options;
             _settingManager = settingManager;
         }
-
 
         //[HttpGet("qwertyuiopasdfghjklzxcvbnm/setting")]
         public IActionResult Index()
@@ -53,29 +53,25 @@ namespace Biwen.Settings.Controllers
             var type = TypeFinder.FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName);
             if (type == null)
                 return NotFound();
-
             List<Tuple<string, string?, string?>> SettingValues = new();
-
             var json = JsonObject.Parse(setting.SettingContent!)!;
-
             type.GetProperties().Where(x =>
-                x.Name != "SettingName" &&
-                x.Name != "Order" &&
-                x.Name != "Description" &&
-                x.Name != "LastModificationTime").ToList().ForEach(x =>
+                x.Name != nameof(Setting.SettingName) &&
+                x.Name != nameof(Setting.Order) &&
+                x.Name != nameof(Setting.Description) &&
+                x.Name != nameof(Setting.SettingContent) &&
+                x.Name != nameof(Setting.LastModificationTime)).ToList().ForEach(x =>
                 {
-
                     var instanceSetting = Request.HttpContext.RequestServices.GetService(type);
+                    var desc = x.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
 
                     var value = json[x.Name];
                     if (value != null)
                     {
-                        var desc = x.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
                         SettingValues.Add(new Tuple<string, string?, string?>(x.Name, desc?.Description, value.ToString()));
                     }
                     else
                     {
-                        var desc = x.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
                         var propertyValue = type.GetProperty(x.Name)!.GetValue(instanceSetting);
                         SettingValues.Add(new Tuple<string, string?, string?>(x.Name, desc?.Description, propertyValue == null ? string.Empty : propertyValue.ToString()));
                     }
@@ -176,7 +172,7 @@ namespace Biwen.Settings.Controllers
                 if (prop.PropertyType == typeof(long))
                 {
 #pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(sitting, long.Parse(form[item])); continue;
+                    prop.SetValue(sitting, long.Parse(form[item].ToString())); continue;
 #pragma warning restore CS8604 // 引用类型参数可能为 null。
                 }
                 //prop.SetValue(sitting, form[item]);
