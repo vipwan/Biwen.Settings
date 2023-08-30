@@ -35,6 +35,25 @@ namespace Biwen.Settings
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
             services.AddScoped<ISettingManager, SettingManager>();
 
+
+            if (autoValidation)
+            {
+                //注册验证器
+                services.AddFluentValidationAutoValidation();
+                services.Scan(scan =>
+                {
+                    scan.FromAssemblies(AppDomain.CurrentDomain.GetAssemblies().
+                        Where(x => !(x.FullName!.Contains("FluentValidation")))).AddClasses(x =>
+                        {
+                            x.AssignableTo(typeof(IValidator<>));//来自指定的接口
+                            x.Where(a => { return a.IsClass && !a.IsAbstract; });//必须是类,且不为抽象类
+                        })
+                    .AsImplementedInterfaces(x => x.IsGenericType) //实现基于他的接口
+                    .WithTransientLifetime();  //AddTransient
+                });
+                //services.AddTransient<IValidator<TestSetting>, TestSettingValidator>();
+            }
+
             services.AddTransient((IServiceProvider p) =>
             {
                 return (p.GetRequiredService(dbContextType) as IBiwenSettingsDbContext)!;
