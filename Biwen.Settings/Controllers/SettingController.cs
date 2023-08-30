@@ -67,7 +67,7 @@ namespace Biwen.Settings.Controllers
         }
 
         [NonAction]
-        List<Tuple<string, string?, string?>> SettingValues(Setting setting)
+        List<(string, string?, string?)> SettingValues(Setting setting)
         {
             if (setting == null)
                 throw new ArgumentNullException(nameof(setting));
@@ -77,7 +77,7 @@ namespace Biwen.Settings.Controllers
                 throw new ArgumentNullException(nameof(type));
 
 
-            List<Tuple<string, string?, string?>> SettingValues = new();
+            List<(string, string?, string?)> SettingValues = new();
             var json = JsonObject.Parse(setting.SettingContent!)!;
             type.GetProperties().Where(x =>
                 x.Name != nameof(Setting.SettingName) &&
@@ -94,12 +94,12 @@ namespace Biwen.Settings.Controllers
                     var value = json[x.Name];
                     if (value != null)
                     {
-                        SettingValues.Add(new Tuple<string, string?, string?>(x.Name, desc?.Description, value.ToString()));
+                        SettingValues.Add((x.Name, desc?.Description, value.ToString()));
                     }
                     else
                     {
                         var propertyValue = type.GetProperty(x.Name)!.GetValue(instanceSetting);
-                        SettingValues.Add(new Tuple<string, string?, string?>(x.Name, desc?.Description, propertyValue == null ? string.Empty : propertyValue.ToString()));
+                        SettingValues.Add((x.Name, desc?.Description, propertyValue == null ? string.Empty : propertyValue.ToString()));
                     }
                 });
 

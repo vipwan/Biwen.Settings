@@ -5,7 +5,7 @@
 
 @{
     var setting = ViewBag.Setting as Biwen.Settings.Domains.Setting;
-    var settingValues = ViewBag.SettingValues as List<Tuple<string, string?, string?>>;
+    var settingValues = ViewBag.SettingValues as List<(string, string?, string?)>;
     Layout = SettingOptions.Value.Layout;
     ViewData["Title"] = SettingOptions.Value.Title;
 
