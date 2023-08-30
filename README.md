@@ -81,6 +81,13 @@ dotnet ef database update
 
     builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
     {
+//ProjectId : 项目标识 用于区分不同的项目,比如:日志系统,文件系统;或者环境,比如:开发环境,测试环境,生产环境
+#if DEBUG
+    options.ProjectId = $"Biwen.Settings.TestWebUI-{"Development"}";
+#endif
+#if !DEBUG
+    options.ProjectId = $"Biwen.Settings.TestWebUI-{"Production"}";
+#endif
         //自定义布局
         options.Layout = "~/Views/Shared/_Layout.cshtml";
         options.Title = "Biwen.Settings";
