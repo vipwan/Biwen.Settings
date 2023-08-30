@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System;
+using System.ComponentModel;
 using System.Reflection;
 using System.Text.Json.Nodes;
 
@@ -136,68 +137,17 @@ namespace Biwen.Settings.Controllers
                 {
                     continue;
                 }
+                //当前类型必须能转换String
+                if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
+                    continue;
+                //当前类型必须能转换传递的参数值
+                if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(form[item].ToString()))
+                    continue;
+                //转换
+                var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(form[item].ToString());
+                //赋值
+                prop.SetValue(setting, value);
 
-                if (prop.PropertyType == typeof(bool))
-                {
-                    prop.SetValue(setting, Convert.ToBoolean(form[item].ToString())); continue;
-                }
-                if (prop.PropertyType == typeof(int))
-                {
-                    prop.SetValue(setting, Convert.ToInt32(form[item].ToString())); continue;
-                }
-                if (prop.PropertyType == typeof(string))
-                {
-                    prop.SetValue(setting, form[item].ToString()); continue;
-                }
-                if (prop.PropertyType == typeof(Guid))
-                {
-#pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(setting, new Guid(form[item].ToString())); continue;
-#pragma warning restore CS8604 // 引用类型参数可能为 null。
-                }
-                if (prop.PropertyType == typeof(DateTime))
-                {
-#pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(setting, DateTime.Parse(form[item].ToString())); continue;
-#pragma warning restore CS8604 // 引用类型参数可能为 null。
-                }
-                if (prop.PropertyType == typeof(double))
-                {
-#pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(setting, double.Parse(form[item].ToString())); continue;
-#pragma warning restore CS8604 // 引用类型参数可能为 null。
-                }
-                if (prop.PropertyType == typeof(decimal))
-                {
-#pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(setting, decimal.Parse(form[item].ToString())); continue;
-#pragma warning restore CS8604 // 引用类型参数可能为 null。
-                }
-                if (prop.PropertyType == typeof(byte))
-                {
-#pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(setting, byte.Parse(form[item].ToString())); continue;
-#pragma warning restore CS8604 // 引用类型参数可能为 null。
-                }
-                if (prop.PropertyType == typeof(char))
-                {
-#pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(setting, char.Parse(form[item].ToString())); continue;
-#pragma warning restore CS8604 // 引用类型参数可能为 null。
-                }
-                if (prop.PropertyType == typeof(float))
-                {
-#pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(setting, float.Parse(form[item].ToString())); continue;
-#pragma warning restore CS8604 // 引用类型参数可能为 null。
-                }
-                if (prop.PropertyType == typeof(long))
-                {
-#pragma warning disable CS8604 // 引用类型参数可能为 null。
-                    prop.SetValue(setting, long.Parse(form[item].ToString())); continue;
-#pragma warning restore CS8604 // 引用类型参数可能为 null。
-                }
-                //prop.SetValue(sitting, form[item]);
             }
 
             //验证DTO
