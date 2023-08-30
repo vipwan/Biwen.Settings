@@ -53,12 +53,7 @@ namespace Biwen.Settings
                 });
                 //services.AddTransient<IValidator<TestSetting>, TestSettingValidator>();
             }
-            services.AddTransient((IServiceProvider p) =>
-            {
-                return (p.GetRequiredService(dbContextType) as IBiwenSettingsDbContext)!;
-            });
-            services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
-            services.AddScoped<ISettingManager, SettingManager>();
+
             var settings = TypeFinder.FindTypes.InAssemblies(allAssemblies).ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
             settings.ForEach(x =>
