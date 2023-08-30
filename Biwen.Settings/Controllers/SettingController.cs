@@ -141,10 +141,11 @@ namespace Biwen.Settings.Controllers
                 if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
                     continue;
                 //当前类型必须能转换传递的参数值
-                if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(form[item].ToString()))
+                var strValue = form[item].ToString();
+                if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(strValue))
                     continue;
                 //转换
-                var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(form[item].ToString());
+                var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(strValue);
                 //赋值
                 prop.SetValue(setting, value);
 
