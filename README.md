@@ -113,6 +113,9 @@ dotnet ef database update
 
 #### 支持提交更新时验证器自动验证
 
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e72db049-2ede-45c8-b3a2-2290f0d2e2c0)
+
+
 ```charp
     public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
     {
