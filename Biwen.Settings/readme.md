@@ -115,20 +115,6 @@ dotnet ef database update
 
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e72db049-2ede-45c8-b3a2-2290f0d2e2c0)
 
-
-```charp
-    public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
-    {
-        public WeChatSettingValidtor()
-        {
-            //验证规则
-            RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
-            RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
-        }
-    }
-```
-
-
 ```csharp
     //模拟的配置项,注意描述信息,以及默认值.初始化将以默认值为准
     [Description("微信配置")]
@@ -136,17 +122,24 @@ dotnet ef database update
     {
         [Description("AppId")]
         public string AppId { get; set; } = "wx1234567890";
-
         [Description("AppSecret")]
         public string AppSecret { get; set; } = "1234567890";
-
         [Description("Token")]
         public string Token { get; set; } = "1234567890";
-
         [Description("EncodingAESKey")]
         public string EncodingAESKey { get; set; } = "1234567890";
-
+        //排序
         public override int Order => 999;
+        //WeChatSetting的验证器
+        public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
+        {
+            public WeChatSettingValidtor()
+            {
+                //验证规则
+                RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
+                RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
+            }
+        }
     }
 
     //anywhere you can inject
