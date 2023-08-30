@@ -24,7 +24,7 @@
 
 ## 使用方式
 
-[* [示例项目](Biwen.Settings/TestWebUI)]
+[* [示例项目](https://github.com/vipwan/Biwen.Settings/tree/master/Biwen.Settings.TestWebUI)]
 
 ## Easy to Use
 
