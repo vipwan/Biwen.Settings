@@ -110,6 +110,25 @@ dotnet ef database update
 
 ### Enjoy!
 
+
+#### 支持提交更新时验证器自动验证
+
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e72db049-2ede-45c8-b3a2-2290f0d2e2c0)
+
+
+```charp
+    public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
+    {
+        public WeChatSettingValidtor()
+        {
+            //验证规则
+            RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
+            RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
+        }
+    }
+```
+
+
 ```csharp
     //模拟的配置项,注意描述信息,以及默认值.初始化将以默认值为准
     [Description("微信配置")]

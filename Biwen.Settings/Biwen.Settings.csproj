@@ -11,7 +11,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageVersion>1.0.2</PackageVersion>
+		<PackageVersion>1.1.0</PackageVersion>
 		<Title>Biwen.Settings</Title>
 		<Description>Biwen.Settings ,NET6+ 单体应用配置项管理模块</Description>
 		<Copyright>MIT</Copyright>
@@ -22,11 +22,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Scrutor" Version="4.2.2" />
 		<PackageReference Include="TypeFinder" Version="1.0.1" />
 	</ItemGroup>
 

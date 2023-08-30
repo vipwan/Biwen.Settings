@@ -3,6 +3,8 @@
 namespace Biwen.Settings
 {
     using Biwen.Settings.EntityFramework;
+    using FluentValidation;
+    using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Configuration;
@@ -17,10 +19,11 @@ namespace Biwen.Settings
         /// <param name="services"></param>
         /// <param name="dbContextType"></param>
         /// <param name="options"></param>
+        /// <param name="autoValidation">是否FluentValidation自动验证</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static IServiceCollection AddBiwenSettings(this IServiceCollection services, Type dbContextType,
-            Action<SettingOptions>? options = null)
+            Action<SettingOptions>? options = null, bool autoValidation = true)
         {
             if (dbContextType == null)
                 throw new ArgumentNullException(nameof(dbContextType));
@@ -28,20 +31,32 @@ namespace Biwen.Settings
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddMemoryCache();
-
-            services.AddTransient((IServiceProvider p) =>
-            {
-                return (p.GetRequiredService(dbContextType) as IBiwenSettingsDbContext)!;
-            });
-
+            services.AddTransient((IServiceProvider p) => (p.GetRequiredService(dbContextType) as IBiwenSettingsDbContext)!);
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
-
             services.AddScoped<ISettingManager, SettingManager>();
 
+            #region 验证器注册
 
-            var settings = TypeFinder.FindTypes.InAllAssemblies
-                .ThatInherit(typeof(ISetting))
-                .Where(x => x.IsClass && !x.IsAbstract).ToList();
+            if (autoValidation)
+            {
+                //注册验证器
+                services.AddFluentValidationAutoValidation();
+                services.Scan(scan =>
+                {
+                    scan.FromAssemblies(AppDomain.CurrentDomain.GetAssemblies().
+                        Where(x => !(x.FullName!.Contains("FluentValidation")))).AddClasses(x =>
+                    {
+                        x.AssignableTo(typeof(IValidator<>));//来自指定的接口
+                        x.Where(a => { return a.IsClass && !a.IsAbstract; });//必须是类,且不为抽象类
+                    })
+                    .AsImplementedInterfaces(x => x.IsGenericType) //实现基于他的接口
+                    .WithTransientLifetime();  //AddTransient
+                });
+                //services.AddTransient<IValidator<TestSetting>, TestSettingValidator>();
+                #endregion
+            }
+
+            var settings = TypeFinder.FindTypes.InAllAssemblies.ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
             settings.ForEach(x =>
             {
@@ -74,6 +89,7 @@ namespace Biwen.Settings
 
             return services;
         }
+
 
         /// <summary>
         /// Use BiwenSettings

@@ -1,4 +1,6 @@
 ﻿
+using FluentValidation;
+
 namespace Biwen.Settings.TestWebUI.Settings
 {
 
@@ -19,5 +21,16 @@ namespace Biwen.Settings.TestWebUI.Settings
 
         public override int Order => 999;
 
+    }
+
+
+    public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
+    {
+        public WeChatSettingValidtor()
+        {
+            //验证规则
+            RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
+            RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
+        }
     }
 }

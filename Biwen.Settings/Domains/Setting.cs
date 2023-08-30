@@ -32,17 +32,22 @@ namespace Biwen.Settings.Domains
         /// JSON存储
         /// </summary>
         [DefaultValue("{}")]
+        [ConcurrencyCheck]
         public string? SettingContent { get; set; }
         /// <summary>
         /// 最后更新时间
         /// </summary>
         public DateTime LastModificationTime { get; set; } = DateTime.Now;
 
-        /// <summary>
-        /// 乐观并发锁,注意SQLite文件数据库不支持该特性
-        /// </summary>
-        [Timestamp]
-        public byte[] Version { get; set; } = null!;
 
+        //特定数据库不支持.为保证功能可用,调整为SettingContent检测
+
+        /*  
+                /// <summary>
+                /// 乐观并发锁,注意SQLite文件数据库不支持该特性
+                /// </summary>
+                [Timestamp]
+                public byte[] Version { get; set; } = null!;
+        */
     }
 }

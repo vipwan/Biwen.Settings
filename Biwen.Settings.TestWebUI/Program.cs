@@ -35,7 +35,7 @@ builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
     {
         return true;
     };
-});
+}, true);
 
 var app = builder.Build();
 
