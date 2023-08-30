@@ -17,15 +17,14 @@
 
     <h3>@(setting!.SettingName)</h3>
     <h5>@(setting!.Description)</h5>
-
+    @Html.ValidationSummary()
     foreach (var kv in settingValues!)
     {
         <div class="editor-label">
-            <label for="@kv.Item1">
-                @(kv.Item1)&nbsp;&nbsp; @kv.Item2
-            </label>
+            <label for="@kv.Item1">@(kv.Item1)</label>
+            @Html.ValidationMessage(kv.Item1)
         </div>
-        <div class="editor-field">
+        <div class="editor-field" title="@kv.Item2">
             @Html.TextBox(kv.Item1, kv.Item3, new { id = kv.Item1,placeholder= kv.Item2 , @class = "form-control" })
         </div>
     }
