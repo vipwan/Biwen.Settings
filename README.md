@@ -149,6 +149,9 @@ dotnet ef database update
 ## License 
 - MIT
 
+## 联系我
+- QQ:552175420
+- Email: vipwan#sina.com
 
 ## 项目地址
 
