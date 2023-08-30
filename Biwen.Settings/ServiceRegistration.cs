@@ -63,8 +63,13 @@ namespace Biwen.Settings
                 // 初始化设置
 #pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
                 using var scope = services.BuildServiceProvider()!.CreateScope();
+                try { var setting = scope.ServiceProvider.GetRequiredService(x) as ISetting; }
+                catch
+                {
+                    //todo:避免数据库Migration阶段编译报错
+                }
 #pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
-                var setting = scope.ServiceProvider.GetRequiredService(x) as ISetting;
+
             });
 
             return services;
