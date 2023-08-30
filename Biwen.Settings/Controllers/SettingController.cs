@@ -60,7 +60,7 @@ namespace Biwen.Settings.Controllers
                 x.Name != nameof(Setting.ProjectId) &&
                 x.Name != nameof(Setting.Order) &&
                 x.Name != nameof(Setting.Description) &&
-                x.Name != nameof(Setting.Version) &&
+                //x.Name != nameof(Setting.Version) &&
                 x.Name != nameof(Setting.SettingContent) &&
                 x.Name != nameof(Setting.LastModificationTime)).ToList().ForEach(x =>
                 {
