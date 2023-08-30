@@ -43,12 +43,20 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Setting>().HasKey(x => x.SettingName);
-            builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
-            builder.Entity<Setting>().Property(x => x.Order);
+            //可以根据自己的情况约束存储列
+            //builder.Entity<Setting>().HasKey(x => x.SettingName);
+            //builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
         }
     }
 
+```
+#### 1.1 Migration
+
+- Add a new Entity Framework Core migration to save your changes
+
+```bash
+dotnet ef migrations add biwenSettings
+dotnet ef database update
 ```
 
 ### step 2
@@ -59,6 +67,7 @@
     builder.Services.AddDbContext<MyDbContext>(options =>
     {
         //根据您的情况使用任意EFCore支持的数据库
+        //当前使用内存数据库作为演示.生产环境务必修改!
         options.UseInMemoryDatabase("BiwenSettings");
     });
   
