@@ -1,7 +1,7 @@
 ﻿
 using FluentValidation;
 
-namespace Biwen.Settings.TestWebUI.Settings
+namespace Biwen.Settings.TestWebUI
 {
 
     [Description("微信配置")]

@@ -7,15 +7,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-grid.min.css" rel="stylesheet" />
     <title>@ViewData["Title"] @Environment.ApplicationName</title>
 </head>
 <body>
-
     <div class="container">
-
         <main role="main" class="pb-1">
             <div>
-                <h2>配置中心</h2>
+                <h3>配置中心</h3>
                 <hr />
                 <div class="row">
                     <div class="col-md-3">
@@ -29,5 +30,10 @@
         </main>
     </div>
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </body>
 </html>
