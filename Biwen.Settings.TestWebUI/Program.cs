@@ -12,12 +12,22 @@ builder.Services.AddRazorPages();
 //×¢²áDbContext
 builder.Services.AddDbContext<MyDbContext>(options =>
 {
-    options.UseInMemoryDatabase("BiwenSettings");
+    //options.UseInMemoryDatabase("BiwenSettings");
+    options.UseSqlite("Data Source=BiwenSettings.db");
 });
 
 
 builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
 {
+
+#if DEBUG
+    options.ProjectId = $"Biwen.Settings.TestWebUI-{"Development"}";
+#endif
+
+#if !DEBUG
+    options.ProjectId = $"Biwen.Settings.TestWebUI-{"Production"}";
+#endif
+
     options.Layout = "~/Views/Shared/_Layout.cshtml";
     options.Title = "Biwen.Settings";
     options.Route = "system/settings";

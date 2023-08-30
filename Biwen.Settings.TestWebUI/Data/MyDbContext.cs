@@ -20,11 +20,6 @@ namespace Biwen.Settings.TestWebUI.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-
-            builder.Entity<Setting>().HasKey(x => x.SettingName);
-            builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
-            builder.Entity<Setting>().Property(x => x.Order);
         }
 
 
