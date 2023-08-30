@@ -20,11 +20,11 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
 {
 
-#if DEBUG
-    options.ProjectId = $"Biwen.Settings.TestWebUI-{"Development"}";
-#endif
+    //#if DEBUG
+    //    options.ProjectId = $"Biwen.Settings.TestWebUI-{"Development"}";
+    //#endif
 
-#if !DEBUG
+#if DEBUG
     options.ProjectId = $"Biwen.Settings.TestWebUI-{"Production"}";
 #endif
 
