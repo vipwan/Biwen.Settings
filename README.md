@@ -1,6 +1,7 @@
 # Biwen.Settings
 
-![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/b438393b-f5d9-4d78-b2aa-c20851fb9880)
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/0a7e7669-0de7-4608-8f1b-869b05b80288)
+
 
 ## 开源动机
 - 由于当前有好几个小项目,且每个小项目都有比较多的配置项,所以把这个模块抽离出来打包到Nuget共用.
@@ -110,10 +111,9 @@ dotnet ef database update
 
 ### Enjoy!
 
-
 #### 支持提交更新时验证器自动验证
 
-![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e72db049-2ede-45c8-b3a2-2290f0d2e2c0)
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/40399554-90be-4927-8b03-a516614d4bd6)
 
 ```csharp
     //模拟的配置项,注意描述信息,以及默认值.初始化将以默认值为准
