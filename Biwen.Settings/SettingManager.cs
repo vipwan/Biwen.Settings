@@ -10,7 +10,7 @@ namespace Biwen.Settings
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
 
-    public class SettingManager : ISettingManager
+    internal sealed class SettingManager : ISettingManager
     {
         private readonly IBiwenSettingsDbContext _db;
         private readonly ILogger<SettingManager> _logger;
