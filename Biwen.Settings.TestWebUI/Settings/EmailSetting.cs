@@ -39,6 +39,9 @@ namespace Biwen.Settings.TestWebUI
     [Description("站点配置")]
     public class SiteSetting : SettingBase
     {
+        [Description("站点作者")]
+        public string? Author { get; set; } = "万雅虎";
+
         [Description("站点名称")]
         public string? SiteName { get; set; } = "Biwen.Setting";
 

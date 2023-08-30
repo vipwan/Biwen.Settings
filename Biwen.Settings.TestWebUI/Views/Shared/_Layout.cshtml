@@ -1,39 +1,60 @@
-﻿﻿@using Microsoft.AspNetCore.Hosting
-@using Microsoft.AspNetCore.Mvc.ViewEngines
-@inject IWebHostEnvironment Environment
-@inject ICompositeViewEngine Engine
+﻿@using Biwen.Settings.TestWebUI;
+@using Biwen.Settings;
+@using Microsoft.Extensions.Options;
+@inject IOptions<SettingOptions> SettingOptions;
+@inject SiteSetting SiteSetting;
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap-grid.min.css" rel="stylesheet" />
-    <title>@ViewData["Title"] @Environment.ApplicationName</title>
+    <title>@ViewData["Title"] - @SiteSetting.SettingName </title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Biwen.Settings.TestWebUI.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="container">
-        <main role="main" class="pb-1">
-            <div>
-                <h3>配置中心</h3>
-                <hr />
-                <div class="row">
-                    <div class="col-md-3">
-                        <partial name="_ManageNav" />
-                    </div>
-                    <div class="col-md-9">
-                        @RenderBody()
-                    </div>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="/">@SiteSetting.SiteName</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@SettingOptions.Value.Route">配置管理</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
         </main>
     </div>
-    @await RenderSectionAsync("Scripts", required: false)
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/js/site.js"></script>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - @SiteSetting.Author - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
