@@ -1,11 +1,23 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace Biwen.Settings.Domains
 {
+
+    [PrimaryKey("ProjectId", "SettingName")]//双主键
     public class Setting
     {
         /// <summary>
+        /// 项目标识 用于区分不同的项目,比如:日志系统,文件系统;或者环境,比如:开发环境,测试环境,生产环境
+        /// </summary>
+        public string ProjectId { get; set; } = null!;
+
+        /// <summary>
         /// 配置名称
         /// </summary>
+        [MaxLength(500)]
         public string SettingName { get; set; } = null!;
         /// <summary>
         /// 描述
@@ -14,10 +26,12 @@ namespace Biwen.Settings.Domains
         /// <summary>
         /// 排序
         /// </summary>
+        [DefaultValue(1000)]
         public int Order { get; set; } = 1000;
         /// <summary>
         /// JSON存储
         /// </summary>
+        [DefaultValue("{}")]
         public string? SettingContent { get; set; }
         /// <summary>
         /// 最后更新时间

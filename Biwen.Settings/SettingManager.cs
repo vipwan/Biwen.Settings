@@ -8,21 +8,28 @@ namespace Biwen.Settings
 {
     using Biwen.Settings.EntityFramework;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
 
     public class SettingManager : ISettingManager
     {
         private readonly IBiwenSettingsDbContext _db;
         private readonly ILogger<SettingManager> _logger;
         private readonly IMemoryCache _cache;
+        private readonly IOptions<SettingOptions> _options;
 
         private const string CacheKeyFormat = "SettingManager_{0}";
 
 
-        public SettingManager(IBiwenSettingsDbContext db, ILogger<SettingManager> logger, IMemoryCache cache)
+        public SettingManager(
+            IBiwenSettingsDbContext db,
+            ILogger<SettingManager> logger,
+            IMemoryCache cache,
+            IOptions<SettingOptions> options)
         {
             _db = db;
             _logger = logger;
             _cache = cache;
+            _options = options;
         }
 
         public T Get<T>() where T : ISetting, new()
@@ -32,7 +39,7 @@ namespace Biwen.Settings
             {
 
                 var @default = new T();
-                var setting = _db.Settings.FirstOrDefault(x => x.SettingName == @default.SettingName);
+                var setting = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingName == @default.SettingName);
 
                 if (setting != null)
                 {
@@ -43,6 +50,7 @@ namespace Biwen.Settings
                     var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
                     _db.Settings.Add(new Setting
                     {
+                        ProjectId = _options.Value.ProjectId,
                         SettingName = @default.SettingName!,
                         Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
                         Order = @default.Order,
@@ -70,7 +78,7 @@ namespace Biwen.Settings
 
             var settingName = setting.SettingName!;
             var settingContent = JsonSerializer.Serialize(setting);
-            var settingEntity = _db.Settings.FirstOrDefault(x => x.SettingName == settingName);
+            var settingEntity = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingName == settingName);
             if (settingEntity != null)
             {
                 settingEntity.SettingContent = settingContent;
@@ -81,6 +89,7 @@ namespace Biwen.Settings
                 var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
                 _db.Settings.Add(new Setting
                 {
+                    ProjectId = _options.Value.ProjectId,
                     SettingName = settingName,
                     Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
                     Order = setting.Order,
@@ -97,7 +106,7 @@ namespace Biwen.Settings
 
         public List<Setting> GetAllSettings()
         {
-            return _db.Settings.OrderBy(x => x.Order).ThenBy(x => x.SettingName).ToList();
+            return _db.Settings.Where(x => x.ProjectId == _options.Value.ProjectId).OrderBy(x => x.Order).ThenBy(x => x.SettingName).ToList();
         }
     }
 }
