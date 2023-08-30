@@ -72,13 +72,11 @@ namespace Biwen.Settings.Controllers
             if (setting == null)
                 throw new ArgumentNullException(nameof(setting));
 
-            var type = TypeFinder.FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName);
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
-
+            var type = TypeFinder.FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName)
+                ?? throw new ArgumentNullException(nameof(setting));
 
             List<(string, string?, string?)> SettingValues = new();
-            var json = JsonObject.Parse(setting.SettingContent!)!;
+            var json = JsonNode.Parse(setting.SettingContent!)!;
             type.GetProperties().Where(x =>
                 x.Name != nameof(Setting.SettingName) &&
                 x.Name != nameof(Setting.ProjectId) &&
@@ -155,11 +153,9 @@ namespace Biwen.Settings.Controllers
             var validator = Request.HttpContext.RequestServices.GetService(serviceType: typeof(IValidator<>).MakeGenericType(type));
             if (validator != null)
             {
-
                 var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == "Validate");
-                var result = md!.Invoke(validator, new object[] { setting! }) as ValidationResult;
                 //验证不通过的情况
-                if (result != null && !result!.IsValid)
+                if (md!.Invoke(validator, new object[] { setting! }) is ValidationResult result && !result!.IsValid)
                 {
                     foreach (var item in result.Errors)
                     {

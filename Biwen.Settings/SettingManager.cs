@@ -62,7 +62,7 @@ namespace Biwen.Settings
 
                 if (@default == null)
                 {
-                    _logger.LogError($"{typeof(T).FullName} 未找到配置");
+                    _logger.LogError(message: $"{typeof(T).FullName} 未找到配置");
                     throw new Exception($"{typeof(T).FullName} 未找到配置");
                 }
                 //不可为空
@@ -100,7 +100,7 @@ namespace Biwen.Settings
             (_db as DbContext)!.SaveChanges();
             _cache.Remove(string.Format(CacheKeyFormat, typeof(T).FullName));
 
-            _logger.LogInformation($"保存配置 {settingName},{settingContent}");
+            _logger.LogInformation(message: $"保存配置 {settingName},{settingContent}");
 
         }
 
