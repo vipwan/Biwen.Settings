@@ -35,14 +35,14 @@ namespace Biwen.Settings
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
             services.AddScoped<ISettingManager, SettingManager>();
 
-
+            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
             if (autoValidation)
             {
                 //注册验证器
                 services.AddFluentValidationAutoValidation();
                 services.Scan(scan =>
                 {
-                    scan.FromAssemblies(AppDomain.CurrentDomain.GetAssemblies().
+                    scan.FromAssemblies(allAssemblies.
                         Where(x => !(x.FullName!.Contains("FluentValidation")))).AddClasses(x =>
                         {
                             x.AssignableTo(typeof(IValidator<>));//来自指定的接口
@@ -53,18 +53,13 @@ namespace Biwen.Settings
                 });
                 //services.AddTransient<IValidator<TestSetting>, TestSettingValidator>();
             }
-
             services.AddTransient((IServiceProvider p) =>
             {
                 return (p.GetRequiredService(dbContextType) as IBiwenSettingsDbContext)!;
             });
-
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
-
             services.AddScoped<ISettingManager, SettingManager>();
-
-
-            var settings = TypeFinder.FindTypes.InAllAssemblies.ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
+            var settings = TypeFinder.FindTypes.InAssemblies(allAssemblies).ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
             settings.ForEach(x =>
             {
