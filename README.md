@@ -14,7 +14,7 @@
 ## 开发环境
 
 * Windows 10
-* [Rider 2022](https://www.jetbrains.com/rider) / [Visual Studio 2022](https://visualstudio.microsoft.com) / [Visual Studio code](https://code.visualstudio.com)
+* [Rider 2022](https://www.jetbrains.com/rider) / [Visual Studio 2022](https://visualstudio.microsoft.com) / [Visual Studio Code](https://code.visualstudio.com)
 * [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)
 * 
 
