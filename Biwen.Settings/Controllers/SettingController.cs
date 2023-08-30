@@ -57,6 +57,7 @@ namespace Biwen.Settings.Controllers
             var json = JsonObject.Parse(setting.SettingContent!)!;
             type.GetProperties().Where(x =>
                 x.Name != nameof(Setting.SettingName) &&
+                x.Name != nameof(Setting.ProjectId) &&
                 x.Name != nameof(Setting.Order) &&
                 x.Name != nameof(Setting.Description) &&
                 x.Name != nameof(Setting.SettingContent) &&
