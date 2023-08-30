@@ -6,14 +6,21 @@
 @{
     ViewData["Title"] = SiteSetting.SiteName;
 }
-<p>
-    @WeChatSetting.AppId
-</p>
-<p>
-    @WeChatSetting.AppSecret
-</p>
+
+<div>
+    <p>WeChatSetting读取配置测试</p>
+    <p>
+        @WeChatSetting.AppId
+    </p>
+    <p>
+        @WeChatSetting.AppSecret
+    </p>
+
+</div>
+
+
 
 <div class="text-center">
-    <h1 class="display-4">Welcome To @SiteSetting.SiteName</h1>
+    <h3 class="display-4">Welcome To @SiteSetting.SiteName</h3>
     <p>Learn about <a href="@SiteSetting.SiteUrl">@SiteSetting.SiteDescription</a>.</p>
 </div>

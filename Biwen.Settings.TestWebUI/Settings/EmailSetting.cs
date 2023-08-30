@@ -40,14 +40,14 @@ namespace Biwen.Settings.TestWebUI
     public class SiteSetting : SettingBase
     {
         [Description("站点名称")]
-        public string? SiteName { get; set; } = "Biwen";
+        public string? SiteName { get; set; } = "Biwen.Setting";
 
         [Description("站点地址")]
         public string? SiteUrl { get; set; } = "https://github.com/vipwan/Biwen.Settings";
         [Description("站点Logo")]
         public string? SiteLogo { get; set; } = "https://avatars.githubusercontent.com/u/1026229?s=200&v=4";
         [Description("站点描述")]
-        public string? SiteDescription { get; set; } = "Biwen.Settings";
+        public string? SiteDescription { get; set; } = "Biwen.Settings 组件配置模块";
         [Description("站点关键字")]
         public string? SiteKeywords { get; set; } = "Biwen.Settings";
     }
