@@ -86,7 +86,7 @@ namespace Biwen.Settings.Controllers
             return SettingValues;
         }
 
-        [Auth,HttpPost]
+        [Auth, HttpPost]
         public IActionResult Edit(string id, IFormCollection form)
         {
             var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == id);
@@ -146,12 +146,10 @@ namespace Biwen.Settings.Controllers
                 }
             }
 
-            MethodInfo methodLoad = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!;
-            MethodInfo generic = methodLoad.MakeGenericMethod(type);
-            generic.Invoke(_settingManager, new object[] { setting });
+            var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
+            mdSave.Invoke(_settingManager, new object[] { setting });
             //_settingManager.Save(sitting as SettingBase);
             return RedirectToAction("Edit", new { id });
-
         }
 
     }
