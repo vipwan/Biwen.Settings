@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Biwen.Settings
 {
@@ -27,6 +28,16 @@ namespace Biwen.Settings
             _options = options;
         }
 
+        /// <summary>
+        /// 序列化配置项时的选项
+        /// </summary>
+        JsonSerializerOptions SerializerOptions = new()
+        {
+            IgnoreReadOnlyProperties = true,
+            IgnoreReadOnlyFields = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        };
+
         public T Get<T>() where T : ISetting, new()
         {
 
@@ -50,7 +61,7 @@ namespace Biwen.Settings
                         Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
                         Order = @default.Order,
                         LastModificationTime = DateTime.Now,
-                        SettingContent = JsonSerializer.Serialize(@default)
+                        SettingContent = JsonSerializer.Serialize(@default, SerializerOptions)
                     });
                     (_db as DbContext)!.SaveChanges();
                 }
@@ -72,7 +83,7 @@ namespace Biwen.Settings
                 throw new ArgumentNullException(nameof(setting));
 
             var settingName = setting.SettingName!;
-            var settingContent = JsonSerializer.Serialize(setting);
+            var settingContent = JsonSerializer.Serialize(setting, SerializerOptions);
             var settingEntity = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingName == settingName);
             if (settingEntity != null)
             {

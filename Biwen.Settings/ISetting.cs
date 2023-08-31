@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using FluentValidation.Internal;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Biwen.Settings
 {
@@ -27,6 +29,4 @@ namespace Biwen.Settings
         [JsonIgnore]
         public virtual int Order => 1000;
     }
-
-
 }
