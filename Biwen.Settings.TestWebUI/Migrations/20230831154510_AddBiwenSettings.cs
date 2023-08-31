@@ -16,6 +16,7 @@ namespace Biwen.Settings.TestWebUI.Migrations
                 columns: table => new
                 {
                     ProjectId = table.Column<string>(type: "TEXT", nullable: false),
+                    SettingType = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
                     SettingName = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Order = table.Column<int>(type: "INTEGER", nullable: false),
@@ -24,7 +25,7 @@ namespace Biwen.Settings.TestWebUI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Settings", x => new { x.ProjectId, x.SettingName });
+                    table.PrimaryKey("PK_Settings", x => new { x.ProjectId, x.SettingType });
                 });
         }
 

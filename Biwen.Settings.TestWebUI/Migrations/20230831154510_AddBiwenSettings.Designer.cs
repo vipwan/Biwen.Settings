@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Biwen.Settings.TestWebUI.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230830033919_UpdateSettingsAddVersion")]
-    partial class UpdateSettingsAddVersion
+    [Migration("20230831154510_AddBiwenSettings")]
+    partial class AddBiwenSettings
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Biwen.Settings.TestWebUI.Migrations
                     b.Property<string>("ProjectId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SettingName")
+                    b.Property<string>("SettingType")
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
@@ -39,15 +39,15 @@ namespace Biwen.Settings.TestWebUI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SettingContent")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
+                    b.Property<string>("SettingName")
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
-                    b.HasKey("ProjectId", "SettingName");
+                    b.HasKey("ProjectId", "SettingType");
 
                     b.ToTable("Settings");
                 });

@@ -3,6 +3,39 @@ using FluentValidation;
 
 namespace Biwen.Settings.TestWebUI
 {
+    [Description("Github配置")]
+    public class GithubSetting : SettingBase
+    {
+
+        [Description("Github用户名")]
+        public string? UserName { get; set; } = "vipwan";
+
+        [Description("Github仓库")]
+        public string? Repository { get; set; } = "Biwen.Settings";
+
+        [Description("Github Token")]
+        public string? Token { get; set; } = "";
+
+        /// <summary>
+        /// 短名称
+        /// </summary>
+        public override string? SettingName => this.GetType().Name;
+
+        public override int Order => 500;
+
+        public class GithubSettingValidtor : AbstractValidator<GithubSetting>
+        {
+            public GithubSettingValidtor()
+            {
+                //验证规则
+                RuleFor(x => x.UserName).NotEmpty().Length(3, 128);
+                RuleFor(x => x.Repository).NotNull().NotEmpty().Length(3, 128);
+                RuleFor(x => x.Token).NotNull().NotEmpty().Length(3, 128);
+            }
+        }
+    }
+
+
 
     [Description("微信配置")]
     public class WeChatSetting : SettingBase

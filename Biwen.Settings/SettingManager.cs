@@ -31,7 +31,7 @@ namespace Biwen.Settings
         /// <summary>
         /// 序列化配置项时的选项
         /// </summary>
-        JsonSerializerOptions SerializerOptions = new()
+        readonly JsonSerializerOptions SerializerOptions = new()
         {
             IgnoreReadOnlyProperties = true,
             IgnoreReadOnlyFields = true,
@@ -45,7 +45,9 @@ namespace Biwen.Settings
             {
 
                 var @default = new T();
-                var setting = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingName == @default.SettingName);
+                var settingType = typeof(T).FullName!;
+
+                var setting = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
 
                 if (setting != null)
                 {
@@ -58,6 +60,7 @@ namespace Biwen.Settings
                     {
                         ProjectId = _options.Value.ProjectId,
                         SettingName = @default.SettingName!,
+                        SettingType = typeof(T).FullName!,
                         Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
                         Order = @default.Order,
                         LastModificationTime = DateTime.Now,
@@ -77,14 +80,15 @@ namespace Biwen.Settings
             })!;
         }
 
-        public void Save<T>(T setting) where T : ISetting
+        public void Save<T>(T setting) where T : ISetting, new()
         {
             if (setting == null)
                 throw new ArgumentNullException(nameof(setting));
 
-            var settingName = setting.SettingName!;
+            var settingType = typeof(T).FullName!;
+
             var settingContent = JsonSerializer.Serialize(setting, SerializerOptions);
-            var settingEntity = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingName == settingName);
+            var settingEntity = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
             if (settingEntity != null)
             {
                 settingEntity.SettingContent = settingContent;
@@ -92,11 +96,15 @@ namespace Biwen.Settings
             }
             else
             {
+
+                var @default = new T();
+
                 var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
                 _db.Settings.Add(new Setting
                 {
                     ProjectId = _options.Value.ProjectId,
-                    SettingName = settingName,
+                    SettingName = @default.SettingName!,
+                    SettingType = typeof(T).FullName!,
                     Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
                     Order = setting.Order,
                     LastModificationTime = DateTime.Now,
@@ -106,12 +114,12 @@ namespace Biwen.Settings
             (_db as DbContext)!.SaveChanges();
             _cache.Remove(string.Format(CacheKeyFormat, typeof(T).FullName));
 
-            _logger.LogInformation(message: "SaveSetting: {0},{1}", settingName, settingContent);
+            _logger.LogInformation(message: "SaveSetting: {0},{1}", settingType, settingContent);
         }
 
         public List<Setting> GetAllSettings()
         {
-            return _db.Settings.Where(x => x.ProjectId == _options.Value.ProjectId).OrderBy(x => x.Order).ThenBy(x => x.SettingName).ToList();
+            return _db.Settings.Where(x => x.ProjectId == _options.Value.ProjectId).OrderBy(x => x.Order).ThenBy(x => x.SettingType).ToList();
         }
     }
 }

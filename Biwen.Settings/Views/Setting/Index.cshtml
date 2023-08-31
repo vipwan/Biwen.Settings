@@ -8,7 +8,7 @@
     ViewData["Title"] = SettingOptions.Value.Title;
 }
 
-@if(SettingOptions.Value.EditorOption.ShouldPagenation)
+@if (SettingOptions.Value.EditorOption.ShouldPagenation)
 {
     <link href="/Content/jquery.dataTables.min.css" rel="stylesheet" />
 }
@@ -30,7 +30,7 @@
                 <th class="settingThr1" scope="row">@(setting.SettingName)</th>
                 <td class="settingThr2">@(setting.Description)</td>
                 <td class="settingThr3">@(setting.Order)</td>
-                <td class="settingThr4">@Html.ActionLink(SettingOptions.Value.EditorOption.EditorEditButtonText,"Edit","Setting",new{ id= setting.SettingName })</td>
+                <td class="settingThr4">@Html.ActionLink(SettingOptions.Value.EditorOption.EditorEditButtonText,"Edit","Setting",new{ id= setting.SettingType })</td>
             </tr>
         }
 
@@ -51,5 +51,5 @@
     </script>
     }
 
-    
+
 }

@@ -22,7 +22,7 @@ namespace Biwen.Settings
         /// 配置名称
         /// </summary>
         [JsonIgnore]
-        public virtual string? SettingName => GetType().FullName;
+        public virtual string? SettingName => GetType().Name;
         /// <summary>
         /// 默认的排序
         /// </summary>

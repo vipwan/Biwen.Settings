@@ -12,6 +12,7 @@ builder.Services.AddRazorPages();
 //×¢²áDbContext
 builder.Services.AddDbContext<MyDbContext>(options =>
 {
+    //just for test
     //options.UseInMemoryDatabase("BiwenSettings");
     options.UseSqlite("Data Source=BiwenSettings.db");
 });

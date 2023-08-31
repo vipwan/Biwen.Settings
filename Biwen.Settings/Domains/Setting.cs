@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Biwen.Settings.Domains
 {
 
-    [PrimaryKey("ProjectId", "SettingName")]//双主键
+    [PrimaryKey("ProjectId", "SettingType")]//双主键
     public class Setting
     {
         /// <summary>
@@ -14,10 +14,18 @@ namespace Biwen.Settings.Domains
         public string ProjectId { get; set; } = null!;
 
         /// <summary>
+        ///  配置类型.
+        /// </summary>
+        [MaxLength(500)]
+        public string SettingType { get; set; } = null!;
+
+        /// <summary>
         /// 配置名称
         /// </summary>
         [MaxLength(500)]
         public string SettingName { get; set; } = null!;
+
+
         /// <summary>
         /// 描述
         /// </summary>

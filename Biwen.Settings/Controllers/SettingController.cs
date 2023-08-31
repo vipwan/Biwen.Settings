@@ -21,7 +21,7 @@ namespace Biwen.Settings.Controllers
 
             //移除的或者无效的配置 需要排除
             var settings = all.Where(
-                s => FindTypes.InAllAssemblies.Any(x => x.FullName == s.SettingName));
+                s => FindTypes.InAllAssemblies.Any(x => x.FullName == s.SettingType));
 
             ViewBag.Settings = settings;
 
@@ -34,11 +34,11 @@ namespace Biwen.Settings.Controllers
             if (string.IsNullOrEmpty(id))
                 return NotFound();
 
-            var setting = _settingManager.GetAllSettings().FirstOrDefault(x => x.SettingName == id);
+            var setting = _settingManager.GetAllSettings().FirstOrDefault(x => x.SettingType == id);
             if (setting == null)
                 return NotFound();
 
-            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName);
+            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingType);
             if (type == null)
                 return NotFound();
 
@@ -54,14 +54,15 @@ namespace Biwen.Settings.Controllers
             if (setting == null)
                 throw new ArgumentNullException(nameof(setting));
 
-            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName)
+            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingType)
                 ?? throw new ArgumentNullException(nameof(setting));
 
             List<(string, string?, string?)> SettingValues = new();
             var json = JsonNode.Parse(setting.SettingContent!)!;
             type.GetProperties().Where(x =>
-                x.Name != nameof(Setting.SettingName) &&
+                x.Name != nameof(Setting.SettingType) &&
                 x.Name != nameof(Setting.ProjectId) &&
+                x.Name != nameof(Setting.SettingName) &&
                 x.Name != nameof(Setting.Order) &&
                 x.Name != nameof(Setting.Description) &&
                 //x.Name != nameof(Setting.Version) &&
@@ -138,7 +139,7 @@ namespace Biwen.Settings.Controllers
                     {
                         ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                     }
-                    var domainSetting = _settingManager.GetAllSettings().First(x => x.SettingName == id);
+                    var domainSetting = _settingManager.GetAllSettings().First(x => x.SettingType == id);
                     ViewBag.Setting = domainSetting!;
                     ViewBag.SettingValues = SettingValues(domainSetting!);
                     //验证不通过
