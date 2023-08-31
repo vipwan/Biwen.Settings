@@ -1,6 +1,4 @@
-﻿using Biwen.Settings.Domains;
-
-namespace Biwen.Settings
+﻿namespace Biwen.Settings
 {
     public interface ISettingManager
     {

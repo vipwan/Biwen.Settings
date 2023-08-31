@@ -1,5 +1,4 @@
-﻿using Biwen.Settings.Domains;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Biwen.Settings.EntityFramework
 {

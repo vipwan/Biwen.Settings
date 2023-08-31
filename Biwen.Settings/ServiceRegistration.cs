@@ -1,15 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Biwen.Settings
 {
-    using Biwen.Settings.EntityFramework;
-    using FluentValidation;
-    using FluentValidation.AspNetCore;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.Caching.Memory;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Options;
-    using System.Reflection;
 
     public static class ServiceRegistration
     {
@@ -54,7 +49,7 @@ namespace Biwen.Settings
                 //services.AddTransient<IValidator<TestSetting>, TestSettingValidator>();
             }
 
-            var settings = TypeFinder.FindTypes.InAssemblies(allAssemblies).ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
+            var settings = FindTypes.InAssemblies(allAssemblies).ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
             settings.ForEach(x =>
             {
@@ -66,7 +61,7 @@ namespace Biwen.Settings
                     //使用缓存避免重复反射
                     var md = cache.GetOrCreate($"GenericMethod_{x.FullName}", entry =>
                     {
-                        MethodInfo methodLoad = settingManager.GetType().GetMethod("Get")!;
+                        MethodInfo methodLoad = settingManager.GetType().GetMethod(nameof(settingManager.Get))!;
                         MethodInfo generic = methodLoad.MakeGenericMethod(x);
                         return generic;
                     });
@@ -74,15 +69,12 @@ namespace Biwen.Settings
                 });
 
                 // 初始化设置
-#pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
                 using var scope = services.BuildServiceProvider()!.CreateScope();
                 try { var setting = scope.ServiceProvider.GetRequiredService(x) as ISetting; }
                 catch
                 {
                     //todo:避免数据库Migration阶段编译报错
                 }
-#pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
-
             });
 
             return services;

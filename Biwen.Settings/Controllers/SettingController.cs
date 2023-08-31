@@ -1,15 +1,5 @@
-﻿using Biwen.Settings.Domains;
-using FluentValidation;
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
-using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Text.Json.Nodes;
 
 namespace Biwen.Settings.Controllers
 {
@@ -36,7 +26,7 @@ namespace Biwen.Settings.Controllers
 
             //移除的或者无效的配置 需要排除
             var settings = all.Where(
-                s => TypeFinder.FindTypes.InAllAssemblies.Any(x => x.FullName == s.SettingName));
+                s => FindTypes.InAllAssemblies.Any(x => x.FullName == s.SettingName));
 
             ViewBag.Settings = settings;
 
@@ -56,7 +46,7 @@ namespace Biwen.Settings.Controllers
             if (setting == null)
                 return NotFound();
 
-            var type = TypeFinder.FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName);
+            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName);
             if (type == null)
                 return NotFound();
 
@@ -72,7 +62,7 @@ namespace Biwen.Settings.Controllers
             if (setting == null)
                 throw new ArgumentNullException(nameof(setting));
 
-            var type = TypeFinder.FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName)
+            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingName)
                 ?? throw new ArgumentNullException(nameof(setting));
 
             List<(string, string?, string?)> SettingValues = new();
@@ -112,7 +102,7 @@ namespace Biwen.Settings.Controllers
             if (!isValid)
                 return Unauthorized();
 
-            var type = TypeFinder.FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == id);
+            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == id);
             if (type == null)
                 return NotFound();
 
@@ -153,7 +143,7 @@ namespace Biwen.Settings.Controllers
             var validator = Request.HttpContext.RequestServices.GetService(serviceType: typeof(IValidator<>).MakeGenericType(type));
             if (validator != null)
             {
-                var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == "Validate");
+                var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
                 //验证不通过的情况
                 if (md!.Invoke(validator, new object[] { setting! }) is ValidationResult result && !result!.IsValid)
                 {
@@ -169,7 +159,7 @@ namespace Biwen.Settings.Controllers
                 }
             }
 
-            MethodInfo methodLoad = _settingManager.GetType().GetMethod("Save")!;
+            MethodInfo methodLoad = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!;
             MethodInfo generic = methodLoad.MakeGenericMethod(type);
             generic.Invoke(_settingManager, new object[] { setting });
             //_settingManager.Save(sitting as SettingBase);

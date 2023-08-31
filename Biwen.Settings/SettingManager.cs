@@ -1,15 +1,10 @@
 ﻿
 using System.Text.Json;
-using Biwen.Settings.Domains;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Biwen.Settings
 {
-    using Biwen.Settings.EntityFramework;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Options;
-
     internal sealed class SettingManager : ISettingManager
     {
         private readonly IBiwenSettingsDbContext _db;
@@ -62,8 +57,8 @@ namespace Biwen.Settings
 
                 if (@default == null)
                 {
-                    _logger.LogError(message: $"{typeof(T).FullName} 未找到配置");
-                    throw new Exception($"{typeof(T).FullName} 未找到配置");
+                    _logger.LogError(message: "SettingType: {0} Not Found!", typeof(T).FullName);
+                    throw new Exception($"SettingType: {typeof(T).FullName} Not Found!");
                 }
                 //不可为空
                 return @default;
@@ -100,8 +95,7 @@ namespace Biwen.Settings
             (_db as DbContext)!.SaveChanges();
             _cache.Remove(string.Format(CacheKeyFormat, typeof(T).FullName));
 
-            _logger.LogInformation(message: $"保存配置 {settingName},{settingContent}");
-
+            _logger.LogInformation(message: "SaveSetting: {0},{1}", settingName, settingContent);
         }
 
         public List<Setting> GetAllSettings()
