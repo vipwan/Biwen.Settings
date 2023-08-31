@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biwen.Settings", "Biwen.Set
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biwen.Settings.TestWebUI", "Biwen.Settings.TestWebUI\Biwen.Settings.TestWebUI.csproj", "{8851346E-EC43-46D5-8A34-B3401893A717}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4EEF644A-0F22-42A6-81E7-C225149171AC}"
+	ProjectSection(SolutionItems) = preProject
+		Todo.md = Todo.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
