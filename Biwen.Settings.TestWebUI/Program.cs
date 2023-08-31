@@ -31,10 +31,12 @@ builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
     options.Layout = "~/Views/Shared/_Layout.cshtml";
     options.Title = "Biwen.Settings";
     options.Route = "system/settings";
-    options.Valider = (context) =>
-    {
-        return true;
-    };
+    options.Valider = (ctx) => true;
+    options.EditorOption.EditorOnclick = "return confirm('Are You Sure!?');";
+    options.EditorOption.EdtiorConfirmButtonText = "Submit";
+    options.EditorOption.EditorEditButtonText = "Edit";
+    options.EditorOption.ShouldPagenation = true;
+
 }, true);
 
 var app = builder.Build();
@@ -51,7 +53,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-
 
 app.UseBiwenSettings();
 

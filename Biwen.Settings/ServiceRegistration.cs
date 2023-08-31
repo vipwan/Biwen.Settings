@@ -1,7 +1,9 @@
 ﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace Biwen.Settings
 {
@@ -88,6 +90,15 @@ namespace Biwen.Settings
         /// <returns></returns>
         public static IApplicationBuilder UseBiwenSettings(this WebApplication app)
         {
+            //添加嵌入式资源
+            var assembly = typeof(ISetting).Assembly;
+            var embeddedFileProvider = new EmbeddedFileProvider(assembly, "Biwen.Settings");
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = embeddedFileProvider,
+            });
+
             var settingOption = app.Services.GetRequiredService<IOptions<SettingOptions>>();
             app.MapControllerRoute(
                    name: "settingRouteIndex",
@@ -98,8 +109,6 @@ namespace Biwen.Settings
                    name: "settingRouteEdit",
                    pattern: "biwen/settings/setting/edit/{id}",
                    defaults: new { controller = "Setting", action = "Edit" });
-
-
 
             return app;
         }

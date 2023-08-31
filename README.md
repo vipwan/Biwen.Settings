@@ -10,7 +10,8 @@
 
 ## NuGet 包
 
-- dotnet add package Biwen.Settings --version 1.1.1
+- dotnet add package Biwen.Settings --version 1.1.2
+
 
 ## 开发环境
 

@@ -33,6 +33,36 @@ namespace Biwen.Settings.TestWebUI
 
     }
 
+    public class WeChatSetting2 : WeChatSetting
+    {
 
+    }
+    public class WeChatSetting3 : WeChatSetting
+    {
 
+    }
+    public class WeChatSetting4 : WeChatSetting
+    {
+
+    }
+    public class WeChatSetting5 : WeChatSetting
+    {
+
+    }
+    public class WeChatSetting6 : WeChatSetting
+    {
+
+    }
+    public class WeChatSetting7 : WeChatSetting
+    {
+
+    }
+    public class WeChatSetting8 : WeChatSetting
+    {
+
+    }
+    public class WeChatSetting9 : WeChatSetting
+    {
+
+    }
 }

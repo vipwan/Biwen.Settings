@@ -8,14 +8,18 @@
     ViewData["Title"] = SettingOptions.Value.Title;
 }
 
+@if(SettingOptions.Value.EditorOption.ShouldPagenation)
+{
+    <link href="/Content/jquery.dataTables.min.css" rel="stylesheet" />
+}
 
-<table class="table">
+<table class="settingTable table table-striped">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">描述</th>
-            <th scope="col">排序</th>
-            <th scope="col">编辑</th>
+            <th class="settingTh1" scope="col">#</th>
+            <th class="settingTh3" scope="col">描述</th>
+            <th class="settingTh3" scope="col">排序</th>
+            <th class="settingTh4" scope="col">编辑</th>
         </tr>
     </thead>
     <tbody>
@@ -23,12 +27,29 @@
         @foreach (var setting in settings!)
         {
             <tr>
-                <th scope="row">@(setting.SettingName)</th>
-                <td>@(setting.Description)</td>
-                <td>@(setting.Order)</td>
-                <td>@Html.ActionLink("编辑","Edit","Setting",new{ id= setting.SettingName })</td>
+                <th class="settingThr1" scope="row">@(setting.SettingName)</th>
+                <td class="settingThr2">@(setting.Description)</td>
+                <td class="settingThr3">@(setting.Order)</td>
+                <td class="settingThr4">@Html.ActionLink(SettingOptions.Value.EditorOption.EditorEditButtonText,"Edit","Setting",new{ id= setting.SettingName })</td>
             </tr>
         }
 
     </tbody>
 </table>
+
+@if (SettingOptions.Value.EditorOption.ShouldPagenation)
+{
+
+    @section Scripts{
+    <script src="/Content/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $('.settingTable').DataTable({
+                order: [[3, 'desc']]
+            });
+        });
+    </script>
+    }
+
+    
+}

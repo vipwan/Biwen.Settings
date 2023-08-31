@@ -7,27 +7,26 @@
     var setting = ViewBag.Setting as Biwen.Settings.Domains.Setting;
     var settingValues = ViewBag.SettingValues as List<(string, string?, string?)>;
     Layout = SettingOptions.Value.Layout;
-    ViewData["Title"] = SettingOptions.Value.Title;
-
-    //var nodes = JsonSerializer.Deserialize(setting.SettingContent);
+    ViewData["Title"] = $"Edit-{setting!.SettingName}";
 }
 
 @using (Html.BeginForm())
 {
-
-    <h3>@(setting!.SettingName)</h3>
-    <h5>@(setting!.Description)</h5>
+    <h3 class="settingH3">@(setting!.SettingName)</h3>
+    <h5 class="settingH5">@(setting!.Description)</h5>
     @Html.ValidationSummary()
     foreach (var kv in settingValues!)
     {
-        <div class="editor-label">
-            <label for="@kv.Item1">@(kv.Item1)</label>
-            @Html.ValidationMessage(kv.Item1)
-        </div>
-        <div class="editor-field" title="@kv.Item2">
-            @Html.TextBox(kv.Item1, kv.Item3, new { id = kv.Item1,placeholder= kv.Item2 , @class = "form-control" })
+        <div class="settingRow">
+            <div class="settingLabel editor-label">
+                <label for="@kv.Item1">@(kv.Item1)</label>
+                @Html.ValidationMessage(kv.Item1)
+            </div>
+            <div class="settingEditor editor-field" title="@kv.Item2">
+                @Html.TextBox(kv.Item1, kv.Item3, new { id = kv.Item1,placeholder= kv.Item2 , @class = "form-control" })
+            </div>
         </div>
     }
 
-    <button class="btn btn-primary btn-block" onclick="return confirm('确定要修改吗!?如果格式错误将使系统异常!');">确认修改</button>
+    <button class="settingButton btn btn-primary btn-block" onclick="@SettingOptions.Value.EditorOption.EditorOnclick">@SettingOptions.Value.EditorOption.EdtiorConfirmButtonText</button>
 }

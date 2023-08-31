@@ -18,12 +18,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="Content\jquery.dataTables.min.css" />
+		<EmbeddedResource Include="Content\jquery.dataTables.min.js" />
+		<EmbeddedResource Include="Content\jquery-3.7.0.min.js" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.10" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

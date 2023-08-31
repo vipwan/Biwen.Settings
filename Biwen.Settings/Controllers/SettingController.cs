@@ -86,7 +86,7 @@ namespace Biwen.Settings.Controllers
             return SettingValues;
         }
 
-        [Auth, HttpPost]
+        [Auth, HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(string id, IFormCollection form)
         {
             var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == id);
