@@ -1,7 +1,6 @@
 # Biwen.Settings
 
-![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/0a7e7669-0de7-4608-8f1b-869b05b80288)
-
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e2663e78-61da-43f1-990d-aa970736f023)
 
 ## 开源动机
 - 由于当前有好几个单体项目,且每个小项目都有比较多的配置项,所以把这个模块抽离出来打包到Nuget共用.
