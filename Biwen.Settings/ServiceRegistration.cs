@@ -90,16 +90,20 @@ namespace Biwen.Settings
         /// <returns></returns>
         public static IApplicationBuilder UseBiwenSettings(this WebApplication app)
         {
-            //添加嵌入式资源
-            var assembly = typeof(ISetting).Assembly;
-            var embeddedFileProvider = new EmbeddedFileProvider(assembly, "Biwen.Settings");
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = embeddedFileProvider,
-            });
-
             var settingOption = app.Services.GetRequiredService<IOptions<SettingOptions>>();
+
+            if (settingOption.Value.EditorOption.ShouldPagenation)
+            {
+                //添加嵌入式资源
+                var assembly = typeof(ISetting).Assembly;
+                var embeddedFileProvider = new EmbeddedFileProvider(assembly, "Biwen.Settings");
+
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = embeddedFileProvider,
+                });
+            }
+
             app.MapControllerRoute(
                    name: "settingRouteIndex",
                    pattern: settingOption.Value.Route,
