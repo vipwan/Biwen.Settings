@@ -133,7 +133,7 @@ dotnet ef database update
         [Description("EncodingAESKey")]
         public string EncodingAESKey { get; set; } = "1234567890";
         //排序
-        public override int Order => 999;
+        public override int Order => 500;
         //定义验证器
         public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
         {
@@ -148,7 +148,7 @@ dotnet ef database update
 
     //anywhere you can inject
     //View:
-    //@inject Settings.WeChatSetting WeChatSetting;
+    //@inject WeChatSetting WeChatSetting;
 
     //Service:
     //public class MyClass
