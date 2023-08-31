@@ -28,6 +28,7 @@ namespace Biwen.Settings.Controllers
             return View();
         }
 
+        [Auth]
         public IActionResult Edit(string id)
         {
             if (string.IsNullOrEmpty(id))
