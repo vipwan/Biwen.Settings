@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Biwen.Settings.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Biwen.Settings.Controllers
@@ -15,13 +16,9 @@ namespace Biwen.Settings.Controllers
         }
 
         //[HttpGet("qwertyuiopasdfghjklzxcvbnm/setting")]
+        [Auth]
         public IActionResult Index()
         {
-            var isValid = _options.Value.Valider.Invoke(Request.HttpContext);
-
-            if (!isValid)
-                return Unauthorized();
-
             var all = _settingManager.GetAllSettings();
 
             //移除的或者无效的配置 需要排除
@@ -35,10 +32,6 @@ namespace Biwen.Settings.Controllers
 
         public IActionResult Edit(string id)
         {
-            var isValid = _options.Value.Valider.Invoke(Request.HttpContext);
-            if (!isValid)
-                return Unauthorized();
-
             if (string.IsNullOrEmpty(id))
                 return NotFound();
 
@@ -94,14 +87,9 @@ namespace Biwen.Settings.Controllers
             return SettingValues;
         }
 
-
-        [HttpPost]
+        [Auth,HttpPost]
         public IActionResult Edit(string id, IFormCollection form)
         {
-            var isValid = _options.Value.Valider.Invoke(Request.HttpContext);
-            if (!isValid)
-                return Unauthorized();
-
             var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == id);
             if (type == null)
                 return NotFound();
