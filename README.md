@@ -99,10 +99,11 @@ dotnet ef database update
         //路由地址 ,http://..../system/settings
         options.Route = "system/settings";
         //授权规则
-        options.Valider = (context) =>
-        {
-            return true;
-        };
+        options.Valider = (ctx) => true;
+        options.EditorOption.EditorOnclick = "return confirm('Are You Sure!?');";
+        options.EditorOption.EdtiorConfirmButtonText = "Submit";
+        options.EditorOption.EditorEditButtonText = "Edit";
+        options.EditorOption.ShouldPagenation = true;
     });
 
    //...............
