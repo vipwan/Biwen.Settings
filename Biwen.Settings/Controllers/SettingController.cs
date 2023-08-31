@@ -6,12 +6,10 @@ namespace Biwen.Settings.Controllers
 {
     public class SettingController : Controller
     {
-        private readonly IOptions<SettingOptions> _options;
         private readonly ISettingManager _settingManager;
 
-        public SettingController(IOptions<SettingOptions> options, ISettingManager settingManager)
+        public SettingController(ISettingManager settingManager)
         {
-            _options = options;
             _settingManager = settingManager;
         }
 
