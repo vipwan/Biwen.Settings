@@ -124,6 +124,9 @@ dotnet ef database update
         options.EditorOption.EditorEditButtonText = "Edit";
         options.EditorOption.ShouldPagenation = true;
 
+        //开启AutoFluentValidation
+        options.AutoFluentValidationOption.Enable = true;
+
         //支持缓存提供者,默认不使用缓存
         //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
         options.UseCache<MemoryCacheProvider>();
