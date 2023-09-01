@@ -168,7 +168,7 @@ namespace Biwen.Settings.Controllers
                 //继承至ValidationSettingBase<T>的情况
                 if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
                 {
-                    var x = setting as ISettingValidator ?? throw new ArgumentNullException(nameof(setting));
+                    var x = setting as ISettingValidator ?? throw new BiwenException($"ISettingValidator is Null!");
                     var md = x.RealValidator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
                     //验证不通过的情况
                     if (!Valid(md, x.RealValidator))
