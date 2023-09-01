@@ -47,6 +47,11 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            //根据情况自定义表名
+            builder.Entity<Setting>(b =>
+            {
+                b.ToTable("Settings");
+            });
             //可以根据自己的情况约束存储列
             //builder.Entity<Setting>().HasKey(x => x.SettingName);
             //builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
