@@ -92,6 +92,18 @@ namespace Biwen.Settings
     {
 
         /// <summary>
+        /// 使用内存缓存
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+
+        public static SettingOptions UseCacheOfMemory(this SettingOptions options)
+        {
+            options.UseCache<MemoryCacheProvider>();
+            return options;
+        }
+
+        /// <summary>
         /// 使用EntityFmeworkCore持久化配置项
         /// </summary>
         /// <param name="options"></param>
