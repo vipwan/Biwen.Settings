@@ -1,30 +1,28 @@
 ﻿
 using System.Text.Json;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Biwen.Settings.Caching;
 
 namespace Biwen.Settings
 {
-    internal sealed class SettingManager : ISettingManager
+
+    /// <summary>
+    /// 默认EntityFrameworkCore持久化
+    /// </summary>
+    internal sealed class EntityFrameworkCoreSettingManager : BaseSettingManager
     {
         private readonly IBiwenSettingsDbContext _db;
-        private readonly ILogger<SettingManager> _logger;
         private readonly IOptions<SettingOptions> _options;
-        private readonly ICacheProvider _cacheProvider;
-
         private const string CacheKeyFormat = "SettingManager_{0}";
 
-        public SettingManager(
+        public EntityFrameworkCoreSettingManager(
             IBiwenSettingsDbContext db,
-            ILogger<SettingManager> logger,
+            ILogger<EntityFrameworkCoreSettingManager> logger,
             ICacheProvider cacheProvider,
-            IOptions<SettingOptions> options)
+            IOptions<SettingOptions> options) : base(cacheProvider, logger)
         {
             _db = db;
-            _logger = logger;
-            _cacheProvider = cacheProvider;
             _options = options;
         }
 
@@ -38,7 +36,7 @@ namespace Biwen.Settings
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
 
-        public T Get<T>() where T : ISetting, new()
+        public override T Get<T>()
         {
             return (T)_cacheProvider.GetOrCreate(string.Format(CacheKeyFormat, typeof(T).FullName), () =>
               {
@@ -79,7 +77,7 @@ namespace Biwen.Settings
               }, 1000);
         }
 
-        public void Save<T>(T setting) where T : ISetting, new()
+        public override void Save<T>(T setting)
         {
             if (setting == null)
                 throw new ArgumentNullException(nameof(setting));
@@ -116,7 +114,7 @@ namespace Biwen.Settings
             _logger.LogInformation(message: "SaveSetting: {0},{1}", settingType, settingContent);
         }
 
-        public List<Setting> GetAllSettings()
+        public override List<Setting> GetAllSettings()
         {
             return _db.Settings.Where(x => x.ProjectId == _options.Value.ProjectId).OrderBy(x => x.Order).ThenBy(x => x.SettingType).ToList();
         }

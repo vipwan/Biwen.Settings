@@ -19,7 +19,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 });
 
 
-builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
+builder.Services.AddBiwenSettings(options =>
 {
 
     //#if DEBUG
@@ -44,6 +44,9 @@ builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
     //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
     options.UseCache<MemoryCacheProvider>();
 
+    //默认提供EntityFrameworkCore持久化配置项
+    //必须,否则将初始化错误!
+    options.UseSettingManagerEntityFrameworkCore(dbContextType: typeof(MyDbContext));
 
 }, true);
 

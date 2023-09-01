@@ -19,23 +19,21 @@ namespace Biwen.Settings
         /// <param name="autoValidation">是否FluentValidation自动验证</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IServiceCollection AddBiwenSettings(this IServiceCollection services, Type dbContextType,
-            Action<SettingOptions>? options = null, bool autoValidation = true)
+        public static IServiceCollection AddBiwenSettings(this IServiceCollection services,
+            Action<SettingOptions> options = null!, bool autoValidation = true)
         {
-            if (dbContextType == null)
-                throw new ArgumentNullException(nameof(dbContextType));
 
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
 
-            services.AddTransient((IServiceProvider p) => (p.GetRequiredService(dbContextType) as IBiwenSettingsDbContext)!);
+
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
 
             var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
+            var currentOptions = services.BuildServiceProvider().GetRequiredService<IOptions<SettingOptions>>();
             #region 注入缓存
 
-            var currentOptions = services.BuildServiceProvider().GetRequiredService<IOptions<SettingOptions>>();
             var cacheTypeProvider = currentOptions.Value.CacheProvider;
 
             //Memory缓存提供者
@@ -69,8 +67,32 @@ namespace Biwen.Settings
 
             #endregion
 
+            if (currentOptions.Value.SettingManager.Item1 == typeof(EntityFrameworkCoreSettingManager))
+            {
+                if (currentOptions.Value.SettingManager.Item2 == null)
+                    throw new BiwenException("Require IBiwenSettingsDbContext ExtendType!");
 
-            services.AddScoped<ISettingManager, SettingManager>();
+                services.AddTransient((IServiceProvider p) => (p.GetRequiredService((Type)currentOptions.Value.SettingManager.Item2) as IBiwenSettingsDbContext)!);
+                services.AddScoped<ISettingManager, EntityFrameworkCoreSettingManager>();
+            }
+            else
+            {
+                if (currentOptions.Value.SettingManager.Item1 == null)
+                    throw new BiwenException("Require ISettingManager!");
+
+                services.Scan(scan =>
+                {
+                    scan.FromAssemblies(allAssemblies).AddClasses(x =>
+                    {
+                        x.AssignableTo(typeof(ISettingManager));
+                        x.Where(a => { return a.FullName == currentOptions.Value.SettingManager.Item1!.FullName; });
+                    })
+                    .AsImplementedInterfaces() //实现基于他的接口
+                    .WithScopedLifetime();  //Scoped
+                });
+            }
+
+
             if (autoValidation)
             {
                 //注册验证器

@@ -39,6 +39,12 @@ namespace Biwen.Settings
         public Type CacheProvider { get; private set; } = typeof(NullCacheProvider);
 
         /// <summary>
+        /// 默认使用EntityFrameworkCore持久化配置项
+        /// </summary>
+        public (Type?, object?) SettingManager { get; private set; } = (null, null);
+
+
+        /// <summary>
         /// 使用的缓存提供者
         /// </summary>
         /// <param name="provider"></param>
@@ -47,6 +53,17 @@ namespace Biwen.Settings
             CacheProvider = typeof(T);
         }
 
+
+        /// <summary>
+        /// 使用SettingManager
+        /// </summary>
+        /// <typeparam name="T">ISettingManager</typeparam>
+        /// <typeparam name="V">扩展信息</typeparam>
+        /// <param name="extend"></param>
+        public void UseSettingManager<T, V>(V extend) where T : ISettingManager
+        {
+            SettingManager = (typeof(T), extend);
+        }
 
         public class EditorOptions
         {
@@ -69,4 +86,22 @@ namespace Biwen.Settings
         }
 
     }
+
+
+    public static class SettingOptionsExtension
+    {
+
+        /// <summary>
+        /// 使用EntityFmeworkCore持久化配置项
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="contextType"></param>
+        /// <returns></returns>
+        public static SettingOptions UseSettingManagerEntityFrameworkCore(this SettingOptions options, Type dbContextType)
+        {
+            options.UseSettingManager<EntityFrameworkCoreSettingManager, Type>(dbContextType);
+            return options;
+        }
+    }
+
 }
