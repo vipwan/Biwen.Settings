@@ -74,7 +74,7 @@ namespace Biwen.Settings
                   //不可为空
                   return @default;
 
-              }, 1000);
+              });
         }
 
         public override void Save<T>(T setting)
