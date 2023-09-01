@@ -179,17 +179,37 @@ dotnet ef database update
         }
     }
 
+    /// <summary>
+    /// 内置验证器的配置项,推荐使用这种方式
+    /// </summary>
+    [Description("内置验证器的配置项测试")]
+    public class TestAutoValidSetting : ValidationSettingBase<TestAutoValidSetting>
+    {
+
+        public string Name { get; set; } = "Hello"!;
+
+        public TestAutoValidSetting()
+        {
+            //构造函数中添加验证规则
+            RuleFor(x => x.Name).NotEmpty().Length(8, 32);
+        }
+        override public int Order => 600;
+    }
+
     //anywhere you can inject
     //View:
     //@inject WeChatSetting WeChatSetting;
+    //@inject TestAutoValidSetting TestAutoValidSetting;
 
     //Service:
     //public class MyClass
     //{
     //    private readonly WeChatSetting _weChatSetting;
-    //    public MyClass(WeChatSetting weChatSetting)
+    //    private readonly TestAutoValidSetting _testAutoValidSetting;
+    //    public MyClass(WeChatSetting weChatSetting,TestAutoValidSetting testAutoValidSetting)
     //    {
     //        _weChatSetting = weChatSetting;
+    //        _testAutoValidSetting = testAutoValidSetting;
     //    }
     //}
 
