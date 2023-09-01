@@ -70,7 +70,8 @@ dotnet ef database update
 
 ### step 2
 
-- DI DBContext
+
+- 2.1 如果使用Biwen.Settings提供的EF仓储,必须注入DBContext
 
   ```csharp
     builder.Services.AddDbContext<MyDbContext>(options =>
@@ -79,6 +80,14 @@ dotnet ef database update
         //当前使用内存数据库作为演示.生产环境务必修改!
         options.UseInMemoryDatabase("BiwenSettings");
     });
+  
+   ```
+
+- 2.2 如果使用自定义仓储,请实现ISettingManager并修改AddBiwenSettings()
+- 
+  ```csharp
+
+     options.UseSettingManager<T,V>()
   
    ```
 
