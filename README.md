@@ -31,6 +31,8 @@
 
 ### Step 1 
 
+### 1.1 使用EntityFrameworkCore的方式
+
 - implements IBiwenSettingsDbContext
 
 ```csharp
@@ -59,7 +61,7 @@
     }
 
 ```
-#### 1.1 Migration
+#### 1.1.1 Migration
 
 - Add a new Entity Framework Core migration to save your changes
 
@@ -67,6 +69,10 @@
 dotnet ef migrations add biwenSettings
 dotnet ef database update
 ```
+
+### 1.2 使用自定义SettingManager
+
+- 直接跳入step 2.2
 
 ### step 2
 
