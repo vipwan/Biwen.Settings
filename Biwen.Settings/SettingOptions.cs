@@ -7,7 +7,7 @@ namespace Biwen.Settings
     public class SettingOptions
     {
         /// <summary>
-        /// 验证器,如果返回false则不允许访问设置页面
+        /// 权限验证器,如果返回false则不允许访问设置页面
         /// </summary>
         public Func<HttpContext, bool> Valider { get; set; } = new Func<HttpContext, bool>(context => true);
         /// <summary>
@@ -31,6 +31,12 @@ namespace Biwen.Settings
         /// 编辑器选项
         /// </summary>
         public EditorOptions EditorOption { get; set; } = new EditorOptions();
+
+        /// <summary>
+        /// 自动Setting验证器配置
+        /// </summary>
+        public AutoFluentValidationOptions AutoFluentValidationOption { get; set; } = new();
+
 
         /// <summary>
         /// 默认不使用任何缓存
@@ -84,6 +90,20 @@ namespace Biwen.Settings
             public bool ShouldPagenation { get; set; } = true;
 
         }
+
+        /// <summary>
+        /// 自动Setting验证器配置
+        /// </summary>
+        public class AutoFluentValidationOptions
+        {
+            /// <summary>
+            /// 默认开启
+            /// </summary>
+            public bool Enable { get; set; } = true;
+
+        }
+
+
 
     }
 

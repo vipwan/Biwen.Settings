@@ -1,16 +1,19 @@
 ﻿using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace Biwen.Settings.Controllers
 {
     public class SettingController : Controller
     {
         private readonly ISettingManager _settingManager;
+        private readonly IOptions<SettingOptions> _options;
 
-        public SettingController(ISettingManager settingManager)
+        public SettingController(ISettingManager settingManager, IOptions<SettingOptions> options)
         {
             _settingManager = settingManager;
+            _options = options;
         }
 
         //[HttpGet("qwertyuiopasdfghjklzxcvbnm/setting")]
@@ -60,6 +63,8 @@ namespace Biwen.Settings.Controllers
             List<(string, string?, string?)> SettingValues = new();
             var json = JsonNode.Parse(setting.SettingContent!)!;
             type.GetProperties().Where(x =>
+                !x.GetCustomAttributes<JsonIgnoreAttribute>().Any() &&
+                x.CanWrite && x.CanRead &&
                 x.Name != nameof(Setting.SettingType) &&
                 x.Name != nameof(Setting.ProjectId) &&
                 x.Name != nameof(Setting.SettingName) &&
@@ -128,10 +133,8 @@ namespace Biwen.Settings.Controllers
             }
 
             //验证DTO
-            var validator = Request.HttpContext.RequestServices.GetService(serviceType: typeof(IValidator<>).MakeGenericType(type));
-            if (validator != null)
+            Func<MethodInfo?, object, bool> Valid = (md, validator) =>
             {
-                var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
                 //验证不通过的情况
                 if (md!.Invoke(validator, new object[] { setting! }) is ValidationResult result && !result!.IsValid)
                 {
@@ -143,7 +146,35 @@ namespace Biwen.Settings.Controllers
                     ViewBag.Setting = domainSetting!;
                     ViewBag.SettingValues = SettingValues(domainSetting!);
                     //验证不通过
-                    return View();
+                    return false;
+                }
+                return true;
+            };
+
+            if (_options.Value.AutoFluentValidationOption.Enable)
+            {
+                //存在验证器的情况
+                var validator = Request.HttpContext.RequestServices.GetService(serviceType: typeof(IValidator<>).MakeGenericType(type));
+                if (validator != null)
+                {
+                    var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
+
+                    if (!Valid(md, validator))
+                    {
+                        return View();
+                    }
+                }
+
+                //继承至ValidationSettingBase<T>的情况
+                if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
+                {
+                    var x = setting as ISettingValidator ?? throw new ArgumentNullException(nameof(setting));
+                    var md = x.RealValidator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
+                    //验证不通过的情况
+                    if (!Valid(md, x.RealValidator))
+                    {
+                        return View();
+                    }
                 }
             }
 

@@ -1,6 +1,7 @@
 ﻿using Biwen.Settings.Caching;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -14,13 +15,11 @@ namespace Biwen.Settings
         /// Add BiwenSettings
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="dbContextType"></param>
         /// <param name="options"></param>
-        /// <param name="autoValidation">是否FluentValidation自动验证</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static IServiceCollection AddBiwenSettings(this IServiceCollection services,
-            Action<SettingOptions> options = null!, bool autoValidation = true)
+            Action<SettingOptions> options = null!)
         {
 
             services.AddHttpContextAccessor();
@@ -93,7 +92,7 @@ namespace Biwen.Settings
             }
 
 
-            if (autoValidation)
+            if (currentOptions.Value.AutoFluentValidationOption.Enable)
             {
                 //注册验证器
                 services.AddFluentValidationAutoValidation();
@@ -103,7 +102,8 @@ namespace Biwen.Settings
                         Where(x => !(x.FullName!.Contains("FluentValidation")))).AddClasses(x =>
                         {
                             x.AssignableTo(typeof(IValidator<>));//来自指定的接口
-                            x.Where(a => { return a.IsClass && !a.IsAbstract; });//必须是类,且不为抽象类
+                            //必须是类,且当前Class不是泛型类.排除ValidationSettingBase<T>,且不为抽象类
+                            x.Where(a => { return a.IsClass && !a.IsAbstract && !a.IsGenericTypeDefinition; });
                         })
                     .AsImplementedInterfaces(x => x.IsGenericType) //实现基于他的接口
                     .WithTransientLifetime();  //AddTransient

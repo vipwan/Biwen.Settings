@@ -54,6 +54,9 @@ namespace Biwen.Settings.TestWebUI
 
         public override int Order => 999;
 
+        /// <summary>
+        /// 常规的验证器,不推荐使用这种方式,会全局注入IValidator<T>
+        /// </summary>
         public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
         {
             public WeChatSettingValidtor()
@@ -65,6 +68,26 @@ namespace Biwen.Settings.TestWebUI
         }
 
     }
+
+    /// <summary>
+    /// 内置验证器的配置项,推荐使用这种方式
+    /// </summary>
+    [Description("内置验证器的配置项测试")]
+    public class TestAutoValidSetting : ValidationSettingBase<TestAutoValidSetting>
+    {
+
+        public string Name { get; set; } = "Hello"!;
+
+        public TestAutoValidSetting()
+        {
+            //构造函数中添加验证规则
+            RuleFor(x => x.Name).NotEmpty().Length(8, 32);
+
+        }
+
+        override public int Order => 600;
+    }
+
 
     public class WeChatSetting2 : WeChatSetting
     {
