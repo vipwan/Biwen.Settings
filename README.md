@@ -9,7 +9,7 @@
 
 ## NuGet 包
 
-- dotnet add package Biwen.Settings --version 1.2.1
+- dotnet add package Biwen.Settings --version 1.2.2
 
 
 ## 开发环境
@@ -112,6 +112,11 @@ dotnet ef database update
         //支持缓存提供者,默认不使用缓存
         //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
         options.UseCache<MemoryCacheProvider>();
+
+        //默认提供EntityFrameworkCore持久化配置项
+        //必须,否则将初始化错误!
+        options.UseSettingManagerEntityFrameworkCore(dbContextType: typeof(MyDbContext));
+
     });
 
    //...............
