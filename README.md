@@ -116,7 +116,8 @@ dotnet ef database update
         //默认提供EntityFrameworkCore持久化配置项
         //必须,否则将初始化错误!
         options.UseSettingManagerEntityFrameworkCore(dbContextType: typeof(MyDbContext));
-
+        //自行实现的ISettingManager注册
+        //options.UseSettingManager()
     });
 
    //...............
