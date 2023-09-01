@@ -1,5 +1,9 @@
 ## ChangeLog
 
+
+### 1.2.1
+	- 提供CachingProvider自定义功能,系统自带NullCacheProvider,MemoryCacheProvider
+
 ### 1.2.0
 	- 修复了在某些情况下，重命名SettingName后，无法获取到正确的Setting的问题
 	- 修改Domain仓储,使用SettingType替代SettingName作为主键

@@ -1,4 +1,5 @@
 using Biwen.Settings;
+using Biwen.Settings.Caching;
 using Biwen.Settings.TestWebUI.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +39,17 @@ builder.Services.AddBiwenSettings(typeof(MyDbContext), options =>
     options.EditorOption.EditorEditButtonText = "Edit";
     options.EditorOption.ShouldPagenation = true;
 
+
+    //支持缓存提供者,默认不使用缓存
+    //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
+    options.UseCache<MemoryCacheProvider>();
+
+
 }, true);
+
+//支持缓存提供者,默认不使用缓存
+//您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
+//builder.Services.AddScoped<ICacheProvider, MemoryCacheProvider>();
 
 var app = builder.Build();
 

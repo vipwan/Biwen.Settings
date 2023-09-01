@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Biwen.Settings.Caching;
+using Microsoft.AspNetCore.Http;
 
 namespace Biwen.Settings
 {
@@ -30,6 +31,21 @@ namespace Biwen.Settings
         /// 编辑器选项
         /// </summary>
         public EditorOptions EditorOption { get; set; } = new EditorOptions();
+
+        /// <summary>
+        /// 默认不使用任何缓存
+        /// 不支持直接调用,请使用UseCache方法
+        /// </summary>
+        public Type CacheProvider { get; private set; } = typeof(NullCacheProvider);
+
+        /// <summary>
+        /// 使用的缓存提供者
+        /// </summary>
+        /// <param name="provider"></param>
+        public void UseCache<T>() where T : ICacheProvider
+        {
+            CacheProvider = typeof(T);
+        }
 
 
         public class EditorOptions

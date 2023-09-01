@@ -9,7 +9,7 @@
 
 ## NuGet 包
 
-- dotnet add package Biwen.Settings --version 1.2.0
+- dotnet add package Biwen.Settings --version 1.2.1
 
 
 ## 开发环境
@@ -108,6 +108,10 @@ dotnet ef database update
         options.EditorOption.EdtiorConfirmButtonText = "Submit";
         options.EditorOption.EditorEditButtonText = "Edit";
         options.EditorOption.ShouldPagenation = true;
+
+        //支持缓存提供者,默认不使用缓存
+        //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
+        options.UseCache<MemoryCacheProvider>();
     });
 
    //...............

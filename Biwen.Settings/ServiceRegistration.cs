@@ -1,6 +1,6 @@
-﻿using FluentValidation.AspNetCore;
+﻿using Biwen.Settings.Caching;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -27,12 +27,50 @@ namespace Biwen.Settings
 
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
-            services.AddMemoryCache();
+
             services.AddTransient((IServiceProvider p) => (p.GetRequiredService(dbContextType) as IBiwenSettingsDbContext)!);
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
-            services.AddScoped<ISettingManager, SettingManager>();
 
             var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            #region 注入缓存
+
+            var currentOptions = services.BuildServiceProvider().GetRequiredService<IOptions<SettingOptions>>();
+            var cacheTypeProvider = currentOptions.Value.CacheProvider;
+
+            //Memory缓存提供者
+            //services.AddMemoryCache();
+            //services.AddScoped<ICacheProvider, MemoryCacheProvider>();
+            //空缓存提供者
+            //services.AddScoped<ICacheProvider, NullCacheProvider>();
+
+            if (cacheTypeProvider == typeof(MemoryCacheProvider))
+            {
+                services.AddMemoryCache();
+                services.AddScoped<ICacheProvider, MemoryCacheProvider>();
+            }
+            else if (cacheTypeProvider == typeof(NullCacheProvider))
+            {
+                services.AddScoped<ICacheProvider, NullCacheProvider>();
+            }
+            else
+            {
+                services.Scan(scan =>
+                {
+                    scan.FromAssemblies(allAssemblies).AddClasses(x =>
+                    {
+                        x.AssignableTo(typeof(ICacheProvider));
+                        x.Where(a => { return a.FullName == cacheTypeProvider.FullName; });
+                    })
+                    .AsImplementedInterfaces() //实现基于他的接口
+                    .WithScopedLifetime();  //Scoped
+                });
+            }
+
+            #endregion
+
+
+            services.AddScoped<ISettingManager, SettingManager>();
             if (autoValidation)
             {
                 //注册验证器
@@ -48,10 +86,10 @@ namespace Biwen.Settings
                     .AsImplementedInterfaces(x => x.IsGenericType) //实现基于他的接口
                     .WithTransientLifetime();  //AddTransient
                 });
-                //services.AddTransient<IValidator<TestSetting>, TestSettingValidator>();
             }
 
-            var settings = FindTypes.InAssemblies(allAssemblies).ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
+            var settings = FindTypes.InAssemblies(allAssemblies).ThatInherit(
+                typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
             settings.ForEach(x =>
             {
