@@ -24,7 +24,7 @@ namespace Biwen.Settings
 
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
-
+            services.AddMemoryCache();
 
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
 
@@ -43,7 +43,6 @@ namespace Biwen.Settings
 
             if (cacheTypeProvider == typeof(MemoryCacheProvider))
             {
-                services.AddMemoryCache();
                 services.AddScoped<ICacheProvider, MemoryCacheProvider>();
             }
             else if (cacheTypeProvider == typeof(NullCacheProvider))
@@ -56,8 +55,7 @@ namespace Biwen.Settings
                 {
                     scan.FromAssemblies(allAssemblies).AddClasses(x =>
                     {
-                        x.AssignableTo(typeof(ICacheProvider));
-                        x.Where(a => { return a.FullName == cacheTypeProvider.FullName; });
+                        x.Where(a => { return a == cacheTypeProvider; });
                     })
                     .AsImplementedInterfaces() //实现基于他的接口
                     .WithScopedLifetime();  //Scoped
@@ -71,7 +69,8 @@ namespace Biwen.Settings
                 if (currentOptions.Value.SettingManager.Item2 == null)
                     throw new BiwenException("Require IBiwenSettingsDbContext ExtendType!");
 
-                services.AddTransient((IServiceProvider p) => (p.GetRequiredService((Type)currentOptions.Value.SettingManager.Item2) as IBiwenSettingsDbContext)!);
+                services.AddTransient((IServiceProvider p) =>
+                (p.GetRequiredService((Type)currentOptions.Value.SettingManager.Item2) as IBiwenSettingsDbContext)!);
                 services.AddScoped<ISettingManager, EntityFrameworkCoreSettingManager>();
             }
             else
@@ -83,8 +82,10 @@ namespace Biwen.Settings
                 {
                     scan.FromAssemblies(allAssemblies).AddClasses(x =>
                     {
-                        x.AssignableTo(typeof(ISettingManager));
-                        x.Where(a => { return a.FullName == currentOptions.Value.SettingManager.Item1!.FullName; });
+                        x.AssignableTo(typeof(ISettingManager)).Where(a =>
+                        {
+                            return a == currentOptions.Value.SettingManager.Item1!;
+                        });
                     })
                     .AsImplementedInterfaces() //实现基于他的接口
                     .WithScopedLifetime();  //Scoped
