@@ -27,6 +27,14 @@ namespace Biwen.Settings
         /// <returns></returns>
         List<Setting> GetAllSettings();
 
+        /// <summary>
+        /// 从持久层获取指定类型的配置
+        /// </summary>
+        /// <param name="settingType"></param>
+        /// <returns></returns>
+        Setting? GetSetting(string settingType);
+
+
     }
 
 
@@ -60,5 +68,11 @@ namespace Biwen.Settings
         {
             throw new NotImplementedException();
         }
+
+        public virtual Setting? GetSetting(string settingType)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

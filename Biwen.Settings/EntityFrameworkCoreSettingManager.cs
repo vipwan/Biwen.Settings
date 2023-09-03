@@ -118,5 +118,11 @@ namespace Biwen.Settings
         {
             return _db.Settings.Where(x => x.ProjectId == _options.Value.ProjectId).OrderBy(x => x.Order).ThenBy(x => x.SettingType).ToList();
         }
+
+
+        public override Setting? GetSetting(string settingType)
+        {
+            return _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
+        }
     }
 }
