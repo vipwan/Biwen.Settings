@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using FluentValidation.Internal;
-using System.Linq.Expressions;
-using System.Runtime.Serialization;
+﻿using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 
 namespace Biwen.Settings
