@@ -1,0 +1,13 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<PackageVersion>1.3.1</PackageVersion>
+		<Title>Biwen.Settings</Title>
+		<Description>Biwen.Settings ,NET6+ 应用配置项管理模块</Description>
+		<Copyright>MIT</Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>configuration;setting;netcore</PackageTags>
+		<PackageReleaseNotes>提供JsonFile的SettingStore</PackageReleaseNotes>
+	</PropertyGroup>
+
+</Project>

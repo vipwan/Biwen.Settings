@@ -1,5 +1,7 @@
 ## ChangeLog
 
+### 1.3.1
+    - 提供JsonFile的ISettingManager支持.
 
 ### 1.3.0
     - 提供INotify<T> 订阅配置变更
