@@ -108,10 +108,11 @@ namespace Biwen.Settings
                 .WithScopedLifetime();  //Scoped
             });
 
+            #endregion
+
             //装饰ISettingManager
             services.Decorate<ISettingManager>((inner, provider) => new BaseSettingManagerDecorator(inner, provider));
 
-            #endregion
 
 
             if (currentOptions.Value.AutoFluentValidationOption.Enable)

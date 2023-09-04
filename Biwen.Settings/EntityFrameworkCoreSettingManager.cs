@@ -14,13 +14,11 @@ namespace Biwen.Settings
     {
         private readonly IBiwenSettingsDbContext _db;
         private readonly IOptions<SettingOptions> _options;
-        private const string CacheKeyFormat = "SettingManager_{0}";
 
         public EntityFrameworkCoreSettingManager(
             IBiwenSettingsDbContext db,
             ILogger<EntityFrameworkCoreSettingManager> logger,
-            ICacheProvider cacheProvider,
-            IOptions<SettingOptions> options) : base(cacheProvider, logger)
+            IOptions<SettingOptions> options) : base(logger)
         {
             _db = db;
             _options = options;
@@ -38,43 +36,39 @@ namespace Biwen.Settings
 
         public override T Get<T>()
         {
-            return (T)_cacheProvider.GetOrCreate(string.Format(CacheKeyFormat, typeof(T).FullName), () =>
-              {
-                  var @default = new T();
-                  var settingType = typeof(T).FullName!;
+            var @default = new T();
+            var settingType = typeof(T).FullName!;
 
-                  var setting = _db.Settings.FirstOrDefault(
-                      x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
+            var setting = _db.Settings.FirstOrDefault(
+                x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
 
-                  if (setting != null)
-                  {
-                      @default = JsonSerializer.Deserialize<T>(setting.SettingContent!)!;
-                  }
-                  else
-                  {
-                      var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
-                      _db.Settings.Add(new Setting
-                      {
-                          ProjectId = _options.Value.ProjectId,
-                          SettingName = @default.SettingName!,
-                          SettingType = typeof(T).FullName!,
-                          Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
-                          Order = @default.Order,
-                          LastModificationTime = DateTime.Now,
-                          SettingContent = JsonSerializer.Serialize(@default, SerializerOptions)
-                      });
-                      (_db as DbContext)!.SaveChanges();
-                  }
+            if (setting != null)
+            {
+                @default = JsonSerializer.Deserialize<T>(setting.SettingContent!)!;
+            }
+            else
+            {
+                var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
+                _db.Settings.Add(new Setting
+                {
+                    ProjectId = _options.Value.ProjectId,
+                    SettingName = @default.SettingName!,
+                    SettingType = typeof(T).FullName!,
+                    Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
+                    Order = @default.Order,
+                    LastModificationTime = DateTime.Now,
+                    SettingContent = JsonSerializer.Serialize(@default, SerializerOptions)
+                });
+                (_db as DbContext)!.SaveChanges();
+            }
 
-                  if (@default == null)
-                  {
-                      _logger.LogError(message: "SettingType: {0} Not Found!", typeof(T).FullName);
-                      throw new Exception($"SettingType: {typeof(T).FullName} Not Found!");
-                  }
-                  //不可为空
-                  return @default;
-
-              });
+            if (@default == null)
+            {
+                _logger.LogError(message: "SettingType: {0} Not Found!", typeof(T).FullName);
+                throw new Exception($"SettingType: {typeof(T).FullName} Not Found!");
+            }
+            //不可为空
+            return @default;
         }
 
         public override void Save<T>(T setting)
@@ -109,8 +103,6 @@ namespace Biwen.Settings
                 });
             }
             (_db as DbContext)!.SaveChanges();
-            _cacheProvider.Remove(string.Format(CacheKeyFormat, typeof(T).Name));
-
             _logger.LogInformation(message: "SaveSetting: {0},{1}", settingType, settingContent);
         }
 

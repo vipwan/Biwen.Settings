@@ -124,12 +124,23 @@ namespace Biwen.Settings
         }
 
         /// <summary>
+        /// Default不使用缓存
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static SettingOptions UseCacheOfNull(this SettingOptions options)
+        {
+            options.UseCache<NullCacheProvider>();
+            return options;
+        }
+
+        /// <summary>
         /// 使用EntityFmeworkCore持久化配置项
         /// </summary>
         /// <param name="options"></param>
         /// <param name="contextType"></param>
         /// <returns></returns>
-        public static SettingOptions UseSettingManagerEntityFrameworkCore(this SettingOptions options, Type dbContextType)
+        public static SettingOptions UseSettingManagerOfEFCore(this SettingOptions options, Type dbContextType)
         {
             options.UseSettingManager<EntityFrameworkCoreSettingManager, Type>(dbContextType);
             return options;

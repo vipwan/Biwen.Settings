@@ -46,16 +46,26 @@ namespace Biwen.Settings
 
         private readonly IServiceProvider _serviceProvider;
         private readonly ISettingManager _settingManager;
-        public BaseSettingManagerDecorator(ISettingManager settingManager, IServiceProvider serviceProvider)
+        private readonly ICacheProvider _cacheProvider;
+
+        public BaseSettingManagerDecorator(
+            ISettingManager settingManager,
+            IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _settingManager = settingManager;
+            _cacheProvider = serviceProvider.GetRequiredService<ICacheProvider>();
         }
+
+        private const string CacheKeyFormat = "SettingManager_{0}";
 
         public void Save<T>(T setting) where T : ISetting, new()
         {
+            //Save
             _settingManager.Save(setting);
-
+            //Remove Cache
+            _cacheProvider.Remove(string.Format(CacheKeyFormat, typeof(T).Name));
+            //Notify
             var notiyfys = _serviceProvider.GetServices<INotify<T>>();
             foreach (var notify in notiyfys)
             {
@@ -63,10 +73,12 @@ namespace Biwen.Settings
             }
         }
 
-
         public T Get<T>() where T : ISetting, new()
         {
-            return _settingManager.Get<T>();
+            return (T)_cacheProvider.GetOrCreate(string.Format(CacheKeyFormat, typeof(T).FullName), () =>
+            {
+                return _settingManager.Get<T>();
+            });
         }
 
         public List<Setting> GetAllSettings()
@@ -87,15 +99,12 @@ namespace Biwen.Settings
     public abstract class BaseSettingManager : ISettingManager
     {
 
-        protected readonly ICacheProvider _cacheProvider;
         protected readonly ILogger<ISettingManager> _logger;
 
-        public BaseSettingManager(ICacheProvider cacheProvider, ILogger<ISettingManager> logger)
+        public BaseSettingManager(ILogger<ISettingManager> logger)
         {
-            _cacheProvider = cacheProvider;
             _logger = logger;
         }
-
 
         public virtual void Save<T>(T setting) where T : ISetting, new()
         {
