@@ -133,7 +133,15 @@ dotnet ef database update
 
         //默认提供EntityFrameworkCore持久化配置项
         //必须,否则将初始化错误!
-        options.UseSettingManagerEntityFrameworkCore(dbContextType: typeof(MyDbContext));
+        //options.UseSettingManagerEntityFrameworkCore(dbContextType: typeof(MyDbContext));
+        
+        //使用JsonStore持久化配置项
+        options.UserSettingManagerOfJsonStore(options =>
+        {
+            options.FormatJson = true;
+            options.JsonPath = "systemsetting.json";
+        });
+        
         //自行实现的ISettingManager注册
         //options.UseSettingManager()
     });
