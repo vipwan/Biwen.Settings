@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Biwen.Settings.Mvc
 {
@@ -16,7 +17,7 @@ namespace Biwen.Settings.Mvc
             {
                 return;
             }
-            var options = context.HttpContext.RequestServices.GetService(typeof(IOptions<SettingOptions>)) as IOptions<SettingOptions>;
+            var options = context.HttpContext.RequestServices.GetRequiredService(typeof(IOptions<SettingOptions>)) as IOptions<SettingOptions>;
             var isValid = options!.Value.Valider.Invoke(context.HttpContext);
             if (isValid)
             {
