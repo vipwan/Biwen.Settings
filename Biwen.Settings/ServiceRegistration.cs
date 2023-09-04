@@ -93,6 +93,27 @@ namespace Biwen.Settings
             }
 
 
+            #region INotify
+
+            services.Scan(scan =>
+            {
+                scan.FromAssemblies(allAssemblies).AddClasses(x =>
+                {
+                    x.AssignableTo(typeof(INotify<>)).Where(a =>
+                    {
+                        return a.IsClass && !a.IsAbstract;
+                    });
+                })
+                .AsImplementedInterfaces() //实现基于他的接口
+                .WithScopedLifetime();  //Scoped
+            });
+
+            //装饰ISettingManager
+            services.Decorate<ISettingManager>((inner, provider) => new BaseSettingManagerDecorator(inner, provider));
+
+            #endregion
+
+
             if (currentOptions.Value.AutoFluentValidationOption.Enable)
             {
                 //注册验证器
@@ -118,6 +139,7 @@ namespace Biwen.Settings
             {
                 services.AddScoped(x, sp =>
                 {
+
                     var settingManager = sp.GetRequiredService<ISettingManager>();
                     var cache = sp.GetRequiredService<IMemoryCache>();
 

@@ -1,4 +1,5 @@
 ﻿using Biwen.Settings.Caching;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Biwen.Settings
 {
@@ -35,6 +36,48 @@ namespace Biwen.Settings
         Setting? GetSetting(string settingType);
 
 
+    }
+
+    /// <summary>
+    /// SettingManager的装饰器基类
+    /// </summary>
+    internal sealed class BaseSettingManagerDecorator : ISettingManager
+    {
+
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ISettingManager _settingManager;
+        public BaseSettingManagerDecorator(ISettingManager settingManager, IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+            _settingManager = settingManager;
+        }
+
+        public void Save<T>(T setting) where T : ISetting, new()
+        {
+            _settingManager.Save(setting);
+
+            var notiyfys = _serviceProvider.GetServices<INotify<T>>();
+            foreach (var notify in notiyfys)
+            {
+                notify.Notify(setting);
+            }
+        }
+
+
+        public T Get<T>() where T : ISetting, new()
+        {
+            return _settingManager.Get<T>();
+        }
+
+        public List<Setting> GetAllSettings()
+        {
+            return _settingManager.GetAllSettings();
+        }
+
+        public Setting? GetSetting(string settingType)
+        {
+            return _settingManager.GetSetting(settingType);
+        }
     }
 
 

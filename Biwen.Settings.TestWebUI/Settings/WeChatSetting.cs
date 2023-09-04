@@ -1,5 +1,6 @@
 ﻿
 using FluentValidation;
+using Microsoft.Extensions.Options;
 
 namespace Biwen.Settings.TestWebUI
 {
@@ -64,6 +65,23 @@ namespace Biwen.Settings.TestWebUI
                 //验证规则
                 RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
                 RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
+            }
+        }
+
+
+        public class WeChatSettingNotify : INotify<WeChatSetting>
+        {
+            private readonly ILogger<WeChatSettingNotify> _logger;
+
+            public WeChatSettingNotify(ILogger<WeChatSettingNotify> logger)
+            {
+                _logger = logger;
+            }
+
+            public async Task Notify(WeChatSetting setting)
+            {
+                _logger.LogInformation("微信配置发生变更!");
+                await Task.CompletedTask;
             }
         }
 
