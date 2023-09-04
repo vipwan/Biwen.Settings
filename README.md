@@ -215,6 +215,35 @@ dotnet ef database update
 
 ```
 
+#### More
+
+- INotify订阅配置变更
+
+```charp
+
+        public class WeChatSettingNotify : INotify<WeChatSetting>
+        {
+            private readonly ILogger<WeChatSettingNotify> _logger;
+
+            public WeChatSettingNotify(ILogger<WeChatSettingNotify> logger)
+            {
+                _logger = logger;
+            }
+
+            public async Task Notify(WeChatSetting setting)
+            {
+                _logger.LogInformation("微信配置发生变更!");
+                await Task.CompletedTask;
+            }
+        }
+```
+
+
+
+
+
+
+
 ## License 
 - MIT
 
