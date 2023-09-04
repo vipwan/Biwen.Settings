@@ -131,8 +131,7 @@ dotnet ef database update
         //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
         options.UseCache<MemoryCacheProvider>();
 
-        //默认提供EntityFrameworkCore持久化配置项
-        //必须,否则将初始化错误!
+        //默认提供EntityFrameworkCore持久化配置项 dbContextType必须配置
         //options.UseSettingManagerEntityFrameworkCore(dbContextType: typeof(MyDbContext));
         
         //使用JsonStore持久化配置项
