@@ -53,7 +53,7 @@ namespace Biwen.Settings.TestWebUI
         [Description("EncodingAESKey")]
         public string EncodingAESKey { get; set; } = "1234567890";
 
-        public override int Order => 999;
+        public override int Order => 500;
 
         /// <summary>
         /// 常规的验证器,不推荐使用这种方式,会全局注入IValidator<T>
@@ -109,34 +109,34 @@ namespace Biwen.Settings.TestWebUI
 
     public class WeChatSetting2 : WeChatSetting
     {
-
+        override public int Order => 1000;
     }
     public class WeChatSetting3 : WeChatSetting
     {
-
+        override public int Order => 1000;
     }
     public class WeChatSetting4 : WeChatSetting
     {
-
+        override public int Order => 1000;
     }
     public class WeChatSetting5 : WeChatSetting
     {
-
+        override public int Order => 1000;
     }
     public class WeChatSetting6 : WeChatSetting
     {
-
+        override public int Order => 1000;
     }
     public class WeChatSetting7 : WeChatSetting
     {
-
+        override public int Order => 1000;
     }
     public class WeChatSetting8 : WeChatSetting
     {
-
+        override public int Order => 1000;
     }
     public class WeChatSetting9 : WeChatSetting
     {
-
+        override public int Order => 1000;
     }
 }

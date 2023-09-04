@@ -54,7 +54,7 @@ builder.Services.AddBiwenSettings(options =>
     options.UserSettingManagerOfJsonStore(options =>
     {
         options.FormatJson = true;
-        options.JsonPath = "systemsetting.json";
+        options.JsonPath = "1systemsetting.json";
     });
 
 });
