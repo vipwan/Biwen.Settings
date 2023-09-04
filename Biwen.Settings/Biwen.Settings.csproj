@@ -11,7 +11,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageVersion>1.2.2</PackageVersion>
+		<PackageVersion>1.3.0</PackageVersion>
 		<Title>Biwen.Settings</Title>
 		<Description>Biwen.Settings ,NET6+ 单体应用配置项管理模块</Description>
 		<Copyright>MIT</Copyright>
