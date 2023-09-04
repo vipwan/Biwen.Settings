@@ -1,6 +1,7 @@
 using Biwen.Settings;
 using Biwen.Settings.Caching;
 using Biwen.Settings.TestWebUI.Data;
+using Biwen.Settings.TestWebUI.Settings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,7 +49,10 @@ builder.Services.AddBiwenSettings(options =>
 
     //默认提供EntityFrameworkCore持久化配置项
     //必须,否则将初始化错误!
-    options.UseSettingManagerOfEFCore(dbContextType: typeof(MyDbContext));
+
+    //options.UseSettingManagerOfEFCore(dbContextType: typeof(MyDbContext));
+
+    options.UseSettingManager<JsonSettingManager, object?>(null);
 
 });
 
