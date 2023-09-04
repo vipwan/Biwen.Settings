@@ -5,7 +5,6 @@ namespace Biwen.Settings
 {
     /// <summary>
     /// 需要实现自己的SettingManager请继承至BaseSettingManager
-    /// 不要直接使用ISettingManager,否则ICacheProvider需要自行管理
     /// </summary>
     public interface ISettingManager
     {
