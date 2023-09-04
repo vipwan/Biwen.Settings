@@ -1,15 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<PackageProjectUrl>https://github.com/vipwan/Biwen.Settings</PackageProjectUrl>
-		<Authors>万雅虎</Authors>
-		<RepositoryUrl>https://github.com/vipwan/Biwen.Settings</RepositoryUrl>
-	</PropertyGroup>
-
+	
 	<Import Project="..\Release.props" />
 
 	<ItemGroup>
