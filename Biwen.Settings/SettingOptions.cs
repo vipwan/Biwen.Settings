@@ -1,4 +1,7 @@
 ﻿using Biwen.Settings.Caching;
+using Biwen.Settings.SettingManagers.EFCore;
+using Biwen.Settings.SettingManagers.JsonStore;
+using Biwen.Settings.TestWebUI.Settings;
 using Microsoft.AspNetCore.Http;
 
 namespace Biwen.Settings
@@ -143,6 +146,13 @@ namespace Biwen.Settings
         public static SettingOptions UseSettingManagerOfEFCore(this SettingOptions options, Type dbContextType)
         {
             options.UseSettingManager<EntityFrameworkCoreSettingManager, Type>(dbContextType);
+            return options;
+        }
+
+
+        public static SettingOptions UserSettingManagerOfJsonStore(this SettingOptions options, Action<JsonStoreOptions>? storePptions = null)
+        {
+            options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storePptions);
             return options;
         }
     }

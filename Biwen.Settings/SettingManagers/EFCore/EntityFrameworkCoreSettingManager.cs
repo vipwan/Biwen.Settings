@@ -2,9 +2,8 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
-using Biwen.Settings.Caching;
 
-namespace Biwen.Settings
+namespace Biwen.Settings.SettingManagers.EFCore
 {
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Biwen.Settings.EntityFramework
+namespace Biwen.Settings.SettingManagers.EFCore
 {
     public interface IBiwenSettingsDbContext
     {

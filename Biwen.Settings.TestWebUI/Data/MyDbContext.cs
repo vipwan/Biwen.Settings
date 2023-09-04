@@ -1,5 +1,5 @@
 ﻿using Biwen.Settings.Domains;
-using Biwen.Settings.EntityFramework;
+using Biwen.Settings.SettingManagers.EFCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Biwen.Settings.TestWebUI.Data

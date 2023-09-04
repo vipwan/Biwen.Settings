@@ -1,25 +1,40 @@
 ﻿using Biwen.Settings.Domains;
+using Biwen.Settings.SettingManagers.JsonStore;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Xml;
 
 namespace Biwen.Settings.TestWebUI.Settings
 {
-    public class JsonSettingManager : BaseSettingManager
+    public class JsonStoreSettingManager : BaseSettingManager
     {
-
         private readonly IOptions<SettingOptions> _options;
+        private readonly IOptions<JsonStoreOptions> _storeOptions;
+        //格式化配置
+        private readonly JsonSerializerOptions _serializerOptions;
+        private readonly static object _lock = new();
 
-        private const string jsonPath = "systemsettings.json";
-        private readonly static object _lock = new object();
-
-        public JsonSettingManager(ILogger<JsonSettingManager> logger,
-            IOptions<SettingOptions> options) : base(logger)
+        public JsonStoreSettingManager(ILogger<JsonStoreSettingManager> logger,
+            IOptions<SettingOptions> options,
+            IOptions<JsonStoreOptions> storeOptions
+            )
+            : base(logger)
         {
             _options = options;
+            _storeOptions = storeOptions;
 
-            if (!File.Exists(jsonPath))
+            _serializerOptions = new()
             {
-                File.WriteAllText(jsonPath, "[]");
+                IgnoreReadOnlyProperties = true,
+                IgnoreReadOnlyFields = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = _storeOptions.Value.FormatJson
+            };
+
+            if (!File.Exists(_storeOptions.Value.JsonPath))
+            {
+                File.WriteAllText(_storeOptions.Value.JsonPath, "[]");
             }
         }
 
@@ -30,7 +45,7 @@ namespace Biwen.Settings.TestWebUI.Settings
             var settingType = typeof(T).FullName!;
 
 
-            var json = File.ReadAllText(jsonPath);
+            var json = File.ReadAllText(_storeOptions.Value.JsonPath);
             var stored = JsonSerializer.Deserialize<List<Setting>>(json)?.FirstOrDefault(
                 x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
 
@@ -46,25 +61,33 @@ namespace Biwen.Settings.TestWebUI.Settings
 
         public override List<Setting> GetAllSettings()
         {
-            var json = File.ReadAllText(jsonPath);
+            var json = File.ReadAllText(_storeOptions.Value.JsonPath);
             var stored = JsonSerializer.Deserialize<List<Setting>>(json);
-            return stored ?? new List<Setting>();
+
+            if (stored != null)
+            {
+                stored = stored.OrderBy(x => x.Order).ThenByDescending(x => x.SettingName).ToList();
+                return stored;
+            }
+            return new List<Setting>();
         }
 
         public override Setting? GetSetting(string settingType)
         {
-            var json = File.ReadAllText(jsonPath);
+            var json = File.ReadAllText(_storeOptions.Value.JsonPath);
             var stored = JsonSerializer.Deserialize<List<Setting>>(json);
             return stored?.FirstOrDefault(x =>
             x.SettingType == settingType &&
             x.ProjectId == _options.Value.ProjectId);
         }
 
+
+
         public override void Save<T>(T setting)
         {
             lock (_lock)
             {
-                var json = File.ReadAllText(jsonPath);
+                var json = File.ReadAllText(_storeOptions.Value.JsonPath);
                 var stored = JsonSerializer.Deserialize<List<Setting>>(json);
 
                 var @default = new T();
@@ -73,8 +96,7 @@ namespace Biwen.Settings.TestWebUI.Settings
                 if (stored == null)
                 {
                     stored = new();
-
-                    stored.Add(new Setting
+                    stored!.Add(new Setting
                     {
                         ProjectId = _options.Value.ProjectId,
                         SettingName = setting.SettingName!,
@@ -88,7 +110,6 @@ namespace Biwen.Settings.TestWebUI.Settings
                 else
                 {
                     stored.RemoveAll(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == typeof(T).FullName);
-
                     stored.Add(new Setting
                     {
                         ProjectId = _options.Value.ProjectId,
@@ -100,8 +121,8 @@ namespace Biwen.Settings.TestWebUI.Settings
                         SettingContent = JsonSerializer.Serialize(setting)
                     });
                 }
-
-                File.WriteAllText(jsonPath, JsonSerializer.Serialize(stored));
+                //Store
+                File.WriteAllText(_storeOptions.Value.JsonPath, JsonSerializer.Serialize(stored, _serializerOptions));
             }
         }
     }

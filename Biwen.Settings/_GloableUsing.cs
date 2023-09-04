@@ -9,5 +9,4 @@ global using System.Linq;
 global using System.Reflection;
 global using System.Text.Json.Nodes;
 global using Biwen.Settings.Domains;
-global using Biwen.Settings.EntityFramework;
 global using FindTypes = Biwen.Settings.Infrastructure.TypeFinder.FindTypes;

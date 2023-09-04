@@ -1,7 +1,9 @@
 ﻿using Biwen.Settings.Caching;
+using Biwen.Settings.SettingManagers.EFCore;
+using Biwen.Settings.SettingManagers.JsonStore;
+using Biwen.Settings.TestWebUI.Settings;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -72,6 +74,16 @@ namespace Biwen.Settings
                 services.AddTransient((IServiceProvider p) =>
                 (p.GetRequiredService((Type)currentOptions.Value.SettingManager.Item2) as IBiwenSettingsDbContext)!);
                 services.AddScoped<ISettingManager, EntityFrameworkCoreSettingManager>();
+            }
+            else if (currentOptions.Value.SettingManager.Item1 == typeof(JsonStoreSettingManager))
+            {
+
+                services.AddOptions<JsonStoreOptions>().Configure(x =>
+                {
+                    (currentOptions.Value.SettingManager.Item2 as Action<JsonStoreOptions>)?.Invoke(x);
+                });
+
+                services.AddScoped<ISettingManager, JsonStoreSettingManager>();
             }
             else
             {
