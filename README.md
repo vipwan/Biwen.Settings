@@ -128,12 +128,17 @@ dotnet ef database update
         options.AutoFluentValidationOption.Enable = true;
 
         //支持缓存提供者,默认不使用缓存
-        //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
-        options.UseCache<MemoryCacheProvider>();
+        options.UseCacheOfNull();
+        //您也可以使用Biwen.Settings提供内存缓存:MemoryCacheProvider
+        //options.UseCacheOfMemory();
+        //使用自定义缓存提供者
+        //options.UseCache<T>();
 
         //默认提供EntityFrameworkCore持久化配置项 dbContextType必须配置
-        //options.UseSettingManagerEntityFrameworkCore(dbContextType: typeof(MyDbContext));
-        
+        //options.UseSettingManagerOfEFCore(options =>
+        //{
+        //    options.DbContextType = typeof(MyDbContext);
+        //});
         //使用JsonStore持久化配置项
         options.UserSettingManagerOfJsonStore(options =>
         {
@@ -142,7 +147,7 @@ dotnet ef database update
         });
         
         //自行实现的ISettingManager注册
-        //options.UseSettingManager()
+        //options.UseSettingManager<T,V>()
     });
 
    //...............
