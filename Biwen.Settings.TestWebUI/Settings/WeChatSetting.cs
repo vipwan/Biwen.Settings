@@ -69,7 +69,7 @@ namespace Biwen.Settings.TestWebUI
         }
 
 
-        public class WeChatSettingNotify : INotify<WeChatSetting>
+        public class WeChatSettingNotify : BaseNotify<WeChatSetting>
         {
             private readonly ILogger<WeChatSettingNotify> _logger;
 
@@ -78,7 +78,7 @@ namespace Biwen.Settings.TestWebUI
                 _logger = logger;
             }
 
-            public async Task NotifyAsync(WeChatSetting setting)
+            public override async Task NotifyAsync(WeChatSetting setting)
             {
                 _logger.LogInformation("微信配置发生变更!");
                 await Task.CompletedTask;

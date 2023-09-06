@@ -58,7 +58,7 @@ namespace Biwen.Settings
 
         private const string CacheKeyFormat = "SettingManager_{0}";
 
-        public void Save<T>(T setting) where T : ISetting, new()
+        public async void Save<T>(T setting) where T : ISetting, new()
         {
             //Save
             _settingManager.Save(setting);
@@ -68,7 +68,14 @@ namespace Biwen.Settings
             var notiyfys = _serviceProvider.GetServices<INotify<T>>();
             foreach (var notify in notiyfys)
             {
-                notify.NotifyAsync(setting);
+                if (notify.IsAsync)
+                {
+                    _ = notify.NotifyAsync(setting);
+                }
+                else
+                {
+                    await notify.NotifyAsync(setting);
+                }
             }
         }
 
