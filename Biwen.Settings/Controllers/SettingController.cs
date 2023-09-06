@@ -180,8 +180,8 @@ namespace Biwen.Settings.Controllers
 
             var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
             mdSave.Invoke(_settingManager, new object[] { setting });
-            //_settingManager.Save(sitting as SettingBase);
-            return RedirectToAction("Edit", new { id });
+            //return RedirectToAction("Edit", new { id });
+            return RedirectToAction("Index");
         }
 
     }
