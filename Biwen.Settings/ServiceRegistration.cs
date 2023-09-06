@@ -69,15 +69,23 @@ namespace Biwen.Settings
             if (currentOptions.Value.SettingManager.Item1 == typeof(EntityFrameworkCoreSettingManager))
             {
                 if (currentOptions.Value.SettingManager.Item2 == null)
-                    throw new BiwenException("Require IBiwenSettingsDbContext ExtendType!");
+                    throw new BiwenException("EFCoreStoreOptions need set!");
 
-                services.AddTransient((IServiceProvider p) =>
-                (p.GetRequiredService((Type)currentOptions.Value.SettingManager.Item2) as IBiwenSettingsDbContext)!);
+                services.AddOptions<EFCoreStoreOptions>().Configure(x =>
+                {
+                    (currentOptions.Value.SettingManager.Item2 as Action<EFCoreStoreOptions>)?.Invoke(x);
+                });
+
+                //services.AddTransient((IServiceProvider p) =>
+                //{
+                //    return (p.GetRequiredService(p.GetRequiredService<EFCoreStoreOptions>().DbContextType) 
+                //    as IBiwenSettingsDbContext)!;
+                //});
+
                 services.AddScoped<ISettingManager, EntityFrameworkCoreSettingManager>();
             }
             else if (currentOptions.Value.SettingManager.Item1 == typeof(JsonStoreSettingManager))
             {
-
                 services.AddOptions<JsonStoreOptions>().Configure(x =>
                 {
                     (currentOptions.Value.SettingManager.Item2 as Action<JsonStoreOptions>)?.Invoke(x);

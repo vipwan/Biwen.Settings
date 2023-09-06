@@ -141,18 +141,17 @@ namespace Biwen.Settings
         /// 使用EntityFmeworkCore持久化配置项
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="contextType"></param>
+        /// <param name="storePptions"></param>
         /// <returns></returns>
-        public static SettingOptions UseSettingManagerOfEFCore(this SettingOptions options, Type dbContextType)
+        public static SettingOptions UseSettingManagerOfEFCore(this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null)
         {
-            options.UseSettingManager<EntityFrameworkCoreSettingManager, Type>(dbContextType);
+            options.UseSettingManager<EntityFrameworkCoreSettingManager, Action<EFCoreStoreOptions>?>(storeOptions);
             return options;
         }
 
-
-        public static SettingOptions UserSettingManagerOfJsonStore(this SettingOptions options, Action<JsonStoreOptions>? storePptions = null)
+        public static SettingOptions UserSettingManagerOfJsonStore(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
         {
-            options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storePptions);
+            options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storeOptions);
             return options;
         }
     }

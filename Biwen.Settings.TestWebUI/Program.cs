@@ -49,13 +49,17 @@ builder.Services.AddBiwenSettings(options =>
 
     //必须,否则将初始化错误!
     //使用EFCoreStore
-    //options.UseSettingManagerOfEFCore(dbContextType: typeof(MyDbContext));
-    //使用JsonStore
-    options.UserSettingManagerOfJsonStore(options =>
+    options.UseSettingManagerOfEFCore(options =>
     {
-        options.FormatJson = true;
-        options.JsonPath = "1systemsetting.json";
+        options.DbContextType = typeof(MyDbContext);
     });
+
+    //使用JsonStore
+    //options.UserSettingManagerOfJsonStore(options =>
+    //{
+    //    options.FormatJson = true;
+    //    options.JsonPath = "1systemsetting.json";
+    //});
 
 });
 

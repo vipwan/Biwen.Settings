@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Biwen.Settings.SettingManagers.EFCore
 {
@@ -13,14 +14,25 @@ namespace Biwen.Settings.SettingManagers.EFCore
     {
         private readonly IBiwenSettingsDbContext _db;
         private readonly IOptions<SettingOptions> _options;
+        private readonly IOptions<EFCoreStoreOptions> _storeOptions;
 
         public EntityFrameworkCoreSettingManager(
-            IBiwenSettingsDbContext db,
+            IServiceProvider serviceProvider,
+            //IBiwenSettingsDbContext db,
             ILogger<EntityFrameworkCoreSettingManager> logger,
+            IOptions<EFCoreStoreOptions> storeOptions,
             IOptions<SettingOptions> options) : base(logger)
         {
-            _db = db;
+            //_db = db;
             _options = options;
+            _storeOptions = storeOptions;
+
+            if (_storeOptions!.Value.DbContextType == null ||
+                !_storeOptions!.Value.DbContextType.IsAssignableTo(typeof(IBiwenSettingsDbContext)))
+            {
+                throw new BiwenException("DbContextType not null & must be inherited from IBiwenSettingsDbContext");
+            }
+            _db = (serviceProvider.GetRequiredService(_storeOptions.Value.DbContextType) as IBiwenSettingsDbContext)!;
         }
 
         /// <summary>

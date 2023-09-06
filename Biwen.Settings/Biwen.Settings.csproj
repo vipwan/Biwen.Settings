@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 	
+	<PropertyGroup>
+	  <SignAssembly>False</SignAssembly>
+	</PropertyGroup>
+	
 	<Import Project="..\Release.props" />
 
 	<ItemGroup>
