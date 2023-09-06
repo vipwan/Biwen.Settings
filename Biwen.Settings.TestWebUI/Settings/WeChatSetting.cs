@@ -78,7 +78,7 @@ namespace Biwen.Settings.TestWebUI
                 _logger = logger;
             }
 
-            public async Task Notify(WeChatSetting setting)
+            public async Task NotifyAsync(WeChatSetting setting)
             {
                 _logger.LogInformation("微信配置发生变更!");
                 await Task.CompletedTask;

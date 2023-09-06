@@ -11,7 +11,7 @@
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        Task Notify(T setting);
+        Task NotifyAsync(T setting);
     }
 
 }

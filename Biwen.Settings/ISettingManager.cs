@@ -68,7 +68,7 @@ namespace Biwen.Settings
             var notiyfys = _serviceProvider.GetServices<INotify<T>>();
             foreach (var notify in notiyfys)
             {
-                notify.Notify(setting);
+                notify.NotifyAsync(setting);
             }
         }
 
