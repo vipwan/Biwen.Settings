@@ -12,7 +12,7 @@ namespace Biwen.Settings
         /// <summary>
         /// 权限验证器,如果返回false则不允许访问设置页面
         /// </summary>
-        public Func<HttpContext, bool> Valider { get; set; } = new Func<HttpContext, bool>(context => true);
+        public Func<HttpContext, bool> HasPermission { get; set; } = new Func<HttpContext, bool>(context => true);
         /// <summary>
         /// 管理页面路由路径
         /// </summary>

@@ -18,7 +18,7 @@ namespace Biwen.Settings.Mvc
                 return;
             }
             var options = context.HttpContext.RequestServices.GetRequiredService(typeof(IOptions<SettingOptions>)) as IOptions<SettingOptions>;
-            var isValid = options!.Value.Valider.Invoke(context.HttpContext);
+            var isValid = options!.Value.HasPermission.Invoke(context.HttpContext);
             if (isValid)
             {
                 base.OnActionExecuting(context);
