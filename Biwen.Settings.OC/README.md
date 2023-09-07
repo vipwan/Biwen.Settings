@@ -24,6 +24,9 @@
 ### 启用Biwen.Settings.OC模块
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e3822483-8291-42d9-9615-ad7a648c671d)
 
+### Role 
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/3975835e-74da-4c96-9ed5-139a477029f9)
+
 ## Enjoy!
 
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/acdbd307-4fa5-4e6d-aeb1-403f076c0014)
