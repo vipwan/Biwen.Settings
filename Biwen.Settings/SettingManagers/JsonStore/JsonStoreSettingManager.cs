@@ -63,7 +63,9 @@ namespace Biwen.Settings.TestWebUI.Settings
 
             if (stored != null)
             {
-                stored = stored.OrderBy(x => x.Order).ThenByDescending(x => x.SettingName).ToList();
+                stored = stored.Where(x => x.ProjectId == _options.Value.ProjectId)
+                    .OrderBy(x => x.Order)
+                    .ThenByDescending(x => x.SettingName).ToList();
                 return stored;
             }
             return new List<Setting>();
