@@ -4,6 +4,7 @@ using Biwen.Settings.SettingManagers.JsonStore;
 using Biwen.Settings.TestWebUI.Settings;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -23,48 +24,22 @@ namespace Biwen.Settings
         public static IServiceCollection AddBiwenSettings(this IServiceCollection services,
             Action<SettingOptions> options = null!)
         {
-
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddMemoryCache();
 
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
-
             var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-
             var currentOptions = services.BuildServiceProvider().GetRequiredService<IOptions<SettingOptions>>();
+
             #region 注入缓存
 
             var cacheTypeProvider = currentOptions.Value.CacheProvider;
-
-            //Memory缓存提供者
-            //services.AddMemoryCache();
-            //services.AddScoped<ICacheProvider, MemoryCacheProvider>();
-            //空缓存提供者
-            //services.AddScoped<ICacheProvider, NullCacheProvider>();
-
-            if (cacheTypeProvider == typeof(MemoryCacheProvider))
-            {
-                services.AddScoped<ICacheProvider, MemoryCacheProvider>();
-            }
-            else if (cacheTypeProvider == typeof(NullCacheProvider))
-            {
-                services.AddScoped<ICacheProvider, NullCacheProvider>();
-            }
-            else
-            {
-                services.Scan(scan =>
-                {
-                    scan.FromAssemblies(allAssemblies).AddClasses(x =>
-                    {
-                        x.Where(a => { return a == cacheTypeProvider; });
-                    })
-                    .AsImplementedInterfaces() //实现基于他的接口
-                    .WithScopedLifetime();  //Scoped
-                });
-            }
+            services.AddScoped(typeof(ICacheProvider), cacheTypeProvider!);
 
             #endregion
+
+            #region 注入SettingManager
 
             if (currentOptions.Value.SettingManager.Item1 == typeof(EntityFrameworkCoreSettingManager))
             {
@@ -75,14 +50,7 @@ namespace Biwen.Settings
                 {
                     (currentOptions.Value.SettingManager.Item2 as Action<EFCoreStoreOptions>)?.Invoke(x);
                 });
-
-                //services.AddTransient((IServiceProvider p) =>
-                //{
-                //    return (p.GetRequiredService(p.GetRequiredService<EFCoreStoreOptions>().DbContextType) 
-                //    as IBiwenSettingsDbContext)!;
-                //});
-
-                services.AddScoped<ISettingManager, EntityFrameworkCoreSettingManager>();
+                //services.AddScoped<ISettingManager, EntityFrameworkCoreSettingManager>();
             }
             else if (currentOptions.Value.SettingManager.Item1 == typeof(JsonStoreSettingManager))
             {
@@ -90,28 +58,18 @@ namespace Biwen.Settings
                 {
                     (currentOptions.Value.SettingManager.Item2 as Action<JsonStoreOptions>)?.Invoke(x);
                 });
-
-                services.AddScoped<ISettingManager, JsonStoreSettingManager>();
+                //services.AddScoped<ISettingManager, JsonStoreSettingManager>();
             }
             else
             {
-                if (currentOptions.Value.SettingManager.Item1 == null)
-                    throw new BiwenException("Require ISettingManager!");
+                if (currentOptions.Value.SettingManager.Item1 == null) throw new BiwenException("Require ISettingManager!");
 
-                services.Scan(scan =>
-                {
-                    scan.FromAssemblies(allAssemblies).AddClasses(x =>
-                    {
-                        x.AssignableTo(typeof(ISettingManager)).Where(a =>
-                        {
-                            return a == currentOptions.Value.SettingManager.Item1!;
-                        });
-                    })
-                    .AsImplementedInterfaces() //实现基于他的接口
-                    .WithScopedLifetime();  //Scoped
-                });
+                //services.AddScoped(typeof(ISettingManager), currentOptions.Value.SettingManager.Item1!);
             }
 
+            services.AddScoped(typeof(ISettingManager), currentOptions.Value.SettingManager.Item1!);
+
+            #endregion
 
             #region INotify
 
@@ -133,8 +91,7 @@ namespace Biwen.Settings
             //装饰ISettingManager
             services.Decorate<ISettingManager>((inner, provider) => new BaseSettingManagerDecorator(inner, provider));
 
-
-
+            //注册验证器
             if (currentOptions.Value.AutoFluentValidationOption.Enable)
             {
                 //注册验证器
@@ -156,6 +113,7 @@ namespace Biwen.Settings
             var settings = FindTypes.InAssemblies(allAssemblies).ThatInherit(
                 typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
+            //注册ISetting
             settings.ForEach(x =>
             {
                 services.AddScoped(x, sp =>
@@ -195,16 +153,18 @@ namespace Biwen.Settings
         public static IApplicationBuilder UseBiwenSettings(this WebApplication app)
         {
             var settingOption = app.Services.GetRequiredService<IOptions<SettingOptions>>();
-
             if (settingOption.Value.EditorOption.ShouldPagenation)
             {
                 //添加嵌入式资源
-                var assembly = typeof(ISetting).Assembly;
-                var embeddedFileProvider = new EmbeddedFileProvider(assembly, "Biwen.Settings");
+                var embeddedFileProvider = new EmbeddedFileProvider(typeof(ISetting).Assembly, "Biwen.Settings");
 
                 app.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = embeddedFileProvider,
+                    OnPrepareResponse = ctx =>
+                    {
+                        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=3600");
+                    }
                 });
             }
 

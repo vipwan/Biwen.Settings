@@ -33,7 +33,7 @@ namespace Biwen.Settings
         /// <summary>
         /// 编辑器选项
         /// </summary>
-        public EditorOptions EditorOption { get; set; } = new EditorOptions();
+        public EditorOptions EditorOption { get; set; } = new();
 
         /// <summary>
         /// 自动Setting验证器配置
