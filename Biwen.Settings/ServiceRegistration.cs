@@ -14,6 +14,21 @@ namespace Biwen.Settings
 
     public static class ServiceRegistration
     {
+
+        /// <summary>
+        /// 排除的程序集
+        /// </summary>
+        private static readonly string[] EscapeAssemblies =
+        {
+            "netstandard",
+            "Microsoft",
+            "System",
+            "Newtonsoft",
+            "Swashbuckle",
+            "AutoMapper",
+            "FluentValidation",
+        };
+
         /// <summary>
         /// Add BiwenSettings
         /// </summary>
@@ -29,7 +44,10 @@ namespace Biwen.Settings
             services.AddMemoryCache();
 
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
-            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => !EscapeAssemblies.Any(a => x.FullName!.StartsWith(a))).ToArray();
+
             var currentOptions = services.BuildServiceProvider().GetRequiredService<IOptions<SettingOptions>>();
 
             #region 注入缓存
@@ -98,8 +116,7 @@ namespace Biwen.Settings
                 services.AddFluentValidationAutoValidation();
                 services.Scan(scan =>
                 {
-                    scan.FromAssemblies(allAssemblies.
-                        Where(x => !(x.FullName!.Contains("FluentValidation")))).AddClasses(x =>
+                    scan.FromAssemblies(allAssemblies).AddClasses(x =>
                         {
                             x.AssignableTo(typeof(IValidator<>));//来自指定的接口
                             //必须是类,且当前Class不是泛型类.排除ValidationSettingBase<T>,且不为抽象类
