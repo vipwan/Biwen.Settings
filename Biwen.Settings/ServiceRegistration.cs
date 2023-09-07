@@ -188,13 +188,15 @@ namespace Biwen.Settings
                 });
             }
 
-            app.MapControllerRoute(
+            app.MapAreaControllerRoute(
                    name: "settingRouteIndex",
+                   areaName: "Biwen.Settings",
                    pattern: settingOption.Value.Route,
                    defaults: new { controller = "Setting", action = "Index" });
 
-            app.MapControllerRoute(
+            app.MapAreaControllerRoute(
                    name: "settingRouteEdit",
+                   areaName: "Biwen.Settings",
                    pattern: "biwen/settings/setting/edit/{id}",
                    defaults: new { controller = "Setting", action = "Edit" });
 

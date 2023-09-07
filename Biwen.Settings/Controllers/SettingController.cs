@@ -5,15 +5,21 @@ using System.Text.Json.Serialization;
 
 namespace Biwen.Settings.Controllers
 {
+    [Area("Biwen.Settings")]
     public class SettingController : Controller
     {
         private readonly ISettingManager _settingManager;
         private readonly IOptions<SettingOptions> _options;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SettingController(ISettingManager settingManager, IOptions<SettingOptions> options)
+        public SettingController(
+            ISettingManager settingManager,
+            IOptions<SettingOptions> options,
+            IHttpContextAccessor httpContextAccessor)
         {
             _settingManager = settingManager;
             _options = options;
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         //[HttpGet("qwertyuiopasdfghjklzxcvbnm/setting")]
@@ -74,7 +80,7 @@ namespace Biwen.Settings.Controllers
                 x.Name != nameof(Setting.SettingContent) &&
                 x.Name != nameof(Setting.LastModificationTime)).ToList().ForEach(x =>
                 {
-                    var instanceSetting = Request.HttpContext.RequestServices.GetService(type);
+                    var instanceSetting = _httpContextAccessor!.HttpContext!.RequestServices.GetService(type);
                     var desc = x.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
 
                     var value = json[x.Name];
@@ -99,7 +105,7 @@ namespace Biwen.Settings.Controllers
             if (type == null)
                 return NotFound();
 
-            var setting = Request.HttpContext.RequestServices.GetService(type)!;
+            var setting = _httpContextAccessor!.HttpContext!.RequestServices.GetService(type)!;
 
             foreach (string? item in form.Keys)
             {
@@ -154,7 +160,7 @@ namespace Biwen.Settings.Controllers
             if (_options.Value.AutoFluentValidationOption.Enable)
             {
                 //存在验证器的情况
-                var validator = Request.HttpContext.RequestServices.GetService(serviceType: typeof(IValidator<>).MakeGenericType(type));
+                var validator = _httpContextAccessor!.HttpContext!.RequestServices.GetService(serviceType: typeof(IValidator<>).MakeGenericType(type));
                 if (validator != null)
                 {
                     var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));

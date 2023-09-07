@@ -11,9 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4EEF644A-0
 	ProjectSection(SolutionItems) = preProject
 		changelog.md = changelog.md
 		README.md = README.md
-		Todo.md = Todo.md
 		Release.props = Release.props
+		Todo.md = Todo.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biwen.Settings.OC", "Biwen.Settings.OC\Biwen.Settings.OC.csproj", "{15F429AE-7A2F-48D6-94A3-C1D8FCB9998D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biwen.Settings.OCTestWebUI", "Biwen.Settings.OCTestWebUI\Biwen.Settings.OCTestWebUI.csproj", "{D75A2725-144A-4F77-AC55-374035DCB090}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,14 @@ Global
 		{8851346E-EC43-46D5-8A34-B3401893A717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8851346E-EC43-46D5-8A34-B3401893A717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8851346E-EC43-46D5-8A34-B3401893A717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15F429AE-7A2F-48D6-94A3-C1D8FCB9998D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F429AE-7A2F-48D6-94A3-C1D8FCB9998D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F429AE-7A2F-48D6-94A3-C1D8FCB9998D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F429AE-7A2F-48D6-94A3-C1D8FCB9998D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D75A2725-144A-4F77-AC55-374035DCB090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D75A2725-144A-4F77-AC55-374035DCB090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D75A2725-144A-4F77-AC55-374035DCB090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D75A2725-144A-4F77-AC55-374035DCB090}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

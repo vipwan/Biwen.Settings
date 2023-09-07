@@ -7,6 +7,7 @@
 - [X] 提供CachingProvider自定义功能,系统自带NullCacheProvider,MemoryCacheProvider
 - [X] 实现INotify<T> 
 - [X] 提供更多的SettingStore支持.EFCore,JsonFile etc.
+- [X] 提供对OrchardCore的支持
 - [ ] 支持丰富的参数编辑功能
 - [ ] 支持接口功能(CRUD.鉴权 etc.)
 - [ ] 支持分布式存储,订阅发布等功能

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Remove="Views\Home\Edit.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Views\Home\Edit.cshtml">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="OrchardCore.Module.Targets" Version="1.7.0" />
+		<PackageReference Include="OrchardCore.ContentManagement" Version="1.7.0" />
+		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.7.0" />
+		<PackageReference Include="OrchardCore.DisplayManagement" Version="1.7.0" />
+		<PackageReference Include="OrchardCore.Navigation" Version="1.7.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Biwen.Settings\Biwen.Settings.csproj" />
+	</ItemGroup>
+
+</Project>
