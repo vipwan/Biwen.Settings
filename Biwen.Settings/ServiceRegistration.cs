@@ -110,7 +110,7 @@ namespace Biwen.Settings
             #endregion
 
             //装饰ISettingManager
-            services.Decorate<ISettingManager>((inner, provider) => new BaseSettingManagerDecorator(inner, provider));
+            services.Decorate<ISettingManager>((inner, provider) => new SettingManagerDecorator(inner, provider));
 
             //注册验证器
             if (currentOptions.Value.AutoFluentValidationOption.Enable)

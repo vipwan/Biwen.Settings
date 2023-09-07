@@ -40,13 +40,13 @@ namespace Biwen.Settings
     /// <summary>
     /// SettingManager的装饰器基类
     /// </summary>
-    internal sealed class BaseSettingManagerDecorator : ISettingManager
+    internal sealed class SettingManagerDecorator : ISettingManager
     {
         private readonly ISettingManager _settingManager;
         private readonly ICacheProvider _cacheProvider;
         private readonly IMedirator _medirator;
 
-        public BaseSettingManagerDecorator(
+        public SettingManagerDecorator(
             ISettingManager settingManager,
             IServiceProvider serviceProvider)
         {
