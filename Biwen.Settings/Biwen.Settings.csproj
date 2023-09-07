@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-	
+
 	<PropertyGroup>
-	  <SignAssembly>False</SignAssembly>
+		<SignAssembly>False</SignAssembly>
 	</PropertyGroup>
-	
+
 	<Import Project="..\Release.props" />
+	<Import Project="..\Version.props" />
 
 	<ItemGroup>
 		<EmbeddedResource Include="Content\jquery.dataTables.min.css" />

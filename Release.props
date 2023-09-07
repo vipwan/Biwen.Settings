@@ -9,14 +9,12 @@
 		<PackageProjectUrl>https://github.com/vipwan/Biwen.Settings</PackageProjectUrl>
 		<Authors>万雅虎</Authors>
 		<RepositoryUrl>https://github.com/vipwan/Biwen.Settings</RepositoryUrl>
-
-		<PackageVersion>1.3.1</PackageVersion>
 		<Title>Biwen.Settings</Title>
 		<Description>Biwen.Settings ,NET6+ 应用配置项管理模块</Description>
 		<Copyright>MIT</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>configuration;setting;netcore</PackageTags>
-		<PackageReleaseNotes>提供JsonFile的SettingStore</PackageReleaseNotes>
+		<PackageReleaseNotes>提供对OrchardCore的支持</PackageReleaseNotes>
 	</PropertyGroup>
 
 </Project>

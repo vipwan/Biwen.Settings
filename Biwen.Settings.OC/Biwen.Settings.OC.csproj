@@ -1,11 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
+		<Title>Biwen.Settings.OC</Title>
 		<TargetFramework>net6.0</TargetFramework>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<PackageProjectUrl>https://github.com/vipwan/Biwen.Settings</PackageProjectUrl>
+		<Authors>万雅虎</Authors>
+		<RepositoryUrl>https://github.com/vipwan/Biwen.Settings</RepositoryUrl>
+		<Description>Biwen.Settings.OC ,NET6+ 应用配置项管理模块</Description>
+		<Copyright>MIT</Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>configuration;setting;netcore;orchardcore</PackageTags>
+		<PackageReleaseNotes>提供对OrchardCore的支持</PackageReleaseNotes>
 	</PropertyGroup>
+
+	<Import Project="..\Version.props" />
 
 	<ItemGroup>
 		<EmbeddedResource Remove="Views\Home\Edit.cshtml" />
@@ -20,6 +31,13 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
