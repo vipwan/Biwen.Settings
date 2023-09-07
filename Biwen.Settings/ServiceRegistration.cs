@@ -104,6 +104,9 @@ namespace Biwen.Settings
                 .WithScopedLifetime();  //Scoped
             });
 
+            //Medirator
+            services.AddScoped<IMedirator, Medirator>();
+
             #endregion
 
             //装饰ISettingManager

@@ -42,18 +42,17 @@ namespace Biwen.Settings
     /// </summary>
     internal sealed class BaseSettingManagerDecorator : ISettingManager
     {
-
-        private readonly IServiceProvider _serviceProvider;
         private readonly ISettingManager _settingManager;
         private readonly ICacheProvider _cacheProvider;
+        private readonly IMedirator _medirator;
 
         public BaseSettingManagerDecorator(
             ISettingManager settingManager,
             IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
             _settingManager = settingManager;
             _cacheProvider = serviceProvider.GetRequiredService<ICacheProvider>();
+            _medirator = serviceProvider.GetRequiredService<IMedirator>();
         }
 
         private const string CacheKeyFormat = "SettingManager_{0}";
@@ -65,18 +64,7 @@ namespace Biwen.Settings
             //Remove Cache
             _cacheProvider.Remove(string.Format(CacheKeyFormat, typeof(T).Name));
             //Notify
-            var notiyfys = _serviceProvider.GetServices<INotify<T>>();
-            foreach (var notify in notiyfys)
-            {
-                if (notify.IsAsync)
-                {
-                    _ = notify.NotifyAsync(setting);
-                }
-                else
-                {
-                    await notify.NotifyAsync(setting);
-                }
-            }
+            await _medirator.PublishAsync(setting);
         }
 
         public T Get<T>() where T : ISetting, new()
