@@ -45,6 +45,9 @@ namespace Biwen.Settings
         private readonly ISettingManager _settingManager;
         private readonly ICacheProvider _cacheProvider;
         private readonly IMedirator _medirator;
+        private readonly IOptions<SettingOptions> _options;
+
+
 
         public SettingManagerDecorator(
             ISettingManager settingManager,
@@ -53,23 +56,25 @@ namespace Biwen.Settings
             _settingManager = settingManager;
             _cacheProvider = serviceProvider.GetRequiredService<ICacheProvider>();
             _medirator = serviceProvider.GetRequiredService<IMedirator>();
+            _options = serviceProvider.GetRequiredService<IOptions<SettingOptions>>();
         }
 
-        private const string CacheKeyFormat = "SettingManager_{0}";
+        private const string CacheKeyFormat = "SettingManager_{1}_{0}";
 
         public async void Save<T>(T setting) where T : ISetting, new()
         {
             //Save
             _settingManager.Save(setting);
             //Remove Cache
-            _cacheProvider.Remove(string.Format(CacheKeyFormat, typeof(T).Name));
+            _cacheProvider.Remove(string.Format(CacheKeyFormat, typeof(T).Name, _options.Value.ProjectId));
             //Notify
             await _medirator.PublishAsync(setting);
         }
 
         public T Get<T>() where T : ISetting, new()
         {
-            return (T)_cacheProvider.GetOrCreate(string.Format(CacheKeyFormat, typeof(T).FullName), () =>
+            return (T)_cacheProvider.GetOrCreate(
+                string.Format(CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId), () =>
             {
                 return _settingManager.Get<T>();
             });
