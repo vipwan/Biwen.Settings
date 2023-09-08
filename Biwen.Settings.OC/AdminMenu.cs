@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
+using OrchardCore.Admin;
 using OrchardCore.Navigation;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,12 @@ namespace Biwen.Settings.OC
     {
 
         private readonly IStringLocalizer S;
+        private readonly IOptions<AdminOptions> _options;
 
-        public AdminMenu(IStringLocalizer<AdminMenu> localizer)
+        public AdminMenu(IStringLocalizer<AdminMenu> localizer,IOptions<AdminOptions> options)
         {
             S = localizer;
+            _options = options;
         }
 
         public Task BuildNavigationAsync(string name, NavigationBuilder builder)
@@ -29,7 +33,7 @@ namespace Biwen.Settings.OC
             .Add(S["Configuration"], design => design
                     .Add(S["BiwenSettings"], S["BiwenSettings"].PrefixPosition(), admin => admin
                     .AddClass("biwensettings").Id("biwensettings")
-                        .Url("Admin/Biwen.Settings.OC/Home/Setting")
+                        .Url($"{_options.Value.AdminUrlPrefix}/Biwen.Settings.OC/Home/Setting")
                         //.Action("Index", "Admin", new { area = "OrchardCore.Settings", groupId = "biwensettings" })
                         .Permission(Permissions.ManageSettings)
                         .LocalNav()

@@ -57,7 +57,7 @@ namespace Biwen.Settings.OC
                 options.UserSettingManagerOfJsonStore(options =>
                 {
                     options.FormatJson = true;
-                    options.JsonPath = $"App_Data/{settings.TenantId}/{jsonPath}";
+                    options.JsonPath = $"App_Data/{settings.TenantId}-{jsonPath}";
                 });
             });
             //х╗оч
