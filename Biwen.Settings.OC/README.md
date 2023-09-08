@@ -17,6 +17,10 @@
 
 ## Easy to Use
 
+### 添加Nuget包引用 并升级Biwen.Settings到最新版
+
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/45e3c079-a7e2-4fe9-815d-e07c181e56bb)
+
 ### 编辑租户的配置文件添加Biwen.Settings的必要配置项
 
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/fe56e019-0d19-4ca2-8e18-ccd197919f62)
