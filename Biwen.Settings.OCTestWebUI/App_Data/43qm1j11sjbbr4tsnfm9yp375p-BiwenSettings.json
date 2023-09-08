@@ -1,0 +1,20 @@
+[
+  {
+    "ProjectId": "43qm1j11sjbbr4tsnfm9yp375p-Default",
+    "SettingType": "Biwen.Settings.OC.Settings.WeChatSetting",
+    "SettingName": "WeChatSetting",
+    "Description": "\u5FAE\u4FE1\u914D\u7F6E",
+    "Order": 500,
+    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:500}",
+    "LastModificationTime": "2023-09-08T12:34:48.207386+08:00"
+  },
+  {
+    "ProjectId": "43qm1j11sjbbr4tsnfm9yp375p-Default",
+    "SettingType": "Biwen.Settings.OCTestWebUI.Settings.HelloSetting",
+    "SettingName": "HelloSetting",
+    "Description": "Hello\u914D\u7F6E",
+    "Order": 1000,
+    "SettingContent": "{\u0022Name\u0022:\u0022Hello3333\u0022}",
+    "LastModificationTime": "2023-09-08T13:11:05.4590803+08:00"
+  }
+]

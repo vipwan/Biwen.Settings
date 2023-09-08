@@ -1,5 +1,6 @@
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.AspNetCore.Identity;
+using OrchardCore.Admin;
 using OrchardCore.Logging;
 using Serilog;
 using System.Reflection;
@@ -29,6 +30,15 @@ builder.Services.Configure<IdentityOptions>(o =>
     o.Password.RequireUppercase = false;
     o.Password.RequireLowercase = false;
 });
+
+builder.Services.Configure<AdminOptions>(cfg =>
+{
+
+    cfg.AdminUrlPrefix = "dashboard";
+
+});
+
+
 
 builder.Services
     .AddOrchardCms(x =>
