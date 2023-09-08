@@ -1,5 +1,10 @@
 # Biwen.Settings
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](../LICENSE.txt) 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/vipwan/Biwen.Settings/pulls) 
+
+
+
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e2663e78-61da-43f1-990d-aa970736f023)
 
 ## 开源动机
