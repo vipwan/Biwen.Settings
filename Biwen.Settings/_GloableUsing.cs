@@ -10,3 +10,4 @@ global using System.Reflection;
 global using System.Text.Json.Nodes;
 global using Biwen.Settings.Domains;
 global using FindTypes = Biwen.Settings.Infrastructure.TypeFinder.FindTypes;
+global using ASS = Biwen.Settings.Infrastructure.Assemblies;

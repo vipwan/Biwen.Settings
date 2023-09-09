@@ -11,8 +11,6 @@ using Microsoft.Extensions.FileProviders;
 
 namespace Biwen.Settings
 {
-    using ASS = Infrastructure.Assemblies;
-
     public static class ServiceRegistration
     {
 
@@ -115,7 +113,7 @@ namespace Biwen.Settings
                 });
             }
 
-            var settings = FindTypes.InAssemblies(ASS.AllRequiredAssemblies).ThatInherit(
+            var settings = ASS.InAllRequiredAssemblies.ThatInherit(
                 typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
             //注册ISetting

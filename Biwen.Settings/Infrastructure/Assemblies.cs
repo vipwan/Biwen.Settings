@@ -1,4 +1,6 @@
 ﻿
+using Biwen.Settings.Infrastructure.TypeFinder;
+
 namespace Biwen.Settings.Infrastructure
 {
 
@@ -37,5 +39,11 @@ namespace Biwen.Settings.Infrastructure
                     .ToArray();
             }
         }
+
+        /// <summary>
+        /// Extension
+        /// </summary>
+        public static IInAssemblyFinder InAllRequiredAssemblies => FindTypes.InAssemblies(AllRequiredAssemblies);
+
     }
 }
