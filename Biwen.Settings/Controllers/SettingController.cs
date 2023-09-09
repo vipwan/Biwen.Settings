@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace Biwen.Settings.Controllers
 {
+    using ASS = Infrastructure.Assemblies;
+
+
     [Area("Biwen.Settings")]
     public class SettingController : Controller
     {
@@ -30,7 +33,7 @@ namespace Biwen.Settings.Controllers
 
             //移除的或者无效的配置 需要排除
             var settings = all.Where(
-                s => FindTypes.InAllAssemblies.Any(x => x.FullName == s.SettingType));
+                s => FindTypes.InAssemblies(ASS.AllRequiredAssemblies).Any(x => x.FullName == s.SettingType));
 
             ViewBag.Settings = settings;
 
@@ -47,7 +50,7 @@ namespace Biwen.Settings.Controllers
             if (setting == null)
                 return NotFound();
 
-            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingType);
+            var type = FindTypes.InAssemblies(ASS.AllRequiredAssemblies).FirstOrDefault(x => x.FullName == setting.SettingType);
             if (type == null)
                 return NotFound();
 
@@ -63,7 +66,7 @@ namespace Biwen.Settings.Controllers
             if (setting == null)
                 throw new ArgumentNullException(nameof(setting));
 
-            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == setting.SettingType)
+            var type = FindTypes.InAssemblies(ASS.AllRequiredAssemblies).FirstOrDefault(x => x.FullName == setting.SettingType)
                 ?? throw new ArgumentNullException(nameof(setting));
 
             List<(string, string?, string?)> SettingValues = new();
@@ -101,7 +104,7 @@ namespace Biwen.Settings.Controllers
         [Auth, HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(string id, IFormCollection form)
         {
-            var type = FindTypes.InAllAssemblies.FirstOrDefault(x => x.FullName == id);
+            var type = FindTypes.InAssemblies(ASS.AllRequiredAssemblies).FirstOrDefault(x => x.FullName == id);
             if (type == null)
                 return NotFound();
 

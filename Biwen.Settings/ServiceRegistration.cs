@@ -11,23 +11,11 @@ using Microsoft.Extensions.FileProviders;
 
 namespace Biwen.Settings
 {
+    using ASS = Infrastructure.Assemblies;
 
     public static class ServiceRegistration
     {
 
-        /// <summary>
-        /// 排除的程序集
-        /// </summary>
-        private static readonly string[] EscapeAssemblies =
-        {
-            "netstandard",
-            "Microsoft",
-            "System",
-            "Newtonsoft",
-            "Swashbuckle",
-            "AutoMapper",
-            "FluentValidation",
-        };
 
         /// <summary>
         /// Add BiwenSettings
@@ -44,9 +32,6 @@ namespace Biwen.Settings
             services.AddMemoryCache();
 
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
-
-            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => !EscapeAssemblies.Any(a => x.FullName!.StartsWith(a))).ToArray();
 
             var currentOptions = services.BuildServiceProvider().GetRequiredService<IOptions<SettingOptions>>();
 
@@ -93,7 +78,7 @@ namespace Biwen.Settings
 
             services.Scan(scan =>
             {
-                scan.FromAssemblies(allAssemblies).AddClasses(x =>
+                scan.FromAssemblies(ASS.AllRequiredAssemblies).AddClasses(x =>
                 {
                     x.AssignableTo(typeof(INotify<>)).Where(a =>
                     {
@@ -119,7 +104,7 @@ namespace Biwen.Settings
                 services.AddFluentValidationAutoValidation();
                 services.Scan(scan =>
                 {
-                    scan.FromAssemblies(allAssemblies).AddClasses(x =>
+                    scan.FromAssemblies(ASS.AllRequiredAssemblies).AddClasses(x =>
                         {
                             x.AssignableTo(typeof(IValidator<>));//来自指定的接口
                             //必须是类,且当前Class不是泛型类.排除ValidationSettingBase<T>,且不为抽象类
@@ -130,7 +115,7 @@ namespace Biwen.Settings
                 });
             }
 
-            var settings = FindTypes.InAssemblies(allAssemblies).ThatInherit(
+            var settings = FindTypes.InAssemblies(ASS.AllRequiredAssemblies).ThatInherit(
                 typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
             //注册ISetting
