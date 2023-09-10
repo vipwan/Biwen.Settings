@@ -1,5 +1,7 @@
 # Biwen.Settings
 
+![Nuget](https://img.shields.io/nuget/v/Biwen.Settings)
+![Nuget](https://img.shields.io/nuget/dt/Biwen.Settings)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/vipwan/Biwen.Settings/blob/master/LICENSE.txt) 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/vipwan/Biwen.Settings/pulls) 
 
