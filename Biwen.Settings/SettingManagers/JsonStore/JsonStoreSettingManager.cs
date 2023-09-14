@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Biwen.Settings.TestWebUI.Settings
+namespace Biwen.Settings.SettingManagers.JsonStore
 {
     public class JsonStoreSettingManager : BaseSettingManager
     {

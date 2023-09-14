@@ -1,13 +1,13 @@
 ﻿using Biwen.Settings.Caching;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
-using Biwen.Settings.TestWebUI.Settings;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 
 namespace Biwen.Settings
 {
@@ -28,6 +28,17 @@ namespace Biwen.Settings
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddMemoryCache();
+
+            #region Localization
+
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Localization.resources";
+            });
+
+            services.AddScoped<BiwenSettingsLocalizer>();
+
+            #endregion
 
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
 
@@ -170,6 +181,8 @@ namespace Biwen.Settings
                     }
                 });
             }
+
+            app.UseRequestLocalization();
 
             app.MapAreaControllerRoute(
                    name: "settingRouteIndex",

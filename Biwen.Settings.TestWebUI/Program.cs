@@ -1,8 +1,8 @@
 using Biwen.Settings;
-using Biwen.Settings.Caching;
 using Biwen.Settings.TestWebUI.Data;
-using Biwen.Settings.TestWebUI.Settings;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +62,7 @@ builder.Services.AddBiwenSettings(options =>
     //});
 
 });
+
 
 //支持缓存提供者,默认不使用缓存
 //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider

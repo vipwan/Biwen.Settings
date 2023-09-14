@@ -1,8 +1,9 @@
 ﻿﻿@using Microsoft.AspNetCore.Hosting
 @using Microsoft.AspNetCore.Mvc.ViewEngines
 @inject IWebHostEnvironment Environment
+@inject IStringLocalizer<UI> L
 <!DOCTYPE html>
-<html lang="zh">
+<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +13,7 @@
     <div class="container">
         <main role="main" class="pb-1">
             <div>
-                <h2>配置中心</h2>
+                <h2>@L["配置中心"]</h2>
                 <hr />
                 <div class="row">
                     <div class="col-md-3">
