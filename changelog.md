@@ -1,5 +1,12 @@
 ## ChangeLog
 
+### 1.3.3
+   	- 多国语言支持
+
+### 1.3.2
+	- 提供对OrchardCore的支持
+	- 修复多租户情况下，无法获取到正确的Setting的问题
+
 ### 1.3.1
     - 提供JsonFile的ISettingManager支持.
 

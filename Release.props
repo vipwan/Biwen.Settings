@@ -14,7 +14,7 @@
 		<Copyright>MIT</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>configuration;setting;netcore</PackageTags>
-		<PackageReleaseNotes>提供对OrchardCore的支持</PackageReleaseNotes>
+		<PackageReleaseNotes>Localization</PackageReleaseNotes>
 	</PropertyGroup>
 
 </Project>
