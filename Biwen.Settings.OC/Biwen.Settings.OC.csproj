@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<Title>Biwen.Settings.OC</Title>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net7.0;net8.0</TargetFrameworks>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<PackageProjectUrl>https://github.com/vipwan/Biwen.Settings</PackageProjectUrl>
 		<Authors>万雅虎</Authors>
 		<RepositoryUrl>https://github.com/vipwan/Biwen.Settings</RepositoryUrl>
-		<Description>Biwen.Settings.OC ,NET6+ 应用配置项管理模块</Description>
+		<Description>Biwen.Settings.OC ,NET7+ 应用配置项管理模块</Description>
 		<Copyright>MIT</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>configuration;setting;netcore;orchardcore</PackageTags>
