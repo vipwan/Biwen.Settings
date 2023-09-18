@@ -72,7 +72,6 @@ namespace Biwen.Settings.OC
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
 
-
             var settingOption = serviceProvider.GetRequiredService<IOptions<SettingOptions>>();
             if (settingOption.Value.EditorOption.ShouldPagenation)
             {
@@ -89,6 +88,19 @@ namespace Biwen.Settings.OC
                 });
             }
 
+            var settings = serviceProvider.GetRequiredService<ShellSettings>();
+            var webApiSetting = settings.ShellConfiguration.GetValue("Biwen.Settings:WebApi", new WebApiSetting());
+
+            //"WebApi": {
+            //    "Enlable": true,
+            //    "RoutePrefix": "biwensettings/api"
+            //}
+
+            if (webApiSetting!.Enlable)
+            {
+                Console.WriteLine($"Biwen.Settings.WebApi: {webApiSetting.RoutePrefix} Started!");
+                routes.MapBiwenSettingApi(webApiSetting.RoutePrefix);
+            }
 
             routes.MapAreaControllerRoute(
                    name: "settingRouteIndex",
@@ -104,4 +116,13 @@ namespace Biwen.Settings.OC
         }
 
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="Enlable"></param>
+    /// <param name="RoutePrefix"></param>
+    record WebApiSetting(bool Enlable=true, string RoutePrefix="biwensettings/api");
+
+
 }

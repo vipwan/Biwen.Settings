@@ -261,7 +261,7 @@ dotnet ef database update
 ```csharp
 
 //all settings
-//GET ~/{RoutePrefix}/get/all
+//GET ~/{RoutePrefix}/all
 
 //get setting by full type name
 //GET ~/{RoutePrefix}/get/{id}
