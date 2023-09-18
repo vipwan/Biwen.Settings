@@ -89,17 +89,18 @@ namespace Biwen.Settings.OC
             }
 
             var settings = serviceProvider.GetRequiredService<ShellSettings>();
-            var webApiSetting = settings.ShellConfiguration.GetValue("Biwen.Settings:WebApi", new WebApiSetting());
+            var enlable = settings.ShellConfiguration.GetValue("Biwen.Settings:WebApi:Enlable", true);
+            var routePrefix = settings.ShellConfiguration.GetValue("Biwen.Settings:WebApi:RoutePrefix", "biwensettings/api");
 
             //"WebApi": {
             //    "Enlable": true,
             //    "RoutePrefix": "biwensettings/api"
             //}
 
-            if (webApiSetting!.Enlable)
+            if (enlable)
             {
-                Console.WriteLine($"Biwen.Settings.WebApi: {webApiSetting.RoutePrefix} Started!");
-                routes.MapBiwenSettingApi(webApiSetting.RoutePrefix);
+                Console.WriteLine($"Biwen.Settings.WebApi: {routePrefix} Started!");
+                routes.MapBiwenSettingApi(routePrefix!);
             }
 
             routes.MapAreaControllerRoute(
@@ -114,15 +115,6 @@ namespace Biwen.Settings.OC
                    pattern: "biwen/settings/setting/edit/{id}",
                    defaults: new { controller = "Setting", action = "Edit" });
         }
-
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="Enlable"></param>
-    /// <param name="RoutePrefix"></param>
-    record WebApiSetting(bool Enlable=true, string RoutePrefix="biwensettings/api");
-
 
 }
