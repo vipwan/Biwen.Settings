@@ -84,6 +84,8 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.UseBiwenSettings();
+//map api
+app.MapBiwenSettingApi();
 
 
 app.Run();
