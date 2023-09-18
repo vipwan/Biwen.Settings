@@ -10,5 +10,5 @@
 - [X] 提供对OrchardCore的支持
 - [X] Localization zh & en
 - [ ] 支持丰富的参数编辑功能
-- [ ] 支持接口功能(CRUD.鉴权 etc.)
+- [X] 提供WebApi支持
 - [ ] 支持分布式存储,订阅发布等功能

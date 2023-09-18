@@ -143,7 +143,7 @@ namespace Biwen.Settings.Controllers
             Func<MethodInfo?, object, bool> Valid = (md, validator) =>
             {
                 //验证不通过的情况
-                if (md!.Invoke(validator, new object[] { setting! }) is ValidationResult result && !result!.IsValid)
+                if (md!.Invoke(validator, new[] { setting! }) is ValidationResult result && !result!.IsValid)
                 {
                     foreach (var item in result.Errors)
                     {
@@ -186,7 +186,7 @@ namespace Biwen.Settings.Controllers
             }
 
             var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
-            mdSave.Invoke(_settingManager, new object[] { setting });
+            mdSave.Invoke(_settingManager, new[] { setting });
             //return RedirectToAction("Edit", new { id });
             return RedirectToAction("Index");
         }

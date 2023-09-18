@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using System.Dynamic;
 
 namespace Microsoft.AspNetCore.Builder
 {
 
-#if NET7_0_OR_GREATER
+#if NET7_0_OR_GREATER 
 
     public static class ApiExtention
     {
@@ -18,7 +20,17 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static RouteGroupBuilder MapBiwenSettingApi(this IEndpointRouteBuilder endpoint, string routePrefix = "biwensetting/api")
         {
-            var group = endpoint.MapGroup(routePrefix);
+            var group = endpoint.MapGroup(routePrefix).AddEndpointFilter(async (ctx, next) =>
+                    {
+                        var options = ctx.HttpContext.RequestServices.GetService<IOptions<SettingOptions>>()!.Value!;
+                        var flag = options.HasPermission(ctx.HttpContext);
+                        if (!flag)
+                        {
+                            return Results.Unauthorized();
+                        }
+                        var result = await next(ctx);
+                        return result;
+                    });
             //all
             group.MapGet("all", (ISettingManager settingManager) =>
             {
@@ -37,8 +49,9 @@ namespace Microsoft.AspNetCore.Builder
                 }
                 return Results.Json(setting);
             });
-            //set
-            group.MapPost("set/{id}", async (HttpRequest request,
+            //set/{id}
+            group.MapPost("set/{id}", async (
+                HttpRequest request,
                 ISettingManager settingManager,
                 IOptions<SettingOptions> options,
                 [FromRoute] string id) =>
@@ -51,22 +64,22 @@ namespace Microsoft.AspNetCore.Builder
                 if (dto == null) return Results.NotFound();
 
                 //验证DTO
-                Func<MethodInfo?, object, (bool, Dictionary<string, string>?)> Valid = (md, validator) =>
+                Func<MethodInfo?, object, (bool, dynamic?)> Valid = (md, validator) =>
                 {
                     //验证不通过的情况
-                    if (md!.Invoke(validator, new object[] { dto! }) is ValidationResult result && !result!.IsValid)
+                    if (md!.Invoke(validator, new[] { dto! }) is ValidationResult result && !result!.IsValid)
                     {
-                        var dic = new Dictionary<string, string>();
+                        var dic = new List<(string, string)>();
                         foreach (var item in result.Errors)
                         {
-                            dic.TryAdd(item.PropertyName, item.ErrorMessage);
+                            dic.Add((item.PropertyName, item.ErrorMessage));
                         }
-                        return (false, dic);
+                        return (false, dic.ToJsonObj());
                     }
                     return (true, null);
                 };
-                //验证DTO
 
+                //验证DTO
                 if (options.Value.AutoFluentValidationOption.Enable)
                 {
                     //存在验证器的情况
@@ -76,15 +89,12 @@ namespace Microsoft.AspNetCore.Builder
                     {
                         var md = validator.GetType().GetMethods().First(
                             x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
-
                         var reslut = Valid(md, validator);
-
                         if (!reslut.Item1)
                         {
                             return Results.BadRequest(reslut.Item2);
                         }
                     }
-
                     //继承至ValidationSettingBase<T>的情况
                     if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
                     {
@@ -102,13 +112,23 @@ namespace Microsoft.AspNetCore.Builder
 
                 //保存
                 var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
-                mdSave.Invoke(settingManager, new object[] { dto! });
-
+                mdSave.Invoke(settingManager, new[] { dto! });
                 return Results.Ok();
             });
-
             return group;
         }
+
+        private static dynamic ToJsonObj(this List<(string, string)> values)
+        {
+            dynamic obj = new ExpandoObject();
+            foreach (var item in values)
+            {
+                //如果重复,则忽略
+                ((IDictionary<string, object>)obj).TryAdd(item.Item1, item.Item2);
+            }
+            return obj;
+        }
+
     }
 
 #endif
