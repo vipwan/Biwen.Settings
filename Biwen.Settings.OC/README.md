@@ -8,8 +8,8 @@
   
 
 ## 运行环境
-- [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
-- [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)
+- [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/7.0)
 - [OrchardCore 1.7.0+](https://github.com/OrchardCMS/OrchardCore)
 ## 使用方式
 
