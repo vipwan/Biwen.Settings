@@ -237,7 +237,7 @@ dotnet ef database update
 
 - INotify订阅配置变更
 
-```charp
+```csharp
 
         public class WeChatSettingNotify : INotify<WeChatSetting>
         {
@@ -254,6 +254,27 @@ dotnet ef database update
                 await Task.CompletedTask;
             }
         }
+```
+
+- Minimal API
+
+```csharp
+
+//all settings
+//GET ~/{RoutePrefix}/get/all
+
+//get setting by full type name
+//GET ~/{RoutePrefix}/get/{id}
+
+//update setting by full type name
+//POST ~/{RoutePrefix}/set/{id}
+//body:
+//{
+//    "PropertyName1": "...",
+//    "PropertyName2": "...",
+//    "PropertyName3": "..."
+//}
+
 ```
 
 
