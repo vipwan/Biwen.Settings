@@ -16,6 +16,10 @@ namespace Biwen.Settings.Infrastructure
         {
             "netstandard",
             "Microsoft",
+            "Mono",
+            "Scrutor",//Scrutor
+            "Humanizer",
+            "SQLitePCLRaw",//Sqlite
             "System",
             "Newtonsoft",
             "Swashbuckle",
