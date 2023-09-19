@@ -139,11 +139,12 @@ namespace Microsoft.AspNetCore.Builder
                 //EnableBuffering()允许多次调用Stream,并且Position重置为0.
                 context.HttpContext.Request.EnableBuffering();
                 //json ->dto
-                context.HttpContext.Request.Body.Position = 0;//Reset Position= 0. 
                 if ((await context.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) is not IDictionary<string, object> dto)
                 {
                     return Results.BadRequest();
                 }
+                context.HttpContext.Request.Body.Position = 0;//Reset Position= 0. 
+
                 //提供Patch部分更新支持:
                 var setting = context!.HttpContext!.RequestServices.GetService(type!);
                 if (setting == null) return Results.NotFound();
