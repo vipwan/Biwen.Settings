@@ -10,11 +10,11 @@
 		<Authors>万雅虎</Authors>
 		<RepositoryUrl>https://github.com/vipwan/Biwen.Settings</RepositoryUrl>
 		<Title>Biwen.Settings</Title>
-		<Description>Biwen.Settings ,NET6+ 应用配置项管理模块</Description>
+		<Description>Biwen.Settings ,NET7+ 应用配置项管理模块</Description>
 		<Copyright>MIT</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>configuration;setting;netcore</PackageTags>
-		<PackageReleaseNotes>提供Minimal API支持</PackageReleaseNotes>
+		<PackageReleaseNotes>Minimal API支持Setting部分更新</PackageReleaseNotes>
 	</PropertyGroup>
 
 </Project>

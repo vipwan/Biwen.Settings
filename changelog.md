@@ -1,5 +1,8 @@
 ## ChangeLog
 
+### 1.4.1
+    - Minimal Api支持Setting部分更新
+
 ### 1.4.0
     - 提供Minimal Api支持!
 
