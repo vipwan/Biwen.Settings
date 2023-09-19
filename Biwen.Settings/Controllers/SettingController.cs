@@ -117,14 +117,13 @@ namespace Biwen.Settings.Controllers
                 }
                 catch
                 {
-                    //todo:
+                    continue;
                 }
 
                 //SetMethod 判断
                 if (prop?.SetMethod == null)
-                {
                     continue;
-                }
+                
                 //当前类型必须能转换String
                 if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
                     continue;
@@ -136,30 +135,29 @@ namespace Biwen.Settings.Controllers
                 var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(strValue);
                 //赋值
                 prop.SetValue(setting, value);
-
             }
-
-            //验证DTO
-            Func<MethodInfo?, object, bool> Valid = (md, validator) =>
-            {
-                //验证不通过的情况
-                if (md!.Invoke(validator, new[] { setting! }) is ValidationResult result && !result!.IsValid)
-                {
-                    foreach (var item in result.Errors)
-                    {
-                        ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                    }
-                    var domainSetting = _settingManager.GetSetting(id);
-                    ViewBag.Setting = domainSetting!;
-                    ViewBag.SettingValues = SettingValues(domainSetting!);
-                    //验证不通过
-                    return false;
-                }
-                return true;
-            };
 
             if (_options.Value.AutoFluentValidationOption.Enable)
             {
+                //验证DTO
+                bool Valid(MethodInfo? md, object validator)
+                {
+                    //验证不通过的情况
+                    if (md!.Invoke(validator, new[] { setting! }) is ValidationResult result && !result!.IsValid)
+                    {
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                        }
+                        var domainSetting = _settingManager.GetSetting(id);
+                        ViewBag.Setting = domainSetting!;
+                        ViewBag.SettingValues = SettingValues(domainSetting!);
+                        //验证不通过
+                        return false;
+                    }
+                    return true;
+                }
+
                 //存在验证器的情况
                 var validator = _httpContextAccessor!.HttpContext!.RequestServices.GetService(serviceType: typeof(IValidator<>).MakeGenericType(type));
                 if (validator != null)
@@ -184,10 +182,9 @@ namespace Biwen.Settings.Controllers
                     }
                 }
             }
-
+            //Save
             var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
             mdSave.Invoke(_settingManager, new[] { setting });
-            //return RedirectToAction("Edit", new { id });
             return RedirectToAction("Index");
         }
 

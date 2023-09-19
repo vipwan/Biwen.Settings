@@ -1,6 +1,5 @@
 using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Dynamic;
@@ -22,35 +21,29 @@ namespace Microsoft.AspNetCore.Builder
             //auth
             group.AddEndpointFilter<MinimalAuthFilter>();
             //all
-            group.MapGet("all", (ISettingManager settingManager) =>
+            group.MapGet("all", (ISettingManager settingManager) 
+                =>
             {
                 var all = settingManager.GetAllSettings();
                 return Results.Json(all.Select(x => x.MapperToDto()));
             });
             //get
-            group.MapGet("get/{id}", (ISettingManager settingManager, string id) =>
+            group.MapGet("get/{id}", (ISettingManager settingManager, string id)
+                =>
             {
                 if (string.IsNullOrEmpty(id)) return Results.NotFound();
-
                 var setting = settingManager.GetSetting(id);
-                if (setting == null)
-                {
-                    return Results.NotFound();
-                }
-                return Results.Json(setting.MapperToDto());
+                return setting == null ? Results.NotFound() : Results.Json(setting.MapperToDto());
             });
             //set/{id}
-            group.MapPost("set/{id}", async (
-                ISettingManager settingManager,
-                IOptions<SettingOptions> options,
-                IHttpContextAccessor ctx,
-                string id) =>
+            group.MapPost("set/{id}", async (ISettingManager settingManager,IOptions<SettingOptions> options,IHttpContextAccessor ctx,string id) 
+                =>
             {
-                //Filter中验证过了
-                var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == id);
+                //ValidDtoFilter Before
+
+                var type = ASS.InAllRequiredAssemblies.First(x => x.FullName == id);
                 //json ->dto
-                var dto = (await ctx.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) as IDictionary<string, object>;
-                if (dto == null)
+                if ((await ctx.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) is not IDictionary<string, object> dto)
                 {
                     return Results.BadRequest();
                 }
@@ -58,31 +51,26 @@ namespace Microsoft.AspNetCore.Builder
                 var setting = ctx!.HttpContext!.RequestServices.GetService(type!)!;
                 foreach (PropertyInfo prop in type!.GetProperties())
                 {
-                    if (!dto!.ContainsKey(prop.Name))
-                        continue;
-
                     //SetMethod 判断
                     if (prop?.SetMethod == null)
-                    {
                         continue;
-                    }
+                    if (!dto!.ContainsKey(prop.Name))
+                        continue;
                     //当前类型必须能转换String
                     if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
                         continue;
                     //当前类型必须能转换传递的参数值
                     var strValue = dto[prop.Name];
-
                     if (strValue == null)
                         continue;
-
                     if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(strValue.ToString()!))
                         continue;
-                    //转换
+                    //Convert
                     var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(strValue.ToString()!);
-                    //赋值
+                    //Set
                     prop.SetValue(setting, value);
                 }
-                //保存
+                //Save
                 var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
                 mdSave.Invoke(settingManager, new[] { setting! });
                 return Results.Ok(setting);
@@ -101,12 +89,14 @@ namespace Microsoft.AspNetCore.Builder
         /// <param name="LastModificationTime"></param>
         record SettingDto(string SettingType, string SettingName, string? Description, string? SettingContent, DateTime LastModificationTime);
 
+        #region helper
+
         /// <summary>
         /// Mapper
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        static SettingDto MapperToDto(this Setting setting)
+        private static SettingDto MapperToDto(this Setting setting)
         {
             return new SettingDto(
                                setting.SettingType,
@@ -121,7 +111,7 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        private static dynamic ToJsonObj(this List<(string, string)> values)
+        private static dynamic ToExpandoObject(this List<(string, string)> values)
         {
             dynamic obj = new ExpandoObject();
             foreach (var item in values)
@@ -131,6 +121,9 @@ namespace Microsoft.AspNetCore.Builder
             }
             return obj;
         }
+
+        #endregion
+
         /// <summary>
         /// 验证DTO的Filter
         /// </summary>
@@ -146,33 +139,27 @@ namespace Microsoft.AspNetCore.Builder
                 //EnableBuffering()允许多次调用Stream,并且Position重置为0.
                 context.HttpContext.Request.EnableBuffering();
                 //json ->dto
-                var dto = (await context.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) as IDictionary<string, object>;
                 context.HttpContext.Request.Body.Position = 0;//Reset Position= 0. 
-                if (dto == null)
+                if ((await context.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) is not IDictionary<string, object> dto)
                 {
                     return Results.BadRequest();
                 }
-
                 //提供Patch部分更新支持:
                 var setting = context!.HttpContext!.RequestServices.GetService(type!);
                 if (setting == null) return Results.NotFound();
 
                 foreach (PropertyInfo prop in type!.GetProperties())
                 {
-                    if (!dto!.ContainsKey(prop.Name))
-                        continue;
-
                     //SetMethod 判断
                     if (prop?.SetMethod == null)
-                    {
                         continue;
-                    }
+                    if (!dto!.ContainsKey(prop.Name))
+                        continue;
                     //当前类型必须能转换String
                     if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
                         continue;
                     //当前类型必须能转换传递的参数值
                     var strValue = dto[prop.Name];
-
                     if (strValue == null)
                         continue;
 
@@ -188,7 +175,7 @@ namespace Microsoft.AspNetCore.Builder
                 if (option.AutoFluentValidationOption.Enable)
                 {
                     //验证DTO
-                    Func<MethodInfo?, object, (bool, dynamic?)> Valid = (md, validator) =>
+                    (bool, dynamic?) Valid(MethodInfo? md, object validator)
                     {
                         //验证不通过的情况
                         if (md!.Invoke(validator, new[] { setting }) is ValidationResult result && !result!.IsValid)
@@ -198,10 +185,10 @@ namespace Microsoft.AspNetCore.Builder
                             {
                                 dic.Add((item.PropertyName, item.ErrorMessage));
                             }
-                            return (false, dic.ToJsonObj());
+                            return (false, dic.ToExpandoObject());
                         }
                         return (true, null);
-                    };
+                    }
 
                     //存在验证器的情况
                     var validator = context.HttpContext!.RequestServices.GetService(

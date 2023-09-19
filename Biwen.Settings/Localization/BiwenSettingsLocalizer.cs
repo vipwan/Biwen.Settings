@@ -1,9 +1,5 @@
-﻿using Microsoft.Extensions.Localization;
-
-namespace Biwen.Settings
+﻿namespace Biwen.Settings
 {
-
-
     /// <summary>
     /// IStringLocalizer<T> Or BiwenSettingsLocalizer.T
     /// </summary>
