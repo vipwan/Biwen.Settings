@@ -131,7 +131,7 @@ namespace Microsoft.AspNetCore.Builder
         {
             public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
             {
-                var id = context.HttpContext.GetRouteValue("id") as string;
+                var id = context.Arguments[3]!.ToString(); //context.HttpContext.GetRouteValue("id") as string;
                 if (string.IsNullOrEmpty(id)) return Results.NotFound();
                 var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == id);
                 if (type == null) return Results.NotFound();
@@ -171,8 +171,7 @@ namespace Microsoft.AspNetCore.Builder
                     //赋值
                     prop.SetValue(setting, value);
                 }
-
-                var option = context.HttpContext.RequestServices.GetService<IOptions<SettingOptions>>()!.Value;
+                var option = (context.Arguments[1] as IOptions<SettingOptions>)!.Value; 
                 if (option.AutoFluentValidationOption.Enable)
                 {
                     //验证DTO
