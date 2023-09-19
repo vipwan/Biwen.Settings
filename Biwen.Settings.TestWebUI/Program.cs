@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+//swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 
 //×¢²áDbContext
@@ -75,6 +78,13 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
+
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -85,7 +95,7 @@ app.MapRazorPages();
 
 app.UseBiwenSettings();
 //map api
-app.MapBiwenSettingApi();
+app.MapBiwenSettingApi().WithTags("BiwenSettingApi").WithOpenApi();
 
 
 app.Run();
