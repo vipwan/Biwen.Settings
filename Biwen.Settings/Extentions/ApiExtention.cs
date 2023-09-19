@@ -176,17 +176,12 @@ namespace Microsoft.AspNetCore.Builder
                 if (option.AutoFluentValidationOption.Enable)
                 {
                     //验证DTO
-                    (bool, dynamic?) Valid(MethodInfo? md, object validator)
+                    (bool, IDictionary<string, string[]>?) Valid(MethodInfo? md, object validator)
                     {
                         //验证不通过的情况
                         if (md!.Invoke(validator, new[] { setting }) is ValidationResult result && !result!.IsValid)
                         {
-                            var dic = new List<(string, string)>();
-                            foreach (var item in result.Errors)
-                            {
-                                dic.Add((item.PropertyName, item.ErrorMessage));
-                            }
-                            return (false, dic.ToExpandoObject());
+                            return (false, result.ToDictionary());
                         }
                         return (true, null);
                     }
@@ -198,10 +193,10 @@ namespace Microsoft.AspNetCore.Builder
                     {
                         var md = validator.GetType().GetMethods().First(
                             x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
-                        var reslut = Valid(md, validator);
-                        if (!reslut.Item1)
+                        var vResult = Valid(md, validator);
+                        if (!vResult.Item1)
                         {
-                            return Results.BadRequest(reslut.Item2);
+                            return Results.ValidationProblem(vResult.Item2!);
                         }
                     }
 
@@ -215,7 +210,7 @@ namespace Microsoft.AspNetCore.Builder
                         var vResult = Valid(md, x.RealValidator);
                         if (!vResult.Item1)
                         {
-                            return Results.BadRequest(vResult.Item2);
+                            return Results.ValidationProblem(vResult.Item2!);
                         }
                     }
                 }
