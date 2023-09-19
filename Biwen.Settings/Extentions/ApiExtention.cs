@@ -1,4 +1,4 @@
-﻿using Biwen.Settings.Mvc;
+using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -49,11 +49,43 @@ namespace Microsoft.AspNetCore.Builder
                 //Filter中验证过了
                 var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == id);
                 //json ->dto
-                var dto = await ctx.HttpContext!.Request.ReadFromJsonAsync(type!);
+                var dto = (await ctx.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) as IDictionary<string, object>;
+                if (dto == null)
+                {
+                    return Results.BadRequest();
+                }
+                //提供Patch部分更新支持:
+                var setting = ctx!.HttpContext!.RequestServices.GetService(type!)!;
+                foreach (PropertyInfo prop in type!.GetProperties())
+                {
+                    if (!dto!.ContainsKey(prop.Name))
+                        continue;
+
+                    //SetMethod 判断
+                    if (prop?.SetMethod == null)
+                    {
+                        continue;
+                    }
+                    //当前类型必须能转换String
+                    if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
+                        continue;
+                    //当前类型必须能转换传递的参数值
+                    var strValue = dto[prop.Name];
+
+                    if (strValue == null)
+                        continue;
+
+                    if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(strValue.ToString()!))
+                        continue;
+                    //转换
+                    var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(strValue.ToString()!);
+                    //赋值
+                    prop.SetValue(setting, value);
+                }
                 //保存
                 var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
-                mdSave.Invoke(settingManager, new[] { dto! });
-                return Results.Ok(dto);
+                mdSave.Invoke(settingManager, new[] { setting! });
+                return Results.Ok(setting);
             }).AddEndpointFilter<ValidDtoFilter>();
 
             return group;
@@ -113,10 +145,44 @@ namespace Microsoft.AspNetCore.Builder
                 //json object ->mapper
                 //EnableBuffering()允许多次调用Stream,并且Position重置为0.
                 context.HttpContext.Request.EnableBuffering();
-                var dto = await context.HttpContext.Request.ReadFromJsonAsync(type);
+                //json ->dto
+                var dto = (await context.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) as IDictionary<string, object>;
                 context.HttpContext.Request.Body.Position = 0;//Reset Position= 0. 
+                if (dto == null)
+                {
+                    return Results.BadRequest();
+                }
 
-                if (dto == null) return Results.NotFound();
+                //提供Patch部分更新支持:
+                var setting = context!.HttpContext!.RequestServices.GetService(type!);
+                if (setting == null) return Results.NotFound();
+
+                foreach (PropertyInfo prop in type!.GetProperties())
+                {
+                    if (!dto!.ContainsKey(prop.Name))
+                        continue;
+
+                    //SetMethod 判断
+                    if (prop?.SetMethod == null)
+                    {
+                        continue;
+                    }
+                    //当前类型必须能转换String
+                    if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
+                        continue;
+                    //当前类型必须能转换传递的参数值
+                    var strValue = dto[prop.Name];
+
+                    if (strValue == null)
+                        continue;
+
+                    if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(strValue.ToString()!))
+                        continue;
+                    //转换
+                    var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(strValue.ToString()!);
+                    //赋值
+                    prop.SetValue(setting, value);
+                }
 
                 var option = context.HttpContext.RequestServices.GetService<IOptions<SettingOptions>>()!.Value;
                 if (option.AutoFluentValidationOption.Enable)
@@ -125,7 +191,7 @@ namespace Microsoft.AspNetCore.Builder
                     Func<MethodInfo?, object, (bool, dynamic?)> Valid = (md, validator) =>
                     {
                         //验证不通过的情况
-                        if (md!.Invoke(validator, new[] { dto! }) is ValidationResult result && !result!.IsValid)
+                        if (md!.Invoke(validator, new[] { setting }) is ValidationResult result && !result!.IsValid)
                         {
                             var dic = new List<(string, string)>();
                             foreach (var item in result.Errors)
