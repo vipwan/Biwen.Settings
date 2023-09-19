@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Builder
             //group
             var group = endpoint.MapGroup(routePrefix);
             //auth
-            group.AddEndpointFilter<MinimalAuth>();
+            group.AddEndpointFilter<MinimalAuthFilter>();
             //all
             group.MapGet("all", (ISettingManager settingManager) =>
             {

@@ -6,7 +6,7 @@ namespace Biwen.Settings.Mvc
     /// <summary>
     /// Filter for MinimalApi auth
     /// </summary>
-    internal class MinimalAuth : IEndpointFilter
+    internal class MinimalAuthFilter : IEndpointFilter
     {
         public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context,
             EndpointFilterDelegate next)
