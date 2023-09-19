@@ -25,15 +25,10 @@ namespace Microsoft.AspNetCore.Builder
             group.MapGet("all", (ISettingManager settingManager) =>
             {
                 var all = settingManager.GetAllSettings();
-                return Results.Json(all.Select(x => new SettingDto(
-                    x.SettingType,
-                    x.SettingName,
-                    x.Description,
-                    x.SettingContent,
-                    x.LastModificationTime)));
+                return Results.Json(all.Select(x => x.MapperToDto()));
             });
             //get
-            group.MapGet("get/{id}", (ISettingManager settingManager, [FromRoute] string id) =>
+            group.MapGet("get/{id}", (ISettingManager settingManager, string id) =>
             {
                 if (string.IsNullOrEmpty(id)) return Results.NotFound();
 
@@ -42,14 +37,14 @@ namespace Microsoft.AspNetCore.Builder
                 {
                     return Results.NotFound();
                 }
-                return Results.Json(setting);
+                return Results.Json(setting.MapperToDto());
             });
             //set/{id}
             group.MapPost("set/{id}", async (
                 ISettingManager settingManager,
                 IOptions<SettingOptions> options,
                 IHttpContextAccessor ctx,
-                [FromRoute] string id) =>
+                string id) =>
             {
                 //Filter中验证过了
                 var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == id);
@@ -73,6 +68,22 @@ namespace Microsoft.AspNetCore.Builder
         /// <param name="SettingContent"></param>
         /// <param name="LastModificationTime"></param>
         record SettingDto(string SettingType, string SettingName, string? Description, string? SettingContent, DateTime LastModificationTime);
+
+        /// <summary>
+        /// Mapper
+        /// </summary>
+        /// <param name="setting"></param>
+        /// <returns></returns>
+        static SettingDto MapperToDto(this Setting setting)
+        {
+            return new SettingDto(
+                               setting.SettingType,
+                               setting.SettingName,
+                               setting.Description,
+                               setting.SettingContent,
+                               setting.LastModificationTime);
+        }
+
         /// <summary>
         /// (,)转换为JSON匿名类型
         /// </summary>
