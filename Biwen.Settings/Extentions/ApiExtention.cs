@@ -75,7 +75,8 @@ namespace Microsoft.AspNetCore.Builder
                 var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
                 mdSave.Invoke(settingManager, new[] { setting! });
                 return Results.Ok(setting);
-            }).AddEndpointFilter<ValidDtoFilter>();
+            }).Accepts<ExpandoObject>(contentType: "application/json-patch+json")
+              .AddEndpointFilter<ValidDtoFilter>();
 
             return group;
         }
