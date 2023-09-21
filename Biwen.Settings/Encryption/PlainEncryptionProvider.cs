@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Biwen.Settings.Encryption
+﻿namespace Biwen.Settings.Encryption
 {
     /// <summary>
-    /// 默认不做加密解密
+    /// 提供最简单的混淆
     /// </summary>
     public sealed class PlainEncryptionProvider : IEncryptionProvider
     {
