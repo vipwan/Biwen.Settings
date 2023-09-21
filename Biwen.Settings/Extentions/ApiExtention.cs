@@ -27,7 +27,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 var all = settingManager.GetAllSettings();
                 return Results.Json(all.Select(x => x.MapperToDto(encryptionProvider)));
-            });
+            }).Produces<List<SettingDto>>();
             //get
             group.MapGet("get/{id}", (ISettingManager settingManager, string id, IEncryptionProvider encryptionProvider)
                 =>
@@ -35,13 +35,12 @@ namespace Microsoft.AspNetCore.Builder
                 if (string.IsNullOrEmpty(id)) return Results.NotFound();
                 var setting = settingManager.GetSetting(id);
                 return setting == null ? Results.NotFound() : Results.Json(setting.MapperToDto(encryptionProvider));
-            });
+            }).Produces<SettingDto>();
             //set/{id}
             group.MapPost("set/{id}", async (ISettingManager settingManager, IOptions<SettingOptions> options, IHttpContextAccessor ctx, string id)
                 =>
             {
                 //ValidDtoFilter Before
-
                 var type = ASS.InAllRequiredAssemblies.First(x => x.FullName == id);
                 //json ->dto
                 if ((await ctx.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) is not IDictionary<string, object> dto)
