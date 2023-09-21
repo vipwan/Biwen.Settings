@@ -56,7 +56,7 @@ namespace Biwen.Settings
         /// 全局仅有一个T的内部验证器
         /// </summary>
         [JsonIgnore]
-        private readonly InnerValidator Validator = new();
+        private static readonly InnerValidator Validator = new();
 
         [JsonIgnore]
         public object RealValidator => Validator;
