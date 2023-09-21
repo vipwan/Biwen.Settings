@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Biwen.Settings.Encryption
 {
     /// <summary>
-    /// 默认不做加密解密
+    /// 简单的明文混淆加密解密
     /// </summary>
     public sealed class PlainEncryptionProvider : IEncryptionProvider
     {
