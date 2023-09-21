@@ -1,4 +1,5 @@
-﻿using Biwen.Settings.Mvc;
+﻿using Biwen.Settings.Encryption;
+using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
@@ -12,13 +13,17 @@ namespace Biwen.Settings.Controllers
         private readonly ISettingManager _settingManager;
         private readonly IOptions<SettingOptions> _options;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEncryptionProvider _encryptionProvider;
+
 
         public SettingController(
             ISettingManager settingManager,
             IOptions<SettingOptions> options,
+            IEncryptionProvider encryptionProvider,
             IHttpContextAccessor httpContextAccessor)
         {
             _settingManager = settingManager;
+            _encryptionProvider = encryptionProvider;
             _options = options;
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
@@ -68,7 +73,10 @@ namespace Biwen.Settings.Controllers
                 ?? throw new ArgumentNullException(nameof(setting));
 
             List<(string, string?, string?)> SettingValues = new();
-            var json = JsonNode.Parse(setting.SettingContent!)!;
+
+            var plainContent = _encryptionProvider.Decrypt(setting.SettingContent!);
+
+            var json = JsonNode.Parse(plainContent)!;
             type.GetProperties().Where(x =>
                 !x.GetCustomAttributes<JsonIgnoreAttribute>().Any() &&
                 x.CanWrite && x.CanRead &&
@@ -123,7 +131,7 @@ namespace Biwen.Settings.Controllers
                 //SetMethod 判断
                 if (prop?.SetMethod == null)
                     continue;
-                
+
                 //当前类型必须能转换String
                 if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
                     continue;

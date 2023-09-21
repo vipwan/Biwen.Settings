@@ -1,3 +1,4 @@
+using Biwen.Settings.Encryption;
 using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -21,22 +22,22 @@ namespace Microsoft.AspNetCore.Builder
             //auth
             group.AddEndpointFilter<MinimalAuthFilter>();
             //all
-            group.MapGet("all", (ISettingManager settingManager) 
+            group.MapGet("all", (ISettingManager settingManager, IEncryptionProvider encryptionProvider)
                 =>
             {
                 var all = settingManager.GetAllSettings();
-                return Results.Json(all.Select(x => x.MapperToDto()));
+                return Results.Json(all.Select(x => x.MapperToDto(encryptionProvider)));
             });
             //get
-            group.MapGet("get/{id}", (ISettingManager settingManager, string id)
+            group.MapGet("get/{id}", (ISettingManager settingManager, string id, IEncryptionProvider encryptionProvider)
                 =>
             {
                 if (string.IsNullOrEmpty(id)) return Results.NotFound();
                 var setting = settingManager.GetSetting(id);
-                return setting == null ? Results.NotFound() : Results.Json(setting.MapperToDto());
+                return setting == null ? Results.NotFound() : Results.Json(setting.MapperToDto(encryptionProvider));
             });
             //set/{id}
-            group.MapPost("set/{id}", async (ISettingManager settingManager,IOptions<SettingOptions> options,IHttpContextAccessor ctx,string id) 
+            group.MapPost("set/{id}", async (ISettingManager settingManager, IOptions<SettingOptions> options, IHttpContextAccessor ctx, string id)
                 =>
             {
                 //ValidDtoFilter Before
@@ -96,7 +97,7 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        private static SettingDto MapperToDto(this Setting setting)
+        private static SettingDto MapperToDto(this Setting setting, IEncryptionProvider encryptionProvider)
         {
             return new SettingDto(
                                setting.SettingType,
@@ -171,7 +172,7 @@ namespace Microsoft.AspNetCore.Builder
                     //赋值
                     prop.SetValue(setting, value);
                 }
-                var option = (context.Arguments[1] as IOptions<SettingOptions>)!.Value; 
+                var option = (context.Arguments[1] as IOptions<SettingOptions>)!.Value;
                 if (option.AutoFluentValidationOption.Enable)
                 {
                     //验证DTO

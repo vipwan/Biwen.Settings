@@ -1,4 +1,5 @@
 ﻿using Biwen.Settings.Caching;
+using Biwen.Settings.Encryption;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using Microsoft.AspNetCore.Http;
@@ -106,9 +107,30 @@ namespace Biwen.Settings
         }
 
 
+        /// <summary>
+        /// 默认不使用任何缓存
+        /// 不支持直接调用,请使用UseCache方法
+        /// </summary>
+        public Type EncryptionProvider { get; private set; } = typeof(PlainEncryptionProvider);
 
+
+        public void UseEncryption<T>() where T : IEncryptionProvider
+        {
+            EncryptionProvider = typeof(T);
+        }
+
+        /// <summary>
+        /// 内容是否加密的选项,
+        /// 请注意,如果启用了加密,请务必保证所有的配置项都是加密的,否则会导致配置项无法正常读取
+        /// </summary>
+        public class EncryptionOptions
+        {
+            /// <summary>
+            /// 是否启用
+            /// </summary>
+            public bool Enable { get; set; } = true;
+        }
     }
-
 
     public static class SettingOptionsExtension
     {

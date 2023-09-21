@@ -1,4 +1,5 @@
 ﻿using Biwen.Settings.Caching;
+using Biwen.Settings.Encryption;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Biwen.Settings
@@ -97,7 +98,6 @@ namespace Biwen.Settings
     /// </summary>
     public abstract class BaseSettingManager : ISettingManager
     {
-
         protected readonly ILogger<ISettingManager> _logger;
 
         public BaseSettingManager(ILogger<ISettingManager> logger)

@@ -1,4 +1,5 @@
 using Biwen.Settings;
+using Biwen.Settings.Encryption;
 using Biwen.Settings.TestWebUI.Data;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -50,11 +51,19 @@ builder.Services.AddBiwenSettings(options =>
     //options.UseCacheOfNull();
     options.UseCacheOfMemory();
 
+    //加密提供者,PlainEncryptionProvider为默认实现
+    options.UseEncryption<PlainEncryptionProvider>();
+
+
     //必须,否则将初始化错误!
     //使用EFCoreStore
     options.UseSettingManagerOfEFCore(options =>
     {
         options.DbContextType = typeof(MyDbContext);
+        options.EncryptionOption = new SettingOptions.EncryptionOptions
+        {
+            Enable = true //仓储是否开启加密
+        };
     });
 
     //使用JsonStore

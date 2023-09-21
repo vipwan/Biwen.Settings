@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
+using Biwen.Settings.Encryption;
 
 namespace Biwen.Settings.SettingManagers.EFCore
 {
@@ -15,17 +16,20 @@ namespace Biwen.Settings.SettingManagers.EFCore
         private readonly IBiwenSettingsDbContext _db;
         private readonly IOptions<SettingOptions> _options;
         private readonly IOptions<EFCoreStoreOptions> _storeOptions;
+        private readonly IEncryptionProvider _encryptionProvider;
 
         public EntityFrameworkCoreSettingManager(
             IServiceProvider serviceProvider,
             //IBiwenSettingsDbContext db,
             ILogger<EntityFrameworkCoreSettingManager> logger,
             IOptions<EFCoreStoreOptions> storeOptions,
+            IEncryptionProvider encryptionProvider,
             IOptions<SettingOptions> options) : base(logger)
         {
             //_db = db;
             _options = options;
             _storeOptions = storeOptions;
+            _encryptionProvider = encryptionProvider;
 
             if (_storeOptions!.Value.DbContextType == null ||
                 !_storeOptions!.Value.DbContextType.IsAssignableTo(typeof(IBiwenSettingsDbContext)))
@@ -55,11 +59,15 @@ namespace Biwen.Settings.SettingManagers.EFCore
 
             if (setting != null)
             {
-                @default = JsonSerializer.Deserialize<T>(setting.SettingContent!)!;
+                var plainContent = _encryptionProvider.Decrypt(setting.SettingContent!);
+                @default = JsonSerializer.Deserialize<T>(plainContent)!;
             }
             else
             {
                 var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
+
+                var plainContent = JsonSerializer.Serialize(@default, SerializerOptions);
+
                 _db.Settings.Add(new Setting
                 {
                     ProjectId = _options.Value.ProjectId,
@@ -68,7 +76,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
                     Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
                     Order = @default.Order,
                     LastModificationTime = DateTime.Now,
-                    SettingContent = JsonSerializer.Serialize(@default, SerializerOptions)
+                    SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
                 });
                 (_db as DbContext)!.SaveChanges();
             }
@@ -93,14 +101,13 @@ namespace Biwen.Settings.SettingManagers.EFCore
             var settingEntity = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
             if (settingEntity != null)
             {
-                settingEntity.SettingContent = settingContent;
+                settingEntity.SettingContent =
+                    _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent;
                 settingEntity.LastModificationTime = DateTime.Now;
             }
             else
             {
-
                 var @default = new T();
-
                 var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
                 _db.Settings.Add(new Setting
                 {
@@ -110,7 +117,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
                     Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
                     Order = setting.Order,
                     LastModificationTime = DateTime.Now,
-                    SettingContent = settingContent
+                    SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent
                 });
             }
             (_db as DbContext)!.SaveChanges();

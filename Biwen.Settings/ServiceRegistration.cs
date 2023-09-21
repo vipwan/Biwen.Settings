@@ -1,4 +1,5 @@
 ﻿using Biwen.Settings.Caching;
+using Biwen.Settings.Encryption;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
@@ -48,6 +49,14 @@ namespace Biwen.Settings
 
             var cacheTypeProvider = currentOptions.Value.CacheProvider;
             services.AddScoped(typeof(ICacheProvider), cacheTypeProvider!);
+
+            #endregion
+
+            #region 注入Encryption
+
+            var encryptionProvider = currentOptions.Value.EncryptionProvider;
+            services.AddScoped(typeof(IEncryptionProvider), encryptionProvider);
+
 
             #endregion
 
