@@ -11,4 +11,5 @@
 - [X] Localization zh & en
 - [ ] 支持丰富的参数编辑功能
 - [X] 提供WebApi支持
+- [X] 提供Setting仓储加密功能 #10
 - [ ] 支持分布式存储,订阅发布等功能

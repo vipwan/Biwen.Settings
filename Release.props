@@ -14,7 +14,6 @@
 		<Copyright>MIT</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>configuration;setting;netcore</PackageTags>
-		<PackageReleaseNotes>Minimal API支持Setting部分更新</PackageReleaseNotes>
 	</PropertyGroup>
 
 </Project>
