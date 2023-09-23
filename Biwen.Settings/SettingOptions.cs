@@ -111,7 +111,7 @@ namespace Biwen.Settings
         /// 默认不使用任何缓存
         /// 不支持直接调用,请使用UseCache方法
         /// </summary>
-        public Type EncryptionProvider { get; private set; } = typeof(PlainEncryptionProvider);
+        public Type EncryptionProvider { get; private set; } = typeof(EmptyEncryptionProvider);
 
 
         public void UseEncryption<T>() where T : IEncryptionProvider
@@ -128,7 +128,7 @@ namespace Biwen.Settings
             /// <summary>
             /// 是否启用
             /// </summary>
-            public bool Enable { get; set; } = true;
+            public bool Enable { get; set; } = false;
         }
     }
 
