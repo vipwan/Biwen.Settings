@@ -1,5 +1,9 @@
 ## ChangeLog
 
+### 1.4.2~1.4.3
+    - 重命名Options拓展方法为UseStoreOfEFCore,UserStoreOfJsonFile
+    - 提供Setting仓储加密功能 #10
+
 ### 1.4.1
     - Minimal Api支持Setting部分更新
 
