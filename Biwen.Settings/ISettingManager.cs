@@ -1,5 +1,4 @@
 ﻿using Biwen.Settings.Caching;
-using Biwen.Settings.Encryption;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Biwen.Settings
@@ -105,25 +104,13 @@ namespace Biwen.Settings
             _logger = logger;
         }
 
-        public virtual void Save<T>(T setting) where T : ISetting, new()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Save<T>(T setting) where T : ISetting, new();
 
-        public virtual T Get<T>() where T : ISetting, new()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract T Get<T>() where T : ISetting, new();
 
-        public virtual List<Setting> GetAllSettings()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract List<Setting> GetAllSettings();
 
-        public virtual Setting? GetSetting(string settingType)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract Setting? GetSetting(string settingType);
 
     }
 }
