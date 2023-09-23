@@ -164,13 +164,13 @@ namespace Biwen.Settings
         /// <param name="options"></param>
         /// <param name="storePptions"></param>
         /// <returns></returns>
-        public static SettingOptions UseSettingManagerOfEFCore(this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null)
+        public static SettingOptions UseStoreOfEFCore(this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null)
         {
             options.UseSettingManager<EntityFrameworkCoreSettingManager, Action<EFCoreStoreOptions>?>(storeOptions);
             return options;
         }
 
-        public static SettingOptions UserSettingManagerOfJsonStore(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
+        public static SettingOptions UserStoreOfJsonFile(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
         {
             options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storeOptions);
             return options;

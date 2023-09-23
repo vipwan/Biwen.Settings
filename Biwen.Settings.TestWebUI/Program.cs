@@ -51,23 +51,24 @@ builder.Services.AddBiwenSettings(options =>
     //options.UseCacheOfNull();
     options.UseCacheOfMemory();
 
-    //加密提供者,PlainEncryptionProvider为默认实现
-    options.UseEncryption<PlainEncryptionProvider>();
+    //加密提供者,空加密为默认实现
+    options.UseEncryption<EmptyEncryptionProvider>();
 
 
     //必须,否则将初始化错误!
     //使用EFCoreStore
-    options.UseSettingManagerOfEFCore(options =>
+    options.UseStoreOfEFCore(options =>
     {
         options.DbContextType = typeof(MyDbContext);
         options.EncryptionOption = new SettingOptions.EncryptionOptions
         {
-            Enable = true //仓储是否开启加密
+            //默认不开启加密
+            Enable = true
         };
     });
 
     //使用JsonStore
-    //options.UserSettingManagerOfJsonStore(options =>
+    //options.UserStoreOfJsonFile(options =>
     //{
     //    options.FormatJson = true;
     //    options.JsonPath = "1systemsetting.json";
