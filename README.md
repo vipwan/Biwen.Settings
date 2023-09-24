@@ -146,7 +146,14 @@ dotnet ef database update
         //options.UseCacheOfMemory();
         //使用自定义缓存提供者
         //options.UseCache<T>();
-
+        //配置当前服务为主节点
+        options.NotifyOption.Enable = true;
+        options.NotifyOption.Secret = "Biwen.Settings.Notify";
+        //子节点配置
+        options.NotifyOption.EndpointHosts = new[]
+        {
+            "http://localhost:5150"
+        };
         //默认提供EntityFrameworkCore持久化配置项 dbContextType必须配置
         //options.UseStoreOfEFCore(options =>
         //{
