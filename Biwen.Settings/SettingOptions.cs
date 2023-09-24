@@ -145,7 +145,7 @@ namespace Biwen.Settings
             /// <summary>
             /// 是否启用当前服务为通知的生产者
             /// </summary>
-            public bool Enable { get; set; } = false;
+            public bool IsNotifyEnable { get; set; } = false;
 
             /// <summary>
             /// 通知的密钥,用于验证通知的合法性

@@ -69,7 +69,7 @@ builder.Services.AddBiwenSettings(options =>
 
 
     //集群的通知服务配置
-    options.NotifyOption.Enable = true;
+    options.NotifyOption.IsNotifyEnable = true;
     options.NotifyOption.Secret = "Biwen.Settings.Notify";
     options.NotifyOption.EndpointHosts = new[]
     {

@@ -114,7 +114,7 @@ namespace Biwen.Settings.EndpointNotify
 
         public async Task NotifyConsumerAsync(NofityDto dto)
         {
-            if (!_options.Value.NotifyOption.Enable)
+            if (!_options.Value.NotifyOption.IsNotifyEnable)
             {
                 return;
             }
