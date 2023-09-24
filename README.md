@@ -11,8 +11,7 @@
 我们可以在任意地方注入GitHubSetting,系统会自动将配置项注入到我们的业务代码中,并且可以在系统中动态修改配置项,
 修改后会自动持久化到存储中,并通知集群的订阅子节点Setting配置项变更事件,清空缓存并重新加载持久层的最新项.v2.0.0
 
-
-![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e2663e78-61da-43f1-990d-aa970736f023)
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e27cbca0-9c3d-4851-8aa1-37d2ce1ac97d)
 
 ## 开源动机
 - 由于当前有好几个单体项目,且每个小项目都有比较多的配置项,所以把这个模块抽离出来打包到Nuget共用.
@@ -176,7 +175,7 @@ dotnet ef database update
 ### Enjoy!
 
 #### 支持提交更新时验证器自动验证
-
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e2663e78-61da-43f1-990d-aa970736f023)
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/40399554-90be-4927-8b03-a516614d4bd6)
 
 ```csharp
