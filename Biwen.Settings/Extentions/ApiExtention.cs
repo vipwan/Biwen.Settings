@@ -1,8 +1,10 @@
+using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
+using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 using System.Dynamic;
 
 namespace Microsoft.AspNetCore.Builder
@@ -14,8 +16,12 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="endpoint"></param>
         /// <param name="routePrefix"></param>
+        /// <param name="mapNotifyEndpoint">是否配置Settings变更消费者</param>
         /// <returns></returns>
-        public static RouteGroupBuilder MapBiwenSettingApi(this IEndpointRouteBuilder endpoint, string routePrefix = "biwensetting/api")
+        public static RouteGroupBuilder MapBiwenSettingApi(
+            this IEndpointRouteBuilder endpoint,
+            string routePrefix = "biwensetting/api",
+            bool mapNotifyEndpoint = false)
         {
             //group
             var group = endpoint.MapGroup(routePrefix);
@@ -77,6 +83,38 @@ namespace Microsoft.AspNetCore.Builder
             }).Accepts<ExpandoObject>(contentType: "application/json-patch+json")
               .AddEndpointFilter<ValidDtoFilter>();
 
+            if (mapNotifyEndpoint)
+            {
+                //notify
+                var notifyEndpoint = endpoint.MapPost(Consts.EndpointUrl,
+                       (
+                           IOptions<SettingOptions> options,
+                           ICacheProvider cacheProvider,
+                           IHttpContextAccessor ctx,
+                           string secret,
+                           [FromBody] NofityDto dto)
+                       =>
+                   {
+                       if (secret != options.Value.NotifyOption.Secret)
+                       {
+                           return Results.BadRequest();
+                       }
+                       //var dto = await ctx.HttpContext!.Request.ReadFromJsonAsync<NofityDto>();
+                       if (dto == null) return Results.BadRequest();
+                       cacheProvider.Remove(string.Format(Consts.CacheKeyFormat, dto.SettingType, options.Value.ProjectId));
+
+                       Console.WriteLine($"消费了配置变更:{dto.SettingType} and Clear cache");
+
+                       return Results.Ok();
+                   });
+
+                //DTO
+                notifyEndpoint.Accepts<NofityDto>(contentType: "application/json");
+                notifyEndpoint.WithTags("Notify");
+#if !DEBUG
+                notifyEndpoint.ExcludeFromDescription();//排除在Swagger文档中
+#endif
+            }
             return group;
         }
 
@@ -217,5 +255,7 @@ namespace Microsoft.AspNetCore.Builder
                 return await next(context);
             }
         }
+
+
     }
 }

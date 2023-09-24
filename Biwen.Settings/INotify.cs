@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace Biwen.Settings
 {
@@ -22,7 +24,6 @@ namespace Biwen.Settings
 
 
     }
-
 
     public abstract class BaseNotify<T> : INotify<T> where T : ISetting, new()
     {
@@ -70,6 +71,73 @@ namespace Biwen.Settings
                 }
             }
 
+        }
+    }
+}
+
+
+namespace Biwen.Settings.EndpointNotify
+{
+    internal class Consts
+    {
+        /// <summary>
+        /// route
+        /// </summary>
+        public const string EndpointUrl = "biwensettings/nofity/qwertyuiopasdfghjklzxcvbnm123/{secret}";
+        /// <summary>
+        /// cache key format
+        /// </summary>
+        public const string CacheKeyFormat = "SettingManager_{1}_{0}";
+    }
+
+
+    /// <summary>
+    /// 通知DTO
+    /// </summary>
+    internal class NofityDto
+    {
+        public string SettingType { get; set; } = null!;
+        public string ProjectId { get; set; } = null!;
+    }
+
+
+    /// <summary>
+    /// 通知服务
+    /// </summary>
+    internal class NotifyServices
+    {
+        private readonly IOptions<SettingOptions> _options;
+        public NotifyServices(IOptions<SettingOptions> options)
+        {
+            _options = options;
+        }
+
+        public async Task NotifyConsumerAsync(NofityDto dto)
+        {
+            if (!_options.Value.NotifyOption.Enable)
+            {
+                return;
+            }
+            if (_options.Value.NotifyOption.EndpointHosts.Length == 0)
+            {
+                return;
+            }
+
+            foreach (var host in _options.Value.NotifyOption.EndpointHosts)
+            {
+                _ = Task.Run(async () =>
+                 {
+                     var url = $"{host}/{Consts.EndpointUrl.Replace("{secret}", _options.Value.NotifyOption.Secret)}";
+                     using HttpClient httpClient = new();
+                     httpClient.DefaultRequestHeaders.Clear();
+                     httpClient.DefaultRequestHeaders.Add("User-Agent", "Biwen.Settings");
+                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                     await httpClient.PostAsJsonAsync(url, dto);
+                 });
+
+            }
+
+            await Task.CompletedTask;
         }
     }
 }

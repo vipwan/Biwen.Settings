@@ -1,5 +1,6 @@
 ﻿using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
+using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
@@ -164,8 +165,11 @@ namespace Biwen.Settings
                 }
             });
 
+            //消费者通知服务
+            services.AddScoped<NotifyServices>();
+
             return services;
-        }
+      }
 
 
         /// <summary>

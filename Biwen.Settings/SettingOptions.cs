@@ -130,6 +130,36 @@ namespace Biwen.Settings
             /// </summary>
             public bool Enable { get; set; } = false;
         }
+
+
+        /// <summary>
+        /// 通知选项
+        /// </summary>
+        public NotifyOptions NotifyOption { get; set; } = new();
+
+        /// <summary>
+        /// 变更通知选项
+        /// </summary>
+        public class NotifyOptions
+        {
+            /// <summary>
+            /// 是否启用当前服务为通知的生产者
+            /// </summary>
+            public bool Enable { get; set; } = false;
+
+            /// <summary>
+            /// 通知的密钥,用于验证通知的合法性
+            /// 请注意如果作为消费者,即使Enable=false,也必须设置Secret,否则会导致无法接收到通知
+            /// </summary>
+            public string Secret { get; set; } = "Biwen.Settings.Notify";
+
+            /// <summary>
+            /// 消费者的地址集合
+            /// 如:http://localhost:5000
+            /// </summary>
+            public string[] EndpointHosts { get; set; } = Array.Empty<string>();
+
+        }
     }
 
     public static class SettingOptionsExtension

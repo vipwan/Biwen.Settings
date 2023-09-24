@@ -67,6 +67,15 @@ builder.Services.AddBiwenSettings(options =>
         };
     });
 
+
+    //集群的通知服务配置
+    options.NotifyOption.Enable = true;
+    options.NotifyOption.Secret = "Biwen.Settings.Notify";
+    options.NotifyOption.EndpointHosts = new[]
+    {
+        "http://localhost:5150"
+    };
+
     //使用JsonStore
     //options.UserStoreOfJsonFile(options =>
     //{
@@ -105,7 +114,7 @@ app.MapRazorPages();
 
 app.UseBiwenSettings();
 //map api
-app.MapBiwenSettingApi().WithTags("BiwenSettingApi").WithOpenApi();
+app.MapBiwenSettingApi(mapNotifyEndpoint: true).WithTags("BiwenSettingApi").WithOpenApi();
 
 
 app.Run();
