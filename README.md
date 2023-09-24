@@ -5,6 +5,14 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/vipwan/Biwen.Settings/blob/master/LICENSE.txt) 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/vipwan/Biwen.Settings/pulls) 
 
+## Biwen.Settings介绍
+
+解决程序配置项分布式存储的问题,比如我们有一个GitHubSetting配置项,
+我们可以在任意地方注入IGitHubSetting,系统会自动将配置项注入到我们的业务代码中,并且可以在系统中动态修改配置项,
+修改后会自动持久化到存储中,并且可以在任意地方订阅配置项变更事件.
+
+请注意:订阅功能暂未实现,后续会在v2版本中实现.
+
 
 
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e2663e78-61da-43f1-990d-aa970736f023)
