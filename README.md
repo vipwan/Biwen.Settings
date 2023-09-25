@@ -9,7 +9,7 @@
 
 解决程序配置项重复引用的问题,比如我们有一个GitHubSetting配置项,
 我们可以在任意地方注入GitHubSetting,系统会自动将配置项注入到我们的业务代码中,并且可以在系统中动态修改配置项,
-修改后会自动持久化到存储中,并通知集群的订阅子节点Setting配置项变更事件,清空缓存并重新加载持久层的最新项.v2.0.0
+修改后会自动持久化到存储中,并通知集群的订阅子节点Setting配置项变更事件,清空缓存并重新加载持久层的最新项 [案例项目:BiwenSettingsMutiNodeTest](https://github.com/vipwan/BiwenSettingsMutiNodeTest)
 
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e27cbca0-9c3d-4851-8aa1-37d2ce1ac97d)
 
@@ -156,7 +156,7 @@ dotnet ef database update
         //    options.DbContextType = typeof(MyDbContext);
         //});
         //使用JsonStore持久化配置项
-        options.UseStoreOfEFCore(options =>
+        options.UserStoreOfJsonFile(options =>
         {
             options.FormatJson = true;
             options.JsonPath = "systemsetting.json";
