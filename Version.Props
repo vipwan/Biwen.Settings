@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<PackageVersion>1.4.3-preview</PackageVersion>
-		<PackageReleaseNotes>提供Setting仓储加密功能</PackageReleaseNotes>
+		<PackageVersion>2.0.0-preview1</PackageVersion>
+		<PackageReleaseNotes>提供多节点订阅消费Setting</PackageReleaseNotes>
 	</PropertyGroup>
 
 </Project>

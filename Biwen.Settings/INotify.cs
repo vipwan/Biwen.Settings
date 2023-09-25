@@ -135,6 +135,7 @@ namespace Biwen.Settings.EndpointNotify
                      await httpClient.PostAsJsonAsync(url, dto);
                  });
 
+                Console.WriteLine($"NotifyConsumerAsync:{host}");
             }
 
             await Task.CompletedTask;
