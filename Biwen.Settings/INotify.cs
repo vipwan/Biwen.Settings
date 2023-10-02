@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -60,7 +61,7 @@ namespace Biwen.Settings
         {
             var notifys = _serviceProvider.GetServices<INotify<T>>();
 
-            notifys.Where(x => x.IsAsync).ToList().ForEach(x => _ = x.NotifyAsync(@event));
+            notifys.Where(x => x.IsAsync).AsParallel().ForAll(x => _ = x.NotifyAsync(@event));
             notifys.Where(x => !x.IsAsync).ToList().ForEach(async x => await x.NotifyAsync(@event));
 
             await Task.CompletedTask;
