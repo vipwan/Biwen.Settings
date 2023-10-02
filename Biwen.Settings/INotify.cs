@@ -59,18 +59,11 @@ namespace Biwen.Settings
         public async Task PublishAsync<T>(T @event) where T : ISetting, new()
         {
             var notifys = _serviceProvider.GetServices<INotify<T>>();
-            foreach (var notify in notifys)
-            {
-                if (notify.IsAsync)
-                {
-                    _ = notify.NotifyAsync(@event);
-                }
-                else
-                {
-                    await notify.NotifyAsync(@event);
-                }
-            }
 
+            notifys.Where(x => x.IsAsync).ToList().ForEach(x => _ = x.NotifyAsync(@event));
+            notifys.Where(x => !x.IsAsync).ToList().ForEach(async x => await x.NotifyAsync(@event));
+
+            await Task.CompletedTask;
         }
     }
 }
