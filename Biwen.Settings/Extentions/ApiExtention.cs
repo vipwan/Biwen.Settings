@@ -150,13 +150,13 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        private static dynamic ToExpandoObject(this List<(string, string)> values)
+        private static dynamic ToExpandoObject(this List<(string Prop, string Val)> values)
         {
             dynamic obj = new ExpandoObject();
-            foreach (var item in values)
+            foreach (var (Prop, Val) in values)
             {
                 //如果重复,则忽略
-                ((IDictionary<string, object>)obj).TryAdd(item.Item1, item.Item2);
+                ((IDictionary<string, object>)obj).TryAdd(Prop, Val);
             }
             return obj;
         }

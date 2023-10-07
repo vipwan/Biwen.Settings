@@ -50,7 +50,7 @@ namespace Biwen.Settings
         /// <summary>
         /// 默认使用EntityFrameworkCore持久化配置项
         /// </summary>
-        public (Type?, object?) SettingManager { get; private set; } = (null, null);
+        public (Type? ManagerType, object? Options) SettingManager { get; private set; } = (null, null);
 
 
         /// <summary>
