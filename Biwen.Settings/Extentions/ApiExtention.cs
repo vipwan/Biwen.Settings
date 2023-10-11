@@ -1,8 +1,10 @@
+using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
+using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 using System.Dynamic;
 
 namespace Microsoft.AspNetCore.Builder
@@ -14,8 +16,12 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="endpoint"></param>
         /// <param name="routePrefix"></param>
+        /// <param name="mapNotifyEndpoint">是否配置Settings变更消费者</param>
         /// <returns></returns>
-        public static RouteGroupBuilder MapBiwenSettingApi(this IEndpointRouteBuilder endpoint, string routePrefix = "biwensetting/api")
+        public static RouteGroupBuilder MapBiwenSettingApi(
+            this IEndpointRouteBuilder endpoint,
+            string routePrefix = "biwensetting/api",
+            bool mapNotifyEndpoint = false)
         {
             //group
             var group = endpoint.MapGroup(routePrefix);
@@ -27,7 +33,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 var all = settingManager.GetAllSettings();
                 return Results.Json(all.Select(x => x.MapperToDto(encryptionProvider)));
-            });
+            }).Produces<List<SettingDto>>();
             //get
             group.MapGet("get/{id}", (ISettingManager settingManager, string id, IEncryptionProvider encryptionProvider)
                 =>
@@ -35,13 +41,12 @@ namespace Microsoft.AspNetCore.Builder
                 if (string.IsNullOrEmpty(id)) return Results.NotFound();
                 var setting = settingManager.GetSetting(id);
                 return setting == null ? Results.NotFound() : Results.Json(setting.MapperToDto(encryptionProvider));
-            });
+            }).Produces<SettingDto>();
             //set/{id}
             group.MapPost("set/{id}", async (ISettingManager settingManager, IOptions<SettingOptions> options, IHttpContextAccessor ctx, string id)
                 =>
             {
                 //ValidDtoFilter Before
-
                 var type = ASS.InAllRequiredAssemblies.First(x => x.FullName == id);
                 //json ->dto
                 if ((await ctx.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) is not IDictionary<string, object> dto)
@@ -75,8 +80,41 @@ namespace Microsoft.AspNetCore.Builder
                 var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
                 mdSave.Invoke(settingManager, new[] { setting! });
                 return Results.Ok(setting);
-            }).AddEndpointFilter<ValidDtoFilter>();
+            }).Accepts<ExpandoObject>(contentType: "application/json-patch+json")
+              .AddEndpointFilter<ValidDtoFilter>();
 
+            if (mapNotifyEndpoint)
+            {
+                //notify
+                var notifyEndpoint = endpoint.MapPost(Consts.EndpointUrl,
+                       (
+                           IOptions<SettingOptions> options,
+                           ICacheProvider cacheProvider,
+                           IHttpContextAccessor ctx,
+                           string secret,
+                           [FromBody] NofityDto dto)
+                       =>
+                   {
+                       if (secret != options.Value.NotifyOption.Secret)
+                       {
+                           return Results.BadRequest();
+                       }
+                       //var dto = await ctx.HttpContext!.Request.ReadFromJsonAsync<NofityDto>();
+                       if (dto == null) return Results.BadRequest();
+                       cacheProvider.Remove(string.Format(Consts.CacheKeyFormat, dto.SettingType, options.Value.ProjectId));
+
+                       Console.WriteLine($"消费了配置变更:{dto.SettingType} and Clear cache");
+
+                       return Results.Ok();
+                   });
+
+                //DTO
+                notifyEndpoint.Accepts<NofityDto>(contentType: "application/json");
+                notifyEndpoint.WithTags("Notify");
+#if !DEBUG
+                notifyEndpoint.ExcludeFromDescription();//排除在Swagger文档中
+#endif
+            }
             return group;
         }
 
@@ -112,13 +150,13 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        private static dynamic ToExpandoObject(this List<(string, string)> values)
+        private static dynamic ToExpandoObject(this List<(string Prop, string Val)> values)
         {
             dynamic obj = new ExpandoObject();
-            foreach (var item in values)
+            foreach (var (Prop, Val) in values)
             {
                 //如果重复,则忽略
-                ((IDictionary<string, object>)obj).TryAdd(item.Item1, item.Item2);
+                ((IDictionary<string, object>)obj).TryAdd(Prop, Val);
             }
             return obj;
         }
@@ -217,5 +255,7 @@ namespace Microsoft.AspNetCore.Builder
                 return await next(context);
             }
         }
+
+
     }
 }

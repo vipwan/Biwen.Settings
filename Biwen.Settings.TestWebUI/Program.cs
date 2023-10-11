@@ -51,23 +51,33 @@ builder.Services.AddBiwenSettings(options =>
     //options.UseCacheOfNull();
     options.UseCacheOfMemory();
 
-    //加密提供者,PlainEncryptionProvider为默认实现
-    options.UseEncryption<PlainEncryptionProvider>();
+    //加密提供者,空加密为默认实现
+    options.UseEncryption<EmptyEncryptionProvider>();
 
 
     //必须,否则将初始化错误!
     //使用EFCoreStore
-    options.UseSettingManagerOfEFCore(options =>
+    options.UseStoreOfEFCore(options =>
     {
         options.DbContextType = typeof(MyDbContext);
         options.EncryptionOption = new SettingOptions.EncryptionOptions
         {
-            Enable = true //仓储是否开启加密
+            //默认不开启加密
+            Enable = true
         };
     });
 
+
+    //集群的通知服务配置
+    options.NotifyOption.IsNotifyEnable = true;
+    options.NotifyOption.Secret = "Biwen.Settings.Notify";
+    options.NotifyOption.EndpointHosts = new[]
+    {
+        "http://localhost:5150"
+    };
+
     //使用JsonStore
-    //options.UserSettingManagerOfJsonStore(options =>
+    //options.UserStoreOfJsonFile(options =>
     //{
     //    options.FormatJson = true;
     //    options.JsonPath = "1systemsetting.json";
@@ -104,7 +114,7 @@ app.MapRazorPages();
 
 app.UseBiwenSettings();
 //map api
-app.MapBiwenSettingApi().WithTags("BiwenSettingApi").WithOpenApi();
+app.MapBiwenSettingApi(mapNotifyEndpoint: true).WithTags("BiwenSettingApi").WithOpenApi();
 
 
 app.Run();

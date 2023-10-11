@@ -5,18 +5,25 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/vipwan/Biwen.Settings/blob/master/LICENSE.txt) 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/vipwan/Biwen.Settings/pulls) 
 
+## Biwen.Settings介绍
 
+解决程序配置项重复引用的问题,比如我们有一个GitHubSetting配置项,
+我们可以在任意地方注入GitHubSetting,系统会自动将配置项注入到我们的业务代码中,并且可以在系统中动态修改配置项,
+修改后会自动持久化到存储中,并通知集群的订阅子节点Setting配置项变更事件,清空缓存并重新加载持久层的最新项 [案例项目:BiwenSettingsMutiNodeTest](https://github.com/vipwan/BiwenSettingsMutiNodeTest)
 
-![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e2663e78-61da-43f1-990d-aa970736f023)
+当前仓储可以是一个抽象的概念,可以任意横向实现.比如使用多个数据库负载,或者多个Redis等.只要能保证数据一致性即可
 
-## 开源动机
-- 由于当前有好几个单体项目,且每个小项目都有比较多的配置项,所以把这个模块抽离出来打包到Nuget共用.
-- 每个项目以及模块可以在任意想要动态配置的地方定义Setting, 系统会直接注入到自己的业务代码中且存储到持久层 所见即所得,有部分用户有这样的需求.
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e27cbca0-9c3d-4851-8aa1-37d2ce1ac97d)
 
+## 基础案例
+
+- 一个简单例子 比如我有一个Web站点,这个Web站点有很多的负载,以及一一些小程序后台服务 , 
+- 这些独立的程序(或者裂变或者使用代理转发的微服务), 都使用同一个 WX账号收账,那么这些站点或者后台服务都可以是这个WX账号配置的消费节点,
+- 这些节点可以配置一个或者多个作为主节点,当任意一个主节点修改配置项时,主动通知其他子节点更新配置,并且清空配置的缓存服务并重新加载Store!
 
 ## NuGet 包
 
-- dotnet add package Biwen.Settings --version 1.4.2-preview
+- dotnet add package Biwen.Settings --version 2.0.0-preview1
 
 
 ## 开发环境
@@ -138,14 +145,21 @@ dotnet ef database update
         //options.UseCacheOfMemory();
         //使用自定义缓存提供者
         //options.UseCache<T>();
-
+        //配置当前服务为主节点
+        options.NotifyOption.IsNotifyEnable = true;
+        options.NotifyOption.Secret = "Biwen.Settings.Notify";
+        //子节点配置
+        options.NotifyOption.EndpointHosts = new[]
+        {
+            "http://localhost:5150"
+        };
         //默认提供EntityFrameworkCore持久化配置项 dbContextType必须配置
-        //options.UseSettingManagerOfEFCore(options =>
+        //options.UseStoreOfEFCore(options =>
         //{
         //    options.DbContextType = typeof(MyDbContext);
         //});
         //使用JsonStore持久化配置项
-        options.UserSettingManagerOfJsonStore(options =>
+        options.UserStoreOfJsonFile(options =>
         {
             options.FormatJson = true;
             options.JsonPath = "systemsetting.json";
@@ -164,7 +178,7 @@ dotnet ef database update
 ### Enjoy!
 
 #### 支持提交更新时验证器自动验证
-
+![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e2663e78-61da-43f1-990d-aa970736f023)
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/40399554-90be-4927-8b03-a516614d4bd6)
 
 ```csharp

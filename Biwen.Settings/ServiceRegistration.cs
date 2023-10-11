@@ -1,5 +1,6 @@
 ﻿using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
+using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
@@ -62,33 +63,33 @@ namespace Biwen.Settings
 
             #region 注入SettingManager
 
-            if (currentOptions.Value.SettingManager.Item1 == typeof(EntityFrameworkCoreSettingManager))
+            if (currentOptions.Value.SettingManager.ManagerType == typeof(EntityFrameworkCoreSettingManager))
             {
-                if (currentOptions.Value.SettingManager.Item2 == null)
+                if (currentOptions.Value.SettingManager.Options == null)
                     throw new BiwenException("EFCoreStoreOptions need set!");
 
                 services.AddOptions<EFCoreStoreOptions>().Configure(x =>
                 {
-                    (currentOptions.Value.SettingManager.Item2 as Action<EFCoreStoreOptions>)?.Invoke(x);
+                    (currentOptions.Value.SettingManager.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
                 });
                 //services.AddScoped<ISettingManager, EntityFrameworkCoreSettingManager>();
             }
-            else if (currentOptions.Value.SettingManager.Item1 == typeof(JsonStoreSettingManager))
+            else if (currentOptions.Value.SettingManager.ManagerType == typeof(JsonStoreSettingManager))
             {
                 services.AddOptions<JsonStoreOptions>().Configure(x =>
                 {
-                    (currentOptions.Value.SettingManager.Item2 as Action<JsonStoreOptions>)?.Invoke(x);
+                    (currentOptions.Value.SettingManager.Options as Action<JsonStoreOptions>)?.Invoke(x);
                 });
                 //services.AddScoped<ISettingManager, JsonStoreSettingManager>();
             }
             else
             {
-                if (currentOptions.Value.SettingManager.Item1 == null) throw new BiwenException("Require ISettingManager!");
+                if (currentOptions.Value.SettingManager.ManagerType == null) throw new BiwenException("Require ISettingManager!");
 
                 //services.AddScoped(typeof(ISettingManager), currentOptions.Value.SettingManager.Item1!);
             }
 
-            services.AddScoped(typeof(ISettingManager), currentOptions.Value.SettingManager.Item1!);
+            services.AddScoped(typeof(ISettingManager), currentOptions.Value.SettingManager.ManagerType!);
 
             #endregion
 
@@ -164,8 +165,11 @@ namespace Biwen.Settings
                 }
             });
 
+            //消费者通知服务
+            services.AddScoped<NotifyServices>();
+
             return services;
-        }
+      }
 
 
         /// <summary>

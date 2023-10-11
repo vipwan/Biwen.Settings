@@ -51,7 +51,7 @@ namespace Biwen.Settings
         /// <summary>
         /// 默认使用EntityFrameworkCore持久化配置项
         /// </summary>
-        public (Type?, object?) SettingManager { get; private set; } = (null, null);
+        public (Type? ManagerType, object? Options) SettingManager { get; private set; } = (null, null);
 
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Biwen.Settings
         /// 默认不使用任何缓存
         /// 不支持直接调用,请使用UseCache方法
         /// </summary>
-        public Type EncryptionProvider { get; private set; } = typeof(PlainEncryptionProvider);
+        public Type EncryptionProvider { get; private set; } = typeof(EmptyEncryptionProvider);
 
 
         public void UseEncryption<T>() where T : IEncryptionProvider
@@ -129,7 +129,37 @@ namespace Biwen.Settings
             /// <summary>
             /// 是否启用
             /// </summary>
-            public bool Enable { get; set; } = true;
+            public bool Enable { get; set; } = false;
+        }
+
+
+        /// <summary>
+        /// 通知选项
+        /// </summary>
+        public NotifyOptions NotifyOption { get; set; } = new();
+
+        /// <summary>
+        /// 变更通知选项
+        /// </summary>
+        public class NotifyOptions
+        {
+            /// <summary>
+            /// 是否启用当前服务为通知的生产者
+            /// </summary>
+            public bool IsNotifyEnable { get; set; } = false;
+
+            /// <summary>
+            /// 通知的密钥,用于验证通知的合法性
+            /// 请注意如果作为消费者,即使Enable=false,也必须设置Secret,否则会导致无法接收到通知
+            /// </summary>
+            public string Secret { get; set; } = "Biwen.Settings.Notify";
+
+            /// <summary>
+            /// 消费者的地址集合
+            /// 如:http://localhost:5000
+            /// </summary>
+            public string[] EndpointHosts { get; set; } = Array.Empty<string>();
+
         }
     }
 
@@ -165,13 +195,13 @@ namespace Biwen.Settings
         /// <param name="options"></param>
         /// <param name="storePptions"></param>
         /// <returns></returns>
-        public static SettingOptions UseSettingManagerOfEFCore(this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null)
+        public static SettingOptions UseStoreOfEFCore(this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null)
         {
             options.UseSettingManager<EntityFrameworkCoreSettingManager, Action<EFCoreStoreOptions>?>(storeOptions);
             return options;
         }
 
-        public static SettingOptions UserSettingManagerOfJsonStore(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
+        public static SettingOptions UserStoreOfJsonFile(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
         {
             options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storeOptions);
             return options;
