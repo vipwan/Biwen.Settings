@@ -31,7 +31,7 @@
                 <th class="settingThr1" scope="row">@(setting.SettingName)</th>
                 <td class="settingThr2">@(setting.Description)</td>
                 <td class="settingThr3">@(setting.Order)</td>
-                <td class="settingThr4">@Html.ActionLink(SettingOptions.Value.EditorOption.EditorEditButtonText,"Edit","Setting",new{ id= setting.SettingType })</td>
+                <td class="settingThr4">@Html.ActionLink(SettingOptions.Value.EditorOption.EditorEditButtonText, "Edit", "Setting", new { id = setting.SettingType, area = "Biwen.Settings" })</td>
             </tr>
         }
 
@@ -41,7 +41,7 @@
 @if (SettingOptions.Value.EditorOption.ShouldPagenation)
 {
 
-    @section Scripts{
+    @section Scripts {
     <script src="/Content/jquery.dataTables.min.js"></script>
     <script>
         $(function () {

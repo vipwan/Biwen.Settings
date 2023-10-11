@@ -193,7 +193,7 @@ namespace Biwen.Settings.Controllers
             //Save
             var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
             mdSave.Invoke(_settingManager, new[] { setting });
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { area = "Biwen.Settings" });
         }
 
     }

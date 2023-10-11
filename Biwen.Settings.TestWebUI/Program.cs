@@ -35,7 +35,7 @@ builder.Services.AddBiwenSettings(options =>
     options.ProjectId = $"Biwen.Settings.TestWebUI-{"Production"}";
 #endif
 
-    options.Layout = "~/Views/Shared/_Layout.cshtml";
+    //options.Layout = "~/Views/Shared/_Layout.cshtml";
     options.Title = "Biwen.Settings";
     options.Route = "system/settings";
     options.HasPermission = (ctx) => true;
