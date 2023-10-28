@@ -20,6 +20,7 @@ namespace Biwen.Settings
         /// <summary>
         /// Layout布局
         /// </summary>
+        [Obsolete("Layout后续不在使用,请添加Areas/Biwen.Settings/Views/Setting/_Layout.cshtml 覆盖", false)]
         public string Layout { get; set; } = "_Layout.cshtml";
         /// <summary>
         /// 管理页面标题
