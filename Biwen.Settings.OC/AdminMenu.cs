@@ -10,17 +10,11 @@ using System.Threading.Tasks;
 
 namespace Biwen.Settings.OC
 {
-    public class AdminMenu : INavigationProvider
+    public class AdminMenu(IStringLocalizer<AdminMenu> localizer, IOptions<AdminOptions> options) : INavigationProvider
     {
 
-        private readonly IStringLocalizer S;
-        private readonly IOptions<AdminOptions> _options;
-
-        public AdminMenu(IStringLocalizer<AdminMenu> localizer,IOptions<AdminOptions> options)
-        {
-            S = localizer;
-            _options = options;
-        }
+        private readonly IStringLocalizer S = localizer;
+        private readonly IOptions<AdminOptions> _options = options;
 
         public Task BuildNavigationAsync(string name, NavigationBuilder builder)
         {

@@ -101,14 +101,9 @@ namespace Biwen.Settings
     /// <summary>
     /// BaseSettingManager
     /// </summary>
-    public abstract class BaseSettingManager : ISettingManager
+    public abstract class BaseSettingManager(ILogger<ISettingManager> logger) : ISettingManager
     {
-        protected readonly ILogger<ISettingManager> _logger;
-
-        public BaseSettingManager(ILogger<ISettingManager> logger)
-        {
-            _logger = logger;
-        }
+        protected readonly ILogger<ISettingManager> _logger = logger;
 
         public abstract void Save<T>(T setting) where T : ISetting, new();
 

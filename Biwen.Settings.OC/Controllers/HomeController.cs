@@ -5,14 +5,10 @@ using OrchardCore.Admin;
 namespace Biwen.Settings.OC.Controllers
 {
     [Admin]
-    public class HomeController : Controller
+    public class HomeController(Biwen.Settings.Controllers.SettingController settingController) : Controller
     {
-        private readonly Biwen.Settings.Controllers.SettingController _settingController;
+        private readonly Biwen.Settings.Controllers.SettingController _settingController = settingController;
 
-        public HomeController(Biwen.Settings.Controllers.SettingController settingController)
-        {
-            _settingController = settingController;
-        }
         [Auth]
         public IActionResult Index()
         {
