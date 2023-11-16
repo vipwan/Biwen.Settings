@@ -8,25 +8,16 @@ namespace Biwen.Settings.Controllers
 {
 
     [Area("Biwen.Settings")]
-    public class SettingController : Controller
+    public class SettingController(
+        ISettingManager settingManager,
+        IOptions<SettingOptions> options,
+        IEncryptionProvider encryptionProvider,
+        IHttpContextAccessor httpContextAccessor) : Controller
     {
-        private readonly ISettingManager _settingManager;
-        private readonly IOptions<SettingOptions> _options;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IEncryptionProvider _encryptionProvider;
-
-
-        public SettingController(
-            ISettingManager settingManager,
-            IOptions<SettingOptions> options,
-            IEncryptionProvider encryptionProvider,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            _settingManager = settingManager;
-            _encryptionProvider = encryptionProvider;
-            _options = options;
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-        }
+        private readonly ISettingManager _settingManager = settingManager;
+        private readonly IOptions<SettingOptions> _options = options;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        private readonly IEncryptionProvider _encryptionProvider = encryptionProvider;
 
         //[HttpGet("qwertyuiopasdfghjklzxcvbnm/setting")]
         [Auth]
@@ -66,13 +57,12 @@ namespace Biwen.Settings.Controllers
         [NonAction]
         List<(string, string?, string?)> SettingValues(Setting setting)
         {
-            if (setting == null)
-                throw new ArgumentNullException(nameof(setting));
+            ArgumentNullException.ThrowIfNull(setting);
 
             var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == setting.SettingType)
                 ?? throw new ArgumentNullException(nameof(setting));
 
-            List<(string, string?, string?)> SettingValues = new();
+            List<(string, string?, string?)> SettingValues = [];
 
             var plainContent = _encryptionProvider.Decrypt(setting.SettingContent!);
 

@@ -158,7 +158,7 @@ namespace Biwen.Settings
             /// 消费者的地址集合
             /// 如:http://localhost:5000
             /// </summary>
-            public string[] EndpointHosts { get; set; } = Array.Empty<string>();
+            public string[] EndpointHosts { get; set; } = [];
 
         }
     }

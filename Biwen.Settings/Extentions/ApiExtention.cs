@@ -135,7 +135,9 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
+#pragma warning disable IDE0060 // 删除未使用的参数
         private static SettingDto MapperToDto(this Setting setting, IEncryptionProvider encryptionProvider)
+#pragma warning restore IDE0060 // 删除未使用的参数
         {
             return new SettingDto(
                                setting.SettingType,

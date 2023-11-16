@@ -83,7 +83,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
 
             if (@default == null)
             {
-                _logger.LogError(message: "SettingType: {0} Not Found!", typeof(T).FullName);
+                _logger.LogError("SettingType: {FullName} Not Found!", typeof(T).FullName);
                 throw new Exception($"SettingType: {typeof(T).FullName} Not Found!");
             }
             //不可为空
@@ -121,12 +121,12 @@ namespace Biwen.Settings.SettingManagers.EFCore
                 });
             }
             (_db as DbContext)!.SaveChanges();
-            _logger.LogInformation(message: "SaveSetting: {0},{1}", settingType, settingContent);
+            _logger.LogInformation("SaveSetting: {settingType},{settingContent}", settingType, settingContent);
         }
 
         public override List<Setting> GetAllSettings()
         {
-            return _db.Settings.Where(x => x.ProjectId == _options.Value.ProjectId).OrderBy(x => x.Order).ThenBy(x => x.SettingType).ToList();
+            return [.. _db.Settings.Where(x => x.ProjectId == _options.Value.ProjectId).OrderBy(x => x.Order).ThenBy(x => x.SettingType)];
         }
 
 

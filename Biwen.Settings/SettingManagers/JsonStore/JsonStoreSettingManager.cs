@@ -8,7 +8,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
     {
         private readonly IOptions<SettingOptions> _options;
         private readonly IOptions<JsonStoreOptions> _storeOptions;
-        private IEncryptionProvider _encryptionProvider;
+        private readonly IEncryptionProvider _encryptionProvider;
 
         //格式化配置
         private readonly JsonSerializerOptions _serializerOptions;
@@ -67,9 +67,12 @@ namespace Biwen.Settings.SettingManagers.JsonStore
 
             if (stored != null)
             {
-                stored = stored.Where(x => x.ProjectId == _options.Value.ProjectId)
-                    .OrderBy(x => x.Order)
-                    .ThenByDescending(x => x.SettingName).ToList();
+                stored =
+                [
+                    .. stored.Where(x => x.ProjectId == _options.Value.ProjectId)
+                                        .OrderBy(x => x.Order)
+                                        .ThenByDescending(x => x.SettingName),
+                ];
                 return stored;
             }
             return [];

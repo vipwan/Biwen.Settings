@@ -13,7 +13,7 @@ namespace Biwen.Settings.Infrastructure
         /// 排除的程序集
         /// </summary>
         private static readonly string[] EscapeAssemblies =
-        {
+        [
             "netstandard",
             "Microsoft",
             "Mono",
@@ -25,7 +25,7 @@ namespace Biwen.Settings.Infrastructure
             "Swashbuckle",
             "AutoMapper",
             "FluentValidation",
-        };
+        ];
 
         private static Assembly[] _allRequiredAssemblies = null!;
 
