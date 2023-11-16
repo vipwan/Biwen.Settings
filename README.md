@@ -23,7 +23,7 @@
 
 ## NuGet 包
 
-- dotnet add package Biwen.Settings --version 2.0.0-preview1
+- dotnet add package Biwen.Settings --version 2.0.0
 
 
 ## 开发环境
