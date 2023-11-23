@@ -78,7 +78,7 @@ namespace Microsoft.AspNetCore.Builder
                 }
                 //Save
                 var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
-                mdSave.Invoke(settingManager, new[] { setting! });
+                mdSave.Invoke(settingManager, [setting!]);
                 return Results.Ok(setting);
             }).Accepts<ExpandoObject>(contentType: "application/json-patch+json")
               .AddEndpointFilter<ValidDtoFilter>();
@@ -219,7 +219,7 @@ namespace Microsoft.AspNetCore.Builder
                     (bool, IDictionary<string, string[]>?) Valid(MethodInfo? md, object validator)
                     {
                         //验证不通过的情况
-                        if (md!.Invoke(validator, new[] { setting }) is ValidationResult result && !result!.IsValid)
+                        if (md!.Invoke(validator, [setting]) is ValidationResult result && !result!.IsValid)
                         {
                             return (false, result.ToDictionary());
                         }

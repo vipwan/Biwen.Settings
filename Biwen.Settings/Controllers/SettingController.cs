@@ -141,7 +141,7 @@ namespace Biwen.Settings.Controllers
                 bool Valid(MethodInfo? md, object validator)
                 {
                     //验证不通过的情况
-                    if (md!.Invoke(validator, new[] { setting! }) is ValidationResult result && !result!.IsValid)
+                    if (md!.Invoke(validator, [setting!]) is ValidationResult result && !result!.IsValid)
                     {
                         foreach (var item in result.Errors)
                         {
@@ -182,7 +182,7 @@ namespace Biwen.Settings.Controllers
             }
             //Save
             var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
-            mdSave.Invoke(_settingManager, new[] { setting });
+            mdSave.Invoke(_settingManager, [setting]);
             return RedirectToAction("Index", new { area = "Biwen.Settings" });
         }
 
