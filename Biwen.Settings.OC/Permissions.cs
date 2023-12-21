@@ -1,9 +1,4 @@
 ﻿using OrchardCore.Security.Permissions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Biwen.Settings.OC
 {
@@ -18,8 +13,7 @@ namespace Biwen.Settings.OC
         {
             return new List<PermissionStereotype>
            {
-                new PermissionStereotype
-                {
+                new() {
                     Name = "Administrator",
                     Permissions = new[] { ManageSettings }
                 }

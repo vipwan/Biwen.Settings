@@ -5,6 +5,7 @@
 		<TargetFrameworks>net7.0;net8.0</TargetFrameworks>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<PackageProjectUrl>https://github.com/vipwan/Biwen.Settings</PackageProjectUrl>
 		<Authors>万雅虎</Authors>

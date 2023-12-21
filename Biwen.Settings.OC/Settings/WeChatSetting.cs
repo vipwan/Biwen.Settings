@@ -34,14 +34,9 @@ namespace Biwen.Settings.OC.Settings
         }
 
 
-        public class WeChatSettingNotify : BaseNotify<WeChatSetting>
+        public class WeChatSettingNotify(ILogger<WeChatSettingNotify> logger) : BaseNotify<WeChatSetting>
         {
-            private readonly ILogger<WeChatSettingNotify> _logger;
-
-            public WeChatSettingNotify(ILogger<WeChatSettingNotify> logger)
-            {
-                _logger = logger;
-            }
+            private readonly ILogger<WeChatSettingNotify> _logger = logger;
 
             public override async Task NotifyAsync(WeChatSetting setting)
             {

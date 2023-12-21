@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
 
 namespace Biwen.Settings
 {
@@ -169,7 +168,7 @@ namespace Biwen.Settings
             services.AddScoped<NotifyServices>();
 
             return services;
-      }
+        }
 
 
         /// <summary>

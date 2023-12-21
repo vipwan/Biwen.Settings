@@ -78,7 +78,7 @@ namespace Microsoft.AspNetCore.Builder
                 }
                 //Save
                 var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
-                mdSave.Invoke(settingManager, new[] { setting! });
+                mdSave.Invoke(settingManager, [setting!]);
                 return Results.Ok(setting);
             }).Accepts<ExpandoObject>(contentType: "application/json-patch+json")
               .AddEndpointFilter<ValidDtoFilter>();
@@ -135,7 +135,9 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
+#pragma warning disable IDE0060 // 删除未使用的参数
         private static SettingDto MapperToDto(this Setting setting, IEncryptionProvider encryptionProvider)
+#pragma warning restore IDE0060 // 删除未使用的参数
         {
             return new SettingDto(
                                setting.SettingType,
@@ -217,7 +219,7 @@ namespace Microsoft.AspNetCore.Builder
                     (bool, IDictionary<string, string[]>?) Valid(MethodInfo? md, object validator)
                     {
                         //验证不通过的情况
-                        if (md!.Invoke(validator, new[] { setting }) is ValidationResult result && !result!.IsValid)
+                        if (md!.Invoke(validator, [setting]) is ValidationResult result && !result!.IsValid)
                         {
                             return (false, result.ToDictionary());
                         }

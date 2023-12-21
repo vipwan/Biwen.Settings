@@ -41,25 +41,16 @@ namespace Biwen.Settings
     /// <summary>
     /// SettingManager的装饰器基类
     /// </summary>
-    internal sealed class SettingManagerDecorator : ISettingManager
+    internal sealed class SettingManagerDecorator(
+        ISettingManager settingManager,
+        IServiceProvider serviceProvider) : ISettingManager
     {
-        private readonly ISettingManager _settingManager;
-        private readonly ICacheProvider _cacheProvider;
-        private readonly IMedirator _medirator;
-        private readonly NotifyServices _notifyServices;
+        private readonly ISettingManager _settingManager = settingManager;
+        private readonly ICacheProvider _cacheProvider = serviceProvider.GetRequiredService<ICacheProvider>();
+        private readonly IMedirator _medirator = serviceProvider.GetRequiredService<IMedirator>();
+        private readonly NotifyServices _notifyServices = serviceProvider.GetRequiredService<NotifyServices>();
 
-        private readonly IOptions<SettingOptions> _options;
-
-        public SettingManagerDecorator(
-            ISettingManager settingManager,
-            IServiceProvider serviceProvider)
-        {
-            _settingManager = settingManager;
-            _cacheProvider = serviceProvider.GetRequiredService<ICacheProvider>();
-            _notifyServices = serviceProvider.GetRequiredService<NotifyServices>();
-            _medirator = serviceProvider.GetRequiredService<IMedirator>();
-            _options = serviceProvider.GetRequiredService<IOptions<SettingOptions>>();
-        }
+        private readonly IOptions<SettingOptions> _options = serviceProvider.GetRequiredService<IOptions<SettingOptions>>();
 
         public async void Save<T>(T setting) where T : ISetting, new()
         {
@@ -101,14 +92,9 @@ namespace Biwen.Settings
     /// <summary>
     /// BaseSettingManager
     /// </summary>
-    public abstract class BaseSettingManager : ISettingManager
+    public abstract class BaseSettingManager(ILogger<ISettingManager> logger) : ISettingManager
     {
-        protected readonly ILogger<ISettingManager> _logger;
-
-        public BaseSettingManager(ILogger<ISettingManager> logger)
-        {
-            _logger = logger;
-        }
+        protected readonly ILogger<ISettingManager> _logger = logger;
 
         public abstract void Save<T>(T setting) where T : ISetting, new();
 

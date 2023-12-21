@@ -8,25 +8,16 @@ namespace Biwen.Settings.Controllers
 {
 
     [Area("Biwen.Settings")]
-    public class SettingController : Controller
+    public class SettingController(
+        ISettingManager settingManager,
+        IOptions<SettingOptions> options,
+        IEncryptionProvider encryptionProvider,
+        IHttpContextAccessor httpContextAccessor) : Controller
     {
-        private readonly ISettingManager _settingManager;
-        private readonly IOptions<SettingOptions> _options;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IEncryptionProvider _encryptionProvider;
-
-
-        public SettingController(
-            ISettingManager settingManager,
-            IOptions<SettingOptions> options,
-            IEncryptionProvider encryptionProvider,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            _settingManager = settingManager;
-            _encryptionProvider = encryptionProvider;
-            _options = options;
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-        }
+        private readonly ISettingManager _settingManager = settingManager;
+        private readonly IOptions<SettingOptions> _options = options;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        private readonly IEncryptionProvider _encryptionProvider = encryptionProvider;
 
         //[HttpGet("qwertyuiopasdfghjklzxcvbnm/setting")]
         [Auth]
@@ -66,13 +57,12 @@ namespace Biwen.Settings.Controllers
         [NonAction]
         List<(string, string?, string?)> SettingValues(Setting setting)
         {
-            if (setting == null)
-                throw new ArgumentNullException(nameof(setting));
+            ArgumentNullException.ThrowIfNull(setting);
 
             var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == setting.SettingType)
                 ?? throw new ArgumentNullException(nameof(setting));
 
-            List<(string, string?, string?)> SettingValues = new();
+            List<(string, string?, string?)> SettingValues = [];
 
             var plainContent = _encryptionProvider.Decrypt(setting.SettingContent!);
 
@@ -151,7 +141,7 @@ namespace Biwen.Settings.Controllers
                 bool Valid(MethodInfo? md, object validator)
                 {
                     //验证不通过的情况
-                    if (md!.Invoke(validator, new[] { setting! }) is ValidationResult result && !result!.IsValid)
+                    if (md!.Invoke(validator, [setting!]) is ValidationResult result && !result!.IsValid)
                     {
                         foreach (var item in result.Errors)
                         {
@@ -192,7 +182,7 @@ namespace Biwen.Settings.Controllers
             }
             //Save
             var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
-            mdSave.Invoke(_settingManager, new[] { setting });
+            mdSave.Invoke(_settingManager, [setting]);
             return RedirectToAction("Index", new { area = "Biwen.Settings" });
         }
 

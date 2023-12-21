@@ -3,16 +3,11 @@
     /// <summary>
     /// IStringLocalizer<T> Or BiwenSettingsLocalizer.T
     /// </summary>
-    public class BiwenSettingsLocalizer
+    public class BiwenSettingsLocalizer(IStringLocalizer<UI> ui)
     {
         /// <summary>
         /// UI Localization
         /// </summary>
-        public IStringLocalizer<UI> UI { get; private set; }
-
-        public BiwenSettingsLocalizer(IStringLocalizer<UI> ui)
-        {
-            UI = ui;
-        }
+        public IStringLocalizer<UI> UI { get; private set; } = ui;
     }
 }

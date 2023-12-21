@@ -1,5 +1,4 @@
 ﻿using Biwen.Settings.Encryption;
-using Biwen.Settings.SettingManagers.JsonStore;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -9,7 +8,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
     {
         private readonly IOptions<SettingOptions> _options;
         private readonly IOptions<JsonStoreOptions> _storeOptions;
-        private IEncryptionProvider _encryptionProvider;
+        private readonly IEncryptionProvider _encryptionProvider;
 
         //格式化配置
         private readonly JsonSerializerOptions _serializerOptions;
@@ -68,12 +67,15 @@ namespace Biwen.Settings.SettingManagers.JsonStore
 
             if (stored != null)
             {
-                stored = stored.Where(x => x.ProjectId == _options.Value.ProjectId)
-                    .OrderBy(x => x.Order)
-                    .ThenByDescending(x => x.SettingName).ToList();
+                stored =
+                [
+                    .. stored.Where(x => x.ProjectId == _options.Value.ProjectId)
+                                        .OrderBy(x => x.Order)
+                                        .ThenByDescending(x => x.SettingName),
+                ];
                 return stored;
             }
-            return new List<Setting>();
+            return [];
         }
 
         public override Setting? GetSetting(string settingType)
@@ -99,7 +101,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
 
                 if (stored == null)
                 {
-                    stored = new();
+                    stored = [];
                     var plainContent = JsonSerializer.Serialize(setting);
 
                     stored!.Add(new Setting

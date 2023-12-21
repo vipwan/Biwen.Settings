@@ -48,13 +48,9 @@ namespace Biwen.Settings
         Task PublishAsync<T>(T @event) where T : ISetting, new();
     }
 
-    internal class Medirator : IMedirator
+    internal class Medirator(IServiceProvider serviceProvider) : IMedirator
     {
-        private readonly IServiceProvider _serviceProvider;
-        public Medirator(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         public async Task PublishAsync<T>(T @event) where T : ISetting, new()
         {
@@ -97,13 +93,9 @@ namespace Biwen.Settings.EndpointNotify
     /// <summary>
     /// 通知服务
     /// </summary>
-    internal class NotifyServices
+    internal class NotifyServices(IOptions<SettingOptions> options)
     {
-        private readonly IOptions<SettingOptions> _options;
-        public NotifyServices(IOptions<SettingOptions> options)
-        {
-            _options = options;
-        }
+        private readonly IOptions<SettingOptions> _options = options;
 
         public async Task NotifyConsumerAsync(NofityDto dto)
         {
