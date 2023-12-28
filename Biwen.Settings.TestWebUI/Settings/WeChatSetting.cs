@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 namespace Biwen.Settings.TestWebUI
 {
     [Description("Github配置")]
-    public class GithubSetting : SettingBase
+    public class GithubSetting : ValidationSettingBase<GithubSetting>
     {
 
         [Description("Github用户名")]
@@ -24,22 +24,19 @@ namespace Biwen.Settings.TestWebUI
 
         public override int Order => 500;
 
-        public class GithubSettingValidtor : AbstractValidator<GithubSetting>
+
+        public GithubSetting()
         {
-            public GithubSettingValidtor()
-            {
-                //验证规则
-                RuleFor(x => x.UserName).NotEmpty().Length(3, 128);
-                RuleFor(x => x.Repository).NotNull().NotEmpty().Length(3, 128);
-                RuleFor(x => x.Token).NotNull().NotEmpty().Length(3, 128);
-            }
+            //验证规则
+            RuleFor(x => x.UserName).NotEmpty().Length(3, 128);
+            RuleFor(x => x.Repository).NotNull().NotEmpty().Length(3, 128);
+            RuleFor(x => x.Token).NotNull().NotEmpty().Length(3, 128);
         }
     }
 
 
-
     [Description("微信配置")]
-    public class WeChatSetting : SettingBase
+    public class WeChatSetting : ValidationSettingBase<WeChatSetting>
     {
         [Description("AppId")]
         public string AppId { get; set; } = "wx1234567890";
@@ -55,17 +52,11 @@ namespace Biwen.Settings.TestWebUI
 
         public override int Order => 500;
 
-        /// <summary>
-        /// 常规的验证器,不推荐使用这种方式,会全局注入IValidator<T>
-        /// </summary>
-        public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
+        public WeChatSetting()
         {
-            public WeChatSettingValidtor()
-            {
-                //验证规则
-                RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
-                RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
-            }
+            //验证规则
+            RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
+            RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
         }
 
 

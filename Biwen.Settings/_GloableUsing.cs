@@ -13,3 +13,4 @@ global using Biwen.Settings;
 global using Biwen.Settings.Domains;
 global using FindTypes = Biwen.Settings.Infrastructure.TypeFinder.FindTypes;
 global using ASS = Biwen.Settings.Infrastructure.Assemblies;
+global using MSDA = System.ComponentModel.DataAnnotations;

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 namespace Biwen.Settings.OC.Settings
 {
     [Description("微信配置")]
-    public class WeChatSetting : SettingBase
+    public class WeChatSetting : ValidationSettingBase<WeChatSetting>
     {
         [Description("AppId")]
         public string AppId { get; set; } = "wx1234567890";
@@ -20,17 +20,11 @@ namespace Biwen.Settings.OC.Settings
 
         public override int Order => 500;
 
-        /// <summary>
-        /// 常规的验证器,不推荐使用这种方式,会全局注入IValidator<T>
-        /// </summary>
-        public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
+        public WeChatSetting()
         {
-            public WeChatSettingValidtor()
-            {
-                //验证规则
-                RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
-                RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
-            }
+            //验证规则
+            RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
+            RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
         }
 
 

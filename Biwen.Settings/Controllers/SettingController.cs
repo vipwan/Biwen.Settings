@@ -1,6 +1,7 @@
 ﻿using Biwen.Settings.Encryption;
 using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 
@@ -137,6 +138,27 @@ namespace Biwen.Settings.Controllers
 
             if (_options.Value.AutoFluentValidationOption.Enable)
             {
+
+                //继承至ValidationSettingBase<T>的情况
+                if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
+                {
+                    var x = setting as ISettingValidator ?? throw new BiwenException($"ISettingValidator is Null!");
+
+                    //验证不通过的情况
+                    var vResult = x.Validate();
+                    if (!vResult.IsValid)
+                    {
+                        foreach (var item in vResult.Errors)
+                        {
+                            ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                        }
+                        var domainSetting = _settingManager.GetSetting(id);
+                        ViewBag.Setting = domainSetting!;
+                        ViewBag.SettingValues = SettingValues(domainSetting!);
+                        return View();
+                    }
+                }
+
                 //验证DTO
                 bool Valid(MethodInfo? md, object validator)
                 {
@@ -167,24 +189,11 @@ namespace Biwen.Settings.Controllers
                         return View();
                     }
                 }
-
-                //继承至ValidationSettingBase<T>的情况
-                if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
-                {
-                    var x = setting as ISettingValidator ?? throw new BiwenException($"ISettingValidator is Null!");
-                    var md = x.RealValidator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
-                    //验证不通过的情况
-                    if (!Valid(md, x.RealValidator))
-                    {
-                        return View();
-                    }
-                }
             }
             //Save
             var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
             mdSave.Invoke(_settingManager, [setting]);
             return RedirectToAction("Index", new { area = "Biwen.Settings" });
         }
-
     }
 }

@@ -212,12 +212,12 @@ dotnet ef database update
     }
 
     /// <summary>
-    /// 内置验证器的配置项,推荐使用这种方式
+    /// 内置验证器的配置项,推荐使用这种方式 ,同时支持`FluentValidation`和`DataAnnotations`
     /// </summary>
     [Description("内置验证器的配置项测试")]
     public class TestAutoValidSetting : ValidationSettingBase<TestAutoValidSetting>
     {
-
+        [StringLength(50, MinimumLength = 3)] // DataAnnotations支持
         public string Name { get; set; } = "Hello"!;
 
         public TestAutoValidSetting()

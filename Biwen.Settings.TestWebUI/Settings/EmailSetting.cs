@@ -1,14 +1,22 @@
 ﻿using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Biwen.Settings.TestWebUI
 {
 
     [Description("邮件配置")]
-    public class EmailSetting : SettingBase
+    public class EmailSetting : ValidationSettingBase<EmailSetting>
     {
         [Description("SMTP服务器")]
         public string Host { get; set; } = "smtp.qq.com";
+
+        /// <summary>
+        /// DataAnnotations测试,300-699
+        /// </summary>
+        [Range(300, 699)]
         public int Port { get; set; } = 465;
+
+        [StringLength(50, MinimumLength = 3)]
         public string UserName { get; set; } = "";
         public string Password { get; set; } = "";
 
@@ -17,19 +25,15 @@ namespace Biwen.Settings.TestWebUI
         public override int Order => 500;
 
 
-        public class EmailSettingValidtor : AbstractValidator<EmailSetting>
+        public EmailSetting()
         {
-            public EmailSettingValidtor()
-            {
-                //验证规则
-                RuleFor(x => x.Host).NotEmpty().Length(6, 128);
-                RuleFor(x => x.Port).NotNull().NotEmpty().GreaterThan(0);
-                RuleFor(x => x.UserName).NotNull().NotEmpty().Length(3, 128);
-                RuleFor(x => x.Password).NotNull().NotEmpty().Length(3, 128);
-                RuleFor(x => x.From).NotNull().NotEmpty().Length(3, 128);
-            }
+            //验证规则
+            RuleFor(x => x.Host).NotEmpty().Length(6, 128);
+            RuleFor(x => x.Port).NotNull().NotEmpty().GreaterThan(0);
+            RuleFor(x => x.UserName).NotNull().NotEmpty().Length(3, 128);
+            RuleFor(x => x.Password).NotNull().NotEmpty().Length(3, 128);
+            RuleFor(x => x.From).NotNull().NotEmpty().Length(3, 128);
         }
-
     }
 
 
@@ -37,7 +41,7 @@ namespace Biwen.Settings.TestWebUI
     /// 站点基础配置
     /// </summary>
     [Description("站点配置")]
-    public class SiteSetting : SettingBase
+    public class SiteSetting : ValidationSettingBase<SiteSetting>
     {
         [Description("站点作者")]
         public string? Author { get; set; } = "万雅虎";

@@ -215,6 +215,17 @@ namespace Microsoft.AspNetCore.Builder
                 var option = (context.Arguments[1] as IOptions<SettingOptions>)!.Value;
                 if (option.AutoFluentValidationOption.Enable)
                 {
+                    //继承至ValidationSettingBase<T>的情况
+                    if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
+                    {
+                        var x = dto as ISettingValidator ?? throw new BiwenException($"ISettingValidator is Null!");
+                        var vResult = x.Validate();
+                        if (!vResult.IsValid)
+                        {
+                            return Results.ValidationProblem(vResult.ToDictionary());
+                        }
+                    }
+
                     //验证DTO
                     (bool, IDictionary<string, string[]>?) Valid(MethodInfo? md, object validator)
                     {
@@ -234,20 +245,6 @@ namespace Microsoft.AspNetCore.Builder
                         var md = validator.GetType().GetMethods().First(
                             x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
                         var vResult = Valid(md, validator);
-                        if (!vResult.Item1)
-                        {
-                            return Results.ValidationProblem(vResult.Item2!);
-                        }
-                    }
-
-                    //继承至ValidationSettingBase<T>的情况
-                    if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
-                    {
-                        var x = dto as ISettingValidator ?? throw new BiwenException($"ISettingValidator is Null!");
-                        var md = x.RealValidator.GetType().GetMethods().First(
-                            x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
-                        //验证不通过的情况
-                        var vResult = Valid(md, x.RealValidator);
                         if (!vResult.Item1)
                         {
                             return Results.ValidationProblem(vResult.Item2!);
