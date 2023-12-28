@@ -1,41 +1,45 @@
-## ChangeLog
+ï»¿## ChangeLog
+
+### 2.0.0~2.0.1
+    - æ”¯æŒNET8
+    - ValidationSettingBase<T>åŒæ—¶æ”¯æŒ`FluentValidation`å’Œ`DataAnnotations`
 
 ### 1.4.2~1.4.3
-    - ÖØÃüÃûOptionsÍØÕ¹·½·¨ÎªUseStoreOfEFCore,UserStoreOfJsonFile
-    - Ìá¹©Setting²Ö´¢¼ÓÃÜ¹¦ÄÜ #10
+    - é‡å‘½åOptionsæ‹“å±•æ–¹æ³•ä¸ºUseStoreOfEFCore,UserStoreOfJsonFile
+    - æä¾›Settingä»“å‚¨åŠ å¯†åŠŸèƒ½ #10
 
 ### 1.4.1
-    - Minimal ApiÖ§³ÖSetting²¿·Ö¸üĞÂ
+    - Minimal Apiæ”¯æŒSettingéƒ¨åˆ†æ›´æ–°
 
 ### 1.4.0
-    - Ìá¹©Minimal ApiÖ§³Ö!
+    - æä¾›Minimal Apiæ”¯æŒ!
 
 ### 1.3.3
-   	- ¶à¹úÓïÑÔÖ§³Ö
+   	- å¤šå›½è¯­è¨€æ”¯æŒ
 
 ### 1.3.2
-	- Ìá¹©¶ÔOrchardCoreµÄÖ§³Ö
-	- ĞŞ¸´¶à×â»§Çé¿öÏÂ£¬ÎŞ·¨»ñÈ¡µ½ÕıÈ·µÄSettingµÄÎÊÌâ
+	- æä¾›å¯¹OrchardCoreçš„æ”¯æŒ
+	- ä¿®å¤å¤šç§Ÿæˆ·æƒ…å†µä¸‹ï¼Œæ— æ³•è·å–åˆ°æ­£ç¡®çš„Settingçš„é—®é¢˜
 
 ### 1.3.1
-    - Ìá¹©JsonFileµÄISettingManagerÖ§³Ö.
+    - æä¾›JsonFileçš„ISettingManageræ”¯æŒ.
 
 ### 1.3.0
-    - Ìá¹©INotify<T> ¶©ÔÄÅäÖÃ±ä¸ü
+    - æä¾›INotify<T> è®¢é˜…é…ç½®å˜æ›´
 
 ### 1.2.2
-	- Ìá¹©ISettingManager ×Ô¶¨Òå³Ö¾Ã²ã
+	- æä¾›ISettingManager è‡ªå®šä¹‰æŒä¹…å±‚
 
 ### 1.2.1
-	- Ìá¹©CachingProvider×Ô¶¨Òå¹¦ÄÜ,ÏµÍ³×Ô´øNullCacheProvider,MemoryCacheProvider
+	- æä¾›CachingProviderè‡ªå®šä¹‰åŠŸèƒ½,ç³»ç»Ÿè‡ªå¸¦NullCacheProvider,MemoryCacheProvider
 
 ### 1.2.0
-	- ĞŞ¸´ÁËÔÚÄ³Ğ©Çé¿öÏÂ£¬ÖØÃüÃûSettingNameºó£¬ÎŞ·¨»ñÈ¡µ½ÕıÈ·µÄSettingµÄÎÊÌâ
-	- ĞŞ¸ÄDomain²Ö´¢,Ê¹ÓÃSettingTypeÌæ´úSettingName×÷ÎªÖ÷¼ü
+	- ä¿®å¤äº†åœ¨æŸäº›æƒ…å†µä¸‹ï¼Œé‡å‘½åSettingNameåï¼Œæ— æ³•è·å–åˆ°æ­£ç¡®çš„Settingçš„é—®é¢˜
+	- ä¿®æ”¹Domainä»“å‚¨,ä½¿ç”¨SettingTypeæ›¿ä»£SettingNameä½œä¸ºä¸»é”®
 
 ### 1.1.2
-- ÁĞ±íÒ³ÃæµÄ·ÖÒ³¹¦ÄÜ
-- Ò³ÃæÏÔÊ¾²ÎÊıOptions
+- åˆ—è¡¨é¡µé¢çš„åˆ†é¡µåŠŸèƒ½
+- é¡µé¢æ˜¾ç¤ºå‚æ•°Options
 
 ### 1.1.0
-- Ìí¼Ó×Ô¶¯ÑéÖ¤¹¦ÄÜ
+- æ·»åŠ è‡ªåŠ¨éªŒè¯åŠŸèƒ½

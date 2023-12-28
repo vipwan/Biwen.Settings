@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<PackageVersion>2.0.0</PackageVersion>
-		<PackageReleaseNotes>提供多节点订阅消费Setting</PackageReleaseNotes>
+		<PackageVersion>2.0.1</PackageVersion>
+		<PackageReleaseNotes>ValidationSettingBase同时支持FluentValidation和DataAnnotations</PackageReleaseNotes>
 	</PropertyGroup>
 
 </Project>
