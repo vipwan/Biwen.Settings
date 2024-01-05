@@ -99,7 +99,7 @@ namespace Biwen.Settings.Controllers
         }
 
         [Auth, HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, IFormCollection form)
+        public IActionResult Edit(string id, IFormCollection form, string? redirectUrl = null)
         {
             var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == id);
             if (type == null)
@@ -193,7 +193,12 @@ namespace Biwen.Settings.Controllers
             //Save
             var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
             mdSave.Invoke(_settingManager, [setting]);
-            return RedirectToAction("Index", new { area = "Biwen.Settings" });
+
+            if (string.IsNullOrEmpty(redirectUrl))
+            {
+                return RedirectToAction("Index", new { area = "Biwen.Settings" });
+            }
+            return Redirect(redirectUrl);
         }
     }
 }
