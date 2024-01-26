@@ -1,15 +1,16 @@
-using Biwen.Settings.Caching;
+﻿using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System.Dynamic;
 
 namespace Microsoft.AspNetCore.Builder
 {
-    public static class ApiExtention
+    public static class BiwenSettingApis
     {
         /// <summary>
         /// 注册BiwenSetting Api
@@ -28,85 +29,17 @@ namespace Microsoft.AspNetCore.Builder
             //auth
             group.AddEndpointFilter<MinimalAuthFilter>();
             //all
-            group.MapGet("all", (ISettingManager settingManager, IEncryptionProvider encryptionProvider)
-                =>
-            {
-                var all = settingManager.GetAllSettings();
-                return Results.Json(all.Select(x => x.MapperToDto(encryptionProvider)));
-            }).Produces<List<SettingDto>>();
+            group.MapGet("all", GetAll).Produces<List<SettingDto>>();
             //get
-            group.MapGet("get/{id}", (ISettingManager settingManager, string id, IEncryptionProvider encryptionProvider)
-                =>
-            {
-                if (string.IsNullOrEmpty(id)) return Results.NotFound();
-                var setting = settingManager.GetSetting(id);
-                return setting == null ? Results.NotFound() : Results.Json(setting.MapperToDto(encryptionProvider));
-            }).Produces<SettingDto>();
+            group.MapGet("get/{id}", GetById).Produces<SettingDto>();
             //set/{id}
-            group.MapPost("set/{id}", async (ISettingManager settingManager, IOptions<SettingOptions> options, IHttpContextAccessor ctx, string id)
-                =>
-            {
-                //ValidDtoFilter Before
-                var type = ASS.InAllRequiredAssemblies.First(x => x.FullName == id);
-                //json ->dto
-                if ((await ctx.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) is not IDictionary<string, object> dto)
-                {
-                    return Results.BadRequest();
-                }
-                //提供Patch部分更新支持:
-                var setting = ctx!.HttpContext!.RequestServices.GetService(type!)!;
-                foreach (PropertyInfo prop in type!.GetProperties())
-                {
-                    //SetMethod 判断
-                    if (prop?.SetMethod == null)
-                        continue;
-                    if (!dto!.ContainsKey(prop.Name))
-                        continue;
-                    //当前类型必须能转换String
-                    if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
-                        continue;
-                    //当前类型必须能转换传递的参数值
-                    var strValue = dto[prop.Name];
-                    if (strValue == null)
-                        continue;
-                    if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(strValue.ToString()!))
-                        continue;
-                    //Convert
-                    var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(strValue.ToString()!);
-                    //Set
-                    prop.SetValue(setting, value);
-                }
-                //Save
-                var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
-                mdSave.Invoke(settingManager, [setting!]);
-                return Results.Ok(setting);
-            }).Accepts<ExpandoObject>(contentType: "application/json-patch+json")
-              .AddEndpointFilter<ValidDtoFilter>();
+            group.MapPost("set/{id}", SetByIdAsync).Accepts<ExpandoObject>(
+                contentType: "application/json-patch+json").AddEndpointFilter<ValidDtoFilter>();
 
             if (mapNotifyEndpoint)
             {
                 //notify
-                var notifyEndpoint = endpoint.MapPost(Consts.EndpointUrl,
-                       (
-                           IOptions<SettingOptions> options,
-                           ICacheProvider cacheProvider,
-                           IHttpContextAccessor ctx,
-                           string secret,
-                           [FromBody] NofityDto dto)
-                       =>
-                   {
-                       if (secret != options.Value.NotifyOption.Secret)
-                       {
-                           return Results.BadRequest();
-                       }
-                       //var dto = await ctx.HttpContext!.Request.ReadFromJsonAsync<NofityDto>();
-                       if (dto == null) return Results.BadRequest();
-                       cacheProvider.Remove(string.Format(Consts.CacheKeyFormat, dto.SettingType, options.Value.ProjectId));
-
-                       Console.WriteLine($"消费了配置变更:{dto.SettingType} and Clear cache");
-
-                       return Results.Ok();
-                   });
+                var notifyEndpoint = endpoint.MapPost(Consts.EndpointUrl, Notify);
 
                 //DTO
                 notifyEndpoint.Accepts<NofityDto>(contentType: "application/json");
@@ -117,6 +50,92 @@ namespace Microsoft.AspNetCore.Builder
             }
             return group;
         }
+
+
+        #region invoks
+
+        static Results<NotFound, JsonHttpResult<IEnumerable<SettingDto>>> GetAll(
+            [FromServices] ISettingManager settingManager,
+            [FromServices] IEncryptionProvider encryptionProvider)
+        {
+            var all = settingManager.GetAllSettings();
+            return TypedResults.Json(all.Select(x => x.MapperToDto(encryptionProvider)));
+        }
+
+        static Results<NotFound, JsonHttpResult<SettingDto>> GetById(
+            [FromServices] ISettingManager settingManager,
+            [FromServices] IEncryptionProvider encryptionProvider,
+            [FromRoute] string id)
+        {
+            if (string.IsNullOrEmpty(id)) return TypedResults.NotFound();
+            var setting = settingManager.GetSetting(id);
+            return setting == null ? TypedResults.NotFound() : TypedResults.Json(setting.MapperToDto(encryptionProvider));
+        }
+
+        static async Task<Results<BadRequest, Ok<object>>> SetByIdAsync(
+            [FromServices] ISettingManager settingManager,
+            [FromServices] IOptions<SettingOptions> options,
+            [FromServices] IHttpContextAccessor ctx,
+            [FromRoute] string id)
+        {
+            //ValidDtoFilter Before
+            var type = ASS.InAllRequiredAssemblies.First(x => x.FullName == id);
+            //json ->dto
+            if ((await ctx.HttpContext!.Request.ReadFromJsonAsync<ExpandoObject>()) is not IDictionary<string, object> dto)
+            {
+                return TypedResults.BadRequest();
+            }
+            //提供Patch部分更新支持:
+            var setting = ctx!.HttpContext!.RequestServices.GetService(type!)!;
+            foreach (PropertyInfo prop in type!.GetProperties())
+            {
+                //SetMethod 判断
+                if (prop?.SetMethod == null)
+                    continue;
+                if (!dto!.ContainsKey(prop.Name))
+                    continue;
+                //当前类型必须能转换String
+                if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
+                    continue;
+                //当前类型必须能转换传递的参数值
+                var strValue = dto[prop.Name];
+                if (strValue == null)
+                    continue;
+                if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(strValue.ToString()!))
+                    continue;
+                //Convert
+                var value = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFromInvariantString(strValue.ToString()!);
+                //Set
+                prop.SetValue(setting, value);
+            }
+            //Save
+            var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
+            mdSave.Invoke(settingManager, [setting!]);
+            return TypedResults.Ok(setting);
+        }
+
+        static Results<Ok, BadRequest> Notify(
+            [FromServices] IOptions<SettingOptions> options,
+            [FromServices] ICacheProvider cacheProvider,
+            //[FromServices] IHttpContextAccessor ctx,
+            [FromRoute] string secret,
+            [FromBody] NofityDto dto)
+        {
+
+            if (secret != options.Value.NotifyOption.Secret)
+            {
+                return TypedResults.BadRequest();
+            }
+            //var dto = await ctx.HttpContext!.Request.ReadFromJsonAsync<NofityDto>();
+            if (dto == null) return TypedResults.BadRequest();
+            cacheProvider.Remove(string.Format(Consts.CacheKeyFormat, dto.SettingType, options.Value.ProjectId));
+
+            Console.WriteLine($"消费了配置变更:{dto.SettingType} and Clear cache");
+            return TypedResults.Ok();
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Dto

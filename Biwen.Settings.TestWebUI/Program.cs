@@ -1,9 +1,7 @@
-using Biwen.Settings;
+ï»¿using Biwen.Settings;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.TestWebUI.Data;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-//×¢²áDbContext
+//æ³¨å†ŒDbContext
 builder.Services.AddDbContext<MyDbContext>(options =>
 {
     //just for test
@@ -43,40 +41,40 @@ builder.Services.AddBiwenSettings(options =>
     options.EditorOption.EdtiorConfirmButtonText = "Submit";
     options.EditorOption.EditorEditButtonText = "Edit";
     options.EditorOption.ShouldPagenation = true;
-    //¿ªÆôAutoFluentValidation
+    //å¼€å¯AutoFluentValidation
     options.AutoFluentValidationOption.Enable = true;
 
-    //Ö§³Ö»º´æÌá¹©Õß,Ä¬ÈÏ²»Ê¹ÓÃ»º´æ
-    //ÄúÒ²¿ÉÒÔÊ¹ÓÃBiwen.SettingsÌá¹©ÄÚ´æ»º´æ:Biwen.Settings.Caching.MemoryCacheProvider
+    //æ”¯æŒç¼“å­˜æä¾›è€…,é»˜è®¤ä¸ä½¿ç”¨ç¼“å­˜
+    //æ‚¨ä¹Ÿå¯ä»¥ä½¿ç”¨Biwen.Settingsæä¾›å†…å­˜ç¼“å­˜:Biwen.Settings.Caching.MemoryCacheProvider
     //options.UseCacheOfNull();
     options.UseCacheOfMemory();
 
-    //¼ÓÃÜÌá¹©Õß,¿Õ¼ÓÃÜÎªÄ¬ÈÏÊµÏÖ
+    //åŠ å¯†æä¾›è€…,ç©ºåŠ å¯†ä¸ºé»˜è®¤å®ç°
     options.UseEncryption<EmptyEncryptionProvider>();
 
 
-    //±ØĞë,·ñÔò½«³õÊ¼»¯´íÎó!
-    //Ê¹ÓÃEFCoreStore
+    //å¿…é¡»,å¦åˆ™å°†åˆå§‹åŒ–é”™è¯¯!
+    //ä½¿ç”¨EFCoreStore
     options.UseStoreOfEFCore(options =>
     {
         options.DbContextType = typeof(MyDbContext);
         options.EncryptionOption = new SettingOptions.EncryptionOptions
         {
-            //Ä¬ÈÏ²»¿ªÆô¼ÓÃÜ
+            //é»˜è®¤ä¸å¼€å¯åŠ å¯†
             Enable = true
         };
     });
 
 
-    //¼¯ÈºµÄÍ¨Öª·şÎñÅäÖÃ
+    //é›†ç¾¤çš„é€šçŸ¥æœåŠ¡é…ç½®
     options.NotifyOption.IsNotifyEnable = true;
     options.NotifyOption.Secret = "Biwen.Settings.Notify";
-    options.NotifyOption.EndpointHosts = new[]
-    {
+    options.NotifyOption.EndpointHosts =
+    [
         "http://localhost:5150"
-    };
+    ];
 
-    //Ê¹ÓÃJsonStore
+    //ä½¿ç”¨JsonStore
     //options.UserStoreOfJsonFile(options =>
     //{
     //    options.FormatJson = true;
@@ -86,8 +84,8 @@ builder.Services.AddBiwenSettings(options =>
 });
 
 
-//Ö§³Ö»º´æÌá¹©Õß,Ä¬ÈÏ²»Ê¹ÓÃ»º´æ
-//ÄúÒ²¿ÉÒÔÊ¹ÓÃBiwen.SettingsÌá¹©ÄÚ´æ»º´æ:Biwen.Settings.Caching.MemoryCacheProvider
+//æ”¯æŒç¼“å­˜æä¾›è€…,é»˜è®¤ä¸ä½¿ç”¨ç¼“å­˜
+//æ‚¨ä¹Ÿå¯ä»¥ä½¿ç”¨Biwen.Settingsæä¾›å†…å­˜ç¼“å­˜:Biwen.Settings.Caching.MemoryCacheProvider
 //builder.Services.AddScoped<ICacheProvider, MemoryCacheProvider>();
 
 var app = builder.Build();
