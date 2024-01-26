@@ -52,7 +52,7 @@ namespace Microsoft.AspNetCore.Builder
         }
 
 
-        #region invoks
+        #region invokes
 
         static Results<NotFound, JsonHttpResult<IEnumerable<SettingDto>>> GetAll(
             [FromServices] ISettingManager settingManager,
