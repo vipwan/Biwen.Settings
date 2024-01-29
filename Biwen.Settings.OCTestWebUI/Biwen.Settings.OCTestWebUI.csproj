@@ -18,6 +18,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Watch Remove="Settings\HelloSetting.cs" />
+		<Watch Remove="_GloableUsing.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
