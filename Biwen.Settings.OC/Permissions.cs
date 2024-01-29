@@ -11,13 +11,13 @@ namespace Biwen.Settings.OC
 
         public IEnumerable<PermissionStereotype> GetDefaultStereotypes()
         {
-            return new List<PermissionStereotype>
-           {
-                new() {
-                    Name = "Administrator",
-                    Permissions = new[] { ManageSettings }
-                }
-            };
+            return
+               [
+                    new() {
+                        Name = "Administrator",
+                        Permissions = [ManageSettings]
+                    }
+                ];
         }
 
         public Task<IEnumerable<Permission>> GetPermissionsAsync()

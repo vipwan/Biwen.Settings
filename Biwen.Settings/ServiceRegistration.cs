@@ -57,7 +57,6 @@ namespace Biwen.Settings
             var encryptionProvider = currentOptions.Value.EncryptionProvider;
             services.AddScoped(typeof(IEncryptionProvider), encryptionProvider);
 
-
             #endregion
 
             #region 注入SettingManager
@@ -71,7 +70,6 @@ namespace Biwen.Settings
                 {
                     (currentOptions.Value.SettingManager.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
                 });
-                //services.AddScoped<ISettingManager, EntityFrameworkCoreSettingManager>();
             }
             else if (currentOptions.Value.SettingManager.ManagerType == typeof(JsonStoreSettingManager))
             {
@@ -79,13 +77,11 @@ namespace Biwen.Settings
                 {
                     (currentOptions.Value.SettingManager.Options as Action<JsonStoreOptions>)?.Invoke(x);
                 });
-                //services.AddScoped<ISettingManager, JsonStoreSettingManager>();
             }
             else
             {
-                if (currentOptions.Value.SettingManager.ManagerType == null) throw new BiwenException("Require ISettingManager!");
-
-                //services.AddScoped(typeof(ISettingManager), currentOptions.Value.SettingManager.Item1!);
+                if (currentOptions.Value.SettingManager.ManagerType == null)
+                    throw new BiwenException("Require ISettingManager!");
             }
 
             services.AddScoped(typeof(ISettingManager), currentOptions.Value.SettingManager.ManagerType!);
@@ -141,7 +137,6 @@ namespace Biwen.Settings
             {
                 services.AddScoped(x, sp =>
                 {
-
                     var settingManager = sp.GetRequiredService<ISettingManager>();
                     var cache = sp.GetRequiredService<IMemoryCache>();
 

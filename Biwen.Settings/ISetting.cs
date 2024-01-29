@@ -103,14 +103,14 @@ namespace Biwen.Settings
             {
                 get
                 {
-                    if (Caching.TAnnotationCaching.TAnnotationAttrs.TryGetValue(typeof(T), out var attr))
+                    if (Caching.TAnnotationCaching.CachedAnnotationTypes.TryGetValue(typeof(T), out var attr))
                     {
                         return attr;
                     }
                     var has = typeof(T).GetProperties().Any(
                         prop => prop.GetCustomAttributes(true).Any(x => x is MSDA.ValidationAttribute));
 
-                    Caching.TAnnotationCaching.TAnnotationAttrs.TryAdd(typeof(T), has);
+                    Caching.TAnnotationCaching.CachedAnnotationTypes.TryAdd(typeof(T), has);
                     return has;
                 }
             }
