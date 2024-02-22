@@ -246,7 +246,7 @@ namespace Microsoft.AspNetCore.Builder
                     }
 
                     //验证DTO
-                    (bool, IDictionary<string, string[]>?) Valid(MethodInfo? md, object validator)
+                    (bool Succesed, IDictionary<string, string[]>? Errors) Valid(MethodInfo? md, object validator)
                     {
                         //验证不通过的情况
                         if (md!.Invoke(validator, [setting]) is ValidationResult result && !result!.IsValid)
@@ -263,17 +263,16 @@ namespace Microsoft.AspNetCore.Builder
                     {
                         var md = validator.GetType().GetMethods().First(
                             x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
-                        var vResult = Valid(md, validator);
-                        if (!vResult.Item1)
+                        var (Succesed, Errors) = Valid(md, validator);
+                        if (!Succesed)
                         {
-                            return Results.ValidationProblem(vResult.Item2!);
+                            return Results.ValidationProblem(Errors!);
                         }
                     }
                 }
                 return await next(context);
             }
         }
-
 
     }
 }

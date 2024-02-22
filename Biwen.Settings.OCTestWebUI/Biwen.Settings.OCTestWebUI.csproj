@@ -16,10 +16,6 @@
 	<ItemGroup>
 		<Watch Include="**\*.cs" Exclude="Recipes\**;Assets\**;node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
 	</ItemGroup>
-	<ItemGroup>
-		<Watch Remove="Settings\HelloSetting.cs" />
-		<Watch Remove="_GloableUsing.cs" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="OrchardCore.Logging.Serilog" Version="1.8.2" />
