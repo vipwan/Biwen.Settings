@@ -6,7 +6,7 @@
 @{
     var setting = ViewBag.Setting as Biwen.Settings.Domains.Setting;
     var settingValues = ViewBag.SettingValues as List<(string, string?, string?)>;
-    Layout = SettingOptions.Value.Layout;
+    Layout = "_Layout";
     ViewData["Title"] = $"Edit-{setting!.SettingName}";
 }
 
@@ -23,7 +23,7 @@
                 @Html.ValidationMessage(kv.Item1)
             </div>
             <div class="settingEditor editor-field" title="@kv.Item2">
-                @Html.TextBox(kv.Item1, kv.Item3, new { id = kv.Item1,placeholder= kv.Item2 , @class = "form-control" })
+                @Html.TextBox(kv.Item1, kv.Item3, new { id = kv.Item1, placeholder = kv.Item2, @class = "form-control" })
             </div>
         </div>
     }

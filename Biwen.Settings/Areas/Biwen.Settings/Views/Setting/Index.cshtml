@@ -5,7 +5,7 @@
 
 @{
     var settings = ViewBag.Settings as IEnumerable<Biwen.Settings.Domains.Setting>;
-    Layout = SettingOptions.Value.Layout;
+    Layout = "_Layout";//SettingOptions.Value.Layout;
     ViewData["Title"] = SettingOptions.Value.Title;
 }
 
