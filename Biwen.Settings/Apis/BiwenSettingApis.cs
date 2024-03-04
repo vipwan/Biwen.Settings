@@ -145,7 +145,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <param name="Description"></param>
         /// <param name="SettingContent"></param>
         /// <param name="LastModificationTime"></param>
-        record SettingDto(string SettingType, string SettingName, string? Description, string? SettingContent, DateTime LastModificationTime);
+        internal record SettingDto(string SettingType, string SettingName, string? Description, string? SettingContent, DateTime LastModificationTime);
 
         #region helper
 

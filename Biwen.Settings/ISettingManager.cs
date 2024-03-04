@@ -62,11 +62,8 @@ namespace Biwen.Settings
             await _medirator.PublishAsync(setting);
 
             //todo:如果是分布式环境,需要通知其他节点刷新缓存
-            _ = _notifyServices.NotifyConsumerAsync(new NofityDto
-            {
-                SettingType = typeof(T).FullName!,
-                ProjectId = _options.Value.ProjectId
-            });
+            _ = _notifyServices.NotifyConsumerAsync(new NofityDto(typeof(T).FullName!, _options.Value.ProjectId));
+
         }
 
         public T Get<T>() where T : ISetting, new()
