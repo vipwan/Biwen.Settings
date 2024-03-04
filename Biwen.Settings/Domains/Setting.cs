@@ -1,6 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Biwen.Settings.Domains
 {
@@ -16,13 +14,13 @@ namespace Biwen.Settings.Domains
         /// <summary>
         ///  配置类型.
         /// </summary>
-        [MaxLength(500)]
+        [MSDA.MaxLength(500)]
         public string SettingType { get; set; } = null!;
 
         /// <summary>
         /// 配置名称
         /// </summary>
-        [MaxLength(500)]
+        [MSDA.MaxLength(500)]
         public string SettingName { get; set; } = null!;
 
 
@@ -39,7 +37,7 @@ namespace Biwen.Settings.Domains
         /// JSON存储
         /// </summary>
         [DefaultValue("{}")]
-        [ConcurrencyCheck]
+        [MSDA.ConcurrencyCheck]
         public string? SettingContent { get; set; }
         /// <summary>
         /// 最后更新时间

@@ -3,10 +3,7 @@
     /// <summary>
     /// Exception
     /// </summary>
-    public class BiwenException : Exception
+    public class BiwenException(string message) : Exception(message)
     {
-        public BiwenException(string message) : base(message)
-        {
-        }
     }
 }

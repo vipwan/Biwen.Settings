@@ -1,5 +1,4 @@
-﻿
-using Biwen.Settings.Infrastructure.TypeFinder;
+﻿using Biwen.Settings.Infrastructure.TypeFinder;
 
 namespace Biwen.Settings.Infrastructure
 {

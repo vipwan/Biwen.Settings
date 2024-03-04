@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace Biwen.Settings
@@ -84,7 +82,7 @@ namespace Biwen.Settings.EndpointNotify
     /// <summary>
     /// 通知DTO
     /// </summary>
-    internal record NofityDto([Required] string SettingType, [Required] string ProjectId);
+    internal record NofityDto([MSDA.Required] string SettingType, [MSDA.Required] string ProjectId);
 
 
     /// <summary>

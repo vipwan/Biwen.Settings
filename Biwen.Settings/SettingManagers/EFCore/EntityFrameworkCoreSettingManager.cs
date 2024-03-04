@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.DependencyInjection;
 using Biwen.Settings.Encryption;
 
 namespace Biwen.Settings.SettingManagers.EFCore
