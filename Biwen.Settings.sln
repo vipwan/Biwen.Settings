@@ -10,15 +10,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4EEF644A-0F22-42A6-81E7-C225149171AC}"
 	ProjectSection(SolutionItems) = preProject
 		changelog.md = changelog.md
+		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 		Release.props = Release.props
 		Todo.md = Todo.md
 		Version.Props = Version.Props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biwen.Settings.OC", "Biwen.Settings.OC\Biwen.Settings.OC.csproj", "{15F429AE-7A2F-48D6-94A3-C1D8FCB9998D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biwen.Settings.OC", "Biwen.Settings.OC\Biwen.Settings.OC.csproj", "{15F429AE-7A2F-48D6-94A3-C1D8FCB9998D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biwen.Settings.OCTestWebUI", "Biwen.Settings.OCTestWebUI\Biwen.Settings.OCTestWebUI.csproj", "{D75A2725-144A-4F77-AC55-374035DCB090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biwen.Settings.OCTestWebUI", "Biwen.Settings.OCTestWebUI\Biwen.Settings.OCTestWebUI.csproj", "{D75A2725-144A-4F77-AC55-374035DCB090}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
