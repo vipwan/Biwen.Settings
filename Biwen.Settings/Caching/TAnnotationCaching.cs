@@ -7,7 +7,7 @@ namespace Biwen.Settings.Caching
         /// <summary>
         /// 类型是否标注验证特性
         /// </summary>
-        public static readonly ConcurrentDictionary<Type, bool> CachedAnnotationTypes = new();
+        public static readonly ConcurrentDictionary<string, bool> CachedAnnotationTypes = new();
 
     }
 }
