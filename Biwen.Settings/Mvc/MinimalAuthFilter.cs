@@ -11,7 +11,7 @@ namespace Biwen.Settings.Mvc
             EndpointFilterDelegate next)
         {
             var options = context.HttpContext.RequestServices.GetService<IOptions<SettingOptions>>()!.Value!;
-            var flag = options.HasPermission(context.HttpContext);
+            var flag = options.PermissionValidator(context.HttpContext);
             if (!flag)
             {
                 return Results.Unauthorized();

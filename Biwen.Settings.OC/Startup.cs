@@ -34,7 +34,7 @@ namespace Biwen.Settings.OC
 
                 options.ProjectId = $"{settings.TenantId}-{projectId}";
                 options.Title = "Biwen.Settings";
-                options.HasPermission = (ctx) =>
+                options.PermissionValidator = (ctx) =>
                 {
                     //判断是否有权限访问设置页面
                     return ctx.RequestServices
