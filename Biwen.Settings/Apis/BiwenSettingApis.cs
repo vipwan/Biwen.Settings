@@ -246,8 +246,10 @@ namespace Microsoft.AspNetCore.Builder
                     }
 
                     //验证DTO
-                    (bool Succesed, IDictionary<string, string[]>? Errors) Valid(MethodInfo? md, object validator)
+                    (bool Succesed, IDictionary<string, string[]>? Errors) Valid(object validator)
                     {
+                        var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
+
                         //验证不通过的情况
                         if (md!.Invoke(validator, [setting]) is ValidationResult result && !result!.IsValid)
                         {
@@ -257,13 +259,10 @@ namespace Microsoft.AspNetCore.Builder
                     }
 
                     //存在验证器的情况
-                    var validator = context.HttpContext!.RequestServices.GetService(
-                        serviceType: typeof(IValidator<>).MakeGenericType(type));
+                    var validator = context.HttpContext!.RequestServices.GetService(typeof(IValidator<>).MakeGenericType(type));
                     if (validator != null)
                     {
-                        var md = validator.GetType().GetMethods().First(
-                            x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
-                        var (Succesed, Errors) = Valid(md, validator);
+                        var (Succesed, Errors) = Valid(validator);
                         if (!Succesed)
                         {
                             return Results.ValidationProblem(Errors!);
@@ -273,6 +272,5 @@ namespace Microsoft.AspNetCore.Builder
                 return await next(context);
             }
         }
-
     }
 }

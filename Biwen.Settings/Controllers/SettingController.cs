@@ -159,8 +159,9 @@ namespace Biwen.Settings.Controllers
                 }
 
                 //验证DTO
-                bool Valid(MethodInfo? md, object validator)
+                bool Valid(object validator)
                 {
+                    var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
                     //验证不通过的情况
                     if (md!.Invoke(validator, [setting!]) is ValidationResult result && !result!.IsValid)
                     {
@@ -181,9 +182,7 @@ namespace Biwen.Settings.Controllers
                 var validator = _httpContextAccessor!.HttpContext!.RequestServices.GetService(serviceType: typeof(IValidator<>).MakeGenericType(type));
                 if (validator != null)
                 {
-                    var md = validator.GetType().GetMethods().First(x => !x.IsGenericMethod && x.Name == nameof(IValidator.Validate));
-
-                    if (!Valid(md, validator))
+                    if (!Valid(validator))
                     {
                         return View();
                     }
