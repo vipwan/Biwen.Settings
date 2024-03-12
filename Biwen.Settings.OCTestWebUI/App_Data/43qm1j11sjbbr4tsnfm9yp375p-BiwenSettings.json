@@ -5,8 +5,8 @@
     "SettingName": "HelloSetting",
     "Description": "Hello\u914D\u7F6E",
     "Order": 1000,
-    "SettingContent": "{\u0022Name\u0022:\u0022Hello3333\u0022}",
-    "LastModificationTime": "2024-01-05T14:11:05.2943824+08:00"
+    "SettingContent": "{\u0022Name\u0022:\u0022Hello333366\u0022}",
+    "LastModificationTime": "2024-03-12T17:24:33.6915293+08:00"
   },
   {
     "ProjectId": "43qm1j11sjbbr4tsnfm9yp375p-Default",
@@ -14,7 +14,7 @@
     "SettingName": "WeChatSetting",
     "Description": "\u5FAE\u4FE1\u914D\u7F6E",
     "Order": 500,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890SettingType: {0} Not Found!\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:500}",
-    "LastModificationTime": "2024-01-05T14:39:53.7720847+08:00"
+    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890SettingType: {0} Not Found!\u0022,\u0022Token\u0022:\u0022123456789044\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:500}",
+    "LastModificationTime": "2024-03-12T17:24:51.2928832+08:00"
   }
 ]
