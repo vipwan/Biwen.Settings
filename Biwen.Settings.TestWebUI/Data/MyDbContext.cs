@@ -4,18 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Biwen.Settings.TestWebUI.Data
 {
-    public class MyDbContext : DbContext, IBiwenSettingsDbContext
+    public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(options), IBiwenSettingsDbContext
     {
-
-        public MyDbContext(DbContextOptions<MyDbContext> options)
-            : base(options)
-        {
-
-        }
-
-
         public DbSet<Setting> Settings { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

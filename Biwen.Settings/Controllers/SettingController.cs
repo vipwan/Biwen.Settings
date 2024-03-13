@@ -55,14 +55,14 @@ namespace Biwen.Settings.Controllers
         }
 
         [NonAction]
-        List<(string, string?, string?)> SettingValues(Setting setting)
+        List<(string Name, string? Description, string? Value)> SettingValues(Setting setting)
         {
             ArgumentNullException.ThrowIfNull(setting);
 
             var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == setting.SettingType)
                 ?? throw new ArgumentNullException(nameof(setting));
 
-            List<(string, string?, string?)> SettingValues = [];
+            List<(string Name, string? Description, string? Value)> SettingValues = [];
 
             var plainContent = _encryptionProvider.Decrypt(setting.SettingContent!);
 

@@ -2,7 +2,7 @@
 {
     public static class FindTypes
     {
-        public static IInAssemblyFinder InAssembly(Assembly assembly) => new InAssemblyFinder(new[] { assembly });
+        public static IInAssemblyFinder InAssembly(Assembly assembly) => new InAssemblyFinder([assembly]);
 
         public static IInAssemblyFinder InAssemblies(params Assembly[] assemblies) => new InAssemblyFinder(assemblies);
 
