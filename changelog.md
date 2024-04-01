@@ -1,5 +1,11 @@
 ﻿## ChangeLog
 
+### 2.1.0
+    - 提供Garnet缓存支持 #13
+    - ICacheProvider重写为异步
+    - AuthAttribute 重命名为 SettingAuthorizeAttribute
+    - fix typos
+
 ### 2.0.0~2.0.1
     - 支持NET8
     - ValidationSettingBase<T>同时支持`FluentValidation`和`DataAnnotations`
