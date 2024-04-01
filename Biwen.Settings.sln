@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biwen.Settings.OC", "Biwen.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biwen.Settings.OCTestWebUI", "Biwen.Settings.OCTestWebUI\Biwen.Settings.OCTestWebUI.csproj", "{D75A2725-144A-4F77-AC55-374035DCB090}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{A9DE5678-8CC4-4063-8B3C-FF3162E4BBF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biwen.Settings.Caching.Garnet", "Biwen.Settings.Caching.Garnet\Biwen.Settings.Caching.Garnet.csproj", "{45F44F14-FC61-470D-A093-367AED2DA567}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,9 +47,16 @@ Global
 		{D75A2725-144A-4F77-AC55-374035DCB090}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D75A2725-144A-4F77-AC55-374035DCB090}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D75A2725-144A-4F77-AC55-374035DCB090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45F44F14-FC61-470D-A093-367AED2DA567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45F44F14-FC61-470D-A093-367AED2DA567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45F44F14-FC61-470D-A093-367AED2DA567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45F44F14-FC61-470D-A093-367AED2DA567}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{45F44F14-FC61-470D-A093-367AED2DA567} = {A9DE5678-8CC4-4063-8B3C-FF3162E4BBF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9266020E-C3B7-47A6-84E0-9A4FED9DAB67}

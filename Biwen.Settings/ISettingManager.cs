@@ -56,7 +56,7 @@ namespace Biwen.Settings
             //Save
             _settingManager.Save(setting);
             //Remove Cache
-            _cacheProvider.Remove(string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId));
+            await _cacheProvider.RemoveAsync(string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId));
             //Notify
             await _medirator.PublishAsync(setting);
 
@@ -67,10 +67,19 @@ namespace Biwen.Settings
 
         public T Get<T>() where T : ISetting, new()
         {
-            return (T)_cacheProvider.GetOrCreate(string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId), () =>
+            var retn = _cacheProvider.GetOrCreateAsync(
+                string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId),
+                 () =>
             {
-                return _settingManager.Get<T>();
-            });
+                return Task.FromResult((object?)_settingManager.Get<T>());
+            }).GetAwaiter().GetResult();
+
+            if (retn is System.Text.Json.JsonElement)
+            {
+                var raw = System.Text.Json.JsonSerializer.Serialize(retn);
+                return System.Text.Json.JsonSerializer.Deserialize<T>(raw)!;
+            }
+            return (T)retn!;
         }
 
         public List<Setting> GetAllSettings()

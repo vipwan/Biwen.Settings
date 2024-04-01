@@ -1,5 +1,6 @@
 ﻿using Biwen.Settings.Encryption;
 using Biwen.Settings.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
@@ -20,7 +21,7 @@ namespace Biwen.Settings.Controllers
         private readonly IEncryptionProvider _encryptionProvider = encryptionProvider;
 
         //[HttpGet("qwertyuiopasdfghjklzxcvbnm/setting")]
-        [Auth]
+        [SettingAuthorize]
         public IActionResult Index()
         {
             var all = _settingManager.GetAllSettings();
@@ -34,7 +35,7 @@ namespace Biwen.Settings.Controllers
             return View();
         }
 
-        [Auth]
+        [SettingAuthorize]
         public IActionResult Edit(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -97,7 +98,7 @@ namespace Biwen.Settings.Controllers
             return SettingValues;
         }
 
-        [Auth, HttpPost, ValidateAntiForgeryToken]
+        [SettingAuthorize, HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(string id, IFormCollection form, string? redirectUrl = null)
         {
             var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == id);

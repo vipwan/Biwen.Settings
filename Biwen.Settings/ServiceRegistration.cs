@@ -7,6 +7,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 
 namespace Biwen.Settings
@@ -108,7 +109,7 @@ namespace Biwen.Settings
             #endregion
 
             //装饰ISettingManager
-            services.Decorate<ISettingManager>((inner, provider) => new SettingManagerDecorator(inner, provider));
+            services.Decorate<ISettingManager>((inner, provider) => new SettingManagerDecorator(inner, provider.CreateAsyncScope().ServiceProvider));
 
             //注册验证器
             if (currentOptions.Value.AutoFluentValidationOption.Enable)

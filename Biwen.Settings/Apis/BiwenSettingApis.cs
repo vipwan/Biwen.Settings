@@ -114,7 +114,7 @@ namespace Microsoft.AspNetCore.Builder
             return TypedResults.Ok(setting);
         }
 
-        static Results<Ok, BadRequest> Notify(
+        static async Task<Results<Ok, BadRequest>> Notify(
             [FromServices] IOptions<SettingOptions> options,
             [FromServices] ICacheProvider cacheProvider,
             //[FromServices] IHttpContextAccessor ctx,
@@ -128,7 +128,7 @@ namespace Microsoft.AspNetCore.Builder
             }
             //var dto = await ctx.HttpContext!.Request.ReadFromJsonAsync<NofityDto>();
             if (dto == null) return TypedResults.BadRequest();
-            cacheProvider.Remove(string.Format(Consts.CacheKeyFormat, dto.SettingType, options.Value.ProjectId));
+            await cacheProvider.RemoveAsync(string.Format(Consts.CacheKeyFormat, dto.SettingType, options.Value.ProjectId));
 
             Console.WriteLine($"消费了配置变更:{dto.SettingType} and Clear cache");
             return TypedResults.Ok();

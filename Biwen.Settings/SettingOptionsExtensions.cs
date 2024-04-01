@@ -4,7 +4,7 @@ using Biwen.Settings.SettingManagers.JsonStore;
 
 namespace Biwen.Settings
 {
-    public static class SettingOptionsExtension
+    public static class SettingOptionsExtensions
     {
 
         /// <summary>

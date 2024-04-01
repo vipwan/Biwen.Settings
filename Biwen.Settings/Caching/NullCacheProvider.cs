@@ -1,19 +1,18 @@
-﻿
-namespace Biwen.Settings.Caching
+﻿namespace Biwen.Settings.Caching
 {
     /// <summary>
     /// 默认的缓存提供者,不做任何缓存
     /// </summary>
     internal sealed class NullCacheProvider : ICacheProvider
     {
-
-        public object GetOrCreate(string key, Func<object> factory, int cacheTime = 86400)
+        public async Task<object?> GetOrCreateAsync(string key, Func<Task<object?>> factory, int cacheTime = 86400)
         {
-            return factory();
+            return await factory();
         }
 
-        public void Remove(string key)
+        public async Task RemoveAsync(string key)
         {
+            await Task.CompletedTask;
         }
     }
 }

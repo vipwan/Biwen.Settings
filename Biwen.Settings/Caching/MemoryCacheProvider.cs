@@ -8,18 +8,19 @@ namespace Biwen.Settings.Caching
     {
         private readonly IMemoryCache _cache = cache;
 
-        public object GetOrCreate(string key, Func<object> factory, int cacheTime = 86400)
+        public async Task<object?> GetOrCreateAsync(string key, Func<Task<object?>> factory, int cacheTime = 86400)
         {
-            return _cache.GetOrCreate(key, entry =>
+            return await _cache.GetOrCreateAsync(key, entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(cacheTime);
                 return factory();
-            })!;
+            });
         }
 
-        public void Remove(string key)
+        public Task RemoveAsync(string key)
         {
             _cache.Remove(key);
+            return Task.CompletedTask;
         }
     }
 }

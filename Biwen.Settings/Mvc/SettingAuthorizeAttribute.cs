@@ -7,7 +7,7 @@ namespace Biwen.Settings.Mvc
     /// <summary>
     /// Filter for auth
     /// </summary>
-    internal class AuthAttribute : ActionFilterAttribute
+    internal class SettingAuthorizeAttribute : ActionFilterAttribute
     {
 
         public override void OnActionExecuting(ActionExecutingContext context)

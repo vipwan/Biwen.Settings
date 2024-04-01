@@ -1,4 +1,5 @@
 ﻿using Biwen.Settings;
+using Biwen.Settings.Caching.Garnet;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.TestWebUI.Data;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,11 @@ builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseSqlite("Data Source=BiwenSettings.db");
 });
 
+
+//配置garnet client
+builder.Services.Configure<GarnetClientOptions>(options =>
+{
+});
 
 builder.Services.AddBiwenSettings(options =>
 {
@@ -47,7 +53,8 @@ builder.Services.AddBiwenSettings(options =>
     //支持缓存提供者,默认不使用缓存
     //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
     //options.UseCacheOfNull();
-    options.UseCacheOfMemory();
+    //options.UseCacheOfMemory();
+    options.UseCacheOfGarnet();
 
     //加密提供者,空加密为默认实现
     options.UseEncryption<EmptyEncryptionProvider>();
