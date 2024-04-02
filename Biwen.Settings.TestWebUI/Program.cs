@@ -53,8 +53,8 @@ builder.Services.AddBiwenSettings(options =>
     //支持缓存提供者,默认不使用缓存
     //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
     //options.UseCacheOfNull();
-    //options.UseCacheOfMemory();
-    options.UseCacheOfGarnet();
+    options.UseCacheOfMemory();
+    //options.UseCacheOfGarnet();
 
     //加密提供者,空加密为默认实现
     options.UseEncryption<EmptyEncryptionProvider>();
@@ -104,7 +104,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -117,9 +116,9 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.UseBiwenSettings();
-//map api
-app.MapBiwenSettingApi(mapNotifyEndpoint: true).WithTags("BiwenSettingApi").WithOpenApi();
-
+app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
+{
+    builder.WithTags("BiwenSettingApi").WithOpenApi();
+});
 
 app.Run();

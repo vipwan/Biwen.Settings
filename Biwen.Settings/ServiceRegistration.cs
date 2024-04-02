@@ -170,8 +170,16 @@ namespace Biwen.Settings
         /// Use BiwenSettings
         /// </summary>
         /// <param name="app"></param>
+        /// <param name="routePrefix"></param>
+        /// <param name="mapNotifyEndpoint">是否配置Settings变更消费者</param>
+        /// <param name="builder">需要对MinimalApi更多的扩展操作</param>
         /// <returns></returns>
-        public static IApplicationBuilder UseBiwenSettings(this WebApplication app)
+        public static IApplicationBuilder UseBiwenSettings(
+            this WebApplication app,
+            string routePrefix = "biwensetting/api",
+            bool mapNotifyEndpoint = false,
+            Action<IEndpointConventionBuilder>? builder = null
+            )
         {
             var settingOption = app.Services.GetRequiredService<IOptions<SettingOptions>>();
             if (settingOption.Value.EditorOption.ShouldPagenation)
@@ -203,8 +211,10 @@ namespace Biwen.Settings
                    pattern: "biwen/settings/setting/edit/{id}",
                    defaults: new { controller = "Setting", action = "Edit" });
 
+            // WebApi
+            var route = app.MapBiwenSettingApi(routePrefix, mapNotifyEndpoint);
+            builder?.Invoke(route);
             return app;
         }
-
     }
 }

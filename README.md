@@ -169,8 +169,10 @@ dotnet ef database update
     });
 
    //...............
-   app.MapBiwenSettingApi();//api
-   app.UseBiwenSettings();//mvc
+   app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
+    {
+        builder.WithTags("BiwenSettingApi").WithOpenApi();
+    });
 
 ```
 
