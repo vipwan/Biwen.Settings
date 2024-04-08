@@ -5,9 +5,9 @@
     /// </summary>
     internal sealed class NullCacheProvider : ICacheProvider
     {
-        public async Task<object?> GetOrCreateAsync(string key, Func<Task<object?>> factory, int cacheTime = 86400)
+        public Task<T?> GetOrCreateAsync<T>(string key, Func<T?> factory, int cacheTime = 86400) where T : ISetting
         {
-            return await factory();
+            return Task.FromResult(factory());
         }
 
         public async Task RemoveAsync(string key)

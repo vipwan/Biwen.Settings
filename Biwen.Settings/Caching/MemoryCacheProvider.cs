@@ -17,6 +17,16 @@ namespace Biwen.Settings.Caching
             });
         }
 
+        public async Task<T?> GetOrCreateAsync<T>(string key, Func<T?> factory, int cacheTime = 86400) where T : ISetting
+        {
+            return await _cache.GetOrCreateAsync<T>(key, async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(cacheTime);
+                var @default = factory();
+                return await Task.FromResult(@default!);
+            });
+        }
+
         public Task RemoveAsync(string key)
         {
             _cache.Remove(key);

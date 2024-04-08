@@ -10,14 +10,15 @@ namespace Biwen.Settings.Caching.Garnet
 
         private const string SettingKeyFormat = "__BiwenSetting__Garnet_{0}";
 
-        public async Task<object?> GetOrCreateAsync(string key, Func<Task<object?>> factory, int cacheTime = 86400)
+        public async Task<T?> GetOrCreateAsync<T>(string key, Func<T?> factory, int cacheTime = 86400) where T : ISetting
         {
+
             using var db = new GarnetClient(
-                            address: _options.Value.Host,
-                            port: _options.Value.Port,
-                            authUsername: _options.Value.UserName,
-                            authPassword: _options.Value.Password
-                            );
+                address: _options.Value.Host,
+                port: _options.Value.Port,
+                authUsername: _options.Value.UserName,
+                authPassword: _options.Value.Password
+                );
 
             await db.ConnectAsync();
 
@@ -25,20 +26,21 @@ namespace Biwen.Settings.Caching.Garnet
 
             if (value is null)
             {
-                var newVal = await factory();
+                var newVal = factory();
                 if (newVal is null)
                 {
-                    return null;
+                    return default;
                 }
 
                 await db.StringSetAsync(key: string.Format(SettingKeyFormat, key),
-                     value: JsonSerializer.Serialize(newVal));
+                    value: JsonSerializer.Serialize(newVal));
 
                 return newVal;
             }
 
-            return JsonSerializer.Deserialize<object>(value);
+            return JsonSerializer.Deserialize<T?>(value);
         }
+
 
         public async Task RemoveAsync(string key)
         {

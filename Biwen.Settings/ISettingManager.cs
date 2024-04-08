@@ -67,19 +67,18 @@ namespace Biwen.Settings
 
         public T Get<T>() where T : ISetting, new()
         {
-            var retn = _cacheProvider.GetOrCreateAsync(
+            var retn = _cacheProvider.GetOrCreateAsync<T>(
                 string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId),
                  () =>
             {
-                return Task.FromResult((object?)_settingManager.Get<T>());
+                return _settingManager.Get<T>();
             }).GetAwaiter().GetResult();
-
-            if (retn is System.Text.Json.JsonElement)
-            {
-                var raw = System.Text.Json.JsonSerializer.Serialize(retn);
-                return System.Text.Json.JsonSerializer.Deserialize<T>(raw)!;
-            }
-            return (T)retn!;
+            //if (retn is System.Text.Json.JsonElement)
+            //{
+            //    var raw = System.Text.Json.JsonSerializer.Serialize(retn);
+            //    return System.Text.Json.JsonSerializer.Deserialize<T>(raw)!;
+            //}
+            return retn!;
         }
 
         public List<Setting> GetAllSettings()

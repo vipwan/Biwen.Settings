@@ -14,13 +14,12 @@
         /// <param name="factory"></param>
         /// <param name="cacheTime">缓存周期秒:seconds </param>
         /// <returns></returns>
-        Task<object?> GetOrCreateAsync(string key, Func<Task<object?>> factory, int cacheTime = 24 * 60 * 60);
+        Task<T?> GetOrCreateAsync<T>(string key, Func<T?> factory, int cacheTime = 24 * 60 * 60) where T : ISetting;
 
         /// <summary>
         /// 移除缓存
         /// </summary>
         /// <param name="key"></param>
         Task RemoveAsync(string key);
-
     }
 }
