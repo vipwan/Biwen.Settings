@@ -8,15 +8,6 @@ namespace Biwen.Settings.Caching
     {
         private readonly IMemoryCache _cache = cache;
 
-        public async Task<object?> GetOrCreateAsync(string key, Func<Task<object?>> factory, int cacheTime = 86400)
-        {
-            return await _cache.GetOrCreateAsync(key, entry =>
-            {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(cacheTime);
-                return factory();
-            });
-        }
-
         public async Task<T?> GetOrCreateAsync<T>(string key, Func<T?> factory, int cacheTime = 86400) where T : ISetting
         {
             return await _cache.GetOrCreateAsync<T>(key, async entry =>
