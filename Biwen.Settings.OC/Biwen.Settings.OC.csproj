@@ -47,7 +47,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Drawing.Common" Version="8.0.3" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.4" />
 		<PackageReference Include="OrchardCore.Module.Targets" Version="1.8.2" />
 		<PackageReference Include="OrchardCore.ContentManagement" Version="1.8.2" />
 		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.8.2" />

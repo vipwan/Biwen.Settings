@@ -1,5 +1,4 @@
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using Microsoft.AspNetCore.Identity;
+ï»¿using Microsoft.AspNetCore.Identity;
 using OrchardCore.Admin;
 using OrchardCore.Logging;
 using Serilog;
@@ -17,12 +16,12 @@ builder.Host.UseSerilog((hostingContext, configBuilder) =>
 
 
 
-//½â¾öÖĞÎÄ±»±àÂë
+//è§£å†³ä¸­æ–‡è¢«ç¼–ç 
 builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
 builder.Services.Configure<IdentityOptions>(o =>
 {
-    //ÅäÖÃÄ¬ÈÏÃÜÂë¹æÔò
+    //é…ç½®é»˜è®¤å¯†ç è§„åˆ™
     o.Password.RequireNonAlphanumeric = false;
     o.Password.RequireDigit = false;
     o.Password.RequireLowercase = false;
