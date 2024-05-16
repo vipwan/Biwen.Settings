@@ -1,5 +1,6 @@
 ﻿using Biwen.Settings.Caching;
 using Biwen.Settings.EndpointNotify;
+using Microsoft.Extensions.Configuration;
 
 namespace Biwen.Settings
 {
@@ -59,6 +60,10 @@ namespace Biwen.Settings
             await _cacheProvider.RemoveAsync(string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId));
             //Notify
             await _medirator.PublishAsync(setting);
+
+            //IConfiguration刷新:
+            //_configurationManager.
+            Consts.IsConfigrationChanged = (true, typeof(T).Name);
 
             //todo:如果是分布式环境,需要通知其他节点刷新缓存
             _ = _notifyServices.NotifyConsumerAsync(new NofityDto(typeof(T).FullName!, _options.Value.ProjectId));

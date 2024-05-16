@@ -76,8 +76,12 @@ namespace Biwen.Settings.EndpointNotify
         /// cache key format
         /// </summary>
         public const string CacheKeyFormat = "SettingManager_{1}_{0}";
-    }
 
+        /// <summary>
+        /// 用于通知的配置是否发生变更
+        /// </summary>
+        public static (bool IsChanged, string? SettingName) IsConfigrationChanged { get; set; } = (false, null);
+    }
 
     /// <summary>
     /// 通知DTO

@@ -88,7 +88,7 @@ builder.Services.AddBiwenSettings(options =>
     //    options.JsonPath = "1systemsetting.json";
     //});
 
-});
+}, builder.Configuration);
 
 
 //支持缓存提供者,默认不使用缓存

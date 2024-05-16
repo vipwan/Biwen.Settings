@@ -1,12 +1,15 @@
 ﻿using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.EndpointNotify;
+using Biwen.Settings.Extensions;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 
@@ -21,10 +24,11 @@ namespace Biwen.Settings
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
+        /// <param name="configuration">注册到Configuration</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static IServiceCollection AddBiwenSettings(this IServiceCollection services,
-            Action<SettingOptions> options = null!)
+            Action<SettingOptions> options = null!, ConfigurationManager? configuration = null)
         {
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
@@ -132,23 +136,20 @@ namespace Biwen.Settings
             var settings = ASS.InAllRequiredAssemblies.ThatInherit(
                 typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
 
+            //消费者通知服务
+            services.AddScoped<NotifyServices>();
+
+            //注册到Configuration中
+            configuration?.AddBiwenSettingConfiguration(services.BuildServiceProvider(), true);
+
             //注册ISetting
             settings.ForEach(x =>
             {
-                services.AddScoped(x, sp =>
-                {
-                    var settingManager = sp.GetRequiredService<ISettingManager>();
-                    var cache = sp.GetRequiredService<IMemoryCache>();
+                //Self DI
+                services.AddScoped(x, sp => GetSetting(x, sp));
 
-                    //使用缓存避免重复反射
-                    var md = cache.GetOrCreate($"GenericMethod_{x.FullName}", entry =>
-                    {
-                        MethodInfo methodLoad = settingManager.GetType().GetMethod(nameof(settingManager.Get))!;
-                        MethodInfo generic = methodLoad.MakeGenericMethod(x);
-                        return generic;
-                    });
-                    return md!.Invoke(settingManager, null)!;
-                });
+                //IOptions DI
+                configuration?.GetSection(x.Name).Bind(GetSetting(x, services.BuildServiceProvider()));
 
                 // 初始化设置
                 using var scope = services.BuildServiceProvider()!.CreateScope();
@@ -159,12 +160,24 @@ namespace Biwen.Settings
                 }
             });
 
-            //消费者通知服务
-            services.AddScoped<NotifyServices>();
-
             return services;
         }
 
+
+        static object GetSetting(Type x, IServiceProvider sp)
+        {
+            var settingManager = sp.GetRequiredService<ISettingManager>();
+            var cache = sp.GetRequiredService<IMemoryCache>();
+
+            //使用缓存避免重复反射
+            var md = cache.GetOrCreate($"GenericMethod_{x.FullName}", entry =>
+            {
+                MethodInfo methodLoad = settingManager.GetType().GetMethod(nameof(settingManager.Get))!;
+                MethodInfo generic = methodLoad.MakeGenericMethod(x);
+                return generic;
+            });
+            return md!.Invoke(settingManager, null)!;
+        }
 
         /// <summary>
         /// Use BiwenSettings

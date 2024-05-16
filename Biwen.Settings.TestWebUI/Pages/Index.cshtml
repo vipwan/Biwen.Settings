@@ -1,23 +1,49 @@
 ﻿@page
-@inject WeChatSetting WeChatSetting;
+@using Microsoft.Extensions.Options
 @inject SiteSetting SiteSetting;
+@inject WeChatSetting WeChatSetting;//直接对象注入
+@inject IOptions<WeChatSetting> IOP; //通过IOptions注入
+@inject IConfiguration Configuration;//IConfiguration
 
 @model IndexModel
 @{
     ViewData["Title"] = SiteSetting.SiteName;
 }
 
-<div>
-    <p>WeChatSetting读取配置测试</p>
-    <p>
-        @WeChatSetting.AppId
-    </p>
-    <p>
-        @WeChatSetting.AppSecret
-    </p>
+<p>Configuration中WeChatSetting读取配置测试</p>
+@foreach (var cfg in Configuration.AsEnumerable().OrderBy(x => x.Key))
+{
+    if (cfg.Key.StartsWith("WeChatSetting:"))
+    {
+        <p>@cfg.Key  :    @cfg.Value </p>
+    }
+}
 
+<hr />
+
+<div>
+    <p>WeChatSetting IOptions方式:</p>
+    @{
+        var props = IOP.Value.GetType().GetProperties();
+    }
+    @foreach (var prop in props.Where(x => x.CanWrite && x.CanRead))
+    {
+        <p>@prop.Name : @prop.GetValue(WeChatSetting)</p>
+    }
 </div>
 
+<hr />
+<div>
+    <p>WeChatSetting 直接注入的方式:</p>
+    @{
+        var props2 = WeChatSetting.GetType().GetProperties();
+    }
+    @foreach (var prop in props2.Where(x => x.CanWrite && x.CanRead))
+    {
+        <p>@prop.Name : @prop.GetValue(WeChatSetting)</p>
+    }
+</div>
+<hr />
 
 
 <div class="text-center">
