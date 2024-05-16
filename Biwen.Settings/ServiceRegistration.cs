@@ -7,17 +7,18 @@ using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 
 namespace Biwen.Settings
 {
     public static class ServiceRegistration
     {
-
+        /// <summary>
+        /// ServiceProvider
+        /// </summary>
+        internal static IServiceProvider ServiceProvider = null!;
 
         /// <summary>
         /// Add BiwenSettings
@@ -30,6 +31,7 @@ namespace Biwen.Settings
         public static IServiceCollection AddBiwenSettings(this IServiceCollection services,
             Action<SettingOptions> options = null!, ConfigurationManager? configuration = null)
         {
+
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddMemoryCache();
@@ -139,8 +141,11 @@ namespace Biwen.Settings
             //消费者通知服务
             services.AddScoped<NotifyServices>();
 
+            //sp
+            ServiceProvider = services.BuildServiceProvider();
+
             //注册到Configuration中
-            configuration?.AddBiwenSettingConfiguration(services.BuildServiceProvider(), true);
+            configuration?.AddBiwenSettingConfiguration(true);
 
             //注册ISetting
             settings.ForEach(x =>

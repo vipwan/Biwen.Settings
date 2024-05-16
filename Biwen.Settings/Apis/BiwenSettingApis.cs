@@ -240,7 +240,7 @@ namespace Microsoft.AspNetCore.Builder
                     //继承至ValidationSettingBase<T>的情况
                     if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
                     {
-                        var x = dto as ISettingValidator ?? throw new BiwenException($"ISettingValidator is Null!");
+                        var x = setting as ISettingValidator ?? throw new BiwenException($"ISettingValidator is Null!");
                         var vResult = x.Validate();
                         if (!vResult.IsValid)
                         {

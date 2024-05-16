@@ -3,29 +3,35 @@ namespace Biwen.Settings.Extensions
 {
     public static class ConfigurationManagerExtensions
     {
+        /// <summary>
+        /// 提供对IConfiguration的支持
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <param name="autoRefresh"></param>
+        /// <returns></returns>
         internal static ConfigurationManager AddBiwenSettingConfiguration(
-            this ConfigurationManager manager,
-            IServiceProvider serviceProvider, bool autoRefresh = true)
+            this ConfigurationManager manager, bool autoRefresh = true)
         {
             IConfigurationBuilder configBuilder = manager;
-            configBuilder.Add(new BiwenSettingConfigurationSource(serviceProvider, autoRefresh));
+            configBuilder.Add(new BiwenSettingConfigurationSource(autoRefresh));
             return manager;
         }
     }
 
-    internal sealed class BiwenSettingConfigurationSource(IServiceProvider serviceProvider, bool autoRefresh = true) : IConfigurationSource
+    internal sealed class BiwenSettingConfigurationSource(bool autoRefresh = true) : IConfigurationSource
     {
         public IConfigurationProvider Build(IConfigurationBuilder builder) =>
-            new BiwenSettingConfigurationProvider(serviceProvider, autoRefresh);
+            new BiwenSettingConfigurationProvider(autoRefresh);
     }
 
     internal class BiwenSettingConfigurationProvider : ConfigurationProvider, IDisposable
     {
-        private readonly IServiceProvider _serviceProvider;
-        public BiwenSettingConfigurationProvider(IServiceProvider serviceProvider, bool autoRefresh)
+        public BiwenSettingConfigurationProvider(bool autoRefresh)
         {
-            _serviceProvider = serviceProvider;
-
+            if (ServiceRegistration.ServiceProvider is null)
+            {
+                throw new BiwenException("必须首先注册Biwen.Setting模块,请调用:services.AddBiwenSettings()");
+            }
             if (autoRefresh)
             {
                 t = new System.Timers.Timer(TimeSpan.FromMilliseconds(100)) { Enabled = true };
@@ -45,13 +51,15 @@ namespace Biwen.Settings.Extensions
                     OnReload();
                 }
         }
+
         private static object _lock = new();
         System.Timers.Timer t = null!;
+
         public override void Load()
         {
             Dictionary<string, string?> dics = [];
 
-            using var scope = _serviceProvider.CreateScope();
+            using var scope = ServiceRegistration.ServiceProvider.CreateScope();
             var settingManager = scope.ServiceProvider.GetRequiredService<ISettingManager>();
             var settings = settingManager.GetAllSettings()!;
             foreach (var setting in settings)
