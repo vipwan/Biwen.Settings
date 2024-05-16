@@ -13,8 +13,6 @@
 
 当前仓储可以是一个抽象的概念,可以任意横向实现.比如使用多个数据库负载,或者多个Redis等.只要能保证数据一致性即可
 
-![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e27cbca0-9c3d-4851-8aa1-37d2ce1ac97d)
-
 ## 基础案例
 
 - 一个简单例子 比如我有一个Web站点,这个Web站点有很多的负载,以及一一些小程序后台服务 , 
@@ -24,7 +22,6 @@
 ## NuGet 包
 
 - dotnet add package Biwen.Settings
-
 
 ## 开发环境
 
