@@ -178,6 +178,10 @@ dotnet ef database update
 
 ### Enjoy!
 
+2024-05-17更新 提供对`IOptions`和`IConfiguration`直接支持:
+帮助参见:[Issue #14](https://github.com/vipwan/Biwen.Settings/issues/14)
+
+
 #### 支持提交更新时验证器自动验证
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/e2663e78-61da-43f1-990d-aa970736f023)
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/40399554-90be-4927-8b03-a516614d4bd6)
