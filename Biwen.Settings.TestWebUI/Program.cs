@@ -88,8 +88,10 @@ builder.Services.AddBiwenSettings(options =>
     //    options.JsonPath = "1systemsetting.json";
     //});
 
-}, builder.Configuration);
+});
 
+//提供对IConfiguration,IOptions的支持
+builder.Configuration.AddBiwenSettingConfiguration(true);
 
 //支持缓存提供者,默认不使用缓存
 //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider

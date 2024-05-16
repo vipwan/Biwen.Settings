@@ -1,7 +1,6 @@
 ﻿using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.EndpointNotify;
-using Biwen.Settings.Extensions;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
@@ -29,7 +28,7 @@ namespace Biwen.Settings
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static IServiceCollection AddBiwenSettings(this IServiceCollection services,
-            Action<SettingOptions> options = null!, ConfigurationManager? configuration = null)
+            Action<SettingOptions> options = null!)
         {
 
             services.AddHttpContextAccessor();
@@ -144,17 +143,11 @@ namespace Biwen.Settings
             //sp
             ServiceProvider = services.BuildServiceProvider();
 
-            //注册到Configuration中
-            configuration?.AddBiwenSettingConfiguration(true);
-
             //注册ISetting
             settings.ForEach(x =>
             {
                 //Self DI
                 services.AddScoped(x, sp => GetSetting(x, sp));
-
-                //IOptions DI
-                configuration?.GetSection(x.Name).Bind(GetSetting(x, services.BuildServiceProvider()));
 
                 // 初始化设置
                 using var scope = services.BuildServiceProvider()!.CreateScope();

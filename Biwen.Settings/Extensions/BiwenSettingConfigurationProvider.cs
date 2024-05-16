@@ -1,20 +1,50 @@
-﻿using Microsoft.Extensions.Configuration;
-namespace Biwen.Settings.Extensions
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+namespace Biwen.Settings
 {
     public static class ConfigurationManagerExtensions
     {
         /// <summary>
-        /// 提供对IConfiguration的支持
+        /// 提供对IConfiguration,IOptions的支持
         /// </summary>
         /// <param name="manager"></param>
         /// <param name="autoRefresh"></param>
         /// <returns></returns>
-        internal static ConfigurationManager AddBiwenSettingConfiguration(
+        public static ConfigurationManager AddBiwenSettingConfiguration(
             this ConfigurationManager manager, bool autoRefresh = true)
         {
+            if (ServiceRegistration.ServiceProvider is null)
+                throw new BiwenException("必须首先注册Biwen.Setting模块,请调用:services.AddBiwenSettings()");
+
             IConfigurationBuilder configBuilder = manager;
             configBuilder.Add(new BiwenSettingConfigurationSource(autoRefresh));
+
+            var settings = ASS.InAllRequiredAssemblies.ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
+
+            //注册ISetting
+            settings.ForEach(x =>
+            {
+                //IOptions DI
+                manager?.GetSection(x.Name).Bind(GetSetting(x, ServiceRegistration.ServiceProvider));
+            });
+
             return manager;
+        }
+
+
+        static object GetSetting(Type x, IServiceProvider sp)
+        {
+            var settingManager = sp.GetRequiredService<ISettingManager>();
+            var cache = sp.GetRequiredService<IMemoryCache>();
+
+            //使用缓存避免重复反射
+            var md = cache.GetOrCreate($"GenericMethod_{x.FullName}", entry =>
+            {
+                MethodInfo methodLoad = settingManager.GetType().GetMethod(nameof(settingManager.Get))!;
+                MethodInfo generic = methodLoad.MakeGenericMethod(x);
+                return generic;
+            });
+            return md!.Invoke(settingManager, null)!;
         }
     }
 
