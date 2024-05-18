@@ -1,5 +1,8 @@
 ﻿## ChangeLog
 
+### 更多参阅Released版本信息
+    - [https://github.com/vipwan/Biwen.Settings/releases](https://github.com/vipwan/Biwen.Settings/releases)
+
 ### 2.1.0
     - 提供Garnet缓存支持 #13
     - ICacheProvider重写为异步
