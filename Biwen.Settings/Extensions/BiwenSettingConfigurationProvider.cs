@@ -65,12 +65,12 @@ namespace Biwen.Settings
             if (autoRefresh)
             {
                 t = new System.Timers.Timer(TimeSpan.FromMilliseconds(100)) { Enabled = true };
-                t.Elapsed += T_Elapsed;
+                t.Elapsed += OnElapsed;
                 t.Start();
             }
         }
 
-        private void T_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        private void OnElapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             lock (_lock)
                 if (EndpointNotify.Consts.IsConfigrationChanged.IsChanged)
@@ -83,7 +83,7 @@ namespace Biwen.Settings
         }
 
         private static object _lock = new();
-        System.Timers.Timer t = null!;
+        private System.Timers.Timer t = null!;
 
         public override void Load()
         {
