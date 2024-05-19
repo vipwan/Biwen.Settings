@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace Biwen.Settings
 {
-
     public class SettingOptions
     {
         /// <summary>
@@ -39,7 +38,6 @@ namespace Biwen.Settings
         /// </summary>
         public AutoFluentValidationOptions AutoFluentValidationOption { get; set; } = new();
 
-
         /// <summary>
         /// 默认不使用任何缓存
         /// 不支持直接调用,请使用UseCache方法
@@ -56,11 +54,10 @@ namespace Biwen.Settings
         /// 使用的缓存提供者
         /// </summary>
         /// <param name="provider"></param>
-        public void UseCache<T>() where T : ICacheProvider
+        public void UseCache<T>() where T : class, ICacheProvider
         {
             CacheProvider = typeof(T);
         }
-
 
         /// <summary>
         /// 使用SettingManager
@@ -68,7 +65,7 @@ namespace Biwen.Settings
         /// <typeparam name="T">ISettingManager</typeparam>
         /// <typeparam name="V">扩展信息</typeparam>
         /// <param name="extend"></param>
-        public void UseSettingManager<T, V>(V extend) where T : ISettingManager
+        public void UseSettingManager<T, V>(V extend) where T : class, ISettingManager
         {
             SettingManager = (typeof(T), extend);
         }
@@ -105,15 +102,13 @@ namespace Biwen.Settings
 
         }
 
-
         /// <summary>
         /// 默认不使用任何缓存
         /// 不支持直接调用,请使用UseCache方法
         /// </summary>
         public Type EncryptionProvider { get; private set; } = typeof(EmptyEncryptionProvider);
 
-
-        public void UseEncryption<T>() where T : IEncryptionProvider
+        public void UseEncryption<T>() where T : class, IEncryptionProvider
         {
             EncryptionProvider = typeof(T);
         }
@@ -129,7 +124,6 @@ namespace Biwen.Settings
             /// </summary>
             public bool Enable { get; set; } = false;
         }
-
 
         /// <summary>
         /// 通知选项

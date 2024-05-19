@@ -1,6 +1,4 @@
-﻿
-using FluentValidation;
-using Microsoft.Extensions.Options;
+﻿using FluentValidation;
 
 namespace Biwen.Settings.TestWebUI
 {

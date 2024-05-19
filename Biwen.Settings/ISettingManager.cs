@@ -1,6 +1,5 @@
 ﻿using Biwen.Settings.Caching;
 using Biwen.Settings.EndpointNotify;
-using Microsoft.Extensions.Configuration;
 
 namespace Biwen.Settings
 {

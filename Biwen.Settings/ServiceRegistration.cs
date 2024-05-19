@@ -30,10 +30,8 @@ namespace Biwen.Settings
         public static IServiceCollection AddBiwenSettings(this IServiceCollection services,
             Action<SettingOptions> options = null!)
         {
-
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
-            services.AddMemoryCache();
 
             #region Localization
 
@@ -48,48 +46,49 @@ namespace Biwen.Settings
 
             services.AddOptions<SettingOptions>().Configure(x => { options?.Invoke(x); });
 
-            var currentOptions = services.BuildServiceProvider().GetRequiredService<IOptions<SettingOptions>>();
+            var currentOptions = services.BuildServiceProvider().GetRequiredService<IOptions<SettingOptions>>().Value;
 
             #region 注入缓存
 
-            var cacheTypeProvider = currentOptions.Value.CacheProvider;
+            services.AddMemoryCache();
+            var cacheTypeProvider = currentOptions.CacheProvider;
             services.AddScoped(typeof(ICacheProvider), cacheTypeProvider!);
 
             #endregion
 
             #region 注入Encryption
 
-            var encryptionProvider = currentOptions.Value.EncryptionProvider;
+            var encryptionProvider = currentOptions.EncryptionProvider;
             services.AddScoped(typeof(IEncryptionProvider), encryptionProvider);
 
             #endregion
 
             #region 注入SettingManager
 
-            if (currentOptions.Value.SettingManager.ManagerType == typeof(EntityFrameworkCoreSettingManager))
+            if (currentOptions.SettingManager.ManagerType == typeof(EntityFrameworkCoreSettingManager))
             {
-                if (currentOptions.Value.SettingManager.Options == null)
+                if (currentOptions.SettingManager.Options == null)
                     throw new BiwenException("EFCoreStoreOptions need set!");
 
                 services.AddOptions<EFCoreStoreOptions>().Configure(x =>
                 {
-                    (currentOptions.Value.SettingManager.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
+                    (currentOptions.SettingManager.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
                 });
             }
-            else if (currentOptions.Value.SettingManager.ManagerType == typeof(JsonStoreSettingManager))
+            else if (currentOptions.SettingManager.ManagerType == typeof(JsonStoreSettingManager))
             {
                 services.AddOptions<JsonStoreOptions>().Configure(x =>
                 {
-                    (currentOptions.Value.SettingManager.Options as Action<JsonStoreOptions>)?.Invoke(x);
+                    (currentOptions.SettingManager.Options as Action<JsonStoreOptions>)?.Invoke(x);
                 });
             }
             else
             {
-                if (currentOptions.Value.SettingManager.ManagerType == null)
+                if (currentOptions.SettingManager.ManagerType == null)
                     throw new BiwenException("Require ISettingManager!");
             }
 
-            services.AddScoped(typeof(ISettingManager), currentOptions.Value.SettingManager.ManagerType!);
+            services.AddScoped(typeof(ISettingManager), currentOptions.SettingManager.ManagerType!);
 
             #endregion
 
@@ -117,7 +116,7 @@ namespace Biwen.Settings
             services.Decorate<ISettingManager>((inner, provider) => new SettingManagerDecorator(inner, provider.CreateAsyncScope().ServiceProvider));
 
             //注册验证器
-            if (currentOptions.Value.AutoFluentValidationOption.Enable)
+            if (currentOptions.AutoFluentValidationOption.Enable)
             {
                 //注册验证器
                 services.AddFluentValidationAutoValidation();
@@ -160,7 +159,6 @@ namespace Biwen.Settings
 
             return services;
         }
-
 
         static object GetSetting(Type x, IServiceProvider sp)
         {

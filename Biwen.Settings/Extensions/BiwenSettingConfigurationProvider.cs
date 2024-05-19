@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+
 namespace Biwen.Settings
 {
     public static class ConfigurationManagerExtensions
@@ -30,7 +31,6 @@ namespace Biwen.Settings
 
             return manager;
         }
-
 
         static object GetSetting(Type x, IServiceProvider sp)
         {
