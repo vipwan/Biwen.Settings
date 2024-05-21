@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+ï»¿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -36,7 +36,7 @@ namespace Biwen.Settings.OC
                 options.Title = "Biwen.Settings";
                 options.PermissionValidator = (ctx) =>
                 {
-                    //ÅĞ¶ÏÊÇ·ñÓĞÈ¨ÏŞ·ÃÎÊÉèÖÃÒ³Ãæ
+                    //åˆ¤æ–­æ˜¯å¦æœ‰æƒé™è®¿é—®è®¾ç½®é¡µé¢
                     return ctx.RequestServices
                     .GetService<IAuthorizationService>()
                     .AuthorizeAsync(ctx.User, Permissions.ManageSettings).GetAwaiter().GetResult();
@@ -45,26 +45,26 @@ namespace Biwen.Settings.OC
                 options.EditorOptions.EdtiorConfirmButtonText = "Submit";
                 options.EditorOptions.EditorEditButtonText = "Edit";
                 options.EditorOptions.ShouldPagenation = true;
-                //¿ªÆôAutoFluentValidation
+                //å¼€å¯AutoFluentValidation
                 options.AutoFluentValidationOption.Enable = true;
 
-                //Ö§³Ö»º´æÌá¹©Õß,Ä¬ÈÏ²»Ê¹ÓÃ»º´æ
-                //ÄúÒ²¿ÉÒÔÊ¹ÓÃBiwen.SettingsÌá¹©ÄÚ´æ»º´æ:Biwen.Settings.Caching.MemoryCacheProvider
+                //æ”¯æŒç¼“å­˜æä¾›è€…,é»˜è®¤ä¸ä½¿ç”¨ç¼“å­˜
+                //æ‚¨ä¹Ÿå¯ä»¥ä½¿ç”¨Biwen.Settingsæä¾›å†…å­˜ç¼“å­˜:Biwen.Settings.Caching.MemoryCacheProvider
                 //options.UseCacheOfNull();
                 options.UseCacheOfMemory();
 
-                //Ê¹ÓÃJsonStore
+                //ä½¿ç”¨JsonStore
                 options.UserStoreOfJsonFile(options =>
                 {
                     options.FormatJson = true;
                     options.JsonPath = $"App_Data/{settings.TenantId}-{jsonPath}";
                 });
             });
-            //È¨ÏŞ
+            //æƒé™
             services.AddScoped<IPermissionProvider, Permissions>();
-            //²Ëµ¥
+            //èœå•
             services.AddScoped<INavigationProvider, AdminMenu>();
-            //¿ØÖÆÆ÷
+            //æ§åˆ¶å™¨
             services.AddScoped<Biwen.Settings.Controllers.SettingController>();
 
         }
@@ -75,7 +75,7 @@ namespace Biwen.Settings.OC
             var settingOption = serviceProvider.GetRequiredService<IOptions<SettingOptions>>();
             if (settingOption.Value.EditorOptions.ShouldPagenation)
             {
-                //Ìí¼ÓÇ¶ÈëÊ½×ÊÔ´
+                //æ·»åŠ åµŒå…¥å¼èµ„æº
                 var embeddedFileProvider = new EmbeddedFileProvider(typeof(ISetting).Assembly, "Biwen.Settings");
 
                 builder.UseStaticFiles(new StaticFileOptions
