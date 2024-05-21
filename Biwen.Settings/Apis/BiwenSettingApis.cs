@@ -131,10 +131,6 @@ namespace Microsoft.AspNetCore.Builder
             if (dto == null) return TypedResults.BadRequest();
             await cacheProvider.RemoveAsync(string.Format(Consts.CacheKeyFormat, dto.SettingType, options.Value.ProjectId));
 
-            //通知配置变更
-            //Consts.IsConfigrationChanged = (true, dto.SettingType);
-            Consts.ConfigrationChangedChannel.Writer.TryWrite((true, dto.SettingType));
-
             Console.WriteLine($"消费了配置变更:{dto.SettingType} and Clear cache");
             return TypedResults.Ok();
         }

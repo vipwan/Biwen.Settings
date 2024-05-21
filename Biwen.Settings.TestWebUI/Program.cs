@@ -1,4 +1,5 @@
 ﻿using Biwen.Settings;
+using Biwen.Settings.Extensions.Configuration;
 using Biwen.Settings.Caching.Garnet;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.TestWebUI.Data;
@@ -91,7 +92,7 @@ builder.Services.AddBiwenSettings(options =>
 });
 
 //提供对IConfiguration,IOptions的支持
-builder.Configuration.AddBiwenSettingConfiguration(true);
+builder.Configuration.AddBiwenSettingConfiguration(builder.Services, true);
 
 //支持缓存提供者,默认不使用缓存
 //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider

@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Threading.Channels;
 
 namespace Biwen.Settings
 {
@@ -48,6 +47,20 @@ namespace Biwen.Settings
         Task PublishAsync<T>(T @event) where T : ISetting, new();
     }
 
+    /// <summary>
+    /// IMediratorDone 用于完成发布的通知
+    /// </summary>
+    public interface IMediratorDoneHandler
+    {
+        /// <summary>
+        /// 当完成发布
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="event"></param>
+        /// <returns></returns>
+        Task OnPublishedAsync<T>(T @event) where T : ISetting, new();
+    }
+
     internal class Medirator(IServiceProvider serviceProvider) : IMedirator
     {
         private readonly IServiceProvider _serviceProvider = serviceProvider;
@@ -59,11 +72,15 @@ namespace Biwen.Settings
             notifys.Where(x => x.IsAsync).AsParallel().ForAll(x => _ = x.NotifyAsync(@event));
             notifys.Where(x => !x.IsAsync).ToList().ForEach(async x => await x.NotifyAsync(@event));
 
+            var doneHandlers = _serviceProvider.GetServices<IMediratorDoneHandler>();
+            if (doneHandlers.Any())
+            {
+                doneHandlers.AsParallel().ForAll(x => _ = x.OnPublishedAsync(@event));
+            }
             await Task.CompletedTask;
         }
     }
 }
-
 
 namespace Biwen.Settings.EndpointNotify
 {
@@ -82,11 +99,6 @@ namespace Biwen.Settings.EndpointNotify
         /// 用于通知的配置是否发生变更
         /// </summary>
         ///public static (bool IsChanged, string? SettingName) IsConfigrationChanged { get; set; } = (false, null);
-
-        /// <summary>
-        /// Channel队列
-        /// </summary>
-        public static readonly Channel<(bool IsChanged, string? SettingName)> ConfigrationChangedChannel = Channel.CreateUnbounded<(bool IsChanged, string? SettingName)>();
 
     }
 

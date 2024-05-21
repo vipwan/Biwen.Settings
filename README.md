@@ -165,8 +165,10 @@ dotnet ef database update
         //options.UseSettingManager<T,V>()
     });
 
-   //...............
-   app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
+    //提供对`IOptions`和`IConfiguration`直接支持:
+    builder.Configuration.AddBiwenSettingConfiguration(builder.Services, true);
+
+    app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
     {
         builder.WithTags("BiwenSettingApi").WithOpenApi();
     });

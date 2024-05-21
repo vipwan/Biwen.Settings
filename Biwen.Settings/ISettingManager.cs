@@ -61,12 +61,7 @@ namespace Biwen.Settings
             await _cacheProvider.RemoveAsync(string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId));
             //Notify
             await _medirator.PublishAsync(setting);
-            //IConfiguration刷新:
-            lock (_locker)
-            {
-                //使用Channel通知:
-                Consts.ConfigrationChangedChannel.Writer.TryWrite((true, typeof(T).Name));
-            }
+
             //todo:如果是分布式环境,需要通知其他节点刷新缓存
             _ = _notifyServices.NotifyConsumerAsync(new NofityDto(typeof(T).FullName!, _options.Value.ProjectId));
         }
