@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Dynamic;
 
 namespace Microsoft.AspNetCore.Builder
@@ -123,7 +122,7 @@ namespace Microsoft.AspNetCore.Builder
             [FromBody] NofityDto dto)
         {
 
-            if (secret != options.Value.NotifyOption.Secret)
+            if (secret != options.Value.NotifyOptions.Secret)
             {
                 return TypedResults.BadRequest();
             }

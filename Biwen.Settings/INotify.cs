@@ -117,20 +117,20 @@ namespace Biwen.Settings.EndpointNotify
 
         public async Task NotifyConsumerAsync(NofityDto dto)
         {
-            if (!_options.Value.NotifyOption.IsNotifyEnable)
+            if (!_options.Value.NotifyOptions.IsNotifyEnable)
             {
                 return;
             }
-            if (_options.Value.NotifyOption.EndpointHosts.Length == 0)
+            if (_options.Value.NotifyOptions.EndpointHosts.Length == 0)
             {
                 return;
             }
 
-            foreach (var host in _options.Value.NotifyOption.EndpointHosts)
+            foreach (var host in _options.Value.NotifyOptions.EndpointHosts)
             {
                 _ = Task.Run(async () =>
                  {
-                     var url = $"{host}/{Consts.EndpointUrl.Replace("{secret}", _options.Value.NotifyOption.Secret)}";
+                     var url = $"{host}/{Consts.EndpointUrl.Replace("{secret}", _options.Value.NotifyOptions.Secret)}";
                      using HttpClient httpClient = new();
                      httpClient.DefaultRequestHeaders.Clear();
                      httpClient.DefaultRequestHeaders.Add("User-Agent", "Biwen.Settings");

@@ -191,7 +191,7 @@ namespace Biwen.Settings
             )
         {
             var settingOption = app.Services.GetRequiredService<IOptions<SettingOptions>>();
-            if (settingOption.Value.EditorOption.ShouldPagenation)
+            if (settingOption.Value.EditorOptions.ShouldPagenation)
             {
                 //添加嵌入式资源
                 var embeddedFileProvider = new EmbeddedFileProvider(typeof(ISetting).Assembly, "Biwen.Settings");

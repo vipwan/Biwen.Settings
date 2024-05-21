@@ -31,7 +31,7 @@ namespace Biwen.Settings
         /// <summary>
         /// 编辑器选项
         /// </summary>
-        public EditorOptions EditorOption { get; set; } = new();
+        public EditorOptions EditorOptions { get; set; } = new();
 
         /// <summary>
         /// 自动Setting验证器配置
@@ -68,26 +68,6 @@ namespace Biwen.Settings
         public void UseSettingManager<T, V>(V extend) where T : class, ISettingManager
         {
             SettingManager = (typeof(T), extend);
-        }
-
-        public class EditorOptions
-        {
-            /// <summary>
-            /// js Onclick代码
-            /// </summary>
-            public string? EditorOnclick { get; set; } = "return confirm('确定要修改吗!?如果格式错误将使系统异常!');";
-            /// <summary>
-            /// 按钮文本
-            /// </summary>
-            public string? EdtiorConfirmButtonText { get; set; } = "确认修改";
-
-            public string? EditorEditButtonText { get; set; } = "编辑";
-
-            /// <summary>
-            /// 是否分页展示,注意Layout必须引用JQuery
-            /// </summary>
-            public bool ShouldPagenation { get; set; } = true;
-
         }
 
         /// <summary>
@@ -128,31 +108,59 @@ namespace Biwen.Settings
         /// <summary>
         /// 通知选项
         /// </summary>
-        public NotifyOptions NotifyOption { get; set; } = new();
+        public NotifyOptions NotifyOptions { get; set; } = new();
 
         /// <summary>
         /// 变更通知选项
         /// </summary>
-        public class NotifyOptions
-        {
-            /// <summary>
-            /// 是否启用当前服务为通知的生产者
-            /// </summary>
-            public bool IsNotifyEnable { get; set; } = false;
-
-            /// <summary>
-            /// 通知的密钥,用于验证通知的合法性
-            /// 请注意如果作为消费者,即使Enable=false,也必须设置Secret,否则会导致无法接收到通知
-            /// </summary>
-            public string Secret { get; set; } = "Biwen.Settings.Notify";
-
-            /// <summary>
-            /// 消费者的地址集合
-            /// 如:http://localhost:5000
-            /// </summary>
-            public string[] EndpointHosts { get; set; } = [];
-
-        }
     }
+
+    /// <summary>
+    /// 通知选项
+    /// </summary>
+    public class NotifyOptions
+    {
+        /// <summary>
+        /// 是否启用当前服务为通知的生产者
+        /// </summary>
+        public bool IsNotifyEnable { get; set; } = false;
+
+        /// <summary>
+        /// 通知的密钥,用于验证通知的合法性
+        /// 请注意如果作为消费者,即使Enable=false,也必须设置Secret,否则会导致无法接收到通知
+        /// </summary>
+        public string Secret { get; set; } = "Biwen.Settings.Notify";
+
+        /// <summary>
+        /// 消费者的地址集合
+        /// 如:http://localhost:5000
+        /// </summary>
+        public string[] EndpointHosts { get; set; } = [];
+
+    }
+
+    /// <summary>
+    /// EditorOptions
+    /// </summary>
+    public class EditorOptions
+    {
+        /// <summary>
+        /// js Onclick代码
+        /// </summary>
+        public string? EditorOnclick { get; set; } = "return confirm('确定要修改吗!?如果格式错误将使系统异常!');";
+        /// <summary>
+        /// 按钮文本
+        /// </summary>
+        public string? EdtiorConfirmButtonText { get; set; } = "确认修改";
+
+        public string? EditorEditButtonText { get; set; } = "编辑";
+
+        /// <summary>
+        /// 是否分页展示,注意Layout必须引用JQuery
+        /// </summary>
+        public bool ShouldPagenation { get; set; } = true;
+
+    }
+
 
 }

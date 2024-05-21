@@ -44,30 +44,28 @@
 - implements IBiwenSettingsDbContext
 
 ```csharp
-
-    public class MyDbContext : DbContext, IBiwenSettingsDbContext
+public class MyDbContext : DbContext, IBiwenSettingsDbContext
+{
+    public MyDbContext(DbContextOptions<MyDbContext> options)
+        : base(options)
     {
-        public MyDbContext(DbContextOptions<MyDbContext> options)
-            : base(options)
-        {
-        }
-
-        public DbSet<Setting> Settings { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            //根据情况自定义表名
-            builder.Entity<Setting>(b =>
-            {
-                b.ToTable("Settings");
-            });
-            //可以根据自己的情况约束存储列
-            //builder.Entity<Setting>().HasKey(x => x.SettingName);
-            //builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
-        }
     }
 
+    public DbSet<Setting> Settings { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        //根据情况自定义表名
+        builder.Entity<Setting>(b =>
+        {
+            b.ToTable("Settings");
+        });
+        //可以根据自己的情况约束存储列
+        //builder.Entity<Setting>().HasKey(x => x.SettingName);
+        //builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
+    }
+}
 ```
 #### 1.1.1 Migration
 
@@ -87,32 +85,27 @@ dotnet ef database update
 
 - 2.1 如果使用Biwen.Settings提供的EF仓储,必须注入DBContext
 
-  ```csharp
-    builder.Services.AddDbContext<MyDbContext>(options =>
-    {
-        //根据您的情况使用任意EFCore支持的数据库
-        //当前使用内存数据库作为演示.生产环境务必修改!
-        options.UseInMemoryDatabase("BiwenSettings");
-    });
-  
-   ```
-
+```csharp
+builder.Services.AddDbContext<MyDbContext>(options =>
+{
+    //根据您的情况使用任意EFCore支持的数据库
+    //当前使用内存数据库作为演示.生产环境务必修改!
+    options.UseInMemoryDatabase("BiwenSettings");
+});
+```
 - 2.2 如果使用自定义仓储,请实现ISettingManager并修改AddBiwenSettings()
-- 
-  ```csharp
 
-     options.UseSettingManager<T,V>()
-  
-   ```
+```csharp
+options.UseSettingManager<T,V>()
+```
 
 ### step 3
 
 - AddBiwenSettings & UseBiwenSettings
 
 ```csharp
-
-    builder.Services.AddBiwenSettings(options =>
-    {
+builder.Services.AddBiwenSettings(options =>
+  {
 //ProjectId : 项目标识 用于区分不同的项目,比如:日志系统,文件系统;或者环境,比如:开发环境,测试环境,生产环境
 #if DEBUG
     options.ProjectId = $"Biwen.Settings.TestWebUI-{"Development"}";
@@ -120,58 +113,58 @@ dotnet ef database update
 #if !DEBUG
     options.ProjectId = $"Biwen.Settings.TestWebUI-{"Production"}";
 #endif
-        //自定义布局
-        options.Layout = "~/Views/Shared/_Layout.cshtml";
-        options.Title = "Biwen.Settings";
-        //路由地址 ,http://..../system/settings
-        options.Route = "system/settings";
-        //授权规则
-        options.PermissionValidator = (ctx) => true;
-        options.EditorOption.EditorOnclick = "return confirm('Are You Sure!?');";
-        options.EditorOption.EdtiorConfirmButtonText = "Submit";
-        options.EditorOption.EditorEditButtonText = "Edit";
-        options.EditorOption.ShouldPagenation = true;
+//自定义布局
+options.Layout = "~/Views/Shared/_Layout.cshtml";
+options.Title = "Biwen.Settings";
+//路由地址 ,http://..../system/settings
+options.Route = "system/settings";
+//授权规则
+options.PermissionValidator = (ctx) => true;
+options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
+options.EditorOptions.EdtiorConfirmButtonText = "Submit";
+options.EditorOptions.EditorEditButtonText = "Edit";
+options.EditorOptions.ShouldPagenation = true;
 
-        //开启AutoFluentValidation
-        options.AutoFluentValidationOption.Enable = true;
+//开启AutoFluentValidation
+options.AutoFluentValidationOption.Enable = true;
 
-        //支持缓存提供者,默认不使用缓存
-        options.UseCacheOfNull();
-        //您也可以使用Biwen.Settings提供内存缓存:MemoryCacheProvider
-        //options.UseCacheOfMemory();
-        //使用自定义缓存提供者
-        //options.UseCache<T>();
-        //配置当前服务为主节点
-        options.NotifyOption.IsNotifyEnable = true;
-        options.NotifyOption.Secret = "Biwen.Settings.Notify";
-        //子节点配置
-        options.NotifyOption.EndpointHosts = new[]
-        {
-            "http://localhost:5150"
-        };
-        //默认提供EntityFrameworkCore持久化配置项 dbContextType必须配置
-        //options.UseStoreOfEFCore(options =>
-        //{
-        //    options.DbContextType = typeof(MyDbContext);
-        //});
-        //使用JsonStore持久化配置项
-        options.UserStoreOfJsonFile(options =>
-        {
-            options.FormatJson = true;
-            options.JsonPath = "systemsetting.json";
-        });
+//支持缓存提供者,默认不使用缓存
+options.UseCacheOfNull();
+//您也可以使用Biwen.Settings提供内存缓存:MemoryCacheProvider
+//options.UseCacheOfMemory();
+//使用自定义缓存提供者
+//options.UseCache<T>();
+//配置当前服务为主节点
+options.NotifyOptions.IsNotifyEnable = true;
+options.NotifyOptions.Secret = "Biwen.Settings.Notify";
+//子节点配置
+options.NotifyOptions.EndpointHosts = new[]
+{
+    "http://localhost:5150"
+};
+//默认提供EntityFrameworkCore持久化配置项 dbContextType必须配置
+//options.UseStoreOfEFCore(options =>
+//{
+//    options.DbContextType = typeof(MyDbContext);
+//});
+//使用JsonStore持久化配置项
+options.UserStoreOfJsonFile(options =>
+{
+    options.FormatJson = true;
+    options.JsonPath = "systemsetting.json";
+});
         
-        //自行实现的ISettingManager注册
-        //options.UseSettingManager<T,V>()
-    });
+//自行实现的ISettingManager注册
+//options.UseSettingManager<T,V>()
+});
 
-    //提供对`IOptions`和`IConfiguration`直接支持:
-    builder.Configuration.AddBiwenSettingConfiguration(builder.Services, true);
+//提供对`IOptions`和`IConfiguration`直接支持:
+builder.Configuration.AddBiwenSettingConfiguration(builder.Services, true);
 
-    app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
-    {
-        builder.WithTags("BiwenSettingApi").WithOpenApi();
-    });
+app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
+{
+builder.WithTags("BiwenSettingApi").WithOpenApi();
+});
 
 ```
 
@@ -186,68 +179,68 @@ dotnet ef database update
 ![image](https://github.com/vipwan/Biwen.Settings/assets/13956765/40399554-90be-4927-8b03-a516614d4bd6)
 
 ```csharp
-    //模拟的配置项,注意描述信息,以及默认值.初始化将以默认值为准
-    [Description("微信配置")]
-    public class WeChatSetting : SettingBase
+//模拟的配置项,注意描述信息,以及默认值.初始化将以默认值为准
+[Description("微信配置")]
+public class WeChatSetting : SettingBase
+{
+    [Description("AppId")]
+    public string AppId { get; set; } = "wx1234567890";
+
+    [Description("AppSecret")]
+    public string AppSecret { get; set; } = "1234567890";
+
+    [Description("Token")]
+    public string Token { get; set; } = "1234567890";
+
+    [Description("EncodingAESKey")]
+    public string EncodingAESKey { get; set; } = "1234567890";
+    //排序
+    public override int Order => 500;
+    //定义验证器
+    public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
     {
-        [Description("AppId")]
-        public string AppId { get; set; } = "wx1234567890";
-
-        [Description("AppSecret")]
-        public string AppSecret { get; set; } = "1234567890";
-
-        [Description("Token")]
-        public string Token { get; set; } = "1234567890";
-
-        [Description("EncodingAESKey")]
-        public string EncodingAESKey { get; set; } = "1234567890";
-        //排序
-        public override int Order => 500;
-        //定义验证器
-        public class WeChatSettingValidtor : AbstractValidator<WeChatSetting>
+        public WeChatSettingValidtor()
         {
-            public WeChatSettingValidtor()
-            {
-                //验证规则
-                RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
-                RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
-            }
+            //验证规则
+            RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
+            RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
         }
     }
+}
 
-    /// <summary>
-    /// 内置验证器的配置项,推荐使用这种方式 ,同时支持`FluentValidation`和`DataAnnotations`
-    /// </summary>
-    [Description("内置验证器的配置项测试")]
-    public class TestAutoValidSetting : ValidationSettingBase<TestAutoValidSetting>
+/// <summary>
+/// 内置验证器的配置项,推荐使用这种方式 ,同时支持`FluentValidation`和`DataAnnotations`
+/// </summary>
+[Description("内置验证器的配置项测试")]
+public class TestAutoValidSetting : ValidationSettingBase<TestAutoValidSetting>
+{
+    [StringLength(50, MinimumLength = 3)] // DataAnnotations支持
+    public string Name { get; set; } = "Hello"!;
+
+    public TestAutoValidSetting()
     {
-        [StringLength(50, MinimumLength = 3)] // DataAnnotations支持
-        public string Name { get; set; } = "Hello"!;
-
-        public TestAutoValidSetting()
-        {
-            //构造函数中添加验证规则
-            RuleFor(x => x.Name).NotEmpty().Length(8, 32);
-        }
-        override public int Order => 600;
+        //构造函数中添加验证规则
+        RuleFor(x => x.Name).NotEmpty().Length(8, 32);
     }
+    override public int Order => 600;
+}
 
-    //anywhere you can inject
-    //View:
-    //@inject WeChatSetting WeChatSetting;
-    //@inject TestAutoValidSetting TestAutoValidSetting;
+//anywhere you can inject
+//View:
+//@inject WeChatSetting WeChatSetting;
+//@inject TestAutoValidSetting TestAutoValidSetting;
 
-    //Service:
-    //public class MyClass
-    //{
-    //    private readonly WeChatSetting _weChatSetting;
-    //    private readonly TestAutoValidSetting _testAutoValidSetting;
-    //    public MyClass(WeChatSetting weChatSetting,TestAutoValidSetting testAutoValidSetting)
-    //    {
-    //        _weChatSetting = weChatSetting;
-    //        _testAutoValidSetting = testAutoValidSetting;
-    //    }
-    //}
+//Service:
+//public class MyClass
+//{
+//    private readonly WeChatSetting _weChatSetting;
+//    private readonly TestAutoValidSetting _testAutoValidSetting;
+//    public MyClass(WeChatSetting weChatSetting,TestAutoValidSetting testAutoValidSetting)
+//    {
+//        _weChatSetting = weChatSetting;
+//        _testAutoValidSetting = testAutoValidSetting;
+//    }
+//}
 
 ```
 
@@ -256,22 +249,21 @@ dotnet ef database update
 - INotify订阅配置变更
 
 ```csharp
+public class WeChatSettingNotify : INotify<WeChatSetting>
+{
+    private readonly ILogger<WeChatSettingNotify> _logger;
 
-        public class WeChatSettingNotify : INotify<WeChatSetting>
-        {
-            private readonly ILogger<WeChatSettingNotify> _logger;
+    public WeChatSettingNotify(ILogger<WeChatSettingNotify> logger)
+    {
+        _logger = logger;
+    }
 
-            public WeChatSettingNotify(ILogger<WeChatSettingNotify> logger)
-            {
-                _logger = logger;
-            }
-
-            public async Task Notify(WeChatSetting setting)
-            {
-                _logger.LogInformation("微信配置发生变更!");
-                await Task.CompletedTask;
-            }
-        }
+    public async Task Notify(WeChatSetting setting)
+    {
+        _logger.LogInformation("微信配置发生变更!");
+        await Task.CompletedTask;
+    }
+}
 ```
 
 - Minimal API

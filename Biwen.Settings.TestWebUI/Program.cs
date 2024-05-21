@@ -29,7 +29,7 @@ builder.Services.Configure<GarnetClientOptions>(options =>
 {
 });
 
-builder.Services.AddBiwenSettings(options =>
+builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
 {
 
 #if DEBUG
@@ -44,10 +44,10 @@ builder.Services.AddBiwenSettings(options =>
     options.Title = "Biwen.Settings";
     options.Route = "system/settings";
     options.PermissionValidator = (ctx) => true;
-    options.EditorOption.EditorOnclick = "return confirm('Are You Sure!?');";
-    options.EditorOption.EdtiorConfirmButtonText = "Submit";
-    options.EditorOption.EditorEditButtonText = "Edit";
-    options.EditorOption.ShouldPagenation = true;
+    options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
+    options.EditorOptions.EdtiorConfirmButtonText = "Submit";
+    options.EditorOptions.EditorEditButtonText = "Edit";
+    options.EditorOptions.ShouldPagenation = true;
     //开启AutoFluentValidation
     options.AutoFluentValidationOption.Enable = true;
 
@@ -75,9 +75,9 @@ builder.Services.AddBiwenSettings(options =>
 
 
     //集群的通知服务配置
-    options.NotifyOption.IsNotifyEnable = true;
-    options.NotifyOption.Secret = "Biwen.Settings.Notify";
-    options.NotifyOption.EndpointHosts =
+    options.NotifyOptions.IsNotifyEnable = true;
+    options.NotifyOptions.Secret = "Biwen.Settings.Notify";
+    options.NotifyOptions.EndpointHosts =
     [
         "http://localhost:5150"
     ];
@@ -89,7 +89,7 @@ builder.Services.AddBiwenSettings(options =>
     //    options.JsonPath = "1systemsetting.json";
     //});
 
-});
+}));
 
 //提供对IConfiguration,IOptions的支持
 builder.Configuration.AddBiwenSettingConfiguration(builder.Services, true);

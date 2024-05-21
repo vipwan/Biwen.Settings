@@ -41,10 +41,10 @@ namespace Biwen.Settings.OC
                     .GetService<IAuthorizationService>()
                     .AuthorizeAsync(ctx.User, Permissions.ManageSettings).GetAwaiter().GetResult();
                 };
-                options.EditorOption.EditorOnclick = "return confirm('Are You Sure!?');";
-                options.EditorOption.EdtiorConfirmButtonText = "Submit";
-                options.EditorOption.EditorEditButtonText = "Edit";
-                options.EditorOption.ShouldPagenation = true;
+                options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
+                options.EditorOptions.EdtiorConfirmButtonText = "Submit";
+                options.EditorOptions.EditorEditButtonText = "Edit";
+                options.EditorOptions.ShouldPagenation = true;
                 //开启AutoFluentValidation
                 options.AutoFluentValidationOption.Enable = true;
 
@@ -73,7 +73,7 @@ namespace Biwen.Settings.OC
         {
 
             var settingOption = serviceProvider.GetRequiredService<IOptions<SettingOptions>>();
-            if (settingOption.Value.EditorOption.ShouldPagenation)
+            if (settingOption.Value.EditorOptions.ShouldPagenation)
             {
                 //添加嵌入式资源
                 var embeddedFileProvider = new EmbeddedFileProvider(typeof(ISetting).Assembly, "Biwen.Settings");
