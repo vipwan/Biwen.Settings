@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Biwen.Settings.EndpointNotify;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Channels;
 
 namespace Biwen.Settings
 {
@@ -54,7 +56,7 @@ namespace Biwen.Settings
             new BiwenSettingConfigurationProvider(autoRefresh);
     }
 
-    internal class BiwenSettingConfigurationProvider : ConfigurationProvider, IDisposable
+    internal class BiwenSettingConfigurationProvider : ConfigurationProvider, IDisposable, IAsyncDisposable
     {
         public BiwenSettingConfigurationProvider(bool autoRefresh)
         {
@@ -64,26 +66,32 @@ namespace Biwen.Settings
             }
             if (autoRefresh)
             {
-                t = new System.Timers.Timer(TimeSpan.FromMilliseconds(100)) { Enabled = true };
-                t.Elapsed += OnElapsed;
-                t.Start();
+                StartAlertAsync(cts.Token);
             }
         }
 
-        private void OnElapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        private CancellationTokenSource cts = new();
+
+        /// <summary>
+        /// 使用Channel通知配置变更
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task StartAlertAsync(CancellationToken cancellationToken)
         {
-            lock (_lock)
-                if (EndpointNotify.Consts.IsConfigrationChanged.IsChanged)
+            _ = Task.Run(async () =>
+            {
+                while (!cancellationToken.IsCancellationRequested)
                 {
+                    _ = await Consts.ConfigrationChangedChannel.Reader.ReadAsync(cancellationToken);
                     Load();
-                    EndpointNotify.Consts.IsConfigrationChanged = (false, null);
                     //通知配置变更
                     OnReload();
                 }
-        }
+            }, cancellationToken);
 
-        private static object _lock = new();
-        private System.Timers.Timer t = null!;
+            return Task.CompletedTask;
+        }
 
         public override void Load()
         {
@@ -108,8 +116,15 @@ namespace Biwen.Settings
 
         public void Dispose()
         {
-            t?.Dispose();
+            cts.Cancel();
+            Consts.ConfigrationChangedChannel.Writer.Complete();
         }
 
+        public ValueTask DisposeAsync()
+        {
+            cts.Cancel();
+            Consts.ConfigrationChangedChannel.Writer.Complete();
+            return ValueTask.CompletedTask;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Threading.Channels;
 
 namespace Biwen.Settings
 {
@@ -80,7 +81,13 @@ namespace Biwen.Settings.EndpointNotify
         /// <summary>
         /// 用于通知的配置是否发生变更
         /// </summary>
-        public static (bool IsChanged, string? SettingName) IsConfigrationChanged { get; set; } = (false, null);
+        ///public static (bool IsChanged, string? SettingName) IsConfigrationChanged { get; set; } = (false, null);
+
+        /// <summary>
+        /// Channel队列
+        /// </summary>
+        public static readonly Channel<(bool IsChanged, string? SettingName)> ConfigrationChangedChannel = Channel.CreateUnbounded<(bool IsChanged, string? SettingName)>();
+
     }
 
     /// <summary>

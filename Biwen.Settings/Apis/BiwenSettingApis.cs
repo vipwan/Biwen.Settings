@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Dynamic;
 
 namespace Microsoft.AspNetCore.Builder
@@ -131,7 +132,8 @@ namespace Microsoft.AspNetCore.Builder
             await cacheProvider.RemoveAsync(string.Format(Consts.CacheKeyFormat, dto.SettingType, options.Value.ProjectId));
 
             //通知配置变更
-            Consts.IsConfigrationChanged = (true, dto.SettingType);
+            //Consts.IsConfigrationChanged = (true, dto.SettingType);
+            Consts.ConfigrationChangedChannel.Writer.TryWrite((true, dto.SettingType));
 
             Console.WriteLine($"消费了配置变更:{dto.SettingType} and Clear cache");
             return TypedResults.Ok();
