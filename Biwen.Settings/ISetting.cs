@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.Extensions.Configuration;
+using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 
 namespace Biwen.Settings
@@ -15,7 +16,10 @@ namespace Biwen.Settings
     /// <summary>
     /// 继承此类的配置项，将会被自动注册到配置中心,如果需要验证,请继承自ValidationSettingBase<T>
     /// </summary>
-    public abstract class SettingBase : ISetting
+    public abstract class SettingBase<T> : ISetting,
+    #region fit for IOptions
+        IValidateOptions<T>, IConfigureOptions<T>, IPostConfigureOptions<T> where T : class, ISetting, new()
+        #endregion
     {
         /// <summary>
         /// 配置名称
@@ -27,6 +31,36 @@ namespace Biwen.Settings
         /// </summary>
         [JsonIgnore]
         public virtual int Order => 1000;
+
+        #region IOptions 兼容
+
+        public void Configure(T options)
+        {
+            using var scope = ServiceRegistration.ServiceProvider.CreateScope();
+            var settingManager = scope.ServiceProvider.GetRequiredService<ISettingManager>();
+            var setting = settingManager.Get<T>();
+            //将配置项的值赋值给options
+            //options = setting;
+            scope.ServiceProvider.GetService<IConfiguration>()?.Bind(typeof(T).Name, options);
+        }
+
+        public ValidateOptionsResult Validate(string? name, T options)
+        {
+            return ValidateOptionsResult.Success;
+        }
+
+        public void PostConfigure(string? name, T options)
+        {
+            using var scope = ServiceRegistration.ServiceProvider.CreateScope();
+            var settingManager = scope.ServiceProvider.GetRequiredService<ISettingManager>();
+            var setting = settingManager.Get<T>();
+            //将配置项的值赋值给options
+            //options = setting;
+            scope.ServiceProvider.GetService<IConfiguration>()?.Bind(typeof(T).Name, options);
+        }
+
+        #endregion
+
     }
 
     interface ISettingValidator
@@ -45,8 +79,9 @@ namespace Biwen.Settings
     /// 自带验证器的配置项
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ValidationSettingBase<T> : SettingBase, ISettingValidator
+    public abstract class ValidationSettingBase<T> : SettingBase<T>, ISettingValidator where T : class, ISetting, new()
     {
+
         /// <summary>
         /// 添加验证规则
         /// </summary>

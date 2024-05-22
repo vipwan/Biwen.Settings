@@ -2,7 +2,8 @@
 @using Microsoft.Extensions.Options
 @inject SiteSetting SiteSetting;
 @inject WeChatSetting WeChatSetting;//直接对象注入
-@inject IOptions<WeChatSetting> IOP; //通过IOptions注入
+@inject IOptions<WeChatSetting> IOP; //通过IOptions注入初始化后不会改变
+@inject IOptionsSnapshot<WeChatSetting> IOPSnapshot; //通过IOptionsSnapshot注入,更新配置后会改变
 @inject IConfiguration Configuration;//IConfiguration
 
 @model IndexModel
@@ -28,9 +29,24 @@
     }
     @foreach (var prop in props.Where(x => x.CanWrite && x.CanRead))
     {
-        <p>@prop.Name : @prop.GetValue(WeChatSetting)</p>
+        <p>@prop.Name : @prop.GetValue(IOP.Value)</p>
     }
 </div>
+
+<hr />
+
+<div>
+    <p>WeChatSetting IOptionsSnapshot方式:</p>
+    @{
+        var props3 = IOPSnapshot.Value.GetType().GetProperties();
+    }
+    @foreach (var prop in props3.Where(x => x.CanWrite && x.CanRead))
+    {
+        <p>@prop.Name : @prop.GetValue(IOPSnapshot.Value)</p>
+    }
+</div>
+
+
 
 <hr />
 <div>

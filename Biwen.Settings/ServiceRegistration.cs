@@ -190,8 +190,8 @@ namespace Biwen.Settings
             Action<IEndpointConventionBuilder>? builder = null
             )
         {
-            var settingOption = app.Services.GetRequiredService<IOptions<SettingOptions>>();
-            if (settingOption.Value.EditorOptions.ShouldPagenation)
+            var settingOptions = app.Services.GetRequiredService<IOptions<SettingOptions>>();
+            if (settingOptions.Value.EditorOptions.ShouldPagenation)
             {
                 //添加嵌入式资源
                 var embeddedFileProvider = new EmbeddedFileProvider(typeof(ISetting).Assembly, "Biwen.Settings");
@@ -211,7 +211,7 @@ namespace Biwen.Settings
             app.MapAreaControllerRoute(
                    name: "settingRouteIndex",
                    areaName: "Biwen.Settings",
-                   pattern: settingOption.Value.Route,
+                   pattern: settingOptions.Value.Route,
                    defaults: new { controller = "Setting", action = "Index" });
 
             app.MapAreaControllerRoute(

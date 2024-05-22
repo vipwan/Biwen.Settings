@@ -8,7 +8,7 @@ namespace Biwen.Settings.Extensions.Configuration
         /// <summary>
         /// Channel队列
         /// </summary>
-        public static readonly Channel<(bool IsChanged, string? SettingName)> ConfigrationChangedChannel = Channel.CreateUnbounded<(bool IsChanged, string? SettingName)>();
+        public static readonly Channel<(bool IsChanged, Type SettingType)> ConfigrationChangedChannel = Channel.CreateUnbounded<(bool IsChanged, Type SettingType)>();
     }
 
     internal sealed class BiwenSettingConfigurationSource(bool autoRefresh = true) : IConfigurationSource
@@ -26,7 +26,7 @@ namespace Biwen.Settings.Extensions.Configuration
             }
             if (autoRefresh)
             {
-                StartAlertAsync(cts.Token);
+                StartAlertAsync(Settings.ServiceRegistration.ServiceProvider, cts.Token);
             }
         }
 
@@ -37,13 +37,13 @@ namespace Biwen.Settings.Extensions.Configuration
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task StartAlertAsync(CancellationToken cancellationToken)
+        public Task StartAlertAsync(IServiceProvider sp, CancellationToken cancellationToken)
         {
             _ = Task.Run(async () =>
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    _ = await Events.ConfigrationChangedChannel.Reader.ReadAsync(cancellationToken);
+                    var (_, SettingType) = await Events.ConfigrationChangedChannel.Reader.ReadAsync(cancellationToken);
                     Load();
                     //通知配置变更
                     OnReload();

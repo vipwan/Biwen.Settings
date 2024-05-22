@@ -34,25 +34,14 @@ namespace Biwen.Settings.Extensions.Configuration
             settings.ForEach(x =>
             {
                 //IOptions DI
-                manager?.GetSection(x.Name).Bind(GetSetting(x, sp));
+                //manager?.GetSection(x.Name).Bind(GetSetting(x, sp));
+                serviceDescriptors.ConfigureOptions(x);
             });
+
+            //add IOptions
+            sp = serviceDescriptors.BuildServiceProvider();
+
             return manager;
         }
-
-        static object GetSetting(Type x, IServiceProvider sp)
-        {
-            var settingManager = sp.GetRequiredService<ISettingManager>();
-            var cache = sp.GetRequiredService<IMemoryCache>();
-
-            //使用缓存避免重复反射
-            var md = cache.GetOrCreate($"GenericMethod_{x.FullName}", entry =>
-            {
-                MethodInfo methodLoad = settingManager.GetType().GetMethod(nameof(settingManager.Get))!;
-                MethodInfo generic = methodLoad.MakeGenericMethod(x);
-                return generic;
-            });
-            return md!.Invoke(settingManager, null)!;
-        }
-
     }
 }
