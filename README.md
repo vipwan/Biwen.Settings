@@ -170,8 +170,8 @@ builder.WithTags("BiwenSettingApi").WithOpenApi();
 
 ### Enjoy!
 
-2024-05-17更新 提供对`IOptions`和`IConfiguration`直接支持:
-帮助参见:[Issue #14](https://github.com/vipwan/Biwen.Settings/issues/14)
+2024-05-17更新 提供对`IOptions`,`IOptionsSnapshot`和`IConfiguration`直接支持:
+帮助参见:[releases 2.2.0 +](https://github.com/vipwan/Biwen.Settings/releases/tag/2.2.0)
 
 
 #### 支持提交更新时验证器自动验证
