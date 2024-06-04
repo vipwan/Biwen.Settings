@@ -26,18 +26,18 @@ namespace Biwen.Settings.Extensions.Configuration
             }
             if (autoRefresh)
             {
-                StartAlertAsync(Settings.ServiceRegistration.ServiceProvider, cts.Token);
+                StartAlertAsync(cts.Token);
             }
         }
 
-        private CancellationTokenSource cts = new();
+        private readonly CancellationTokenSource cts = new();
 
         /// <summary>
         /// 使用Channel通知配置变更
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task StartAlertAsync(IServiceProvider sp, CancellationToken cancellationToken)
+        public Task StartAlertAsync(CancellationToken cancellationToken)
         {
             _ = Task.Run(async () =>
             {

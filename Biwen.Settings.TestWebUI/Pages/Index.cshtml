@@ -4,26 +4,33 @@
 @inject WeChatSetting WeChatSetting;//直接对象注入
 @inject IOptions<WeChatSetting> IOP; //通过IOptions注入初始化后不会改变
 @inject IOptionsSnapshot<WeChatSetting> IOPSnapshot; //通过IOptionsSnapshot注入,更新配置后会改变
-@inject IConfiguration Configuration;//IConfiguration
+@inject IConfiguration Configuration;//IConfiguration 更新配置后会改变
 
 @model IndexModel
 @{
     ViewData["Title"] = SiteSetting.SiteName;
 }
 
-<p>Configuration中WeChatSetting读取配置测试</p>
-@foreach (var cfg in Configuration.AsEnumerable().OrderBy(x => x.Key))
-{
-    if (cfg.Key.StartsWith("WeChatSetting:"))
+<div class="text-center">
+    <h5>Welcome To @SiteSetting.SiteName</h5>
+    <p>Learn more <a href="@SiteSetting.SiteUrl">@SiteSetting.SiteDescription</a>.</p>
+</div>
+<div>
+
+    <h5>Configuration中WeChatSetting读取配置测试</h5>
+    @foreach (var cfg in Configuration.AsEnumerable().OrderBy(x => x.Key))
     {
-        <p>@cfg.Key  :    @cfg.Value </p>
+        if (cfg.Key.StartsWith("WeChatSetting:"))
+        {
+            <p>@cfg.Key  :    @cfg.Value </p>
+        }
     }
-}
+</div>
 
 <hr />
 
 <div>
-    <p>WeChatSetting IOptions方式:</p>
+    <h5>WeChatSetting IOptions方式 初始化后不会变更:</h5>
     @{
         var props = IOP.Value.GetType().GetProperties();
     }
@@ -36,7 +43,7 @@
 <hr />
 
 <div>
-    <p>WeChatSetting IOptionsSnapshot方式:</p>
+    <h5>WeChatSetting IOptionsSnapshot方式:</h5>
     @{
         var props3 = IOPSnapshot.Value.GetType().GetProperties();
     }
@@ -46,11 +53,10 @@
     }
 </div>
 
-
-
 <hr />
+
 <div>
-    <p>WeChatSetting 直接注入的方式:</p>
+    <h5>WeChatSetting 直接注入的方式:</h5>
     @{
         var props2 = WeChatSetting.GetType().GetProperties();
     }
@@ -58,11 +64,4 @@
     {
         <p>@prop.Name : @prop.GetValue(WeChatSetting)</p>
     }
-</div>
-<hr />
-
-
-<div class="text-center">
-    <h3 class="display-4">Welcome To @SiteSetting.SiteName</h3>
-    <p>Learn about <a href="@SiteSetting.SiteUrl">@SiteSetting.SiteDescription</a>.</p>
 </div>
