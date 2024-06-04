@@ -44,7 +44,7 @@ namespace Biwen.Settings
             scope.ServiceProvider.GetService<IConfiguration>()?.Bind(typeof(T).Name, options);
         }
 
-        public ValidateOptionsResult Validate(string? name, T options)
+        public virtual ValidateOptionsResult Validate(string? name, T options)
         {
             return ValidateOptionsResult.Success;
         }
@@ -91,6 +91,17 @@ namespace Biwen.Settings
         public IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             return Validator.RuleFor(expression);
+        }
+
+        public override ValidateOptionsResult Validate(string? name, T options)
+        {
+            var result = Validate();
+            return result switch
+            {
+                { IsValid: true } => ValidateOptionsResult.Success,
+                { IsValid: false } => ValidateOptionsResult.Fail(result.Errors.Select(x => x.ErrorMessage)),
+                _ => ValidateOptionsResult.Success
+            };
         }
 
         #region 内部属性

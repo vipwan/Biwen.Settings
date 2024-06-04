@@ -53,8 +53,8 @@ namespace Biwen.Settings.TestWebUI
         public WeChatSetting()
         {
             //验证规则
-            RuleFor(x => x.AppId).NotEmpty().Length(12, 32);
-            RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(12, 128);
+            RuleFor(x => x.AppId).NotEmpty().Length(10, 32);
+            RuleFor(x => x.AppSecret).NotNull().NotEmpty().Length(10, 128);
         }
 
 
