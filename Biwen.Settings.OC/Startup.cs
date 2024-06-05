@@ -54,7 +54,7 @@ namespace Biwen.Settings.OC
                 options.UseCacheOfMemory();
 
                 //使用JsonStore
-                options.UserStoreOfJsonFile(options =>
+                options.UseStoreOfJsonFile(options =>
                 {
                     options.FormatJson = true;
                     options.JsonPath = $"App_Data/{settings.TenantId}-{jsonPath}";

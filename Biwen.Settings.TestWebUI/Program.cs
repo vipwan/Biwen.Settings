@@ -83,7 +83,7 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
     ];
 
     //使用JsonStore
-    //options.UserStoreOfJsonFile(options =>
+    //options.UseStoreOfJsonFile(options =>
     //{
     //    options.FormatJson = true;
     //    options.JsonPath = "1systemsetting.json";

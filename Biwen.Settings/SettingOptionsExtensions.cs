@@ -6,13 +6,11 @@ namespace Biwen.Settings
 {
     public static class SettingOptionsExtensions
     {
-
         /// <summary>
         /// 使用内存缓存
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-
         public static SettingOptions UseCacheOfMemory(this SettingOptions options)
         {
             options.UseCache<MemoryCacheProvider>();
@@ -42,7 +40,13 @@ namespace Biwen.Settings
             return options;
         }
 
-        public static SettingOptions UserStoreOfJsonFile(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
+        /// <summary>
+        /// 使用JsonStore持久化配置项
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="storeOptions"></param>
+        /// <returns></returns>
+        public static SettingOptions UseStoreOfJsonFile(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
         {
             options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storeOptions);
             return options;
