@@ -86,27 +86,27 @@ namespace Biwen.Settings
                 //文件变更通知:
                 services.AddSingleton(sp =>
                 {
-                    var evn = sp.GetRequiredService<IWebHostEnvironment>();
+                    var env = sp.GetRequiredService<IWebHostEnvironment>();
                     var jsonStoreOptions = sp.GetRequiredService<IOptions<JsonStoreOptions>>().Value;
                     var logger = sp.GetRequiredService<ILogger<FileChangeNotifier>>();
 
-                    var fullFilePath = Path.Combine(evn.ContentRootPath, jsonStoreOptions.JsonPath);
+                    var fullFilePath = Path.Combine(env.ContentRootPath, jsonStoreOptions.JsonPath);
 
                     return new FileChangeNotifier(logger, fullFilePath, () =>
                     {
-                        //通知所有消费者
+                        //清空缓存
                         var cacheProvider = sp.GetRequiredService<ICacheProvider>();
                         cacheProvider.RemoveAllAsync();
                     });
                 });
 
                 //启动文件变更通知
-                Task.Run(() =>
-                {
-                    using var scope = services.BuildServiceProvider().CreateScope();
-                    Task.Delay(30 * 1000);
-                    scope.ServiceProvider.GetRequiredService<FileChangeNotifier>().Start();
-                });
+                _ = Task.Run(async () =>
+                 {
+                     await Task.Delay(30 * 1000);
+                     using var scope = services.BuildServiceProvider().CreateScope();
+                     scope.ServiceProvider.GetRequiredService<FileChangeNotifier>().Start();
+                 });
             }
             else
             {
