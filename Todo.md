@@ -1,18 +1,18 @@
-# Todo List
+ï»¿# Todo List
 
 ## Biwen.Settings
 
-- [x] Setting×Ô¶¯ÑéÖ¤Æ÷ (Based on `FluentValidation`)
-- [X] Setting UI ÅäÖÃ·ÖÒ³¹¦ÄÜ (Based on `jquery.tables`)
-- [X] Ìá¹©CachingProvider×Ô¶¨Òå¹¦ÄÜ,ÏµÍ³×Ô´øNullCacheProvider,MemoryCacheProvider
-- [X] ÊµÏÖINotify<T> 
-- [X] Ìá¹©¸ü¶àµÄSettingStoreÖ§³Ö.EFCore,JsonFile etc.
-- [X] Ìá¹©¶ÔOrchardCoreµÄÖ§³Ö
+- [x] Settingè‡ªåŠ¨éªŒè¯å™¨ (Based on `FluentValidation`)
+- [X] Setting UI é…ç½®åˆ†é¡µåŠŸèƒ½ (Based on `jquery.tables`)
+- [X] æä¾›CachingProviderè‡ªå®šä¹‰åŠŸèƒ½,ç³»ç»Ÿè‡ªå¸¦NullCacheProvider,MemoryCacheProvider
+- [X] å®ç°INotify<T> 
+- [X] æä¾›æ›´å¤šçš„SettingStoreæ”¯æŒ.EFCore,JsonFile etc.
+- [X] æä¾›å¯¹OrchardCoreçš„æ”¯æŒ
 - [X] Localization zh & en
-- [ ] Ö§³Ö·á¸»µÄ²ÎÊı±à¼­¹¦ÄÜ
-- [X] Ìá¹©WebApiÖ§³Ö
-- [X] Ìá¹©Setting²Ö´¢¼ÓÃÜ¹¦ÄÜ #10
-- [X] Ö§³Ö·Ö²¼Ê½´æ´¢,¶©ÔÄ·¢²¼µÈ¹¦ÄÜ V2.0
-- [X] Ìá¹©IOptions,IConfigurenationÖ§³Ö
-- [ ] ¶ÔSettingsÅäÖÃÏîÖ§³Ö°æ±¾¿ØÖÆ(»Ø¹ö) Éó¼Æ¹¦ÄÜ
-- [ ] Ö§³ÖÖ÷½Úµã(ÈÎÒâÄÜĞŞ¸ÄÅäÖÃµÄ½Úµã)¶Ô¸÷Ïû·Ñ½ÚµãĞÄÌø½¡¿µ¼ì²â
+- [ ] æ”¯æŒä¸°å¯Œçš„å‚æ•°ç¼–è¾‘åŠŸèƒ½
+- [X] æä¾›WebApiæ”¯æŒ
+- [X] æä¾›Settingä»“å‚¨åŠ å¯†åŠŸèƒ½ #10
+- [X] æ”¯æŒåˆ†å¸ƒå¼å­˜å‚¨,è®¢é˜…å‘å¸ƒç­‰åŠŸèƒ½ V2.0
+- [X] æä¾›IOptions,IConfigurenationæ”¯æŒ
+- [ ] å¯¹Settingsé…ç½®é¡¹æ”¯æŒç‰ˆæœ¬æ§åˆ¶(å›æ»š) å®¡è®¡åŠŸèƒ½
+- [ ] æ”¯æŒä¸»èŠ‚ç‚¹(ä»»æ„èƒ½ä¿®æ”¹é…ç½®çš„èŠ‚ç‚¹)å¯¹å„æ¶ˆè´¹èŠ‚ç‚¹å¿ƒè·³å¥åº·æ£€æµ‹
