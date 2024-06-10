@@ -21,5 +21,11 @@
         /// </summary>
         /// <param name="key"></param>
         Task RemoveAsync(string key);
+
+        /// <summary>
+        /// 移除所有缓存
+        /// </summary>
+        /// <returns></returns>
+        Task RemoveAllAsync();
     }
 }

@@ -10,9 +10,14 @@
             return Task.FromResult(factory());
         }
 
-        public async Task RemoveAsync(string key)
+        public Task RemoveAllAsync()
         {
-            await Task.CompletedTask;
+            return Task.CompletedTask;
+        }
+
+        public Task RemoveAsync(string key)
+        {
+            return Task.CompletedTask;
         }
     }
 }

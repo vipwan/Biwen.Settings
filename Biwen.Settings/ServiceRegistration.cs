@@ -5,6 +5,7 @@ using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -80,6 +81,31 @@ namespace Biwen.Settings
                 services.AddOptions<JsonStoreOptions>().Configure(x =>
                 {
                     (currentOptions.SettingManager.Options as Action<JsonStoreOptions>)?.Invoke(x);
+                });
+
+                //文件变更通知:
+                services.AddSingleton(sp =>
+                {
+                    var evn = sp.GetRequiredService<IWebHostEnvironment>();
+                    var jsonStoreOptions = sp.GetRequiredService<IOptions<JsonStoreOptions>>().Value;
+                    var logger = sp.GetRequiredService<ILogger<FileChangeNotifier>>();
+
+                    var fullFilePath = Path.Combine(evn.ContentRootPath, jsonStoreOptions.JsonPath);
+
+                    return new FileChangeNotifier(logger, fullFilePath, () =>
+                    {
+                        //通知所有消费者
+                        var cacheProvider = sp.GetRequiredService<ICacheProvider>();
+                        cacheProvider.RemoveAllAsync();
+                    });
+                });
+
+                //启动文件变更通知
+                Task.Run(() =>
+                {
+                    using var scope = services.BuildServiceProvider().CreateScope();
+                    Task.Delay(30 * 1000);
+                    scope.ServiceProvider.GetRequiredService<FileChangeNotifier>().Start();
                 });
             }
             else
