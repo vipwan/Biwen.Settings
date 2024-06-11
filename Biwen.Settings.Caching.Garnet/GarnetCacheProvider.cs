@@ -8,7 +8,7 @@ namespace Biwen.Settings.Caching.Garnet
     public class GarnetCacheProvider(IOptions<GarnetClientOptions> optons) : ICacheProvider
     {
         private readonly IOptions<GarnetClientOptions> _options = optons;
-        private readonly ConcurrentDictionary<string, object?> Keys = new();
+        private static readonly ConcurrentDictionary<string, object?> Keys = new();
 
         private const string SettingKeyFormat = "__BiwenSetting__Garnet_{0}";
 
