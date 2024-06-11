@@ -53,7 +53,7 @@ namespace Biwen.Settings
 
             services.AddMemoryCache();
             var cacheTypeProvider = currentOptions.CacheProvider;
-            services.AddScoped(typeof(ICacheProvider), cacheTypeProvider!);
+            services.AddSingleton(typeof(ICacheProvider), cacheTypeProvider!);
 
             #endregion
 
@@ -83,30 +83,8 @@ namespace Biwen.Settings
                     (currentOptions.SettingManager.Options as Action<JsonStoreOptions>)?.Invoke(x);
                 });
 
-                //文件变更通知:
-                services.AddSingleton(sp =>
-                {
-                    var env = sp.GetRequiredService<IWebHostEnvironment>();
-                    var jsonStoreOptions = sp.GetRequiredService<IOptions<JsonStoreOptions>>().Value;
-                    var logger = sp.GetRequiredService<ILogger<FileChangeNotifier>>();
-
-                    var fullFilePath = Path.Combine(env.ContentRootPath, jsonStoreOptions.JsonPath);
-
-                    return new FileChangeNotifier(logger, fullFilePath, () =>
-                    {
-                        //清空缓存
-                        var cacheProvider = sp.GetRequiredService<ICacheProvider>();
-                        cacheProvider.RemoveAllAsync();
-                    });
-                });
-
-                //启动文件变更通知
-                _ = Task.Run(async () =>
-                 {
-                     await Task.Delay(30 * 1000);
-                     using var scope = services.BuildServiceProvider().CreateScope();
-                     scope.ServiceProvider.GetRequiredService<FileChangeNotifier>().Start();
-                 });
+                //文件变更通知,自动启动:
+                services.AddActivatedSingleton<FileChangeNotifier>();
             }
             else
             {

@@ -6,7 +6,7 @@
     "Description": "\u90AE\u4EF6\u914D\u7F6E",
     "Order": 500,
     "SettingContent": "{\u0022Host\u0022:\u0022smtp.qq.com\u0022,\u0022Port\u0022:465,\u0022UserName\u0022:\u0022\u0022,\u0022Password\u0022:\u0022\u0022,\u0022From\u0022:\u0022\u0022,\u0022Order\u0022:500}",
-    "LastModificationTime": "2023-09-04T17:39:36.3102175+08:00"
+    "LastModificationTime": "2024-06-11T16:06:48.458494+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
@@ -15,7 +15,7 @@
     "Description": "\u7AD9\u70B9\u914D\u7F6E",
     "Order": 1000,
     "SettingContent": "{\u0022Author\u0022:\u0022\\u4E07\\u96C5\\u864E\u0022,\u0022SiteName\u0022:\u0022Biwen.Setting\u0022,\u0022SiteUrl\u0022:\u0022https://github.com/vipwan/Biwen.Settings\u0022,\u0022SiteLogo\u0022:\u0022https://avatars.githubusercontent.com/u/1026229?s=200\\u0026v=4\u0022,\u0022SiteDescription\u0022:\u0022Biwen.Settings \\u7EC4\\u4EF6\\u914D\\u7F6E\\u6A21\\u5757\u0022,\u0022SiteKeywords\u0022:\u0022Biwen.Settings\u0022}",
-    "LastModificationTime": "2023-09-04T17:43:39.4399406+08:00"
+    "LastModificationTime": "2024-06-11T16:06:48.4944061+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
@@ -24,7 +24,7 @@
     "Description": "Github\u914D\u7F6E",
     "Order": 500,
     "SettingContent": "{\u0022UserName\u0022:\u0022vipwan\u0022,\u0022Repository\u0022:\u0022Biwen.Settings\u0022,\u0022Token\u0022:\u0022\u0022,\u0022SettingName\u0022:\u0022GithubSetting\u0022,\u0022Order\u0022:500}",
-    "LastModificationTime": "2023-09-04T17:43:39.461072+08:00"
+    "LastModificationTime": "2024-06-11T16:06:48.5119981+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
@@ -33,79 +33,79 @@
     "Description": "\u5185\u7F6E\u9A8C\u8BC1\u5668\u7684\u914D\u7F6E\u9879\u6D4B\u8BD5",
     "Order": 600,
     "SettingContent": "{\u0022Name\u0022:\u0022Hello\u0022,\u0022Order\u0022:600}",
-    "LastModificationTime": "2023-09-04T17:43:39.5053008+08:00"
+    "LastModificationTime": "2024-06-11T16:06:48.5660112+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting2",
     "SettingName": "WeChatSetting2",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T17:43:39.5177396+08:00"
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-06-11T16:06:48.6197978+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting3",
     "SettingName": "WeChatSetting3",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T17:43:39.5297682+08:00"
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-06-11T16:06:48.6889863+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting4",
     "SettingName": "WeChatSetting4",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T17:43:39.540974+08:00"
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-06-11T16:06:48.7324509+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting5",
     "SettingName": "WeChatSetting5",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T17:43:39.5522687+08:00"
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-06-11T16:06:48.7549785+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting6",
     "SettingName": "WeChatSetting6",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T17:43:39.5686059+08:00"
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-06-11T16:06:48.7810561+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting7",
     "SettingName": "WeChatSetting7",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T17:43:39.5800507+08:00"
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-06-11T16:06:48.8020432+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting8",
     "SettingName": "WeChatSetting8",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T17:43:39.5917837+08:00"
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-06-11T16:06:48.8229546+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting9",
     "SettingName": "WeChatSetting9",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T17:43:39.6033651+08:00"
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-06-11T16:06:48.8449063+08:00"
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting",
     "SettingName": "WeChatSetting",
     "Description": "\u5FAE\u4FE1\u914D\u7F6E",
-    "Order": 999,
-    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890  222\u0022,\u0022AppSecret\u0022:\u00221234567890SettingType: {0} Not Found!\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:999}",
-    "LastModificationTime": "2023-09-04T20:11:29.8694314+08:00"
+    "Order": 6500,
+    "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890667\u0022,\u0022Token\u0022:\u00221234567890555\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:500}",
+    "LastModificationTime": "2024-06-11T16:07:42.9367419+08:00"
   }
 ]

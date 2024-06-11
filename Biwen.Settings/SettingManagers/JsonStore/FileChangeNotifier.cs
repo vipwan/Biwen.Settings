@@ -1,29 +1,45 @@
-﻿namespace Biwen.Settings.SettingManagers.JsonStore
+﻿using Biwen.Settings.Caching;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Biwen.Settings.SettingManagers.JsonStore
 {
-    internal class FileChangeNotifier(ILogger<FileChangeNotifier> logger, string jsonPath, Action onChange) : IAsyncDisposable
+    internal class FileChangeNotifier : IAsyncDisposable
     {
-        private readonly string _jsonPath = jsonPath;
-        private readonly Action _onChange = onChange;
+        private readonly string _jsonPath;
+        private readonly Action _onChange;
+        private readonly FileSystemWatcher _watcher = null!;
 
-        FileSystemWatcher watcher = null!;
-
-        /// <summary>
-        /// 启动配置文件监听
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public void Start()
+        public FileChangeNotifier(IServiceProvider serviceProvider)
         {
-            if (string.IsNullOrEmpty(_jsonPath))
+            using var scope = serviceProvider.CreateScope();
+            var sp = scope.ServiceProvider;
+
+            var env = sp.GetRequiredService<IWebHostEnvironment>();
+            var jsonStoreOptions = sp.GetRequiredService<IOptions<JsonStoreOptions>>().Value;
+            var logger = sp.GetRequiredService<ILogger<FileChangeNotifier>>();
+            var cacheProvider = sp.GetRequiredService<ICacheProvider>();
+            var fullFilePath = Path.Combine(env.ContentRootPath, jsonStoreOptions.JsonPath);
+
+            if (string.IsNullOrEmpty(fullFilePath))
             {
                 throw new Exception("JsonPath is empty");
             }
 
-            watcher = new FileSystemWatcher(Path.GetDirectoryName(_jsonPath)!, Path.GetFileName(_jsonPath))
+            logger.LogInformation($"FileChangeNotifier Started!");
+
+            _jsonPath = fullFilePath;
+            _onChange = async () =>
+            {
+                await cacheProvider.RemoveAllAsync();
+            };
+
+            _watcher = new FileSystemWatcher(Path.GetDirectoryName(_jsonPath)!, Path.GetFileName(_jsonPath))
             {
                 NotifyFilter = NotifyFilters.LastWrite,
                 EnableRaisingEvents = true
             };
-            watcher.Changed += (sender, e) =>
+            _watcher.Changed += (sender, e) =>
             {
                 logger.LogInformation($"Json文件变更,缓存将清空重新加载!");
                 _onChange();
@@ -32,7 +48,7 @@
 
         public async ValueTask DisposeAsync()
         {
-            watcher?.Dispose();
+            _watcher?.Dispose();
             await Task.CompletedTask;
         }
     }
