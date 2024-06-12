@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 
@@ -145,19 +146,23 @@ namespace Biwen.Settings
 
         private class InnerValidator : AbstractValidator<T>
         {
+            /// <summary>
+            /// 类型是否标注验证特性
+            /// </summary>
+            static readonly ConcurrentDictionary<string, bool> CachedAnnotationTypes = new();
+
             private static bool HasAnnotationAttr
             {
                 get
                 {
                     var typeName = typeof(T).FullName!;
-                    if (Caching.TAnnotationCaching.CachedAnnotationTypes.TryGetValue(typeName, out var attr))
-                    {
-                        return attr;
-                    }
-                    var has = typeof(T).GetProperties().Any(
-                        prop => prop.GetCustomAttributes(true).Any(x => x is MSDA.ValidationAttribute));
-                    Caching.TAnnotationCaching.CachedAnnotationTypes.TryAdd(typeName, has);
-                    return has;
+                    return CachedAnnotationTypes.GetOrAdd(typeName, _ =>
+                     {
+                         var has = typeof(T).GetProperties().Any(
+                             prop =>
+                             prop.GetCustomAttributes(true).Any(x => x is MSDA.ValidationAttribute));
+                         return has;
+                     });
                 }
             }
 

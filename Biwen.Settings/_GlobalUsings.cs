@@ -1,5 +1,6 @@
 ﻿global using FluentValidation;
 global using FluentValidation.Results;
+global using Microsoft.Extensions.AsyncState;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Options;
 global using Microsoft.Extensions.Logging;

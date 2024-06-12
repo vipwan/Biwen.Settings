@@ -31,7 +31,7 @@ namespace Biwen.Settings.OC.Controllers
 
         [Auth]
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, IFormCollection form)
+        public Task<IActionResult> Edit(string id, IFormCollection form)
         {
             //routes.MapAreaControllerRoute(
             //name: "settingRouteIndex",

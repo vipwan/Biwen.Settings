@@ -2,6 +2,7 @@
 using Biwen.Settings.Encryption;
 using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.Mvc;
+using Biwen.Settings.SettingManagers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -108,9 +109,14 @@ namespace Microsoft.AspNetCore.Builder
                 //Set
                 prop.SetValue(setting, value);
             }
+
             //Save
-            var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type!);
-            mdSave.Invoke(settingManager, [setting!]);
+            var settingContext = ctx.HttpContext!.RequestServices.GetRequiredService<IAsyncContext<SettingRecord>>();
+            var saveSettingService = ctx.HttpContext!.RequestServices.GetRequiredService<SaveSettingService>();
+
+            settingContext.Set(new SettingRecord(type!, setting));
+            await saveSettingService.SaveSettingAsync();
+
             return TypedResults.Ok(setting);
         }
 

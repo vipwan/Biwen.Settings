@@ -51,8 +51,6 @@ namespace Biwen.Settings
 
         private readonly IOptions<SettingOptions> _options = serviceProvider.GetRequiredService<IOptions<SettingOptions>>();
 
-        private static object _locker = new();
-
         public async void Save<T>(T setting) where T : ISetting, new()
         {
             //Save
@@ -70,15 +68,8 @@ namespace Biwen.Settings
         {
             var retn = _cacheProvider.GetOrCreateAsync<T>(
                 string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId),
-                 () =>
-            {
-                return _settingManager.Get<T>();
-            }).GetAwaiter().GetResult();
-            //if (retn is System.Text.Json.JsonElement)
-            //{
-            //    var raw = System.Text.Json.JsonSerializer.Serialize(retn);
-            //    return System.Text.Json.JsonSerializer.Deserialize<T>(raw)!;
-            //}
+                () => _settingManager.Get<T>()
+            ).GetAwaiter().GetResult();
             return retn!;
         }
 

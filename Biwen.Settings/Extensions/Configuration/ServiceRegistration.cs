@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace Biwen.Settings.Extensions.Configuration
 {
@@ -8,7 +7,7 @@ namespace Biwen.Settings.Extensions.Configuration
         internal static IServiceCollection AddBiwenSettingConfiguration(this IServiceCollection services)
         {
             //ConfigurationMediratorDoneHandler
-            services.AddSingleton<IMediratorDoneHandler, ConfigurationMediratorDoneHandler>();
+            services.AddActivatedSingleton<IMediratorDoneHandler, ConfigurationMediratorDoneHandler>();
             return services;
         }
 

@@ -1,6 +1,7 @@
 ﻿using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.EndpointNotify;
+using Biwen.Settings.SettingManagers;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
@@ -31,7 +32,8 @@ namespace Biwen.Settings
         public static IServiceCollection AddBiwenSettings(this IServiceCollection services,
             Action<SettingOptions> options = null!)
         {
-            services.AddHttpContextAccessor();
+            //AsyncStateHttpContext
+            services.AddAsyncStateHttpContext();
             services.AddControllersWithViews();
 
             #region Localization
@@ -93,6 +95,8 @@ namespace Biwen.Settings
             }
 
             services.AddScoped(typeof(ISettingManager), currentOptions.SettingManager.ManagerType!);
+            //SaveSettingService
+            services.AddScoped<SaveSettingService>();
 
             #endregion
 

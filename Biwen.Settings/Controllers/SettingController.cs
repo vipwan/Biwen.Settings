@@ -1,5 +1,6 @@
 ﻿using Biwen.Settings.Encryption;
 using Biwen.Settings.Mvc;
+using Biwen.Settings.SettingManagers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
@@ -98,7 +99,7 @@ namespace Biwen.Settings.Controllers
         }
 
         [SettingAuthorize, HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, IFormCollection form, string? redirectUrl = null)
+        public async Task<IActionResult> Edit(string id, IFormCollection form, string? redirectUrl = null)
         {
             var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == id);
             if (type == null)
@@ -188,9 +189,12 @@ namespace Biwen.Settings.Controllers
                     }
                 }
             }
+
             //Save
-            var mdSave = _settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(type);
-            mdSave.Invoke(_settingManager, [setting]);
+            IAsyncContext<SettingRecord> record = httpContextAccessor.HttpContext!.RequestServices.GetRequiredService<IAsyncContext<SettingRecord>>();
+            record.Set(new SettingRecord(type, setting));
+            var saveSettingService = httpContextAccessor.HttpContext!.RequestServices.GetRequiredService<SaveSettingService>();
+            await saveSettingService.SaveSettingAsync();
 
             if (string.IsNullOrEmpty(redirectUrl))
             {

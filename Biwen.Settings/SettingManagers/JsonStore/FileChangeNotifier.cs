@@ -1,6 +1,5 @@
 ﻿using Biwen.Settings.Caching;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Biwen.Settings.SettingManagers.JsonStore
 {
@@ -42,7 +41,14 @@ namespace Biwen.Settings.SettingManagers.JsonStore
             _watcher.Changed += (sender, e) =>
             {
                 logger.LogInformation($"Json文件变更,缓存将清空重新加载!");
-                _onChange();
+                try
+                {
+                    _onChange();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Json文件变更,缓存重新加载失败!");
+                }
             };
         }
 
