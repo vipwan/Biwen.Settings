@@ -38,18 +38,25 @@ namespace Biwen.Settings.Infrastructure
                 if (!_allRequiredAssembliesFound)
                 {
                     // 装载所有引用的程序集
-                    var ass = Assembly.GetEntryAssembly()!.GetReferencedAssemblies();
-                    foreach (var @as in ass)
-                    {
-                        Assembly.Load(@as);
-                    }
-                    _allRequiredAssembliesFound = true;
-                }
-                return _allRequiredAssemblies ??=
-                    AppDomain.CurrentDomain.GetAssemblies()
+                    //var ass = Assembly.GetEntryAssembly()!.GetReferencedAssemblies();
+                    //foreach (var @as in ass)
+                    //{
+                    //    Assembly.Load(@as);
+                    //}
+
+                    // 存在模块化开发,因此只能通过扫描dll的方式装载程序集
+                    var assemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
+                        .Select(x => Assembly.Load(AssemblyName.GetAssemblyName(x)));
+
+                    _allRequiredAssemblies ??=
+                    assemblies
                     .Where(x => !EscapeAssemblies
                     .Any(a => x.FullName!.StartsWith(a)))
                     .ToArray();
+
+                    _allRequiredAssembliesFound = true;
+                }
+                return _allRequiredAssemblies;
             }
         }
 

@@ -8,8 +8,9 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
+    <meta name="description" content="@SiteSetting.SiteDescription" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
+    <title>@SiteSetting.SettingName - @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -46,7 +47,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - @SiteSetting.Author - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; @(DateTime.Now.Year) - @SiteSetting.Author - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
