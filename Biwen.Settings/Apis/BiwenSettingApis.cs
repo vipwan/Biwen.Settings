@@ -74,7 +74,6 @@ namespace Microsoft.AspNetCore.Builder
         }
 
         static async Task<Results<BadRequest, Ok<object>>> SetByIdAsync(
-            [FromServices] ISettingManager settingManager,
             [FromServices] IOptions<SettingOptions> options,
             [FromServices] IHttpContextAccessor ctx,
             [FromRoute] string id)

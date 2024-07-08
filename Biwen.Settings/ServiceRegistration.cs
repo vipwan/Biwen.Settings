@@ -6,7 +6,6 @@ using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -94,7 +93,17 @@ namespace Biwen.Settings
                     throw new BiwenException("Require ISettingManager!");
             }
 
-            services.AddScoped(typeof(ISettingManager), currentOptions.SettingManager.ManagerType!);
+            //services.AddScoped(typeof(ISettingManager), currentOptions.SettingManager.ManagerType!);
+            //Replace ISettingManager
+            //services.Replace(ServiceDescriptor.Scoped<ISettingManager, SettingManagerDecorator>());
+
+            services.AddScoped<ISettingManager, SettingManagerDecorator>(sp =>
+            {
+                var manager = ActivatorUtilities.CreateInstance(sp, currentOptions.SettingManager.ManagerType!);
+                return new SettingManagerDecorator((ISettingManager)manager, sp);
+            });
+
+
             //SaveSettingService
             services.AddScoped<SaveSettingService>();
 
@@ -102,43 +111,31 @@ namespace Biwen.Settings
 
             #region INotify
 
-            services.Scan(scan =>
+            foreach (var notify in Notifys)
             {
-                scan.FromAssemblies(ASS.AllRequiredAssemblies).AddClasses(x =>
+                //存在一个订阅者订阅多个事件的情况:
+                var baseTypes = notify.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == InterfaceINotify).ToArray();
+                foreach (var baseType in baseTypes)
                 {
-                    x.AssignableTo(typeof(INotify<>)).Where(a =>
-                    {
-                        return a.IsClass && !a.IsAbstract;
-                    });
-                })
-                .AsImplementedInterfaces() //实现基于他的接口
-                .WithScopedLifetime();  //Scoped
-            });
+                    services.AddScoped(baseType, notify);
+                }
+            }
 
             //Medirator
             services.AddScoped<IMedirator, Medirator>();
 
             #endregion
 
-            //装饰ISettingManager
-            services.Decorate<ISettingManager>((inner, provider) => new SettingManagerDecorator(inner, provider.CreateAsyncScope().ServiceProvider));
-
             //注册验证器
             if (currentOptions.AutoFluentValidationOption.Enable)
             {
                 //注册验证器
                 services.AddFluentValidationAutoValidation();
-                services.Scan(scan =>
+
+                foreach (var validator in Validators)
                 {
-                    scan.FromAssemblies(ASS.AllRequiredAssemblies).AddClasses(x =>
-                        {
-                            x.AssignableTo(typeof(IValidator<>));//来自指定的接口
-                            //必须是类,且当前Class不是泛型类.排除ValidationSettingBase<T>,且不为抽象类
-                            x.Where(a => { return a.IsClass && !a.IsAbstract && !a.IsGenericTypeDefinition; });
-                        })
-                    .AsImplementedInterfaces(x => x.IsGenericType) //实现基于他的接口
-                    .WithTransientLifetime();  //AddTransient
-                });
+                    services.AddTransient(InterfaceIValidator, validator);
+                }
             }
 
             var settings = ASS.InAllRequiredAssemblies.ThatInherit(
@@ -168,6 +165,43 @@ namespace Biwen.Settings
             return services;
         }
 
+        #region internal
+
+        static readonly object _lock = new();//锁
+        static readonly Type InterfaceINotify = typeof(INotify<>);
+        static readonly Type InterfaceIValidator = typeof(IValidator<>);
+
+        static IEnumerable<Type> _notifys = null!;
+        static IEnumerable<Type> _validators = null!;
+
+        static bool IsToGenericInterface(Type type, Type baseInterface)
+        {
+            if (type == null) return false;
+            if (baseInterface == null) return false;
+
+            return type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == baseInterface);
+        }
+
+        static IEnumerable<Type> Notifys
+        {
+            get
+            {
+                lock (_lock)
+                    return _notifys ??= ASS.InAllRequiredAssemblies.Where(x =>
+                    !x.IsAbstract && x.IsClass && x.IsPublic && IsToGenericInterface(x, InterfaceINotify));
+            }
+        }
+
+        static IEnumerable<Type> Validators
+        {
+            get
+            {
+                lock (_lock)
+                    return _validators ??= ASS.InAllRequiredAssemblies.Where(x =>
+                    !x.IsAbstract && x.IsClass && x.IsPublic && IsToGenericInterface(x, InterfaceIValidator));
+            }
+        }
+
         static object GetSetting(Type x, IServiceProvider sp)
         {
             var settingManager = sp.GetRequiredService<ISettingManager>();
@@ -182,6 +216,8 @@ namespace Biwen.Settings
             });
             return md!.Invoke(settingManager, null)!;
         }
+
+        #endregion
 
         /// <summary>
         /// Use BiwenSettings
