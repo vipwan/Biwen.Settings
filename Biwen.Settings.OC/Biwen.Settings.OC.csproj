@@ -47,12 +47,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Drawing.Common" Version="8.0.7" />
-		<PackageReference Include="OrchardCore.Module.Targets" Version="1.8.3" />
-		<PackageReference Include="OrchardCore.ContentManagement" Version="1.8.3" />
-		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.8.3" />
-		<PackageReference Include="OrchardCore.DisplayManagement" Version="1.8.3" />
-		<PackageReference Include="OrchardCore.Navigation" Version="1.8.3" />
+		<PackageReference Include="System.Drawing.Common" Version="$(NetCoreMainVer)" />
+		<PackageReference Include="OrchardCore.Module.Targets" Version="$(OrchardVer)" />
+		<PackageReference Include="OrchardCore.ContentManagement" Version="$(OrchardVer)" />
+		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="$(OrchardVer)" />
+		<PackageReference Include="OrchardCore.DisplayManagement" Version="$(OrchardVer)" />
+		<PackageReference Include="OrchardCore.Navigation" Version="$(OrchardVer)" />
 	</ItemGroup>
 
 	<ItemGroup>
