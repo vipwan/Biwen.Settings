@@ -127,11 +127,6 @@ namespace Biwen.Settings
             {
                 //注册验证器
                 services.AddFluentValidationAutoValidation();
-
-                foreach (var validator in Validators)
-                {
-                    services.AddTransient(InterfaceIValidator, validator);
-                }
             }
 
             var settings = ASS.InAllRequiredAssemblies.ThatInherit(
@@ -165,10 +160,8 @@ namespace Biwen.Settings
 
         static readonly object _lock = new();//锁
         static readonly Type InterfaceINotify = typeof(INotify<>);
-        static readonly Type InterfaceIValidator = typeof(IValidator<>);
 
         static IEnumerable<Type> _notifys = null!;
-        static IEnumerable<Type> _validators = null!;
 
         static bool IsToGenericInterface(Type type, Type baseInterface)
         {
@@ -185,16 +178,6 @@ namespace Biwen.Settings
                 lock (_lock)
                     return _notifys ??= ASS.InAllRequiredAssemblies.Where(x =>
                     !x.IsAbstract && x.IsClass && x.IsPublic && IsToGenericInterface(x, InterfaceINotify));
-            }
-        }
-
-        static IEnumerable<Type> Validators
-        {
-            get
-            {
-                lock (_lock)
-                    return _validators ??= ASS.InAllRequiredAssemblies.Where(x =>
-                    !x.IsAbstract && x.IsClass && x.IsPublic && IsToGenericInterface(x, InterfaceIValidator));
             }
         }
 
