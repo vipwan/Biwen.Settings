@@ -93,16 +93,12 @@ namespace Biwen.Settings
                     throw new BiwenException("Require ISettingManager!");
             }
 
-            //services.AddScoped(typeof(ISettingManager), currentOptions.SettingManager.ManagerType!);
-            //Replace ISettingManager
-            //services.Replace(ServiceDescriptor.Scoped<ISettingManager, SettingManagerDecorator>());
-
+            services.AddScoped(currentOptions.SettingManager.ManagerType!);
             services.AddScoped<ISettingManager, SettingManagerDecorator>(sp =>
             {
-                var manager = ActivatorUtilities.CreateInstance(sp, currentOptions.SettingManager.ManagerType!);
+                var manager = sp.GetRequiredService(currentOptions.SettingManager.ManagerType!);
                 return new SettingManagerDecorator((ISettingManager)manager, sp);
             });
-
 
             //SaveSettingService
             services.AddScoped<SaveSettingService>();
