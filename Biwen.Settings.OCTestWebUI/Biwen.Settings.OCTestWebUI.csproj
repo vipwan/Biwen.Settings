@@ -17,7 +17,7 @@
 		<Watch Include="**\*.cs" Exclude="Recipes\**;Assets\**;node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
 	</ItemGroup>
 	<ItemGroup>
-		<Watch Remove="_GloableUsings.cs" />
+		<Watch Remove="_GlobalUsings.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
