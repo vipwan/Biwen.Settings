@@ -1,0 +1,19 @@
+﻿@Biwen.Settings_HostAddress = http://localhost:5150
+
+POST {{Biwen.Settings_HostAddress}}/biwensetting/api/set/Biwen.Settings.TestWebUI.GithubSetting
+Accept: application/json
+Content-Type: application/json-patch+json
+{
+  "UserName" : "vipwan",
+  "Token":"234567"
+}
+
+###
+
+GET {{Biwen.Settings_HostAddress}}/biwensetting/api/all
+
+###
+
+GET {{Biwen.Settings_HostAddress}}/biwensetting/api/get/Biwen.Settings.TestWebUI.GithubSetting
+
+###

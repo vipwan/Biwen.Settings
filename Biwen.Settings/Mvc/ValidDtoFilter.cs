@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using System.Dynamic;
 
 namespace Biwen.Settings.Mvc
@@ -10,7 +11,8 @@ namespace Biwen.Settings.Mvc
     {
         public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
         {
-            var id = context.Arguments[3]!.ToString(); //context.HttpContext.GetRouteValue("id") as string;
+            var id = context.HttpContext.GetRouteData().Values["id"] as string;
+
             if (string.IsNullOrEmpty(id)) return Results.NotFound();
             var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == id);
             if (type == null) return Results.NotFound();
@@ -50,8 +52,9 @@ namespace Biwen.Settings.Mvc
                 //赋值
                 prop.SetValue(setting, value);
             }
-            var option = (context.Arguments[1] as IOptions<SettingOptions>)!.Value;
-            if (option.AutoFluentValidationOption.Enable)
+
+            var option = context.HttpContext.RequestServices.GetRequiredService(typeof(IOptions<SettingOptions>)) as IOptions<SettingOptions>;
+            if (option!.Value.AutoFluentValidationOption.Enable)
             {
                 //继承至ValidationSettingBase<T>的情况
                 if (type.BaseType!.IsConstructedGenericType && type.BaseType!.GenericTypeArguments.Any(x => x == type))
@@ -79,13 +82,9 @@ namespace Biwen.Settings.Mvc
 
                 //存在验证器的情况
                 var validator = context.HttpContext!.RequestServices.GetService(typeof(IValidator<>).MakeGenericType(type));
-                if (validator != null)
+                if (validator is not null && Valid(validator) is (false, var errors))
                 {
-                    var (Succesed, Errors) = Valid(validator);
-                    if (!Succesed)
-                    {
-                        return Results.ValidationProblem(Errors!);
-                    }
+                    return Results.ValidationProblem(errors!);
                 }
             }
             return await next(context);

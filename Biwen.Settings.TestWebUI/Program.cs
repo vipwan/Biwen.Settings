@@ -4,8 +4,10 @@ using Biwen.Settings.Caching.Garnet;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.TestWebUI.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -21,6 +23,12 @@ builder.Services.AddDbContext<MyDbContext>(options =>
     //just for test
     //options.UseInMemoryDatabase("BiwenSettings");
     options.UseSqlite("Data Source=BiwenSettings.db");
+});
+
+builder.Services.AddHttpLogging(options =>
+{
+    options.LoggingFields = HttpLoggingFields.All;
+    options.CombineLogs = true;
 });
 
 
@@ -101,7 +109,12 @@ builder.Configuration.AddBiwenSettingConfiguration(builder.Services, true);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpLogging();
+    app.UseDeveloperExceptionPage();
+}
+else
 {
     app.UseExceptionHandler("/Error");
 }
@@ -113,9 +126,10 @@ app.UseSwaggerUI();
 
 app.UseStaticFiles();
 
-app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseRouting();
 
 app.MapRazorPages();
 
