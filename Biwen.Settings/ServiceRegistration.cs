@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
+using System.Collections.Concurrent;
 
 namespace Biwen.Settings
 {
@@ -181,16 +182,16 @@ namespace Biwen.Settings
             }
         }
 
+        static readonly ConcurrentDictionary<Type, MethodInfo> _cachedMethods = new();
+
         static object GetSetting(Type x, IServiceProvider sp)
         {
             var settingManager = sp.GetRequiredService<ISettingManager>();
-            var cache = sp.GetRequiredService<IMemoryCache>();
 
-            //使用缓存避免重复反射
-            var md = cache.GetOrCreate($"GenericMethod_{x.FullName}", entry =>
+            var md = _cachedMethods.GetOrAdd(x, (type) =>
             {
                 MethodInfo methodLoad = settingManager.GetType().GetMethod(nameof(settingManager.Get))!;
-                MethodInfo generic = methodLoad.MakeGenericMethod(x);
+                MethodInfo generic = methodLoad.MakeGenericMethod(type);
                 return generic;
             });
             return md!.Invoke(settingManager, null)!;
