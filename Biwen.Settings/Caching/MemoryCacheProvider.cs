@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Concurrent;
+
 namespace Biwen.Settings.Caching
 {
     /// <summary>

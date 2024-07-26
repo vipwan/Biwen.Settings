@@ -8,7 +8,7 @@
         public Task OnPublishedAsync<T>(T @event) where T : ISetting, new()
         {
             Events.ConfigrationChangedChannel.Writer.TryWrite((true, typeof(T)));
-            logger.LogInformation($"Setting Changed: {typeof(T).Name},并通知Configuration刷新!");
+            logger.LogInformation("Setting Changed: {Name},并通知Configuration刷新!", typeof(T).Name);
             return Task.CompletedTask;
         }
     }

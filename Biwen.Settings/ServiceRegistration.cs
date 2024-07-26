@@ -88,10 +88,9 @@ namespace Biwen.Settings
                 //文件变更通知,自动启动:
                 services.AddActivatedSingleton<FileChangeNotifier>();
             }
-            else
+            else if (currentOptions.SettingManager.ManagerType == null)
             {
-                if (currentOptions.SettingManager.ManagerType == null)
-                    throw new BiwenException("Require ISettingManager!");
+                throw new BiwenException("Require ISettingManager!");
             }
 
             services.AddScoped(currentOptions.SettingManager.ManagerType!);
@@ -211,8 +210,7 @@ namespace Biwen.Settings
             this WebApplication app,
             string routePrefix = "biwensetting/api",
             bool mapNotifyEndpoint = false,
-            Action<IEndpointConventionBuilder>? builder = null
-            )
+            Action<IEndpointConventionBuilder>? builder = null)
         {
             var settingOptions = app.Services.GetRequiredService<IOptions<SettingOptions>>();
             if (settingOptions.Value.EditorOptions.ShouldPagenation)

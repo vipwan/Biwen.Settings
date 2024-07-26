@@ -107,7 +107,7 @@ namespace Biwen.Settings.Controllers
 
             var setting = _httpContextAccessor!.HttpContext!.RequestServices.GetService(type)!;
 
-            foreach (string? item in form.Keys)
+            foreach (string item in form.Keys)
             {
                 PropertyInfo prop = null!;
                 try

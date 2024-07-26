@@ -11,12 +11,11 @@ namespace Biwen.Settings.Mvc
             EndpointFilterDelegate next)
         {
             var options = context.HttpContext.RequestServices.GetService<IOptions<SettingOptions>>()!.Value!;
-            var flag = options.PermissionValidator(context.HttpContext);
-            if (!flag)
+            if (options.PermissionValidator(context.HttpContext))
             {
-                return Results.Unauthorized();
+                return await next(context);
             }
-            return await next(context);
+            return Results.Unauthorized();
         }
     }
 }
