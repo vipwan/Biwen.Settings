@@ -85,6 +85,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 return TypedResults.BadRequest();
             }
+
             //提供Patch部分更新支持:
             var setting = ctx!.HttpContext!.RequestServices.GetService(type!)!;
             foreach (PropertyInfo prop in type!.GetProperties())
@@ -92,13 +93,16 @@ namespace Microsoft.AspNetCore.Builder
                 //SetMethod 判断
                 if (prop?.SetMethod == null)
                     continue;
-                if (!dto!.ContainsKey(prop.Name))
+                //忽略大小写.因为传输的对象可能是驼峰
+                var key = dto!.Keys.FirstOrDefault(x => x.Equals(prop.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (string.IsNullOrWhiteSpace(key))
                     continue;
                 //当前类型必须能转换String
                 if (!TypeDescriptor.GetConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
                     continue;
-                //当前类型必须能转换传递的参数值
-                var strValue = dto[prop.Name];
+
+                var strValue = dto[key];
                 if (strValue == null)
                     continue;
                 if (!TypeDescriptor.GetConverter(prop.PropertyType).IsValid(strValue.ToString()!))
