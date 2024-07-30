@@ -1,5 +1,6 @@
 ﻿using Alba;
 using Biwen.Settings.Tests.WebTests;
+using Biwen.Settings.TestWebUI;
 using System.Text.Json.Nodes;
 
 namespace Biwen.Settings.Tests
@@ -59,17 +60,17 @@ namespace Biwen.Settings.Tests
                {
                    x.Post.Json(new
                    {
-                       Token = "1111111134567",
+                       Token = "23125463",
                    })
                    .ContentType("application/json-patch+json")
                    .Accepts("application/json")
                    .ToUrl($"/biwensetting/api/set/{type}");
                });
 
-            var json = result.ReadAsJson<JsonObject>();
+            var setting = result.ReadAsJson<GithubSetting>();
 
-            Assert.NotNull(json);
-            Assert.Equal("1111111134567", json["token"]?.ToString());
+            Assert.NotNull(setting);
+            Assert.Equal("23125463", setting.Token);
         }
     }
 
