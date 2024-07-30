@@ -1,4 +1,3 @@
-﻿namespace Biwen.Settings.SettingManagers
-{
-    internal record SettingRecord(Type SettingType, object Setting);
-}
+﻿namespace Biwen.Settings.SettingManagers;
+
+internal record SettingRecord(Type SettingType, object Setting);

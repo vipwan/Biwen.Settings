@@ -1,5 +1,8 @@
+﻿using Alba;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.AsyncState;
+using static Microsoft.AspNetCore.Builder.BiwenSettingApis;
+using System.Text.Json.Nodes;
 
 namespace Biwen.Settings.Tests
 {
@@ -7,7 +10,7 @@ namespace Biwen.Settings.Tests
         TestBase(testOutput)
     {
         [Fact]
-        public void Test1()
+        public void async_context_http_context_of_t_test1()
         {
             var services = new ServiceCollection();
             services.AddAsyncStateHttpContext();

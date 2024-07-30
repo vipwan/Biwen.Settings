@@ -139,3 +139,9 @@ app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
 });
 
 app.Run();
+
+
+namespace Biwen.Settings.TestWebUI
+{
+    public partial class Program { }
+}
