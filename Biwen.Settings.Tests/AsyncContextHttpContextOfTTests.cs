@@ -10,7 +10,7 @@ namespace Biwen.Settings.Tests
         TestBase(testOutput)
     {
         [Fact]
-        public void async_context_http_context_of_t_test1()
+        public void Async_context_http_context_of_t_test1()
         {
             var services = new ServiceCollection();
             services.AddAsyncStateHttpContext();

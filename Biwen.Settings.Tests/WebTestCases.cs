@@ -16,7 +16,7 @@ namespace Biwen.Settings.Tests
         //http://localhost:5150/biwensetting/api/all
 
         [Fact]
-        public async Task get_all_settings_test()
+        public async Task Get_all_settings_test()
         {
 
             var result = await _host.Scenario(x =>
@@ -32,7 +32,7 @@ namespace Biwen.Settings.Tests
         }
 
         [Fact]
-        public async Task get_setting_test()
+        public async Task Get_setting_test()
         {
 
             var type = "Biwen.Settings.TestWebUI.GithubSetting";
@@ -52,7 +52,7 @@ namespace Biwen.Settings.Tests
         }
 
         [Fact]
-        public async Task set_setting_test()
+        public async Task Set_setting_test()
         {
             var type = "Biwen.Settings.TestWebUI.GithubSetting";
 
