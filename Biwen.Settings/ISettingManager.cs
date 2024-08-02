@@ -34,7 +34,6 @@ namespace Biwen.Settings
         /// <returns></returns>
         Setting? GetSetting(string settingType);
 
-
     }
 
     /// <summary>
@@ -45,9 +44,9 @@ namespace Biwen.Settings
         IServiceProvider serviceProvider) : ISettingManager
     {
         private readonly ISettingManager _settingManager = settingManager;
-        private readonly ICacheProvider _cacheProvider = serviceProvider.GetRequiredService<ICacheProvider>();
-        private readonly IMedirator _medirator = serviceProvider.GetRequiredService<IMedirator>();
-        private readonly NotifyServices _notifyServices = serviceProvider.GetRequiredService<NotifyServices>();
+        private readonly Lazy<ICacheProvider> _cacheProvider = new(serviceProvider.GetRequiredService<ICacheProvider>());
+        private readonly Lazy<IMedirator> _medirator = new(serviceProvider.GetRequiredService<IMedirator>());
+        private readonly Lazy<NotifyServices> _notifyServices = new(serviceProvider.GetRequiredService<NotifyServices>());
 
         private readonly IOptions<SettingOptions> _options = serviceProvider.GetRequiredService<IOptions<SettingOptions>>();
 
@@ -56,17 +55,17 @@ namespace Biwen.Settings
             //Save
             _settingManager.Save(setting);
             //Remove Cache
-            await _cacheProvider.RemoveAsync(string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId));
+            await _cacheProvider.Value.RemoveAsync(string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId));
             //Notify
-            await _medirator.PublishAsync(setting);
+            await _medirator.Value.PublishAsync(setting);
 
             //todo:如果是分布式环境,需要通知其他节点刷新缓存
-            _ = _notifyServices.NotifyConsumerAsync(new NofityDto(typeof(T).FullName!, _options.Value.ProjectId));
+            _ = _notifyServices.Value.NotifyConsumerAsync(new NofityDto(typeof(T).FullName!, _options.Value.ProjectId));
         }
 
         public T Get<T>() where T : ISetting, new()
         {
-            var retn = _cacheProvider.GetOrCreateAsync<T>(
+            var retn = _cacheProvider.Value.GetOrCreateAsync<T>(
                 string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId),
                 () => _settingManager.Get<T>()
             ).GetAwaiter().GetResult();

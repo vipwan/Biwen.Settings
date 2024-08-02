@@ -61,18 +61,15 @@ namespace Biwen.Settings
         Task OnPublishedAsync<T>(T @event) where T : ISetting, new();
     }
 
-    internal class Medirator(IServiceProvider serviceProvider) : IMedirator
+    internal class Medirator(IServiceScopeFactory serviceScopeFactory) : IMedirator
     {
-        private readonly IServiceProvider _serviceProvider = serviceProvider;
-
         public async Task PublishAsync<T>(T @event) where T : ISetting, new()
         {
-            var notifys = _serviceProvider.GetServices<INotify<T>>();
-
+            using var scope = serviceScopeFactory.CreateScope();
+            var notifys = scope.ServiceProvider.GetServices<INotify<T>>();
             notifys.Where(x => x.IsAsync).AsParallel().ForAll(x => _ = x.NotifyAsync(@event));
             notifys.Where(x => !x.IsAsync).ToList().ForEach(async x => await x.NotifyAsync(@event));
-
-            var doneHandlers = _serviceProvider.GetServices<IMediratorDoneHandler>();
+            var doneHandlers = scope.ServiceProvider.GetServices<IMediratorDoneHandler>();
             if (doneHandlers.Any())
             {
                 doneHandlers.AsParallel().ForAll(x => _ = x.OnPublishedAsync(@event));
