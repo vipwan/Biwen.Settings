@@ -10,12 +10,12 @@ namespace Biwen.Settings.Controllers
 
     [Area("Biwen.Settings")]
     public class SettingController(
-        ISettingManager settingManager,
+        Lazy<ISettingManager> settingManager,
         IOptions<SettingOptions> options,
         IEncryptionProvider encryptionProvider,
         IHttpContextAccessor httpContextAccessor) : Controller
     {
-        private readonly ISettingManager _settingManager = settingManager;
+        private readonly Lazy<ISettingManager> _settingManager = settingManager;
         private readonly IOptions<SettingOptions> _options = options;
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         private readonly IEncryptionProvider _encryptionProvider = encryptionProvider;
@@ -24,7 +24,7 @@ namespace Biwen.Settings.Controllers
         [SettingAuthorize]
         public IActionResult Index()
         {
-            var all = _settingManager.GetAllSettings();
+            var all = _settingManager.Value.GetAllSettings();
 
             //移除的或者无效的配置 需要排除
             var settings = all.Where(
@@ -41,7 +41,7 @@ namespace Biwen.Settings.Controllers
             if (string.IsNullOrEmpty(id))
                 return NotFound();
 
-            var setting = _settingManager.GetSetting(id);
+            var setting = _settingManager.Value.GetSetting(id);
             if (setting == null)
                 return NotFound();
 
@@ -152,7 +152,7 @@ namespace Biwen.Settings.Controllers
                         {
                             ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                         }
-                        var domainSetting = _settingManager.GetSetting(id);
+                        var domainSetting = _settingManager.Value.GetSetting(id);
                         ViewBag.Setting = domainSetting!;
                         ViewBag.SettingValues = SettingValues(domainSetting!);
                         return View();
@@ -170,7 +170,7 @@ namespace Biwen.Settings.Controllers
                         {
                             ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                         }
-                        var domainSetting = _settingManager.GetSetting(id);
+                        var domainSetting = _settingManager.Value.GetSetting(id);
                         ViewBag.Setting = domainSetting!;
                         ViewBag.SettingValues = SettingValues(domainSetting!);
                         //验证不通过

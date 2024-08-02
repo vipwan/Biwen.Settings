@@ -100,6 +100,9 @@ namespace Biwen.Settings
                 return new SettingManagerDecorator((ISettingManager)manager, sp);
             });
 
+            //注入Lazy<ISettingManager>:
+            services.AddScoped(sp => new Lazy<ISettingManager>(sp.GetRequiredService<ISettingManager>));
+
             //SaveSettingService
             services.AddScoped<SaveSettingService>();
 
