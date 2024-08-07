@@ -4,8 +4,7 @@
     {
         public async Task SaveSettingAsync()
         {
-            var flag = asyncContext.TryGet(out var record);
-            if (!flag)
+            if (!asyncContext.TryGet(out var record))
             {
                 logger.LogWarning("No SettingRecord in AsyncContext");
                 return;
