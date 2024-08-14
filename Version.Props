@@ -9,8 +9,8 @@
 
 	<PropertyGroup Label="Package versions used in this repository">
 		<FluentValidationAspNetCoreVer>11.3.0</FluentValidationAspNetCoreVer>
-		<MicrosoftExtensionsVer>8.7.0</MicrosoftExtensionsVer>
-		<NetCoreMainVer>8.0.7</NetCoreMainVer>
+		<MicrosoftExtensionsVer>8.8.0</MicrosoftExtensionsVer>
+		<NetCoreMainVer>8.0.8</NetCoreMainVer>
 		<OrchardVer>1.8.3</OrchardVer>
 	</PropertyGroup>
 
