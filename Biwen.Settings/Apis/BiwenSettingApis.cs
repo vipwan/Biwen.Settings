@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System.Dynamic;
 
+#pragma warning disable IDE0130 // 命名空间与文件夹结构不匹配
 namespace Microsoft.AspNetCore.Builder
+#pragma warning restore IDE0130 // 命名空间与文件夹结构不匹配
 {
     public static class BiwenSettingApis
     {

@@ -97,7 +97,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
                 var stored = JsonSerializer.Deserialize<List<Setting>>(json);
 
                 var @default = new T();
-                var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
+                var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
 
                 if (stored == null)
                 {
@@ -109,7 +109,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
                         ProjectId = _options.Value.ProjectId,
                         SettingName = setting.SettingName!,
                         SettingType = typeof(T).FullName!,
-                        Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
+                        Description = desc?.Description,
                         Order = setting.Order,
                         LastModificationTime = DateTime.Now,
                         SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
@@ -126,7 +126,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
                         ProjectId = _options.Value.ProjectId,
                         SettingName = setting.SettingName!,
                         SettingType = typeof(T).FullName!,
-                        Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
+                        Description = desc?.Description,
                         Order = setting.Order,
                         LastModificationTime = DateTime.Now,
                         SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent

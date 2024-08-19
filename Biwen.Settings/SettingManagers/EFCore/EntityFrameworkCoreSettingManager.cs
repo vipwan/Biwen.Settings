@@ -62,8 +62,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
             }
             else
             {
-                var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
-
+                var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
                 var plainContent = JsonSerializer.Serialize(@default, SerializerOptions);
 
                 _db.Settings.Add(new Setting
@@ -71,7 +70,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
                     ProjectId = _options.Value.ProjectId,
                     SettingName = @default.SettingName!,
                     SettingType = typeof(T).FullName!,
-                    Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
+                    Description = desc?.Description,
                     Order = @default.Order,
                     LastModificationTime = DateTime.Now,
                     SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
@@ -106,13 +105,13 @@ namespace Biwen.Settings.SettingManagers.EFCore
             else
             {
                 var @default = new T();
-                var desc = typeof(T).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
+                var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
                 _db.Settings.Add(new Setting
                 {
                     ProjectId = _options.Value.ProjectId,
                     SettingName = @default.SettingName!,
                     SettingType = typeof(T).FullName!,
-                    Description = desc != null ? ((DescriptionAttribute)desc).Description : null,
+                    Description = desc?.Description,
                     Order = setting.Order,
                     LastModificationTime = DateTime.Now,
                     SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent

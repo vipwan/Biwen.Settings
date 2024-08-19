@@ -9,9 +9,9 @@ namespace Biwen.Settings.SettingManagers.JsonStore
         private readonly Action _onChange;
         private readonly FileSystemWatcher _watcher = null!;
 
-        public FileChangeNotifier(IServiceProvider serviceProvider)
+        public FileChangeNotifier(IServiceScopeFactory scopeFactory)
         {
-            using var scope = serviceProvider.CreateScope();
+            using var scope = scopeFactory.CreateScope();
             var sp = scope.ServiceProvider;
 
             var env = sp.GetRequiredService<IWebHostEnvironment>();
