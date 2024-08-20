@@ -104,8 +104,8 @@
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting",
     "SettingName": "WeChatSetting",
     "Description": "\u5FAE\u4FE1\u914D\u7F6E",
-    "Order": 6500,
+    "Order": 500,
     "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890667\u0022,\u0022Token\u0022:\u00221234567890555\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:500}",
-    "LastModificationTime": "2024-06-11T16:07:42.9367419+08:00"
+    "LastModificationTime": "2024-08-20T12:26:39.6238438+08:00"
   }
 ]
