@@ -7,6 +7,10 @@ using System.Text.Json.Serialization;
 
 namespace Biwen.Settings.Controllers
 {
+    /// <summary>
+    /// SettingViewModel
+    /// </summary>
+    readonly record struct SettingViewModel(string Name, string? Description, string? Value);
 
     [Area("Biwen.Settings")]
     public class SettingController(
@@ -19,6 +23,13 @@ namespace Biwen.Settings.Controllers
         private readonly IOptions<SettingOptions> _options = options;
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         private readonly IEncryptionProvider _encryptionProvider = encryptionProvider;
+
+        private readonly Lazy<IAsyncContext<SettingRecord>> _settingRecord =
+            new(() => httpContextAccessor.HttpContext!.RequestServices.GetRequiredService<IAsyncContext<SettingRecord>>());
+
+        private readonly Lazy<SaveSettingService> _saveSettingService =
+            new(() => httpContextAccessor.HttpContext!.RequestServices.GetRequiredService<SaveSettingService>());
+
 
         //[HttpGet("qwertyuiopasdfghjklzxcvbnm/setting")]
         [SettingAuthorize]
@@ -56,18 +67,21 @@ namespace Biwen.Settings.Controllers
         }
 
         [NonAction]
-        List<(string Name, string? Description, string? Value)> SettingValues(Setting setting)
+        List<SettingViewModel> SettingValues(Setting setting)
         {
             ArgumentNullException.ThrowIfNull(setting);
 
             var type = ASS.InAllRequiredAssemblies.FirstOrDefault(x => x.FullName == setting.SettingType)
                 ?? throw new ArgumentNullException(nameof(setting));
 
-            List<(string Name, string? Description, string? Value)> SettingValues = [];
+            List<SettingViewModel> SettingValues = [];
 
             var plainContent = _encryptionProvider.Decrypt(setting.SettingContent!);
 
             var json = JsonNode.Parse(plainContent)!;
+
+            var instanceSetting = _httpContextAccessor!.HttpContext!.RequestServices.GetService(type);
+
             type.GetProperties().Where(x =>
                 !x.GetCustomAttributes<JsonIgnoreAttribute>().Any() &&
                 x.CanWrite && x.CanRead &&
@@ -80,18 +94,22 @@ namespace Biwen.Settings.Controllers
                 x.Name != nameof(Setting.SettingContent) &&
                 x.Name != nameof(Setting.LastModificationTime)).ToList().ForEach(x =>
                 {
-                    var instanceSetting = _httpContextAccessor!.HttpContext!.RequestServices.GetService(type);
-                    var desc = x.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
-
+                    var desc = x.GetCustomAttribute<DescriptionAttribute>();
                     var value = json[x.Name];
+
+                    var vm = new SettingViewModel(x.Name, desc?.Description, value?.ToString());
+
                     if (value != null)
                     {
-                        SettingValues.Add((x.Name, desc?.Description, value.ToString()));
+                        SettingValues.Add(vm);
                     }
                     else
                     {
                         var propertyValue = type.GetProperty(x.Name)!.GetValue(instanceSetting);
-                        SettingValues.Add((x.Name, desc?.Description, propertyValue == null ? string.Empty : propertyValue.ToString()));
+                        SettingValues.Add(vm with
+                        {
+                            Value = propertyValue == null ? string.Empty : propertyValue.ToString()
+                        });
                     }
                 });
 
@@ -191,10 +209,8 @@ namespace Biwen.Settings.Controllers
             }
 
             //Save
-            IAsyncContext<SettingRecord> record = httpContextAccessor.HttpContext!.RequestServices.GetRequiredService<IAsyncContext<SettingRecord>>();
-            record.Set(new SettingRecord(type, setting));
-            var saveSettingService = httpContextAccessor.HttpContext!.RequestServices.GetRequiredService<SaveSettingService>();
-            await saveSettingService.SaveSettingAsync();
+            _settingRecord.Value.Set(new SettingRecord(type, setting));
+            await _saveSettingService.Value.SaveSettingAsync();
 
             if (string.IsNullOrEmpty(redirectUrl))
             {
