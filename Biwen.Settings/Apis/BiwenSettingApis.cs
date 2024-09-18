@@ -1,4 +1,11 @@
-﻿using Biwen.Settings.Caching;
+﻿// Licensed to the Biwen.Settings under one or more agreements.
+// The Biwen.Settings licenses this file to you under the MIT license. 
+// See the LICENSE file in the project root for more information.
+// Biwen.Settings Author: 万雅虎, Github: https://github.com/vipwan
+// Biwen.Settings ,NET8+ 应用配置项管理模块
+// Modify Date: 2024-09-18 17:26:00 BiwenSettingApis.cs
+
+using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.Mvc;
@@ -42,11 +49,11 @@ namespace Microsoft.AspNetCore.Builder
             if (mapNotifyEndpoint)
             {
                 //notify
-                var notifyEndpoint = endpoint.MapPost(Consts.EndpointUrl, Notify);
+                var notifyEndpoint = endpoint.MapPost(Consts.EndpointUrl, NotifyAsync);
 
                 //DTO
                 notifyEndpoint.Accepts<NofityDto>(contentType: "application/json");
-                notifyEndpoint.WithTags("Notify");
+                OpenApiRouteHandlerBuilderExtensions.WithTags(notifyEndpoint, "Notify");
 #if !DEBUG
                 notifyEndpoint.ExcludeFromDescription();//排除在Swagger文档中
 #endif
@@ -125,7 +132,7 @@ namespace Microsoft.AspNetCore.Builder
             return TypedResults.Ok(setting);
         }
 
-        static async Task<Results<Ok, BadRequest>> Notify(
+        static async Task<Results<Ok, BadRequest>> NotifyAsync(
             [FromServices] IOptions<SettingOptions> options,
             [FromServices] ICacheProvider cacheProvider,
             //[FromServices] IHttpContextAccessor ctx,

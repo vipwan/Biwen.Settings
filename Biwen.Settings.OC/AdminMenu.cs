@@ -11,11 +11,11 @@ namespace Biwen.Settings.OC
         private readonly IStringLocalizer S = localizer;
         private readonly IOptions<AdminOptions> _options = options;
 
-        public Task BuildNavigationAsync(string name, NavigationBuilder builder)
+        public ValueTask BuildNavigationAsync(string name, NavigationBuilder builder)
         {
             if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
             {
-                return Task.CompletedTask;
+                return ValueTask.CompletedTask;
             }
 
             builder
@@ -29,7 +29,7 @@ namespace Biwen.Settings.OC
                     )
                 );
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
 
         }
     }

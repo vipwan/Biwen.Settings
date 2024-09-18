@@ -1,17 +1,17 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<PackageVersion>2.2.6.2</PackageVersion>
+		<PackageVersion>2.3.0</PackageVersion>
 		<PackageReleaseNotes>提供对IConfiguration和IOptions的集成支持</PackageReleaseNotes>
-		<AssemblyVersion>2.2.0</AssemblyVersion>
-		<FileVersion>2.2.0</FileVersion>
+		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
+		<FileVersion>$(PackageVersion)</FileVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package versions used in this repository">
 		<FluentValidationAspNetCoreVer>11.3.0</FluentValidationAspNetCoreVer>
-		<MicrosoftExtensionsVer>8.8.0</MicrosoftExtensionsVer>
+		<MicrosoftExtensionsVer>8.9.1</MicrosoftExtensionsVer>
 		<NetCoreMainVer>8.0.8</NetCoreMainVer>
-		<OrchardVer>1.8.3</OrchardVer>
+		<OrchardVer>2.0.0</OrchardVer>
 	</PropertyGroup>
 
 

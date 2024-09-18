@@ -1,4 +1,8 @@
-﻿using Garnet.client;
+﻿// Licensed to the Biwen.Settings.Caching.Garnet under one or more agreements.
+// The Biwen.Settings.Caching.Garnet licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Garnet.client;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 using System.Text.Json;

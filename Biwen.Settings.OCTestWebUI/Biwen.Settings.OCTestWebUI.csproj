@@ -10,7 +10,7 @@
 	<PropertyGroup Label="Package versions used in this repository">
 		<MicrosoftExtensionsVer>8.7.0</MicrosoftExtensionsVer>
 		<NetCoreMainVer>8.0.7</NetCoreMainVer>
-		<OrchardVer>1.8.3</OrchardVer>
+		<OrchardVer>2.0.0</OrchardVer>
 	</PropertyGroup>
 
 	<ItemGroup>
