@@ -15,6 +15,7 @@
 		<PackageTags>configuration;setting;netcore;orchardcore</PackageTags>
 		<PackageReleaseNotes>提供对OrchardCore的支持</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<NoWarn>GEN031;GEN052</NoWarn>
 	</PropertyGroup>
 
 	<Import Project="..\Version.props" />
@@ -46,12 +47,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Drawing.Common" Version="$(NetCoreMainVer)" />
 		<PackageReference Include="OrchardCore.Module.Targets" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.ContentManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.DisplayManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.Navigation" Version="$(OrchardVer)" />
+		<PackageReference Include="System.Drawing.Common" Version="$(NetCoreMainVer)" />
+		<PackageReference Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>

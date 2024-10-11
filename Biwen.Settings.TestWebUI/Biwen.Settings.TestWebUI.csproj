@@ -4,12 +4,12 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<NoWarn>GEN050;GEN060</NoWarn>
+		<NoWarn>GEN050;GEN052;GEN060</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package versions used in this repository">
-		<MicrosoftExtensionsVer>8.8.0</MicrosoftExtensionsVer>
-		<NetCoreMainVer>8.0.8</NetCoreMainVer>
+		<MicrosoftExtensionsVer>8.10.0</MicrosoftExtensionsVer>
+		<NetCoreMainVer>8.0.10</NetCoreMainVer>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,7 +24,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(NetCoreMainVer)" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(NetCoreMainVer)" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />
 	</ItemGroup>
 
 	<ItemGroup>

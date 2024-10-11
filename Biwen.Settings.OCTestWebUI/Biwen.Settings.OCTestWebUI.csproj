@@ -5,12 +5,13 @@
 		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<NoWarn>GEN050;GEN052;GEN060</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package versions used in this repository">
 		<MicrosoftExtensionsVer>8.7.0</MicrosoftExtensionsVer>
 		<NetCoreMainVer>8.0.7</NetCoreMainVer>
-		<OrchardVer>2.0.0</OrchardVer>
+		<OrchardVer>2.0.2</OrchardVer>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -33,7 +34,6 @@
 	<ItemGroup>
 		<PackageReference Include="OrchardCore.Logging.Serilog" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.Application.Cms.Targets" Version="$(OrchardVer)" />
-		<PackageReference Include="System.Text.Json" Version="8.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
