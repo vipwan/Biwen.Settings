@@ -45,14 +45,6 @@
   },
   {
     "ProjectId": "Biwen.Settings.TestWebUI-Development",
-    "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting3",
-    "SettingName": "WeChatSetting3",
-    "Order": 1000,
-    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
-    "LastModificationTime": "2024-06-11T16:06:48.6889863+08:00"
-  },
-  {
-    "ProjectId": "Biwen.Settings.TestWebUI-Development",
     "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting4",
     "SettingName": "WeChatSetting4",
     "Order": 1000,
@@ -107,5 +99,13 @@
     "Order": 500,
     "SettingContent": "{\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890667\u0022,\u0022Token\u0022:\u00221234567890555\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022,\u0022Order\u0022:500}",
     "LastModificationTime": "2024-08-20T12:26:39.6238438+08:00"
+  },
+  {
+    "ProjectId": "Biwen.Settings.TestWebUI-Development",
+    "SettingType": "Biwen.Settings.TestWebUI.WeChatSetting3",
+    "SettingName": "WeChatSetting3",
+    "Order": 1000,
+    "SettingContent": "{\u0022Order\u0022:1000,\u0022AppId\u0022:\u0022wx1234567890\u0022,\u0022AppSecret\u0022:\u00221234567890\u0022,\u0022Token\u0022:\u00221234567890\u0022,\u0022EncodingAESKey\u0022:\u00221234567890\u0022}",
+    "LastModificationTime": "2024-10-29T17:23:32.931205+08:00"
   }
 ]

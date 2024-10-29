@@ -10,7 +10,7 @@
 	<Import Project="..\Version.props" />
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Garnet" Version="1.0.30" />
+		<PackageReference Include="Microsoft.Garnet" Version="1.0.34" />
 		<PackageReference Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
 
