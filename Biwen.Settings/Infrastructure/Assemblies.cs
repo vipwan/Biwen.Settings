@@ -31,6 +31,7 @@ namespace Biwen.Settings.Infrastructure
             "Swashbuckle",
             "AutoMapper",
             "FluentValidation",
+            "Biwen.AutoClassGen" //Biwen.AutoClassGen
         ];
 
         private static Assembly[] _allRequiredAssemblies = null!;

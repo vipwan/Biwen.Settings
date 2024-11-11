@@ -24,7 +24,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(NetCoreMainVer)" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(NetCoreMainVer)" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
 	</ItemGroup>
 
 	<ItemGroup>

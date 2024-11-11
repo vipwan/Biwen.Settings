@@ -47,6 +47,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.2" PrivateAssets="all" />
 		<PackageReference Include="OrchardCore.Module.Targets" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.ContentManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="$(OrchardVer)" />
