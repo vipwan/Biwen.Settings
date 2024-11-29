@@ -24,3 +24,14 @@ global using Biwen.Settings.Domains;
 global using FindTypes = Biwen.Settings.Infrastructure.TypeFinder.FindTypes;
 global using ASS = Biwen.Settings.Infrastructure.Assemblies;
 global using MSDA = System.ComponentModel.DataAnnotations;
+
+#if NET9_0_OR_GREATER
+
+global using Lock = System.Threading.Lock;
+
+#else
+
+global using Lock = System.Object;
+
+#endif
+

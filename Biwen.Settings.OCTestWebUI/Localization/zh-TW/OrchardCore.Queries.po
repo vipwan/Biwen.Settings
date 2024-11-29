@@ -10,24 +10,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_TW\n"
-"PO-Revision-Date: 2024-08-24 20:35\n"
+"PO-Revision-Date: 2024-11-10 14:50\n"
 
 #. .Add(S["Search"], NavigationConstants.AdminMenuSearchPosition, search => search
-#: OrchardCore.Queries\AdminMenu.cs:23
+#: OrchardCore.Queries\AdminMenu.cs:18
 msgctxt "OrchardCore.Queries.AdminMenu"
 msgid "Search"
 msgstr "搜尋"
 
 #. .Add(S["Queries"], S["Queries"].PrefixPosition(), queries => queries
 #. .Add(S["Queries"], S["Queries"].PrefixPosition(), queries => queries
-#: OrchardCore.Queries\AdminMenu.cs:26
-#: OrchardCore.Queries\AdminMenu.cs:26
+#: OrchardCore.Queries\AdminMenu.cs:21
+#: OrchardCore.Queries\AdminMenu.cs:21
 msgctxt "OrchardCore.Queries.AdminMenu"
 msgid "Queries"
 msgstr ""
 
 #. .Add(S["All queries"], "1", allQueries => allQueries
-#: OrchardCore.Queries\AdminMenu.cs:27
+#: OrchardCore.Queries\AdminMenu.cs:22
 msgctxt "OrchardCore.Queries.AdminMenu"
 msgid "All queries"
 msgstr ""
@@ -105,47 +105,47 @@ msgid "A query with the same name already exists"
 msgstr ""
 
 #. context.Errors.Add(S["Query name is missing or empty. The query will not be imported."]);
-#: OrchardCore.Queries\Recipes\QueryStep.cs:48
+#: OrchardCore.Queries\Recipes\QueryStep.cs:44
 msgctxt "OrchardCore.Queries.Recipes.QueryStep"
 msgid "Query name is missing or empty. The query will not be imported."
 msgstr ""
 
 #. context.Errors.Add(S["Could not find query source value. The query '{0}' will not be imported.", name]);
-#: OrchardCore.Queries\Recipes\QueryStep.cs:57
+#: OrchardCore.Queries\Recipes\QueryStep.cs:53
 msgctxt "OrchardCore.Queries.Recipes.QueryStep"
 msgid "Could not find query source value. The query '{0}' will not be imported."
 msgstr ""
 
 #. context.Errors.Add(S["Could not find query source: '{0}'. The query '{1}' will not be imported.", sourceName, name]);
-#: OrchardCore.Queries\Recipes\QueryStep.cs:70
+#: OrchardCore.Queries\Recipes\QueryStep.cs:66
 msgctxt "OrchardCore.Queries.Recipes.QueryStep"
 msgid "Could not find query source: '{0}'. The query '{1}' will not be imported."
 msgstr ""
 
 #. .Add(S["Search"], search => search
-#: OrchardCore.Queries\Sql\AdminMenu.cs:23
+#: OrchardCore.Queries\Sql\AdminMenu.cs:18
 msgctxt "OrchardCore.Queries.Sql.AdminMenu"
 msgid "Search"
 msgstr "搜尋"
 
 #. .Add(S["Queries"], S["Queries"].PrefixPosition(), queries => queries
 #. .Add(S["Queries"], S["Queries"].PrefixPosition(), queries => queries
-#: OrchardCore.Queries\Sql\AdminMenu.cs:24
-#: OrchardCore.Queries\Sql\AdminMenu.cs:24
+#: OrchardCore.Queries\Sql\AdminMenu.cs:19
+#: OrchardCore.Queries\Sql\AdminMenu.cs:19
 msgctxt "OrchardCore.Queries.Sql.AdminMenu"
 msgid "Queries"
 msgstr ""
 
 #. .Add(S["Run SQL Query"], S["Run SQL Query"].PrefixPosition(), sql => sql
 #. .Add(S["Run SQL Query"], S["Run SQL Query"].PrefixPosition(), sql => sql
-#: OrchardCore.Queries\Sql\AdminMenu.cs:25
-#: OrchardCore.Queries\Sql\AdminMenu.cs:25
+#: OrchardCore.Queries\Sql\AdminMenu.cs:20
+#: OrchardCore.Queries\Sql\AdminMenu.cs:20
 msgctxt "OrchardCore.Queries.Sql.AdminMenu"
 msgid "Run SQL Query"
 msgstr ""
 
 #. ModelState.AddModelError("", S["An error occurred while executing the SQL query: {0}", e.Message]);
-#: OrchardCore.Queries\Sql\Controllers\AdminController.cs:96
+#: OrchardCore.Queries\Sql\Controllers\AdminController.cs:99
 msgctxt "OrchardCore.Queries.Sql.Controllers.AdminController"
 msgid "An error occurred while executing the SQL query: {0}"
 msgstr ""

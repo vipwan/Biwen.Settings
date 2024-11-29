@@ -10,54 +10,54 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
-"PO-Revision-Date: 2024-08-24 20:40\n"
+"PO-Revision-Date: 2024-11-19 17:36\n"
 
 #. .Add(S["Design"], NavigationConstants.AdminMenuDesignPosition, design => design
-#: OrchardCore.Themes\AdminMenu.cs:23
+#: OrchardCore.Themes\AdminMenu.cs:18
 msgctxt "OrchardCore.Themes.AdminMenu"
 msgid "Design"
 msgstr "Aspetto"
 
 #. .Add(S["Themes"], S["Themes"].PrefixPosition(), themes => themes
 #. .Add(S["Themes"], S["Themes"].PrefixPosition(), themes => themes
-#: OrchardCore.Themes\AdminMenu.cs:25
-#: OrchardCore.Themes\AdminMenu.cs:25
+#: OrchardCore.Themes\AdminMenu.cs:20
+#: OrchardCore.Themes\AdminMenu.cs:20
 msgctxt "OrchardCore.Themes.AdminMenu"
 msgid "Themes"
 msgstr "Temi"
 
 #. await _notifier.SuccessAsync(H["{0} was enabled", feature.Name ?? feature.Id]);
-#: OrchardCore.Themes\Controllers\AdminController.cs:146
+#: OrchardCore.Themes\Controllers\AdminController.cs:145
 msgctxt "OrchardCore.Themes.Controllers.AdminController"
 msgid "{0} was enabled"
 msgstr "{0} è stato abilitato"
 
 #. await _notifier.SuccessAsync(H["{0} was set as the default {1} theme", feature.Name ?? feature.Id, isAdmin ? "Admin" : "Site"]);
-#: OrchardCore.Themes\Controllers\AdminController.cs:149
+#: OrchardCore.Themes\Controllers\AdminController.cs:148
 msgctxt "OrchardCore.Themes.Controllers.AdminController"
 msgid "{0} was set as the default {1} theme"
 msgstr "{0} è stato impostato come tema predefinito {1}"
 
 #. await _notifier.SuccessAsync(H["The Site theme was reset."]);
-#: OrchardCore.Themes\Controllers\AdminController.cs:166
+#: OrchardCore.Themes\Controllers\AdminController.cs:165
 msgctxt "OrchardCore.Themes.Controllers.AdminController"
 msgid "The Site theme was reset."
 msgstr "Il tema di front-end è stato resettato."
 
 #. await _notifier.SuccessAsync(H["The Admin theme was reset."]);
-#: OrchardCore.Themes\Controllers\AdminController.cs:181
+#: OrchardCore.Themes\Controllers\AdminController.cs:180
 msgctxt "OrchardCore.Themes.Controllers.AdminController"
 msgid "The Admin theme was reset."
 msgstr "Il tema di back-end è stato resettato."
 
 #. await _notifier.SuccessAsync(H["{0} was disabled.", feature.Name ?? feature.Id]);
-#: OrchardCore.Themes\Controllers\AdminController.cs:204
+#: OrchardCore.Themes\Controllers\AdminController.cs:203
 msgctxt "OrchardCore.Themes.Controllers.AdminController"
 msgid "{0} was disabled."
 msgstr "{0} è stato disabilitato."
 
 #. await _notifier.SuccessAsync(H["{0} was enabled.", feature.Name ?? feature.Id]);
-#: OrchardCore.Themes\Controllers\AdminController.cs:227
+#: OrchardCore.Themes\Controllers\AdminController.cs:226
 msgctxt "OrchardCore.Themes.Controllers.AdminController"
 msgid "{0} was enabled."
 msgstr "{0} è stato abilitato."
@@ -148,31 +148,31 @@ msgstr "Aspetto"
 #: OrchardCore.Themes\Views\Items\ThemeEntry-ButtonsMakeCurrent.SummaryAdmin.cshtml:7
 msgctxt "OrchardCore.Themes.Views.Items.ThemeEntry-ButtonsMakeCurrent.SummaryAdmin"
 msgid "Make Current"
-msgstr ""
+msgstr "Usa questo"
 
 #. <button type="submit" class="btn btn-sm btn-secondary">@T["Disable"]</button>
 #: OrchardCore.Themes\Views\Items\ThemeEntry-ButtonsToggleState.SummaryAdmin.cshtml:9
 msgctxt "OrchardCore.Themes.Views.Items.ThemeEntry-ButtonsToggleState.SummaryAdmin"
 msgid "Disable"
-msgstr ""
+msgstr "Disabilita"
 
 #. <button type="submit" class="btn btn-sm btn-secondary">@T["Enable"]</button>
 #: OrchardCore.Themes\Views\Items\ThemeEntry-ButtonsToggleState.SummaryAdmin.cshtml:16
 msgctxt "OrchardCore.Themes.Views.Items.ThemeEntry-ButtonsToggleState.SummaryAdmin"
 msgid "Enable"
-msgstr ""
+msgstr "Abilita"
 
 #. <span class="text-muted">@T["This is the current Admin theme"]</span>
 #: OrchardCore.Themes\Views\Items\ThemeEntry-Current.SummaryAdmin.cshtml:8
 msgctxt "OrchardCore.Themes.Views.Items.ThemeEntry-Current.SummaryAdmin"
 msgid "This is the current Admin theme"
-msgstr ""
+msgstr "Questo è il tema Admin in uso"
 
 #. <span class="text-muted">@T["This is the current Site theme"]</span>
 #: OrchardCore.Themes\Views\Items\ThemeEntry-Current.SummaryAdmin.cshtml:13
 msgctxt "OrchardCore.Themes.Views.Items.ThemeEntry-Current.SummaryAdmin"
 msgid "This is the current Site theme"
-msgstr ""
+msgstr "Questo è il tema del sito in uso"
 
 #. <h5>@T["Themes"]</h5>
 #: OrchardCore.Themes\Views\Items\ThemesDeploymentStep.Edit.cshtml:3

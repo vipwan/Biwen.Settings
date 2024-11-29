@@ -10,32 +10,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-09-04 19:21\n"
+"PO-Revision-Date: 2024-11-10 14:59\n"
 
 #. .Add(S["Security"], NavigationConstants.AdminMenuSecurityPosition, security => security
-#: OrchardCore.Users\AdminMenu.cs:32
+#: OrchardCore.Users\AdminMenu.cs:27
 msgctxt "OrchardCore.Users.AdminMenu"
 msgid "Security"
 msgstr "安全"
 
 #. .Add(S["Users"], S["Users"].PrefixPosition(), users => users
 #. .Add(S["Users"], S["Users"].PrefixPosition(), users => users
-#: OrchardCore.Users\AdminMenu.cs:35
-#: OrchardCore.Users\AdminMenu.cs:35
+#: OrchardCore.Users\AdminMenu.cs:30
+#: OrchardCore.Users\AdminMenu.cs:30
 msgctxt "OrchardCore.Users.AdminMenu"
 msgid "Users"
 msgstr "用户"
 
 #. .Add(S["Settings"], settings => settings
-#: OrchardCore.Users\AdminMenu.cs:43
+#: OrchardCore.Users\AdminMenu.cs:38
 msgctxt "OrchardCore.Users.AdminMenu"
 msgid "Settings"
 msgstr "设置"
 
 #. .Add(S["User Login"], S["User Login"].PrefixPosition(), login => login
 #. .Add(S["User Login"], S["User Login"].PrefixPosition(), login => login
-#: OrchardCore.Users\AdminMenu.cs:44
-#: OrchardCore.Users\AdminMenu.cs:44
+#: OrchardCore.Users\AdminMenu.cs:39
+#: OrchardCore.Users\AdminMenu.cs:39
 msgctxt "OrchardCore.Users.AdminMenu"
 msgid "User Login"
 msgstr "用户登录"
@@ -191,21 +191,21 @@ msgid "A user was deleted."
 msgstr "用户已被删除。"
 
 #. .Add(S["Security"], security => security
-#: OrchardCore.Users\ChangeEmailAdminMenu.cs:31
+#: OrchardCore.Users\ChangeEmailAdminMenu.cs:26
 msgctxt "OrchardCore.Users.ChangeEmailAdminMenu"
 msgid "Security"
 msgstr "安全"
 
 #. .Add(S["Settings"], settings => settings
-#: OrchardCore.Users\ChangeEmailAdminMenu.cs:32
+#: OrchardCore.Users\ChangeEmailAdminMenu.cs:27
 msgctxt "OrchardCore.Users.ChangeEmailAdminMenu"
 msgid "Settings"
 msgstr "设置"
 
 #. .Add(S["User Change email"], S["User Change email"].PrefixPosition(), email => email
 #. .Add(S["User Change email"], S["User Change email"].PrefixPosition(), email => email
-#: OrchardCore.Users\ChangeEmailAdminMenu.cs:33
-#: OrchardCore.Users\ChangeEmailAdminMenu.cs:33
+#: OrchardCore.Users\ChangeEmailAdminMenu.cs:28
+#: OrchardCore.Users\ChangeEmailAdminMenu.cs:28
 msgctxt "OrchardCore.Users.ChangeEmailAdminMenu"
 msgid "User Change email"
 msgstr "用户更改电子邮件"
@@ -216,66 +216,38 @@ msgctxt "OrchardCore.Users.Commands.UserCommands"
 msgid "User created successfully"
 msgstr "用户创建成功"
 
+#. ModelState.AddModelError(string.Empty, S["The specified user is not allowed to sign in."]);
+#: OrchardCore.Users\Controllers\AccountBaseController.cs:53
+msgctxt "OrchardCore.Users.Controllers.AccountBaseController"
+msgid "The specified user is not allowed to sign in."
+msgstr ""
+
 #. ModelState.AddModelError(string.Empty, S["Local login is disabled."]);
-#: OrchardCore.Users\Controllers\AccountController.cs:191
+#: OrchardCore.Users\Controllers\AccountController.cs:119
 msgctxt "OrchardCore.Users.Controllers.AccountController"
 msgid "Local login is disabled."
 msgstr "本地登录已禁用。"
 
 #. ModelState.AddModelError(string.Empty, S["The account is locked out"]);
-#: OrchardCore.Users\Controllers\AccountController.cs:233
+#: OrchardCore.Users\Controllers\AccountController.cs:164
 msgctxt "OrchardCore.Users.Controllers.AccountController"
 msgid "The account is locked out"
 msgstr "此帐户被锁定。"
 
 #. ModelState.AddModelError(string.Empty, S["Invalid login attempt."]);
-#. ModelState.AddModelError(string.Empty, S["Invalid login attempt."]);
-#. ModelState.AddModelError(string.Empty, S["Invalid login attempt."]);
-#. ModelState.AddModelError(string.Empty, S["Invalid login attempt."]);
-#: OrchardCore.Users\Controllers\AccountController.cs:240
-#: OrchardCore.Users\Controllers\AccountController.cs:403
-#: OrchardCore.Users\Controllers\AccountController.cs:515
-#: OrchardCore.Users\Controllers\AccountController.cs:673
+#: OrchardCore.Users\Controllers\AccountController.cs:171
 msgctxt "OrchardCore.Users.Controllers.AccountController"
 msgid "Invalid login attempt."
 msgstr "登录失败。"
 
 #. await _notifier.SuccessAsync(H["Your password has been changed successfully."]);
-#: OrchardCore.Users\Controllers\AccountController.cs:288
+#: OrchardCore.Users\Controllers\AccountController.cs:218
 msgctxt "OrchardCore.Users.Controllers.AccountController"
 msgid "Your password has been changed successfully."
 msgstr "您的密码已成功更改。"
 
-#. ModelState.AddModelError(string.Empty, S["An error occurred in external provider."]);
-#. ModelState.AddModelError(string.Empty, S["An error occurred in external provider."]);
-#: OrchardCore.Users\Controllers\AccountController.cs:371
-#: OrchardCore.Users\Controllers\AccountController.cs:380
-msgctxt "OrchardCore.Users.Controllers.AccountController"
-msgid "An error occurred in external provider."
-msgstr "在外部提供程序中发生错误。"
-
-#. var message = S["Site does not allow user registration."];
-#: OrchardCore.Users\Controllers\AccountController.cs:441
-msgctxt "OrchardCore.Users.Controllers.AccountController"
-msgid "Site does not allow user registration."
-msgstr "站点不允许用户注册。"
-
-#. }, S["Confirm your account"], _logger);
-#. }, S["Confirm your account"], _logger);
-#: OrchardCore.Users\Controllers\AccountController.cs:471
-#: OrchardCore.Users\Controllers\AccountController.cs:587
-msgctxt "OrchardCore.Users.Controllers.AccountController"
-msgid "Confirm your account"
-msgstr "确认您的帐户"
-
-#. ModelState.AddModelError(string.Empty, S["The specified user is not allowed to sign in."]);
-#: OrchardCore.Users\Controllers\AccountController.cs:929
-msgctxt "OrchardCore.Users.Controllers.AccountController"
-msgid "The specified user is not allowed to sign in."
-msgstr "指定的用户不允许登录。"
-
 #. ModelState.AddModelError(string.Empty, S["You must confirm your email."]);
-#: OrchardCore.Users\Controllers\AccountController.cs:953
+#: OrchardCore.Users\Controllers\AccountController.cs:257
 msgctxt "OrchardCore.Users.Controllers.AccountController"
 msgid "You must confirm your email."
 msgstr "请确认您的电子邮箱。"
@@ -446,16 +418,56 @@ msgstr "电子邮箱已被使用。"
 #: OrchardCore.Users\Controllers\EmailConfirmationController.cs:107
 msgctxt "OrchardCore.Users.Controllers.EmailConfirmationController"
 msgid "Confirm your account"
-msgstr ""
+msgstr "确认您的帐户"
 
 #. await _notifier.SuccessAsync(H["Verification email sent."]);
 #: OrchardCore.Users\Controllers\EmailConfirmationController.cs:109
 msgctxt "OrchardCore.Users.Controllers.EmailConfirmationController"
 msgid "Verification email sent."
+msgstr "验证邮件已发送。"
+
+#. ModelState.AddModelError(string.Empty, S["An error occurred in external provider."]);
+#. ModelState.AddModelError(string.Empty, S["An error occurred in external provider."]);
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:94
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:103
+msgctxt "OrchardCore.Users.Controllers.ExternalAuthenticationsController"
+msgid "An error occurred in external provider."
+msgstr ""
+
+#. ModelState.AddModelError(string.Empty, S["Invalid login attempt."]);
+#. ModelState.AddModelError(string.Empty, S["Invalid login attempt."]);
+#. ModelState.AddModelError(string.Empty, S["Invalid login attempt."]);
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:125
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:231
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:398
+msgctxt "OrchardCore.Users.Controllers.ExternalAuthenticationsController"
+msgid "Invalid login attempt."
+msgstr ""
+
+#. }, S["Confirm your account"], _logger);
+#. }, S["Confirm your account"], _logger);
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:187
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:309
+msgctxt "OrchardCore.Users.Controllers.ExternalAuthenticationsController"
+msgid "Confirm your account"
+msgstr ""
+
+#. await _notifier.ErrorAsync(H["New registrations are disabled for this site."]);
+#. await _notifier.ErrorAsync(H["New registrations are disabled for this site."]);
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:242
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:262
+msgctxt "OrchardCore.Users.Controllers.ExternalAuthenticationsController"
+msgid "New registrations are disabled for this site."
+msgstr ""
+
+#. ModelState.AddModelError(string.Empty, S["You must confirm your email."]);
+#: OrchardCore.Users\Controllers\ExternalAuthenticationsController.cs:626
+msgctxt "OrchardCore.Users.Controllers.ExternalAuthenticationsController"
+msgid "You must confirm your email."
 msgstr ""
 
 #. var iUser = await this.RegisterUser(model, S["Confirm your account"], _logger);
-#: OrchardCore.Users\Controllers\RegistrationController.cs:90
+#: OrchardCore.Users\Controllers\RegistrationController.cs:81
 msgctxt "OrchardCore.Users.Controllers.RegistrationController"
 msgid "Confirm your account"
 msgstr "确认您的帐户"
@@ -628,16 +640,16 @@ msgstr "双重身份验证已被禁用。"
 #: OrchardCore.Users\Drivers\RegisterUserFormDisplayDriver.cs:47
 msgctxt "OrchardCore.Users.Drivers.RegisterUserFormDisplayDriver"
 msgid "A user with the same username already exists."
-msgstr ""
+msgstr "用户名已存在。"
 
 #. context.Updater.ModelState.AddModelError(Prefix, nameof(vm.Email), S["A user with the same email address already exists."]);
 #: OrchardCore.Users\Drivers\RegisterUserFormDisplayDriver.cs:51
 msgctxt "OrchardCore.Users.Drivers.RegisterUserFormDisplayDriver"
 msgid "A user with the same email address already exists."
-msgstr ""
+msgstr "电子邮件地址已存在。"
 
 #. context.Updater.ModelState.AddModelError(Prefix, nameof(model.Roles), S["Select at least one role."]);
-#: OrchardCore.Users\Drivers\RoleLoginSettingsDisplayDriver.cs:77
+#: OrchardCore.Users\Drivers\RoleLoginSettingsDisplayDriver.cs:79
 msgctxt "OrchardCore.Users.Drivers.RoleLoginSettingsDisplayDriver"
 msgid "Select at least one role."
 msgstr "至少选择一个角色。"
@@ -649,19 +661,19 @@ msgid "Number of Recovery Codes to Generate should be grater than 0."
 msgstr "要生成的恢复码长度应该大于0。"
 
 #. context.Updater.ModelState.AddModelError(Prefix, nameof(model.Password), S["A password is required"]);
-#: OrchardCore.Users\Drivers\UserDisplayDriver.cs:95
+#: OrchardCore.Users\Drivers\UserDisplayDriver.cs:96
 msgctxt "OrchardCore.Users.Drivers.UserDisplayDriver"
 msgid "A password is required"
 msgstr "密码为必填项。"
 
 #. context.Updater.ModelState.AddModelError(Prefix, nameof(model.Password), S["The password and the password confirmation fields must match."]);
-#: OrchardCore.Users\Drivers\UserDisplayDriver.cs:100
+#: OrchardCore.Users\Drivers\UserDisplayDriver.cs:101
 msgctxt "OrchardCore.Users.Drivers.UserDisplayDriver"
 msgid "The password and the password confirmation fields must match."
 msgstr "密码和密码确认字段必须匹配。"
 
 #. await _notifier.WarningAsync(H["Cannot disable the only enabled administrator."]);
-#: OrchardCore.Users\Drivers\UserDisplayDriver.cs:120
+#: OrchardCore.Users\Drivers\UserDisplayDriver.cs:121
 msgctxt "OrchardCore.Users.Drivers.UserDisplayDriver"
 msgid "Cannot disable the only enabled administrator."
 msgstr "无法禁用唯一启用的管理员。"
@@ -674,78 +686,84 @@ msgctxt "OrchardCore.Users.Drivers.UserInformationDisplayDriver"
 msgid "Please provide a valid phone number."
 msgstr "请提供一个有效的电话号码。"
 
+#. await _notifier.WarningAsync(H["Cannot remove {0} role from the only enabled administrator.", OrchardCoreConstants.Roles.Administrator]);
+#: OrchardCore.Users\Drivers\UserRoleDisplayDriver.cs:134
+msgctxt "OrchardCore.Users.Drivers.UserRoleDisplayDriver"
+msgid "Cannot remove {0} role from the only enabled administrator."
+msgstr ""
+
 #. var errorMessage = S["The email could not be sent. Please attempt to request the code at a later time."];
 #: OrchardCore.Users\Endpoints\EmailAuthenticator\SendCode.cs:39
 msgctxt "OrchardCore.Users.Endpoints.EmailAuthenticator.SendCode"
 msgid "The email could not be sent. Please attempt to request the code at a later time."
-msgstr ""
+msgstr "无法发送电子邮件。请稍后尝试请求代码。"
 
 #. ? S["A verification code has been sent via email. Please check your email for the code."].Value
 #: OrchardCore.Users\Endpoints\EmailAuthenticator\SendCode.cs:62
 msgctxt "OrchardCore.Users.Endpoints.EmailAuthenticator.SendCode"
 msgid "A verification code has been sent via email. Please check your email for the code."
-msgstr ""
+msgstr "验证码已通过电子邮件发送。请检查您的电子邮件获取验证码。"
 
 #. var errorMessage = S["The SMS message could not be sent. Please attempt to request the code at a later time."];
 #: OrchardCore.Users\Endpoints\SmsAuthenticator\SendCode.cs:41
 msgctxt "OrchardCore.Users.Endpoints.SmsAuthenticator.SendCode"
 msgid "The SMS message could not be sent. Please attempt to request the code at a later time."
-msgstr ""
+msgstr "短信无法发送。请稍后尝试请求代码。"
 
 #. message = result.Succeeded ? S["A verification code has been sent to your phone number. Please check your device for the code."].Value
 #: OrchardCore.Users\Endpoints\SmsAuthenticator\SendCode.cs:66
 msgctxt "OrchardCore.Users.Endpoints.SmsAuthenticator.SendCode"
 msgid "A verification code has been sent to your phone number. Please check your device for the code."
-msgstr ""
+msgstr "验证码已经发送到您的手机号码。请检查您的设备的代码。"
 
 #. Description = S["Gets the currently authenticated user."],
 #: OrchardCore.Users\GraphQL\CurrentUserQuery.cs:34
 msgctxt "OrchardCore.Users.GraphQL.CurrentUserQuery"
 msgid "Gets the currently authenticated user."
-msgstr ""
+msgstr "获取当前已验证的用户。"
 
 #. Text = S["Use site's culture"],
 #: OrchardCore.Users\Localization\Drivers\UserLocalizationDisplayDriver.cs:43
 msgctxt "OrchardCore.Users.Localization.Drivers.UserLocalizationDisplayDriver"
 msgid "Use site's culture"
-msgstr ""
+msgstr "使用站点文化"
 
 #. .Add(S["Security"], security => security
-#: OrchardCore.Users\RegistrationAdminMenu.cs:31
+#: OrchardCore.Users\RegistrationAdminMenu.cs:26
 msgctxt "OrchardCore.Users.RegistrationAdminMenu"
 msgid "Security"
 msgstr "安全"
 
 #. .Add(S["Settings"], settings => settings
-#: OrchardCore.Users\RegistrationAdminMenu.cs:32
+#: OrchardCore.Users\RegistrationAdminMenu.cs:27
 msgctxt "OrchardCore.Users.RegistrationAdminMenu"
 msgid "Settings"
 msgstr "设置"
 
 #. .Add(S["User Registration"], S["User Registration"].PrefixPosition(), registration => registration
 #. .Add(S["User Registration"], S["User Registration"].PrefixPosition(), registration => registration
-#: OrchardCore.Users\RegistrationAdminMenu.cs:33
-#: OrchardCore.Users\RegistrationAdminMenu.cs:33
+#: OrchardCore.Users\RegistrationAdminMenu.cs:28
+#: OrchardCore.Users\RegistrationAdminMenu.cs:28
 msgctxt "OrchardCore.Users.RegistrationAdminMenu"
 msgid "User Registration"
 msgstr "用户注册"
 
 #. .Add(S["Security"], security => security
-#: OrchardCore.Users\ResetPasswordAdminMenu.cs:31
+#: OrchardCore.Users\ResetPasswordAdminMenu.cs:26
 msgctxt "OrchardCore.Users.ResetPasswordAdminMenu"
 msgid "Security"
 msgstr "安全"
 
 #. .Add(S["Settings"], settings => settings
-#: OrchardCore.Users\ResetPasswordAdminMenu.cs:32
+#: OrchardCore.Users\ResetPasswordAdminMenu.cs:27
 msgctxt "OrchardCore.Users.ResetPasswordAdminMenu"
 msgid "Settings"
 msgstr "设置"
 
 #. .Add(S["User Reset password"], S["User Reset password"].PrefixPosition(), password => password
 #. .Add(S["User Reset password"], S["User Reset password"].PrefixPosition(), password => password
-#: OrchardCore.Users\ResetPasswordAdminMenu.cs:33
-#: OrchardCore.Users\ResetPasswordAdminMenu.cs:33
+#: OrchardCore.Users\ResetPasswordAdminMenu.cs:28
+#: OrchardCore.Users\ResetPasswordAdminMenu.cs:28
 msgctxt "OrchardCore.Users.ResetPasswordAdminMenu"
 msgid "User Reset password"
 msgstr "用户重置密码"
@@ -754,52 +772,52 @@ msgstr "用户重置密码"
 #: OrchardCore.Users\Services\CustomUserSettingsStereotypesProvider.cs:18
 msgctxt "OrchardCore.Users.Services.CustomUserSettingsStereotypesProvider"
 msgid "Custom User Settings"
-msgstr ""
+msgstr "自定义用户设置"
 
 #. services.AddSiteSettingsPropertyDeploymentStep<LoginSettings, LoginDeploymentStartup>(S => S["Login settings"], S => S["Exports the Login settings."]);
-#: OrchardCore.Users\Startup.cs:322
+#: OrchardCore.Users\Startup.cs:351
 msgctxt "OrchardCore.Users.LoginDeploymentStartup"
 msgid "Login settings"
 msgstr "登录设置"
 
 #. services.AddSiteSettingsPropertyDeploymentStep<LoginSettings, LoginDeploymentStartup>(S => S["Login settings"], S => S["Exports the Login settings."]);
-#: OrchardCore.Users\Startup.cs:322
+#: OrchardCore.Users\Startup.cs:351
 msgctxt "OrchardCore.Users.LoginDeploymentStartup"
 msgid "Exports the Login settings."
 msgstr "导出登录设置。"
 
 #. services.AddSiteSettingsPropertyDeploymentStep<ChangeEmailDeploymentStartup, ChangeEmailDeploymentStartup>(S => S["Change Email settings"], S => S["Exports the Change Email settings."]);
-#: OrchardCore.Users\Startup.cs:381
+#: OrchardCore.Users\Startup.cs:410
 msgctxt "OrchardCore.Users.ChangeEmailDeploymentStartup"
 msgid "Change Email settings"
 msgstr "更改电子邮件设置"
 
 #. services.AddSiteSettingsPropertyDeploymentStep<ChangeEmailDeploymentStartup, ChangeEmailDeploymentStartup>(S => S["Change Email settings"], S => S["Exports the Change Email settings."]);
-#: OrchardCore.Users\Startup.cs:381
+#: OrchardCore.Users\Startup.cs:410
 msgctxt "OrchardCore.Users.ChangeEmailDeploymentStartup"
 msgid "Exports the Change Email settings."
 msgstr "导出更改电子邮件设置。"
 
 #. services.AddSiteSettingsPropertyDeploymentStep<RegistrationSettings, RegistrationDeploymentStartup>(S => S["Registration settings"], S => S["Exports the Registration settings."]);
-#: OrchardCore.Users\Startup.cs:450
+#: OrchardCore.Users\Startup.cs:481
 msgctxt "OrchardCore.Users.RegistrationDeploymentStartup"
 msgid "Registration settings"
 msgstr "注册设置"
 
 #. services.AddSiteSettingsPropertyDeploymentStep<RegistrationSettings, RegistrationDeploymentStartup>(S => S["Registration settings"], S => S["Exports the Registration settings."]);
-#: OrchardCore.Users\Startup.cs:450
+#: OrchardCore.Users\Startup.cs:481
 msgctxt "OrchardCore.Users.RegistrationDeploymentStartup"
 msgid "Exports the Registration settings."
 msgstr "导出注册设置。"
 
 #. services.AddSiteSettingsPropertyDeploymentStep<ResetPasswordSettings, ResetPasswordDeploymentStartup>(S => S["Reset Password settings"], S => S["Exports the Reset Password settings."]);
-#: OrchardCore.Users\Startup.cs:533
+#: OrchardCore.Users\Startup.cs:564
 msgctxt "OrchardCore.Users.ResetPasswordDeploymentStartup"
 msgid "Reset Password settings"
 msgstr "重置密码设置"
 
 #. services.AddSiteSettingsPropertyDeploymentStep<ResetPasswordSettings, ResetPasswordDeploymentStartup>(S => S["Reset Password settings"], S => S["Exports the Reset Password settings."]);
-#: OrchardCore.Users\Startup.cs:533
+#: OrchardCore.Users\Startup.cs:564
 msgctxt "OrchardCore.Users.ResetPasswordDeploymentStartup"
 msgid "Exports the Reset Password settings."
 msgstr "导出重置密码设置。"
@@ -856,7 +874,7 @@ msgstr "邮箱地址无效"
 #: OrchardCore.Users\ViewModels\ForgotPasswordViewModel.cs:11
 msgctxt "OrchardCore.Users.ViewModels.ForgotPasswordViewModel"
 msgid "Username or email address is required."
-msgstr ""
+msgstr "用户名或电子邮件地址是必需的。"
 
 #. [Required(ErrorMessage = "Password is required.")]
 #: OrchardCore.Users\ViewModels\LinkExternalLoginViewModel.cs:8
@@ -958,7 +976,7 @@ msgstr "电子邮箱无效。"
 #: OrchardCore.Users\ViewModels\ResetPasswordViewModel.cs:11
 msgctxt "OrchardCore.Users.ViewModels.ResetPasswordViewModel"
 msgid "Username or email address is required."
-msgstr ""
+msgstr "用户名或电子邮件地址是必需的。"
 
 #. [Required(ErrorMessage = "New password is required.")]
 #: OrchardCore.Users\ViewModels\ResetPasswordViewModel.cs:14
@@ -1042,7 +1060,7 @@ msgstr "完成"
 #: OrchardCore.Users\Workflows\Activities\UserConfirmedEvent.cs:21
 msgctxt "OrchardCore.Users.Workflows.Activities.UserConfirmedEvent"
 msgid "User Confirmed Event"
-msgstr ""
+msgstr "用户确认事件"
 
 #. public override LocalizedString DisplayText => S["User Created Event"];
 #: OrchardCore.Users\Workflows\Activities\UserCreatedEvent.cs:15
@@ -1220,11 +1238,11 @@ msgctxt "OrchardCore.Users.Views.AuthenticatorAppLoginSettings.Edit"
 msgid "Show email address in the app"
 msgstr "在应用中显示电子邮件地址"
 
-#. <span class="hint dashed">@T["When selected, the users will see their email address in the authenticatior app. Otherwise, the username will be displayed."]</span>
+#. <span class="hint dashed">@T["When selected, the users will see their email address in the authenticator app. Otherwise, the username will be displayed."]</span>
 #: OrchardCore.Users\Views\AuthenticatorAppLoginSettings.Edit.cshtml:10
 msgctxt "OrchardCore.Users.Views.AuthenticatorAppLoginSettings.Edit"
-msgid "When selected, the users will see their email address in the authenticatior app. Otherwise, the username will be displayed."
-msgstr "当选择时，用户将在身份验证程序中看到他们的电子邮件地址。否则，用户名将被显示。"
+msgid "When selected, the users will see their email address in the authenticator app. Otherwise, the username will be displayed."
+msgstr ""
 
 #. <h5 class="text-center mb-3">@T["Please use your authenticator app to obtain one-time verification code, and enter it below"]</h5>
 #: OrchardCore.Users\Views\AuthenticatorAppValidation.cshtml:1
@@ -1292,43 +1310,43 @@ msgstr "已成功更改您的密码。"
 #: OrchardCore.Users\Views\EmailConfirmation\ConfirmEmail.cshtml:5
 msgctxt "OrchardCore.Users.Views.EmailConfirmation.ConfirmEmail"
 msgid "Email confirmation"
-msgstr ""
+msgstr "电子邮件确认"
 
 #. @T["Thank you for confirming your email."]
 #: OrchardCore.Users\Views\EmailConfirmation\ConfirmEmail.cshtml:8
 msgctxt "OrchardCore.Users.Views.EmailConfirmation.ConfirmEmail"
 msgid "Thank you for confirming your email."
-msgstr ""
+msgstr "感谢您确认您的电子邮件。"
 
 #. <a href="@Url.Content("~/")">@T["Home"]</a>
 #: OrchardCore.Users\Views\EmailConfirmation\ConfirmEmail.cshtml:11
 msgctxt "OrchardCore.Users.Views.EmailConfirmation.ConfirmEmail"
 msgid "Home"
-msgstr ""
+msgstr "首页"
 
 #. <h2>@T["Email confirmation sent"]</h2>
 #: OrchardCore.Users\Views\EmailConfirmation\ConfirmEmailSent.cshtml:6
 msgctxt "OrchardCore.Users.Views.EmailConfirmation.ConfirmEmailSent"
 msgid "Email confirmation sent"
-msgstr ""
+msgstr "邮件确认已发送"
 
 #. @T["An email has been sent to you. Please click on the link it contains in order to have access on this site."]
 #: OrchardCore.Users\Views\EmailConfirmation\ConfirmEmailSent.cshtml:9
 msgctxt "OrchardCore.Users.Views.EmailConfirmation.ConfirmEmailSent"
 msgid "An email has been sent to you. Please click on the link it contains in order to have access on this site."
-msgstr ""
+msgstr "一封电子邮件已经发送给您。请点击其中包含的链接以便访问此网站。"
 
 #. <a href="@returnUrl">@T["Previous Page"]</a>
 #: OrchardCore.Users\Views\EmailConfirmation\ConfirmEmailSent.cshtml:14
 msgctxt "OrchardCore.Users.Views.EmailConfirmation.ConfirmEmailSent"
 msgid "Previous Page"
-msgstr ""
+msgstr "上一页"
 
 #. <a href="@Url.Content("~/")">@T["Home"]</a>
 #: OrchardCore.Users\Views\EmailConfirmation\ConfirmEmailSent.cshtml:18
 msgctxt "OrchardCore.Users.Views.EmailConfirmation.ConfirmEmailSent"
 msgid "Home"
-msgstr ""
+msgstr "首页"
 
 #. <zone Name="Title"><h1>@RenderTitleSegments(T["Create User"])</h1></zone>
 #: OrchardCore.Users\Views\Admin\Create.cshtml:3
@@ -1456,7 +1474,7 @@ msgctxt "OrchardCore.Users.Views.EmailAuthenticatorLoginSettings.Edit"
 msgid "Email Subject"
 msgstr "邮件主题"
 
-#. <span class="hint dashed">@T["The subject to the email for sending the verification code. Liquid syntax is supported."]</span>
+#. <span class="hint">@T["The subject to the email for sending the verification code. Liquid syntax is supported."]</span>
 #: OrchardCore.Users\Views\EmailAuthenticatorLoginSettings.Edit.cshtml:11
 msgctxt "OrchardCore.Users.Views.EmailAuthenticatorLoginSettings.Edit"
 msgid "The subject to the email for sending the verification code. Liquid syntax is supported."
@@ -1468,7 +1486,7 @@ msgctxt "OrchardCore.Users.Views.EmailAuthenticatorLoginSettings.Edit"
 msgid "Email Body"
 msgstr "邮件正文"
 
-#. <span class="hint dashed">@T["The body to the email for sending the verification code. Liquid syntax is supported."]</span>
+#. <span class="hint">@T["The body to the email for sending the verification code. Liquid syntax is supported."]</span>
 #: OrchardCore.Users\Views\EmailAuthenticatorLoginSettings.Edit.cshtml:18
 msgctxt "OrchardCore.Users.Views.EmailAuthenticatorLoginSettings.Edit"
 msgid "The body to the email for sending the verification code. Liquid syntax is supported."
@@ -1480,11 +1498,119 @@ msgctxt "OrchardCore.Users.Views.EmailAuthenticatorValidation"
 msgid "Please <a href=\"#\" id=\"RequestCode\">click here</a> to receive a one-time verification code via email."
 msgstr ""
 
+#. <h5 class="mb-3">@T["Configuring External Authentication for User Login with Third-Party Providers"]</h5>
+#: OrchardCore.Users\Views\ExternalLoginSettings.Edit.cshtml:4
+msgctxt "OrchardCore.Users.Views.ExternalLoginSettings.Edit"
+msgid "Configuring External Authentication for User Login with Third-Party Providers"
+msgstr ""
+
+#. <label class="form-check-label" asp-for="UseExternalProviderIfOnlyOneDefined">@T["Use external provider for login."]</label>
+#: OrchardCore.Users\Views\ExternalLoginSettings.Edit.cshtml:10
+msgctxt "OrchardCore.Users.Views.ExternalLoginSettings.Edit"
+msgid "Use external provider for login."
+msgstr ""
+
+#. <span class="hint dashed">@T["If only one external provider is defined, auto challenge the provider to login. You should also configure registration options"]</span>
+#: OrchardCore.Users\Views\ExternalLoginSettings.Edit.cshtml:11
+msgctxt "OrchardCore.Users.Views.ExternalLoginSettings.Edit"
+msgid "If only one external provider is defined, auto challenge the provider to login. You should also configure registration options"
+msgstr ""
+
+#. <label class="form-check-label" asp-for="UseScriptToSyncProperties">@T["Use a script to set user roles, user claims and user properties based on external provider claims"]</label>
+#: OrchardCore.Users\Views\ExternalLoginSettings.Edit.cshtml:19
+msgctxt "OrchardCore.Users.Views.ExternalLoginSettings.Edit"
+msgid "Use a script to set user roles, user claims and user properties based on external provider claims"
+msgstr ""
+
+#. @T["If selected, none of the implemented {0}, if any, will be triggered.", nameof(IExternalLoginEventHandler)]
+#: OrchardCore.Users\Views\ExternalLoginSettings.Edit.cshtml:21
+msgctxt "OrchardCore.Users.Views.ExternalLoginSettings.Edit"
+msgid "If selected, none of the implemented {0}, if any, will be triggered."
+msgstr ""
+
+#. <button type="button" class="btn btn-secondary mb-2" onclick="resetScript()">@T["Reset Script"]</button>
+#: OrchardCore.Users\Views\ExternalLoginSettings.Edit.cshtml:28
+msgctxt "OrchardCore.Users.Views.ExternalLoginSettings.Edit"
+msgid "Reset Script"
+msgstr ""
+
+#. <h5 class="mb-3">@T["Configuring External Authentication for User Registration with Third-Party Providers"]</h5>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:12
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "Configuring External Authentication for User Registration with Third-Party Providers"
+msgstr ""
+
+#. <label class="form-check-label" asp-for="DisableNewRegistrations">@T["Disable new external registration"]</label>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:18
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "Disable new external registration"
+msgstr ""
+
+#. <span class="hint dashed">@T["If selected, only users with existing local accounts will be able to authenticate, and new users will not be able to register using external authentication. Users without a local account will not be able to authenticate."]</span>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:19
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "If selected, only users with existing local accounts will be able to authenticate, and new users will not be able to register using external authentication. Users without a local account will not be able to authenticate."
+msgstr ""
+
+#. <label class="form-check-label" asp-for="NoUsername">@T["Do not ask username"]</label>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:27
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "Do not ask username"
+msgstr ""
+
+#. <span class="hint dashed">@T["When a new user logs in with an external provider, they are not required to provide a local username. You can customize how it works by providing an IExternalLoginEventHandler or writing a script."]</span>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:28
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "When a new user logs in with an external provider, they are not required to provide a local username. You can customize how it works by providing an IExternalLoginEventHandler or writing a script."
+msgstr ""
+
+#. <label class="form-check-label" asp-for="NoEmail">@T["Do not ask email address"]</label>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:36
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "Do not ask email address"
+msgstr ""
+
+#. <span class="hint dashed">@T["When a new user logs in with an external provider and the email claim is defined, they are not required to provide a local email address."]</span>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:37
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "When a new user logs in with an external provider and the email claim is defined, they are not required to provide a local email address."
+msgstr ""
+
+#. <label class="form-check-label" asp-for="NoPassword">@T["Do not create local password"]</label>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:45
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "Do not create local password"
+msgstr ""
+
+#. <span class="hint dashed">@T["When a new user logs in with an external provider, they are not required to provide a local password."]</span>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:46
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "When a new user logs in with an external provider, they are not required to provide a local password."
+msgstr ""
+
+#. <label class="form-check-label" asp-for="UseScriptToGenerateUsername">@T["Use a script to generate userName based on external provider claims"]</label>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:54
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "Use a script to generate userName based on external provider claims"
+msgstr ""
+
+#. <span class="hint dashed">@T["If selected, any IExternalLoginEventHandlers defined in modules are not triggered"]</span>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:55
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "If selected, any IExternalLoginEventHandlers defined in modules are not triggered"
+msgstr ""
+
+#. <button type="button" class="btn btn-secondary mb-2" id="ResetScriptButton">@T["Reset Script"]</button>
+#: OrchardCore.Users\Views\ExternalRegistrationSettings.Edit.cshtml:91
+msgctxt "OrchardCore.Users.Views.ExternalRegistrationSettings.Edit"
+msgid "Reset Script"
+msgstr ""
+
 #. <h1>@T["Forgot Password Confirmation"]</h1>
 #: OrchardCore.Users\Views\ResetPassword\ForgotPasswordConfirmation.cshtml:5
 msgctxt "OrchardCore.Users.Views.ResetPassword.ForgotPasswordConfirmation"
 msgid "Forgot Password Confirmation"
-msgstr ""
+msgstr "忘记密码确认"
 
 #. <p>@T["Please check your email to reset your password."]</p>
 #: OrchardCore.Users\Views\ResetPassword\ForgotPasswordConfirmation.cshtml:6
@@ -1496,19 +1622,19 @@ msgstr "请查阅您的邮件，以重设密码"
 #: OrchardCore.Users\Views\ForgotPasswordForm.Edit.cshtml:4
 msgctxt "OrchardCore.Users.Views.ForgotPasswordForm.Edit"
 msgid "Forgot password?"
-msgstr ""
+msgstr "忘记密码？"
 
 #. <button type="submit" class="btn btn-primary">@T["Submit"]</button>
 #: OrchardCore.Users\Views\ForgotPasswordForm.Edit.cshtml:17
 msgctxt "OrchardCore.Users.Views.ForgotPasswordForm.Edit"
 msgid "Submit"
-msgstr ""
+msgstr "提交"
 
 #. <label asp-for="UsernameOrEmail" class="form-label">@T["Username or email address"]</label>
 #: OrchardCore.Users\Views\ForgotPasswordFormIdentifier.cshtml:4
 msgctxt "OrchardCore.Users.Views.ForgotPasswordFormIdentifier"
 msgid "Username or email address"
-msgstr ""
+msgstr "用户名或电子邮件地址"
 
 #. <li class="breadcrumb-item"><a asp-action="Index" asp-controller="TwoFactorAuthentication">@T["Two-Factor Authentication"]</a></li>
 #: OrchardCore.Users\Views\TwoFactorAuthentication\GenerateRecoveryCodes.cshtml:7
@@ -1811,43 +1937,43 @@ msgid "Reset codes"
 msgstr "重置码"
 
 #. <h4>@T["Link your account."]</h4>
-#: OrchardCore.Users\Views\Account\LinkExternalLogin.cshtml:8
-msgctxt "OrchardCore.Users.Views.Account.LinkExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\LinkExternalLogin.cshtml:8
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.LinkExternalLogin"
 msgid "Link your account."
-msgstr "关联您的帐户"
+msgstr ""
 
 #. @T["You've successfully authenticated with <strong>{0}</strong>. You already have an account that can be linked with this external login. Enter your local account password and click the Register button to link the accounts and finish logging in.", ViewData["LoginProvider"]]
-#: OrchardCore.Users\Views\Account\LinkExternalLogin.cshtml:10
-msgctxt "OrchardCore.Users.Views.Account.LinkExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\LinkExternalLogin.cshtml:10
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.LinkExternalLogin"
 msgid "You've successfully authenticated with <strong>{0}</strong>. You already have an account that can be linked with this external login. Enter your local account password and click the Register button to link the accounts and finish logging in."
 msgstr ""
 
 #. <label for="UserName" class="col-md-3 form-label">@T["Username"]</label>
-#: OrchardCore.Users\Views\Account\LinkExternalLogin.cshtml:16
-msgctxt "OrchardCore.Users.Views.Account.LinkExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\LinkExternalLogin.cshtml:16
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.LinkExternalLogin"
 msgid "Username"
-msgstr "用户名"
+msgstr ""
 
 #. <label asp-for="Password" class="col-md-3 form-label">@T["Password"]</label>
-#: OrchardCore.Users\Views\Account\LinkExternalLogin.cshtml:23
-msgctxt "OrchardCore.Users.Views.Account.LinkExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\LinkExternalLogin.cshtml:23
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.LinkExternalLogin"
 msgid "Password"
-msgstr "密码"
+msgstr ""
 
 #. <button type="submit" class="btn btn-primary">@T["Register"]</button>
-#: OrchardCore.Users\Views\Account\LinkExternalLogin.cshtml:32
-msgctxt "OrchardCore.Users.Views.Account.LinkExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\LinkExternalLogin.cshtml:32
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.LinkExternalLogin"
 msgid "Register"
-msgstr "注册"
+msgstr ""
 
 #. <h1 class="fs-4">@T["Use another service to log in"]</h1>
-#: OrchardCore.Users\Views\Account\Login.cshtml:42
+#: OrchardCore.Users\Views\Account\Login.cshtml:41
 msgctxt "OrchardCore.Users.Views.Account.Login"
 msgid "Use another service to log in"
 msgstr "使用另一个服务登录"
 
 #. <button type="submit" class="btn btn-primary mb-1 @(!disableLocalLogin ? "w-100" : string.Empty)" name="provider" value="@provider.Name" title="@T["Log in using your {0} account", provider.DisplayName]">@provider.DisplayName</button>
-#: OrchardCore.Users\Views\Account\Login.cshtml:47
+#: OrchardCore.Users\Views\Account\Login.cshtml:46
 msgctxt "OrchardCore.Users.Views.Account.Login"
 msgid "Log in using your {0} account"
 msgstr "使用您的 {0} 帐户登录"
@@ -1858,37 +1984,37 @@ msgstr "使用您的 {0} 帐户登录"
 #: OrchardCore.Users\Views\LoginForm.Edit.cshtml:12
 msgctxt "OrchardCore.Users.Views.LoginForm.Edit"
 msgid "Log in"
-msgstr ""
+msgstr "登录"
 
 #. <label asp-for="UserName" class="form-label">@T["Username or email address"]</label>
 #: OrchardCore.Users\Views\LoginFormCredentials.cshtml:4
 msgctxt "OrchardCore.Users.Views.LoginFormCredentials"
 msgid "Username or email address"
-msgstr ""
+msgstr "用户名或电子邮件地址"
 
 #. <label asp-for="Password" class="form-label">@T["Password"]</label>
 #: OrchardCore.Users\Views\LoginFormCredentials.cshtml:10
 msgctxt "OrchardCore.Users.Views.LoginFormCredentials"
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
 #. <label asp-for="RememberMe" class="form-check-label">@T["Remember me"]</label>
 #: OrchardCore.Users\Views\LoginFormCredentials.cshtml:20
 msgctxt "OrchardCore.Users.Views.LoginFormCredentials"
 msgid "Remember me"
-msgstr ""
+msgstr "记住我"
 
 #. <a asp-controller="ResetPassword" asp-action="ForgotPassword" class="label-link">@T["Forgot your password?"]</a>
 #: OrchardCore.Users\Views\LoginFormForgotPassword.cshtml:2
 msgctxt "OrchardCore.Users.Views.LoginFormForgotPassword"
 msgid "Forgot your password?"
-msgstr ""
+msgstr "忘记密码？"
 
 #. <a asp-controller="Registration" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Register as a new user"]</a>
 #: OrchardCore.Users\Views\LoginFormRegisterUser.cshtml:2
 msgctxt "OrchardCore.Users.Views.LoginFormRegisterUser"
 msgid "Register as a new user"
-msgstr ""
+msgstr "注册为新用户"
 
 #. <label class="form-check-label" asp-for="AllowChangingUsername">@T["Allow user to change their username"]</label>
 #: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:14
@@ -1920,47 +2046,17 @@ msgctxt "OrchardCore.Users.Views.LoginSettings.Edit"
 msgid "Requires an active site theme."
 msgstr "需要一个活动的站点主题。"
 
-#. <label class="form-check-label" asp-for="UseExternalProviderIfOnlyOneDefined">@T["Use external provider for login."]</label>
-#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:45
-msgctxt "OrchardCore.Users.Views.LoginSettings.Edit"
-msgid "Use external provider for login."
-msgstr "使用第三方验证登录。"
-
-#. <span class="hint dashed">@T["If only one external provider is defined, auto challenge the provider to login. You should also configure registration options"]</span>
-#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:46
-msgctxt "OrchardCore.Users.Views.LoginSettings.Edit"
-msgid "If only one external provider is defined, auto challenge the provider to login. You should also configure registration options"
-msgstr "如果只定义了一个外部提供者，自动尝试提供者登录。您也应该配置注册选项"
-
 #. <label class="form-check-label" asp-for="DisableLocalLogin">@T["Disable local password login."]</label>
-#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:54
+#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:45
 msgctxt "OrchardCore.Users.Views.LoginSettings.Edit"
 msgid "Disable local password login."
 msgstr "禁用本地密码登录。"
 
 #. <span class="hint dashed">@T["When selected, users are not allowed to login with username/password. Make sure there is at least one admin with linked account"]</span>
-#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:55
+#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:46
 msgctxt "OrchardCore.Users.Views.LoginSettings.Edit"
 msgid "When selected, users are not allowed to login with username/password. Make sure there is at least one admin with linked account"
 msgstr "选中时，用户不允许使用用户名/密码登录。请确保至少有一个已关联的管理员帐户"
-
-#. <label class="form-check-label" asp-for="UseScriptToSyncRoles">@T["Use a script to set user roles, user claims and user properties based on external provider claims"]</label>
-#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:63
-msgctxt "OrchardCore.Users.Views.LoginSettings.Edit"
-msgid "Use a script to set user roles, user claims and user properties based on external provider claims"
-msgstr ""
-
-#. <span class="hint dashed">@T["If selected, any IExternalLoginEventHandlers defined in modules are not triggered"]</span>
-#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:64
-msgctxt "OrchardCore.Users.Views.LoginSettings.Edit"
-msgid "If selected, any IExternalLoginEventHandlers defined in modules are not triggered"
-msgstr "如果选中，模块中定义的 IExternalLoginEventHandlers 不会被触发"
-
-#. <button type="button" class="btn btn-secondary mb-2" onclick="resetScript()">@T["Reset Script"]</button>
-#: OrchardCore.Users\Views\LoginSettings.Edit.cshtml:70
-msgctxt "OrchardCore.Users.Views.LoginSettings.Edit"
-msgid "Reset Script"
-msgstr "重置脚本"
 
 #. <label class="form-check-label" asp-for="RequireTwoFactorAuthenticationForSpecificRoles">@T["Require two-factor authentication specific roles"]</label>
 #: OrchardCore.Users\Views\LoginSettingsRoles.Edit.cshtml:7
@@ -1968,7 +2064,7 @@ msgctxt "OrchardCore.Users.Views.LoginSettingsRoles.Edit"
 msgid "Require two-factor authentication specific roles"
 msgstr "需要双重身份验证特定角色"
 
-#. <span class="hint dashed">@T["Select the roles to require two-factor authentication for."]</span>
+#. <span class="hint">@T["Select the roles to require two-factor authentication for."]</span>
 #: OrchardCore.Users\Views\LoginSettingsRoles.Edit.cshtml:12
 msgctxt "OrchardCore.Users.Views.LoginSettingsRoles.Edit"
 msgid "Select the roles to require two-factor authentication for."
@@ -2032,7 +2128,7 @@ msgstr "登录"
 #: OrchardCore.Users\Views\TwoFactorAuthentication\LoginWithTwoFactorAuthentication.cshtml:72
 msgctxt "OrchardCore.Users.Views.TwoFactorAuthentication.LoginWithTwoFactorAuthentication"
 msgid "Having trouble? <a href=\"{0}\">Sign in another way</a>."
-msgstr ""
+msgstr "有问题吗？ <a href=\"{0}\">以另一种方式登录</a>"
 
 #. @T["Don't have access to your authenticator device? You can <a href=\"{0}\">log in with a recovery code</a>.", url]
 #: OrchardCore.Users\Views\TwoFactorAuthentication\LoginWithTwoFactorAuthentication.cshtml:83
@@ -2059,82 +2155,82 @@ msgid "Users"
 msgstr "用户"
 
 #. <h4>@T["Create a new account."]</h4>
-#: OrchardCore.Users\Views\Account\RegisterExternalLogin.cshtml:9
-msgctxt "OrchardCore.Users.Views.Account.RegisterExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\RegisterExternalLogin.cshtml:9
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.RegisterExternalLogin"
 msgid "Create a new account."
-msgstr "创建一个新帐户。"
+msgstr ""
 
 #. @T["You've successfully authenticated with <strong>{0}</strong>. Please fill the form below and click the Register button to complete the registration.", ViewData["LoginProvider"]]
-#: OrchardCore.Users\Views\Account\RegisterExternalLogin.cshtml:11
-msgctxt "OrchardCore.Users.Views.Account.RegisterExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\RegisterExternalLogin.cshtml:11
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.RegisterExternalLogin"
 msgid "You've successfully authenticated with <strong>{0}</strong>. Please fill the form below and click the Register button to complete the registration."
-msgstr "您已成功验证 <strong>{0}</strong>。请填写下面的表单，然后点击注册按钮来完成注册。"
+msgstr ""
 
 #. <label asp-for="UserName" class="col-md-3 form-label">@T["Username"]</label>
-#: OrchardCore.Users\Views\Account\RegisterExternalLogin.cshtml:19
-msgctxt "OrchardCore.Users.Views.Account.RegisterExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\RegisterExternalLogin.cshtml:19
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.RegisterExternalLogin"
 msgid "Username"
-msgstr "用户名"
+msgstr ""
 
 #. <label asp-for="Email" class="col-md-3 form-label">@T["Email"]</label>
-#: OrchardCore.Users\Views\Account\RegisterExternalLogin.cshtml:30
-msgctxt "OrchardCore.Users.Views.Account.RegisterExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\RegisterExternalLogin.cshtml:30
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.RegisterExternalLogin"
 msgid "Email"
-msgstr "邮箱"
+msgstr ""
 
 #. <label asp-for="Password" class="col-md-3 form-label">@T["Password"]</label>
-#: OrchardCore.Users\Views\Account\RegisterExternalLogin.cshtml:41
-msgctxt "OrchardCore.Users.Views.Account.RegisterExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\RegisterExternalLogin.cshtml:41
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.RegisterExternalLogin"
 msgid "Password"
-msgstr "密码"
+msgstr ""
 
 #. <label asp-for="ConfirmPassword" class="col-md-3 form-label">@T["Confirm password"]</label>
-#: OrchardCore.Users\Views\Account\RegisterExternalLogin.cshtml:49
-msgctxt "OrchardCore.Users.Views.Account.RegisterExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\RegisterExternalLogin.cshtml:49
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.RegisterExternalLogin"
 msgid "Confirm password"
-msgstr "确认密码"
+msgstr ""
 
 #. <button type="submit" class="btn btn-primary">@T["Register"]</button>
-#: OrchardCore.Users\Views\Account\RegisterExternalLogin.cshtml:61
-msgctxt "OrchardCore.Users.Views.Account.RegisterExternalLogin"
+#: OrchardCore.Users\Views\ExternalAuthentications\RegisterExternalLogin.cshtml:61
+msgctxt "OrchardCore.Users.Views.ExternalAuthentications.RegisterExternalLogin"
 msgid "Register"
-msgstr "注册"
+msgstr ""
 
 #. <h2>@T["Register a new account"]</h2>
 #: OrchardCore.Users\Views\RegisterUserForm.Edit.cshtml:3
 msgctxt "OrchardCore.Users.Views.RegisterUserForm.Edit"
 msgid "Register a new account"
-msgstr ""
+msgstr "新用户注册"
 
 #. <button type="submit" class="btn btn-primary">@T["Register"]</button>
 #: OrchardCore.Users\Views\RegisterUserForm.Edit.cshtml:16
 msgctxt "OrchardCore.Users.Views.RegisterUserForm.Edit"
 msgid "Register"
-msgstr ""
+msgstr "注册"
 
 #. <label asp-for="UserName" class="form-label">@T["Username"]</label>
 #: OrchardCore.Users\Views\RegisterUserFormIdentifier.cshtml:4
 msgctxt "OrchardCore.Users.Views.RegisterUserFormIdentifier"
 msgid "Username"
-msgstr ""
+msgstr "用户名"
 
 #. <label asp-for="Email" class="form-label">@T["Email address"]</label>
 #: OrchardCore.Users\Views\RegisterUserFormIdentifier.cshtml:10
 msgctxt "OrchardCore.Users.Views.RegisterUserFormIdentifier"
 msgid "Email address"
-msgstr ""
+msgstr "电子邮件地址"
 
 #. <label asp-for="Password" class="form-label">@T["Password"]</label>
 #: OrchardCore.Users\Views\RegisterUserFormIdentifier.cshtml:16
 msgctxt "OrchardCore.Users.Views.RegisterUserFormIdentifier"
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
 #. <label asp-for="ConfirmPassword" class="form-label">@T["Confirm password"]</label>
 #: OrchardCore.Users\Views\RegisterUserFormIdentifier.cshtml:22
 msgctxt "OrchardCore.Users.Views.RegisterUserFormIdentifier"
 msgid "Confirm password"
-msgstr ""
+msgstr "确认密码"
 
 #. <h4><i class="fa-solid @icon" aria-hidden="true"></i>@Model.Activity.GetTitleOrDefault(() => T["Register User"])</h4>
 #: OrchardCore.Users\Views\Items\RegisterUserTask.Fields.Design.cshtml:11
@@ -2214,143 +2310,35 @@ msgctxt "OrchardCore.Users.Views.Registration.RegistrationPending"
 msgid "Home"
 msgstr "首页"
 
-#. <label asp-for="UsersCanRegister" class="form-label">@T["Configure users registration."]</label>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:13
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Configure users registration."
-msgstr "配置用户注册。"
-
-#. <option value="@UserRegistrationType.NoRegistration" selected="@(Model.UsersCanRegister == UserRegistrationType.NoRegistration)">@T["No Registration"]</option>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:15
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "No Registration"
-msgstr "无注册"
-
-#. <option value="@UserRegistrationType.AllowRegistration" selected="@(Model.UsersCanRegister == UserRegistrationType.AllowRegistration)">@T["Allow Registration"]</option>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:16
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Allow Registration"
-msgstr "允许注册"
-
-#. <option value="@UserRegistrationType.AllowOnlyExternalUsers" selected="@(Model.UsersCanRegister == UserRegistrationType.AllowOnlyExternalUsers)">@T["Allow Only External Users"]</option>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:17
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Allow Only External Users"
-msgstr "只允许外部用户"
-
-#. <li>@T["when 'No Registration' is selected, no new users can register"]</li>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:23
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "when 'No Registration' is selected, no new users can register"
-msgstr "当选择\"无注册\"时，没有新用户可以注册"
-
-#. <li>@T["when 'Allow Registration' is selected, a link is displayed to allow the users to register on the site. If there are external providers, once authenticated the user can register"]</li>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:24
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "when 'Allow Registration' is selected, a link is displayed to allow the users to register on the site. If there are external providers, once authenticated the user can register"
-msgstr "当选择“允许注册”时，将显示一个链接，允许用户在网站上注册。 如果有外部供应商，用户一旦认证就可以注册"
-
-#. <li>@T["when 'Allow Only External Users' is selected, only users authenticated with external providers can register on the site"]</li>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:25
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "when 'Allow Only External Users' is selected, only users authenticated with external providers can register on the site"
-msgstr "当选择“只允许外部用户”时，只有经外部供应商认证的用户才能在网站上注册"
-
 #. <label class="form-check-label" asp-for="UsersMustValidateEmail">@T["Users must verify their email address"]</label>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:34
+#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:16
 msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
 msgid "Users must verify their email address"
 msgstr "用户必须验证其电子邮件地址"
 
 #. <div class="alert alert-warning collapse" id="warnEmailValidation">@T["The users whose email address has not been confirmed will not be able to login or reset their password."]</div>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:38
+#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:20
 msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
 msgid "The users whose email address has not been confirmed will not be able to login or reset their password."
 msgstr "尚未确认其电子邮件地址的用户将无法登录。"
 
 #. <label class="form-check-label" asp-for="UsersAreModerated">@T["Users must be approved before they can log in"]</label>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:44
+#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:26
 msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
 msgid "Users must be approved before they can log in"
 msgstr "用户必须经过审核才能登录"
 
 #. <label class="form-check-label" asp-for="UseSiteTheme">@T["Use site theme for registration page"]</label>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:52
+#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:34
 msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
 msgid "Use site theme for registration page"
 msgstr "使用网站主题注册页面"
 
 #. <span class="hint dashed">@T["Requires an active site theme."]</span>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:53
+#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:35
 msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
 msgid "Requires an active site theme."
 msgstr "需要一个活动的网站主题。"
-
-#. <h5 class="mb-3">@T["External Authentication"]<span class="hint dashed">@T["Settings when registering with external authentication providers"]</span></h5>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:57
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "External Authentication"
-msgstr "外部身份验证"
-
-#. <h5 class="mb-3">@T["External Authentication"]<span class="hint dashed">@T["Settings when registering with external authentication providers"]</span></h5>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:57
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Settings when registering with external authentication providers"
-msgstr "在外部身份验证提供者注册时的设置"
-
-#. <label class="form-check-label" asp-for="UseScriptToGenerateUsername">@T["Use a script to generate userName based on external provider claims"]</label>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:63
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Use a script to generate userName based on external provider claims"
-msgstr "使用脚本生成基于外部提供者要求的用户名"
-
-#. <span class="hint dashed">@T["If selected, any IExternalLoginEventHandlers defined in modules are not triggered"]</span>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:64
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "If selected, any IExternalLoginEventHandlers defined in modules are not triggered"
-msgstr "如果选中，模块中定义的 IExternalLoginEventHandlers 不会被触发"
-
-#. <button type="button" class="btn btn-secondary mb-2" onclick="resetScript()">@T["Reset Script"]</button>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:93
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Reset Script"
-msgstr "重置脚本"
-
-#. <label class="form-check-label" asp-for="NoUsernameForExternalUsers">@T["Do not ask username"]</label>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:101
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Do not ask username"
-msgstr "不保存用户名"
-
-#. <span class="hint dashed">@T["When a new user logs in with an external provider, they are not required to provide a local username. You can customize how it works by providing an IExternalLoginEventHandler or writing a script."]</span>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:102
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "When a new user logs in with an external provider, they are not required to provide a local username. You can customize how it works by providing an IExternalLoginEventHandler or writing a script."
-msgstr "当新用户登录外部提供商时，他们无需提供本地用户名。 您可以通过提供 IExternalLoginEventHandler 或写一个脚本来自定义它的工作方式。"
-
-#. <label class="form-check-label" asp-for="NoEmailForExternalUsers">@T["Do not ask email address"]</label>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:109
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Do not ask email address"
-msgstr "不要询问电子邮件地址"
-
-#. <span class="hint dashed">@T["When a new user logs in with an external provider and the email claim is defined, they are not required to provide a local email address."]</span>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:110
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "When a new user logs in with an external provider and the email claim is defined, they are not required to provide a local email address."
-msgstr "当新用户与外部提供者登录并定义电子邮件申请时， 他们无需提供本地电子邮件地址。"
-
-#. <label class="form-check-label" asp-for="NoPasswordForExternalUsers">@T["Do not create local password for external users"]</label>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:117
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "Do not create local password for external users"
-msgstr "不要为外部用户创建本地密码"
-
-#. <span class="hint dashed">@T["When a new user logs in with an external provider, they are not required to provide a local password."]</span>
-#: OrchardCore.Users\Views\RegistrationSettings.Edit.cshtml:118
-msgctxt "OrchardCore.Users.Views.RegistrationSettings.Edit"
-msgid "When a new user logs in with an external provider, they are not required to provide a local password."
-msgstr "当新用户登录外部提供者时，他们无需提供本地密码。"
 
 #. <li class="breadcrumb-item"><a asp-action="Index" asp-controller="TwoFactorAuthentication">@T["Two-Factor Authentication"]</a></li>
 #: OrchardCore.Users\Views\AuthenticatorApp\Reset.cshtml:9
@@ -2424,25 +2412,25 @@ msgstr "点击这里登录"
 #: OrchardCore.Users\Views\ResetPasswordForm.Edit.cshtml:16
 msgctxt "OrchardCore.Users.Views.ResetPasswordForm.Edit"
 msgid "Reset password"
-msgstr ""
+msgstr "重置密码"
 
 #. <label asp-for="UsernameOrEmail" class="form-label">@T["Username or email address"]</label>
 #: OrchardCore.Users\Views\ResetPasswordFormIdentifier.cshtml:6
 msgctxt "OrchardCore.Users.Views.ResetPasswordFormIdentifier"
 msgid "Username or email address"
-msgstr ""
+msgstr "用户名或电子邮件地址"
 
 #. <label asp-for="NewPassword" class="form-label">@T["New password"]</label>
 #: OrchardCore.Users\Views\ResetPasswordFormIdentifier.cshtml:12
 msgctxt "OrchardCore.Users.Views.ResetPasswordFormIdentifier"
 msgid "New password"
-msgstr ""
+msgstr "新密码"
 
 #. <label asp-for="PasswordConfirmation" class="form-label">@T["New password confirmation"]</label>
 #: OrchardCore.Users\Views\ResetPasswordFormIdentifier.cshtml:19
 msgctxt "OrchardCore.Users.Views.ResetPasswordFormIdentifier"
 msgid "New password confirmation"
-msgstr ""
+msgstr "新密码确认"
 
 #. <label class="form-check-label" asp-for="AllowResetPassword">@T["Allow the users to reset their password"]</label>
 #: OrchardCore.Users\Views\ResetPasswordSettings.Edit.cshtml:7
@@ -2510,7 +2498,7 @@ msgctxt "OrchardCore.Users.Views.SmsAuthenticatorLoginSettings.Edit"
 msgid "Message Body"
 msgstr "消息内容"
 
-#. <span class="hint dashed">@T["The body to the message for sending the verification code. Liquid syntax is supported."]</span>
+#. <span class="hint">@T["The body to the message for sending the verification code. Liquid syntax is supported."]</span>
 #: OrchardCore.Users\Views\SmsAuthenticatorLoginSettings.Edit.cshtml:11
 msgctxt "OrchardCore.Users.Views.SmsAuthenticatorLoginSettings.Edit"
 msgid "The body to the message for sending the verification code. Liquid syntax is supported."
@@ -2528,7 +2516,7 @@ msgctxt "OrchardCore.Users.Views.TemplateUserConfirmEmail"
 msgid "Dear {0},"
 msgstr "您好 {0}，"
 
-#. <p>@T["Please <a href=\"{0}\">click here</a> to confirm your account.", Model.ConfirmEmailUrl]</p>
+#. <p>@T["Please <a href=\"{0}\">click here</a> to confirm your account.", Html.Raw(Model.ConfirmEmailUrl)]</p>
 #: OrchardCore.Users\Views\TemplateUserConfirmEmail.cshtml:16
 msgctxt "OrchardCore.Users.Views.TemplateUserConfirmEmail"
 msgid "Please <a href=\"{0}\">click here</a> to confirm your account."
@@ -2539,7 +2527,7 @@ msgstr "请 <a href=\"{0}\">点击这里</a> 确认您的帐户。"
 msgctxt "OrchardCore.Users.Views.TemplateUserConfirmEmail"
 msgid "Please be aware that this link will expire in {0} minute."
 msgid_plural "Please be aware that this link will expire in {0} minutes."
-msgstr[0] ""
+msgstr[0] "请注意，此链接将在 {0} 分钟后过期。"
 
 #. <p>@T["Thank you"]</p>
 #: OrchardCore.Users\Views\TemplateUserConfirmEmail.cshtml:20
@@ -2570,61 +2558,61 @@ msgstr "如果您没有请求重置密码，请忽略这封电子邮件 - 您的
 msgctxt "OrchardCore.Users.Views.TemplateUserLostPassword"
 msgid "Please be aware that this link will expire in {0} minute."
 msgid_plural "Please be aware that this link will expire in {0} minutes."
-msgstr[0] ""
+msgstr[0] "请注意，此链接将在 {0} 分钟后过期。"
 
 #. <legend>@T["Two-Factor Settings"]</legend>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:4
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:11
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
 msgid "Two-Factor Settings"
 msgstr "双重验证设置"
 
 #. <label class="form-check-label" asp-for="AllowRememberClientTwoFactorAuthentication">@T["Allow users to remember client"]</label>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:10
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:17
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
 msgid "Allow users to remember client"
 msgstr "允许用户记住客户端"
 
-#. <span class="hint dashed">@T["When selected, users may use Remember Client during login to avoid having to provide a token every time."]</span>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:11
+#. @T["When selected, users may use Remember Client during login to avoid having to provide a token every time. The client will be remembered for: {0}", duration]
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:19
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
-msgid "When selected, users may use Remember Client during login to avoid having to provide a token every time."
-msgstr "当选择时，用户可以在登录时使用 Remember 客户端，以避免每次都提供一个令牌。"
+msgid "When selected, users may use Remember Client during login to avoid having to provide a token every time. The client will be remembered for: {0}"
+msgstr ""
 
 #. <label class="form-check-label" asp-for="RequireTwoFactorAuthentication">@T["Require two-factor authentication"]</label>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:19
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:28
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
 msgid "Require two-factor authentication"
 msgstr "需要双重身份验证"
 
 #. <span class="hint dashed">@T["When selected, any user with enabled two-factor authentication authentication will be required to use it."]</span>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:20
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:29
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
 msgid "When selected, any user with enabled two-factor authentication authentication will be required to use it."
 msgstr "选中时，任何启用双重身份验证的用户都需要使用它。"
 
 #. <label class="form-check-label" asp-for="NumberOfRecoveryCodesToGenerate">@T["Number of recovery codes to generate"]</label>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:26
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:35
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
 msgid "Number of recovery codes to generate"
 msgstr "要生成的恢复码长度"
 
-#. <span class="hint dashed">@T["The number of recovery codes to generate. Default is 5."]</span>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:28
+#. <span class="hint">@T["The number of recovery codes to generate. Default is 5."]</span>
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:37
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
 msgid "The number of recovery codes to generate. Default is 5."
 msgstr "要生成的恢复码长度。默认值为5。"
 
 #. <label class="form-check-label" asp-for="UseSiteTheme">@T["Use site theme for two-factor authentication pages"]</label>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:35
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:44
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
 msgid "Use site theme for two-factor authentication pages"
-msgstr ""
+msgstr "将站点主题用于双重身份验证页面"
 
-#. <span class="hint dashed">@T["Requires an active site theme."]</span>
-#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:36
+#. <span class="hint">@T["Requires an active site theme."]</span>
+#: OrchardCore.Users\Views\TwoFactorLoginSettings.Edit.cshtml:45
 msgctxt "OrchardCore.Users.Views.TwoFactorLoginSettings.Edit"
 msgid "Requires an active site theme."
-msgstr ""
+msgstr "需要一个活动的站点主题。"
 
 #. <a asp-action="Index" asp-controller="AuthenticatorApp" class="btn btn-sm btn-primary me-1">@T["Set"]</a>
 #: OrchardCore.Users\Views\Items\TwoFactorMethod.Authenticator.Actions.cshtml:7
@@ -2660,7 +2648,7 @@ msgstr "使用身份验证应用或浏览器扩展生成一次性代码。"
 #: OrchardCore.Users\Views\Items\TwoFactorMethod.Email.Actions.cshtml:10
 msgctxt "OrchardCore.Users.Views.Items.TwoFactorMethod.Email.Actions"
 msgid "Your email is not yet verified. To use email for two-factor authentication, you must first verify it."
-msgstr ""
+msgstr "您的电子邮件尚未验证。要使用电子邮件进行双重身份验证，您必须先验证它。"
 
 #. <button type="submit" class="btn btn-sm btn-primary">@T["Verify Email"]</button>
 #: OrchardCore.Users\Views\Items\TwoFactorMethod.Email.Actions.cshtml:11
@@ -2722,71 +2710,73 @@ msgctxt "OrchardCore.Users.Views.User.DetailAdmin"
 msgid "View User"
 msgstr "查看用户"
 
+#. <div class="btn-group" title="@T["Actions"]">
+#. <span>@T["Actions"]</span>
+#: OrchardCore.Users\Views\User.SummaryAdmin.cshtml:36
+#: OrchardCore.Users\Views\User.SummaryAdmin.cshtml:38
+msgctxt "OrchardCore.Users.Views.User.SummaryAdmin"
+msgid "Actions"
+msgstr ""
+
+#. <a asp-action="EditPassword" asp-route-id="@Model.User.UserId" class="dropdown-item">@T["Change password"]</a>
+#: OrchardCore.Users\Views\UserActionsMenu.cshtml:17
+msgctxt "OrchardCore.Users.Views.UserActionsMenu"
+msgid "Change password"
+msgstr ""
+
+#. <a asp-action="Unlock" asp-route-id="@Model.User.UserId" class="dropdown-item" data-url-af="RemoveUrl UnsafeUrl" data-title="@T["Unlock user"]" data-message="@T["Are you sure you want to unlock this user?"]">@T["Unlock"]</a>
+#: OrchardCore.Users\Views\UserActionsMenu.cshtml:22
+msgctxt "OrchardCore.Users.Views.UserActionsMenu"
+msgid "Unlock user"
+msgstr ""
+
+#. <a asp-action="Unlock" asp-route-id="@Model.User.UserId" class="dropdown-item" data-url-af="RemoveUrl UnsafeUrl" data-title="@T["Unlock user"]" data-message="@T["Are you sure you want to unlock this user?"]">@T["Unlock"]</a>
+#: OrchardCore.Users\Views\UserActionsMenu.cshtml:22
+msgctxt "OrchardCore.Users.Views.UserActionsMenu"
+msgid "Are you sure you want to unlock this user?"
+msgstr ""
+
+#. <a asp-action="Unlock" asp-route-id="@Model.User.UserId" class="dropdown-item" data-url-af="RemoveUrl UnsafeUrl" data-title="@T["Unlock user"]" data-message="@T["Are you sure you want to unlock this user?"]">@T["Unlock"]</a>
+#: OrchardCore.Users\Views\UserActionsMenu.cshtml:22
+msgctxt "OrchardCore.Users.Views.UserActionsMenu"
+msgid "Unlock"
+msgstr ""
+
+#. <a asp-action="Delete" asp-route-id="@Model.User.UserId" class="dropdown-item text-danger" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
+#: OrchardCore.Users\Views\UserActionsMenu.cshtml:30
+msgctxt "OrchardCore.Users.Views.UserActionsMenu"
+msgid "Delete"
+msgstr ""
+
 #. <a asp-action="Edit" asp-route-id="@Model.User.UserId" class="btn btn-primary btn-sm">@T["Edit"]</a>
-#: OrchardCore.Users\Views\UserButtons.cshtml:16
+#: OrchardCore.Users\Views\UserButtons.cshtml:11
 msgctxt "OrchardCore.Users.Views.UserButtons"
 msgid "Edit"
 msgstr "编辑"
 
 #. <a asp-action="Display" asp-route-id="@Model.User.UserId" class="btn btn-success btn-sm">@T["View"]</a>
-#: OrchardCore.Users\Views\UserButtons.cshtml:21
+#: OrchardCore.Users\Views\UserButtons.cshtml:16
 msgctxt "OrchardCore.Users.Views.UserButtons"
 msgid "View"
 msgstr "查看"
-
-#. <a asp-action="EditPassword" asp-route-id="@Model.User.UserId" class="btn btn-secondary btn-sm">@T["Edit Password"]</a>
-#: OrchardCore.Users\Views\UserButtons.cshtml:26
-msgctxt "OrchardCore.Users.Views.UserButtons"
-msgid "Edit Password"
-msgstr "修改密码"
-
-#. <a asp-action="Unlock" asp-route-id="@Model.User.UserId" class="btn btn-danger btn-sm" data-url-af="RemoveUrl UnsafeUrl" data-title="@T["Unlock user"]" data-message="@T["Are you sure you want to unlock this user?"]">@T["Unlock"]</a>
-#: OrchardCore.Users\Views\UserButtons.cshtml:29
-msgctxt "OrchardCore.Users.Views.UserButtons"
-msgid "Unlock user"
-msgstr "解锁用户"
-
-#. <a asp-action="Unlock" asp-route-id="@Model.User.UserId" class="btn btn-danger btn-sm" data-url-af="RemoveUrl UnsafeUrl" data-title="@T["Unlock user"]" data-message="@T["Are you sure you want to unlock this user?"]">@T["Unlock"]</a>
-#: OrchardCore.Users\Views\UserButtons.cshtml:29
-msgctxt "OrchardCore.Users.Views.UserButtons"
-msgid "Are you sure you want to unlock this user?"
-msgstr "您确定要解锁此用户吗？"
-
-#. <a asp-action="Unlock" asp-route-id="@Model.User.UserId" class="btn btn-danger btn-sm" data-url-af="RemoveUrl UnsafeUrl" data-title="@T["Unlock user"]" data-message="@T["Are you sure you want to unlock this user?"]">@T["Unlock"]</a>
-#: OrchardCore.Users\Views\UserButtons.cshtml:29
-msgctxt "OrchardCore.Users.Views.UserButtons"
-msgid "Unlock"
-msgstr "解锁"
-
-#. <a asp-action="Delete" asp-route-id="@Model.User.UserId" class="btn btn-danger btn-sm" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
-#: OrchardCore.Users\Views\UserButtons.cshtml:35
-msgctxt "OrchardCore.Users.Views.UserButtons"
-msgid "Delete"
-msgstr "删除"
-
-#. <button asp-action="SendVerificationEmail" asp-controller="Registration" class="btn btn-info btn-sm">@T["Send verification email"]</button>
-#: OrchardCore.Users\Views\UserButtons.cshtml:42
-msgctxt "OrchardCore.Users.Views.UserButtons"
-msgid "Send verification email"
-msgstr "重新发送验证邮件"
 
 #. <h4><i class="fa-solid fa-envelope-circle-check" aria-hidden="true"></i>@Model.Activity.GetTitleOrDefault(() => T["User Confirmed"])</h4>
 #: OrchardCore.Users\Views\Items\UserConfirmedEvent.Fields.Design.cshtml:4
 msgctxt "OrchardCore.Users.Views.Items.UserConfirmedEvent.Fields.Design"
 msgid "User Confirmed"
-msgstr ""
+msgstr "用户确认"
 
 #. <h4 class="card-title"><i class="fa-solid fa-envelope-circle-check" aria-hidden="true"></i>@T["User Confirmed"]</h4>
 #: OrchardCore.Users\Views\Items\UserConfirmedEvent.Fields.Thumbnail.cshtml:1
 msgctxt "OrchardCore.Users.Views.Items.UserConfirmedEvent.Fields.Thumbnail"
 msgid "User Confirmed"
-msgstr ""
+msgstr "用户确认"
 
 #. <p>@T["User Confirmed Email."]</p>
 #: OrchardCore.Users\Views\Items\UserConfirmedEvent.Fields.Thumbnail.cshtml:2
 msgctxt "OrchardCore.Users.Views.Items.UserConfirmedEvent.Fields.Thumbnail"
 msgid "User Confirmed Email."
-msgstr ""
+msgstr "用户已确认电子邮件。"
 
 #. <h4><i class="fa-solid fa-user-plus" aria-hidden="true"></i>@Model.Activity.GetTitleOrDefault(() => T["User Created"])</h4>
 #: OrchardCore.Users\Views\Items\UserCreatedEvent.Fields.Design.cshtml:4
@@ -2810,13 +2800,13 @@ msgstr "用户已创建."
 #: OrchardCore.Users\Views\UserCulture.Edit.cshtml:5
 msgctxt "OrchardCore.Users.Views.UserCulture.Edit"
 msgid "Default User Culture"
-msgstr ""
+msgstr "默认用户文化"
 
 #. <span class="hint">@T["Determines the default culture used by this user."]</span>
 #: OrchardCore.Users\Views\UserCulture.Edit.cshtml:9
 msgctxt "OrchardCore.Users.Views.UserCulture.Edit"
 msgid "Determines the default culture used by this user."
-msgstr ""
+msgstr "确定此用户使用的默认文化。"
 
 #. <h4><i class="fa-solid fa-user-minus" aria-hidden="true"></i>@Model.Activity.GetTitleOrDefault(() => T["User Deleted"])</h4>
 #: OrchardCore.Users\Views\Items\UserDeletedEvent.Fields.Design.cshtml:4
@@ -3408,6 +3398,12 @@ msgctxt "OrchardCore.Users.Views.UserSaveButtons.Edit"
 msgid "Cancel"
 msgstr "取消"
 
+#. <button asp-action="SendVerificationEmail" asp-controller="EmailConfirmation" class="dropdown-item">@T["Send verification email"]</button>
+#: OrchardCore.Users\Views\Items\UserSendConfirmationActionsMenu.cshtml:16
+msgctxt "OrchardCore.Users.Views.Items.UserSendConfirmationActionsMenu"
+msgid "Send verification email"
+msgstr ""
+
 #. <label asp-for="TimeZoneId" class="form-label">@T["Default Time Zone"]</label>
 #: OrchardCore.Users\Views\UserTimeZone.Edit.cshtml:5
 msgctxt "OrchardCore.Users.Views.UserTimeZone.Edit"
@@ -3425,6 +3421,12 @@ msgstr "使用站点的时区"
 msgctxt "OrchardCore.Users.Views.UserTimeZone.Edit"
 msgid "Determines the time zone used when displaying and editing dates and times."
 msgstr "确定显示和编辑日期和时间时使用的时区。"
+
+#. <button asp-action="Disable" asp-controller="AdminTwoFactorAuthentication" class="dropdown-item">@T["Disable two-factor authentication"]</button>
+#: OrchardCore.Users\Views\UserTwoFactorActionsMenu.cshtml:15
+msgctxt "OrchardCore.Users.Views.UserTwoFactorActionsMenu"
+msgid "Disable two-factor authentication"
+msgstr ""
 
 #. <h4><i class="fa-solid fa-user-edit" aria-hidden="true"></i>@Model.Activity.GetTitleOrDefault(() => T["User Updated"])</h4>
 #: OrchardCore.Users\Views\Items\UserUpdatedEvent.Fields.Design.cshtml:4

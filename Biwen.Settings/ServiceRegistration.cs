@@ -167,7 +167,7 @@ namespace Biwen.Settings
 
         #region internal
 
-        static readonly object _lock = new();//锁
+        static readonly Lock _lock = new();//锁
         static readonly Type InterfaceINotify = typeof(INotify<>);
 
         static IEnumerable<Type> _notifys = null!;

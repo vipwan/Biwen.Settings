@@ -19,7 +19,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
 
         //格式化配置
         private readonly JsonSerializerOptions _serializerOptions;
-        private readonly static object _lock = new();
+        private readonly static Lock _lock = new();
 
         public JsonStoreSettingManager(ILogger<JsonStoreSettingManager> logger,
             IOptions<SettingOptions> options,

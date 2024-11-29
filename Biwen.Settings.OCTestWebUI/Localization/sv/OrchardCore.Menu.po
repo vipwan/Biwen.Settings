@@ -10,24 +10,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
-"PO-Revision-Date: 2024-08-24 20:13\n"
+"PO-Revision-Date: 2024-11-17 13:12\n"
 
 #. .Add(S["Content"], design => design
-#: OrchardCore.Menu\AdminMenu.cs:32
+#: OrchardCore.Menu\AdminMenu.cs:27
 msgctxt "OrchardCore.Menu.AdminMenu"
 msgid "Content"
 msgstr "Innehåll"
 
 #. .Add(S["Menus"], S["Menus"].PrefixPosition(), menus => menus
 #. .Add(S["Menus"], S["Menus"].PrefixPosition(), menus => menus
-#: OrchardCore.Menu\AdminMenu.cs:33
-#: OrchardCore.Menu\AdminMenu.cs:33
+#: OrchardCore.Menu\AdminMenu.cs:28
+#: OrchardCore.Menu\AdminMenu.cs:28
 msgctxt "OrchardCore.Menu.AdminMenu"
 msgid "Menus"
 msgstr "Menyer"
 
 #. await _notifier.SuccessAsync(H["Menu item deleted successfully."]);
-#: OrchardCore.Menu\Controllers\AdminController.cs:279
+#: OrchardCore.Menu\Controllers\AdminController.cs:280
 msgctxt "OrchardCore.Menu.Controllers.AdminController"
 msgid "Menu item deleted successfully."
 msgstr ""

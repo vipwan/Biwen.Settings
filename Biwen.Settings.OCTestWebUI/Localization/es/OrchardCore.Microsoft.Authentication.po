@@ -10,44 +10,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2024-09-04 18:48\n"
+"PO-Revision-Date: 2024-11-10 14:47\n"
 
 #. .Add(S["Security"], security => security
-#: OrchardCore.Microsoft.Authentication\AdminMenuAAD.cs:27
+#: OrchardCore.Microsoft.Authentication\AdminMenuAAD.cs:25
 msgctxt "OrchardCore.Microsoft.Authentication.AdminMenuAAD"
 msgid "Security"
 msgstr ""
 
 #. .Add(S["Authentication"], authentication => authentication
-#: OrchardCore.Microsoft.Authentication\AdminMenuAAD.cs:28
+#: OrchardCore.Microsoft.Authentication\AdminMenuAAD.cs:26
 msgctxt "OrchardCore.Microsoft.Authentication.AdminMenuAAD"
 msgid "Authentication"
 msgstr ""
 
-#. .Add(S["Microsoft Entra ID"], S["Microsoft Entra ID"].PrefixPosition(), client => client
-#. .Add(S["Microsoft Entra ID"], S["Microsoft Entra ID"].PrefixPosition(), client => client
-#: OrchardCore.Microsoft.Authentication\AdminMenuAAD.cs:29
-#: OrchardCore.Microsoft.Authentication\AdminMenuAAD.cs:29
+#. .Add(S["Microsoft Entra ID"], S["Microsoft Entra ID"].PrefixPosition(), entraId => entraId
+#. .Add(S["Microsoft Entra ID"], S["Microsoft Entra ID"].PrefixPosition(), entraId => entraId
+#: OrchardCore.Microsoft.Authentication\AdminMenuAAD.cs:27
+#: OrchardCore.Microsoft.Authentication\AdminMenuAAD.cs:27
 msgctxt "OrchardCore.Microsoft.Authentication.AdminMenuAAD"
 msgid "Microsoft Entra ID"
 msgstr ""
 
 #. .Add(S["Security"], security => security
-#: OrchardCore.Microsoft.Authentication\AdminMenuMicrosoftAccount.cs:30
+#: OrchardCore.Microsoft.Authentication\AdminMenuMicrosoftAccount.cs:25
 msgctxt "OrchardCore.Microsoft.Authentication.AdminMenuMicrosoftAccount"
 msgid "Security"
 msgstr ""
 
 #. .Add(S["Authentication"], authentication => authentication
-#: OrchardCore.Microsoft.Authentication\AdminMenuMicrosoftAccount.cs:31
+#: OrchardCore.Microsoft.Authentication\AdminMenuMicrosoftAccount.cs:26
 msgctxt "OrchardCore.Microsoft.Authentication.AdminMenuMicrosoftAccount"
 msgid "Authentication"
 msgstr ""
 
 #. .Add(S["Microsoft"], S["Microsoft"].PrefixPosition(), microsoft => microsoft
 #. .Add(S["Microsoft"], S["Microsoft"].PrefixPosition(), microsoft => microsoft
-#: OrchardCore.Microsoft.Authentication\AdminMenuMicrosoftAccount.cs:32
-#: OrchardCore.Microsoft.Authentication\AdminMenuMicrosoftAccount.cs:32
+#: OrchardCore.Microsoft.Authentication\AdminMenuMicrosoftAccount.cs:27
+#: OrchardCore.Microsoft.Authentication\AdminMenuMicrosoftAccount.cs:27
 msgctxt "OrchardCore.Microsoft.Authentication.AdminMenuMicrosoftAccount"
 msgid "Microsoft"
 msgstr ""
@@ -146,6 +146,36 @@ msgstr ""
 #: OrchardCore.Microsoft.Authentication\Views\Items\AzureADDeploymentStep.Thumbnail.cshtml:4
 msgctxt "OrchardCore.Microsoft.Authentication.Views.Items.AzureADDeploymentStep.Thumbnail"
 msgid "Exports the Microsoft Entra ID settings."
+msgstr ""
+
+#. <h5>@T["Microsoft Account Settings"]</h5>
+#: OrchardCore.Microsoft.Authentication\Views\Items\MicrosoftAccountDeploymentStep.Edit.cshtml:1
+msgctxt "OrchardCore.Microsoft.Authentication.Views.Items.MicrosoftAccountDeploymentStep.Edit"
+msgid "Microsoft Account Settings"
+msgstr ""
+
+#. <h5>@T["Microsoft Account Settings"]</h5>
+#: OrchardCore.Microsoft.Authentication\Views\Items\MicrosoftAccountDeploymentStep.Summary.cshtml:1
+msgctxt "OrchardCore.Microsoft.Authentication.Views.Items.MicrosoftAccountDeploymentStep.Summary"
+msgid "Microsoft Account Settings"
+msgstr ""
+
+#. <span class="hint">@T["Adds Microsoft Account settings to the plan."]</span>
+#: OrchardCore.Microsoft.Authentication\Views\Items\MicrosoftAccountDeploymentStep.Summary.cshtml:3
+msgctxt "OrchardCore.Microsoft.Authentication.Views.Items.MicrosoftAccountDeploymentStep.Summary"
+msgid "Adds Microsoft Account settings to the plan."
+msgstr ""
+
+#. <h4 class="card-title">@T["Microsoft Account Settings"]</h4>
+#: OrchardCore.Microsoft.Authentication\Views\Items\MicrosoftAccountDeploymentStep.Thumbnail.cshtml:1
+msgctxt "OrchardCore.Microsoft.Authentication.Views.Items.MicrosoftAccountDeploymentStep.Thumbnail"
+msgid "Microsoft Account Settings"
+msgstr ""
+
+#. <p>@T["Exports the Microsoft Account settings."]</p>
+#: OrchardCore.Microsoft.Authentication\Views\Items\MicrosoftAccountDeploymentStep.Thumbnail.cshtml:2
+msgctxt "OrchardCore.Microsoft.Authentication.Views.Items.MicrosoftAccountDeploymentStep.Thumbnail"
+msgid "Exports the Microsoft Account settings."
 msgstr ""
 
 #. @T["The website might be restarted upon saving the settings, potentially leading to temporary unresponsiveness during the process."]
