@@ -6,6 +6,9 @@ using Biwen.Settings.TestWebUI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpLogging;
 
+
+Console.WriteLine($"Biwen.Settings Version:{Biwen.Settings.Generated.AssemblyMetadata.Version}");
+
 var builder = WebApplication.CreateBuilder(args);
 
 

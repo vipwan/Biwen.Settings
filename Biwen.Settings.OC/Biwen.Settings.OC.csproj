@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<Title>Biwen.Settings.OC</Title>
-		<TargetFrameworks>net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -47,15 +47,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.2" PrivateAssets="all" />
+		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" PrivateAssets="all" />
 		<PackageReference Include="OrchardCore.Module.Targets" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.ContentManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.DisplayManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.Navigation" Version="$(OrchardVer)" />
-		<PackageReference Include="System.Drawing.Common" Version="$(NetCoreMainVer)" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
 		<PackageReference Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<PackageReference Include="System.Text.Json" Version="9.0.0" />
+	</ItemGroup>
+
+
 
 	<ItemGroup>
 		<ProjectReference Include="..\Biwen.Settings\Biwen.Settings.csproj" />

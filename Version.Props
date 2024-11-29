@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<PackageVersion>2.3.0</PackageVersion>
@@ -9,9 +9,15 @@
 
 	<PropertyGroup Label="Package versions used in this repository">
 		<FluentValidationAspNetCoreVer>11.3.0</FluentValidationAspNetCoreVer>
-		<MicrosoftExtensionsVer>8.10.0</MicrosoftExtensionsVer>
-		<NetCoreMainVer>8.0.10</NetCoreMainVer>
-		<OrchardVer>2.0.2</OrchardVer>
+		<MicrosoftExtensionsVer>9.0.0</MicrosoftExtensionsVer>
+		<OrchardVer>2.1.2</OrchardVer>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<NetCoreMainVer>8.0.11</NetCoreMainVer>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<NetCoreMainVer>9.0.0</NetCoreMainVer>
 	</PropertyGroup>
 
 
