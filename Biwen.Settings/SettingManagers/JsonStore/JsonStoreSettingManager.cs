@@ -119,7 +119,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
                         Description = desc?.Description,
                         Order = setting.Order,
                         LastModificationTime = DateTime.Now,
-                        SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
+                        SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
                     });
                 }
                 else
@@ -136,7 +136,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
                         Description = desc?.Description,
                         Order = setting.Order,
                         LastModificationTime = DateTime.Now,
-                        SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
+                        SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
                     });
                 }
                 //Store

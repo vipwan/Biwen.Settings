@@ -80,7 +80,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
                     Description = desc?.Description,
                     Order = @default.Order,
                     LastModificationTime = DateTime.Now,
-                    SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
+                    SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
                 });
                 (_db as DbContext)!.SaveChanges();
             }
@@ -106,7 +106,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
             if (settingEntity != null)
             {
                 settingEntity.SettingContent =
-                    _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent;
+                    _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent;
                 settingEntity.LastModificationTime = DateTime.Now;
             }
             else
@@ -121,7 +121,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
                     Description = desc?.Description,
                     Order = setting.Order,
                     LastModificationTime = DateTime.Now,
-                    SettingContent = _storeOptions.Value.EncryptionOption.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent
+                    SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent
                 });
             }
             (_db as DbContext)!.SaveChanges();

@@ -14,13 +14,20 @@ public class EFCoreStoreOptions
     /// <summary>
     /// DbContextType ,it must be inherited from IBiwenSettingsDbContext
     /// </summary>
-    public Type DbContextType { get; set; } = null!;
+    internal Type DbContextType { get; set; } = null!;
 
     /// <summary>
     /// 加密的内容配置项
     /// </summary>
-    public EncryptionOptions EncryptionOption { get; set; } = new();
+    public EncryptionOptions EncryptionOptions { get; set; } = new();
 
-
+    /// <summary>
+    /// Use DbContext
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public void UseDbContext<T>() where T : class, IBiwenSettingsDbContext
+    {
+        DbContextType = typeof(T);
+    }
 
 }

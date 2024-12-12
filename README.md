@@ -62,7 +62,6 @@ public class MyDbContext : DbContext, IBiwenSettingsDbContext
             b.ToTable("Settings");
         });
         //可以根据自己的情况约束存储列
-        //builder.Entity<Setting>().HasKey(x => x.SettingName);
         //builder.Entity<Setting>().Property(x => x.SettingName).HasMaxLength(500);
     }
 }
@@ -145,7 +144,7 @@ options.NotifyOptions.EndpointHosts = new[]
 //默认提供EntityFrameworkCore持久化配置项 dbContextType必须配置
 //options.UseStoreOfEFCore(options =>
 //{
-//    options.DbContextType = typeof(MyDbContext);
+//    options.UseDbContext<MyDbContext>();
 //});
 //使用JsonStore持久化配置项
 options.UserStoreOfJsonFile(options =>

@@ -17,7 +17,7 @@ namespace Biwen.Settings.SettingManagers.JsonStore
         /// <summary>
         /// 加密的内容配置项
         /// </summary>
-        public EncryptionOptions EncryptionOption { get; set; } = new();
+        public EncryptionOptions EncryptionOptions { get; set; } = new();
 
         /// <summary>
         /// 存储Json文件的路径  默认路径: systemsettings.json

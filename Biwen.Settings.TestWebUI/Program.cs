@@ -74,15 +74,16 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
 
     //必须,否则将初始化错误!
     //使用EFCoreStore
-    //options.UseStoreOfEFCore(options =>
-    //{
-    //    options.DbContextType = typeof(MyDbContext);
-    //    options.EncryptionOption = new SettingOptions.EncryptionOptions
-    //    {
-    //        //默认不开启加密
-    //        Enable = true
-    //    };
-    //});
+    options.UseStoreOfEFCore(options =>
+    {
+        //options.DbContextType = typeof(MyDbContext);
+        options.UseDbContext<MyDbContext>();
+        options.EncryptionOptions = new SettingOptions.EncryptionOptions
+        {
+            //默认不开启加密
+            Enable = true
+        };
+    });
 
 
     //集群的通知服务配置
@@ -94,11 +95,11 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
     ];
 
     //使用JsonStore
-    options.UseStoreOfJsonFile(options =>
-    {
-        options.FormatJson = true;
-        options.JsonPath = "systemsettings.json";
-    });
+    //options.UseStoreOfJsonFile(options =>
+    //{
+    //    options.FormatJson = true;
+    //    options.JsonPath = "systemsettings.json";
+    //});
 
 }));
 
