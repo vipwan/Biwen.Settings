@@ -74,7 +74,7 @@ namespace Biwen.Settings
 
             #region 注入SettingManager
 
-            if (currentOptions.SettingManager.ManagerType == typeof(EntityFrameworkCoreSettingManager))
+            if (currentOptions.SettingManager.ManagerType == typeof(EntityFrameworkCoreSettingManager<>))
             {
                 if (currentOptions.SettingManager.Options == null)
                     throw new BiwenException("EFCoreStoreOptions need set!");

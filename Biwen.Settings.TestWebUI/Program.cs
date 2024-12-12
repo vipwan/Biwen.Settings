@@ -71,20 +71,8 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
     //加密提供者,空加密为默认实现
     options.UseEncryption<EmptyEncryptionProvider>();
 
-
-    //必须,否则将初始化错误!
     //使用EFCoreStore
-    options.UseStoreOfEFCore(options =>
-    {
-        //options.DbContextType = typeof(MyDbContext);
-        options.UseDbContext<MyDbContext>();
-        options.EncryptionOptions = new SettingOptions.EncryptionOptions
-        {
-            //默认不开启加密
-            Enable = true
-        };
-    });
-
+    options.UseStoreOfEFCore<MyDbContext>();
 
     //集群的通知服务配置
     options.NotifyOptions.IsNotifyEnable = true;

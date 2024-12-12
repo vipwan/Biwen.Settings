@@ -16,7 +16,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
     /// <summary>
     /// 默认EntityFrameworkCore持久化
     /// </summary>
-    internal sealed class EntityFrameworkCoreSettingManager : BaseSettingManager
+    internal sealed class EntityFrameworkCoreSettingManager<TDbContext> : BaseSettingManager where TDbContext : DbContext, IBiwenSettingsDbContext
     {
         private readonly IBiwenSettingsDbContext _db;
         private readonly IOptions<SettingOptions> _options;
@@ -26,7 +26,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
         public EntityFrameworkCoreSettingManager(
             IServiceProvider serviceProvider,
             //IBiwenSettingsDbContext db,
-            ILogger<EntityFrameworkCoreSettingManager> logger,
+            ILogger<EntityFrameworkCoreSettingManager<TDbContext>> logger,
             IOptions<EFCoreStoreOptions> storeOptions,
             IEncryptionProvider encryptionProvider,
             IOptions<SettingOptions> options) : base(logger)
@@ -36,12 +36,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
             _storeOptions = storeOptions;
             _encryptionProvider = encryptionProvider;
 
-            if (_storeOptions!.Value.DbContextType == null ||
-                !_storeOptions!.Value.DbContextType.IsAssignableTo(typeof(IBiwenSettingsDbContext)))
-            {
-                throw new BiwenException("DbContextType not null & must be inherited from IBiwenSettingsDbContext");
-            }
-            _db = (serviceProvider.GetRequiredService(_storeOptions.Value.DbContextType) as IBiwenSettingsDbContext)!;
+            _db = serviceProvider.GetRequiredService<TDbContext>();
         }
 
         /// <summary>

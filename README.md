@@ -141,11 +141,9 @@ options.NotifyOptions.EndpointHosts = new[]
 {
     "http://localhost:5150"
 };
-//默认提供EntityFrameworkCore持久化配置项 dbContextType必须配置
-//options.UseStoreOfEFCore(options =>
-//{
-//    options.UseDbContext<MyDbContext>();
-//});
+//默认提供EntityFrameworkCore持久化配置项
+//options.UseStoreOfEFCore<MyDbContext>();
+
 //使用JsonStore持久化配置项
 options.UserStoreOfJsonFile(options =>
 {

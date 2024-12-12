@@ -8,6 +8,7 @@
 using Biwen.Settings.Caching;
 using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Biwen.Settings
 {
@@ -36,14 +37,16 @@ namespace Biwen.Settings
         }
 
         /// <summary>
-        /// 使用EntityFmeworkCore持久化配置项
+        /// 使用EFCore持久化配置项
         /// </summary>
+        /// <typeparam name="TDbContext"></typeparam>
         /// <param name="options"></param>
-        /// <param name="storePptions"></param>
+        /// <param name="storeOptions"></param>
         /// <returns></returns>
-        public static SettingOptions UseStoreOfEFCore(this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null)
+        public static SettingOptions UseStoreOfEFCore<TDbContext>(
+            this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null) where TDbContext : DbContext, IBiwenSettingsDbContext
         {
-            options.UseSettingManager<EntityFrameworkCoreSettingManager, Action<EFCoreStoreOptions>?>(storeOptions);
+            options.UseSettingManager<EntityFrameworkCoreSettingManager<TDbContext>, Action<EFCoreStoreOptions>?>(storeOptions);
             return options;
         }
 
