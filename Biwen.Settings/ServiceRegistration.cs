@@ -138,8 +138,7 @@ namespace Biwen.Settings
                 services.AddFluentValidationAutoValidation();
             }
 
-            var settings = ASS.InAllRequiredAssemblies.ThatInherit(
-                typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
+            var settings = ASS.InAllRequiredAssemblies.ThatInherit<ISetting>().Where(x => x.IsClass && !x.IsAbstract).ToList();
 
             //消费者通知服务
             services.AddScoped<NotifyServices>();
@@ -211,13 +210,13 @@ namespace Biwen.Settings
         /// Use BiwenSettings
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="routePrefix"></param>
+        /// <param name="apiPrefix"></param>
         /// <param name="mapNotifyEndpoint">是否配置Settings变更消费者</param>
         /// <param name="builder">需要对MinimalApi更多的扩展操作</param>
         /// <returns></returns>
         public static IApplicationBuilder UseBiwenSettings(
             this WebApplication app,
-            string routePrefix = "biwensetting/api",
+            string apiPrefix = "biwensetting/api",
             bool mapNotifyEndpoint = false,
             Action<IEndpointConventionBuilder>? builder = null)
         {
@@ -252,7 +251,7 @@ namespace Biwen.Settings
                    defaults: new { controller = "Setting", action = "Edit" });
 
             // WebApi
-            var route = app.MapBiwenSettingApi(routePrefix, mapNotifyEndpoint);
+            var route = app.MapBiwenSettingApi(apiPrefix, mapNotifyEndpoint);
             builder?.Invoke(route);
             return app;
         }

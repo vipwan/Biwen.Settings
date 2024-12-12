@@ -26,16 +26,16 @@ namespace Microsoft.AspNetCore.Builder
         /// 注册BiwenSetting Api
         /// </summary>
         /// <param name="endpoint"></param>
-        /// <param name="routePrefix"></param>
+        /// <param name="apiPrefix"></param>
         /// <param name="mapNotifyEndpoint">是否配置Settings变更消费者</param>
         /// <returns></returns>
         public static RouteGroupBuilder MapBiwenSettingApi(
             this IEndpointRouteBuilder endpoint,
-            string routePrefix = "biwensetting/api",
+            string apiPrefix = "biwensetting/api",
             bool mapNotifyEndpoint = false)
         {
             //group
-            var group = endpoint.MapGroup(routePrefix);
+            var group = endpoint.MapGroup(apiPrefix);
             //auth
             group.AddEndpointFilter<MinimalAuthFilter>();
             //all
