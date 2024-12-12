@@ -11,7 +11,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.Garnet" Version="1.0.46" />
+		<PackageReference Include="Microsoft.Garnet" Version="1.0.47" />
 	</ItemGroup>
 
 	<ItemGroup  Condition="'$(TargetFramework)' == 'net8.0'">
