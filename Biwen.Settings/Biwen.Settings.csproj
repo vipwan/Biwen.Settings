@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
 		<SignAssembly>False</SignAssembly>
-		<NoWarn>GEN031;GEN052</NoWarn>
+		<NoWarn>GEN031;GEN050;GEN052</NoWarn>
 	</PropertyGroup>
 
 	<Import Project="..\Release.props" />
@@ -26,6 +27,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Include="Backport.System.Threading.Lock" Version="3.1.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>analyzers</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" PrivateAssets="all" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="$(FluentValidationAspNetCoreVer)" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(NetCoreMainVer)" />
