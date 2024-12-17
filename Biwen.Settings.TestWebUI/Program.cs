@@ -105,18 +105,22 @@ if (app.Environment.IsDevelopment())
 {
     app.UseHttpLogging();
     app.UseDeveloperExceptionPage();
+
+    //swagger ui
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
     app.UseExceptionHandler("/Error");
 }
 
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-
+#if NET9_0_OR_GREATER
+app.MapStaticAssets();
+#else
 app.UseStaticFiles();
+#endif
+
 
 app.UseAuthentication();
 app.UseAuthorization();
