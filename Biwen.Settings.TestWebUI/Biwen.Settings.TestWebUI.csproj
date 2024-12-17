@@ -13,7 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="Biwen.Settings.Tests"/>
+		<InternalsVisibleTo Include="Biwen.Settings.Tests" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -19,6 +19,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add services to the container.
+builder.Services.AddScoped<Biwen.Settings.TestWebUI.Services.TestService>();
+
 
 //注册DbContext
 builder.Services.AddDbContext<MyDbContext>(options =>
@@ -133,6 +136,12 @@ app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
 {
     builder.WithTags("BiwenSettingApi").WithOpenApi();
 });
+
+
+//测试服务,访问/test 返回站点名称
+app.MapGet("/test", (Biwen.Settings.TestWebUI.Services.TestService service) => service.GetSiteName())
+    .WithTags(". Test");
+
 
 app.Run();
 
