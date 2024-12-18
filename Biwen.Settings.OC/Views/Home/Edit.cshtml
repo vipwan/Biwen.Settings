@@ -16,21 +16,21 @@
 
 @using (Html.BeginForm())
 {
-    <h3 class="settingH3">@(setting!.SettingName)</h3>
-    <h5 class="settingH5">@(setting!.Description)</h5>
+                <h3 class="settingH3">@(setting!.SettingName)</h3>
+                <h5 class="settingH5">@(setting!.Description)</h5>
     @Html.ValidationSummary()
-    foreach (var kv in settingValues!)
+    foreach (var vm in settingValues!)
     {
-        <div class="settingRow">
-            <div class="settingLabel editor-label">
-                <label for="@kv.Name">@(kv.Name)</label>
-                @Html.ValidationMessage(kv.Name)
-            </div>
-            <div class="settingEditor editor-field" title="@kv.Description">
-                @Html.TextBox(kv.Name, kv.Value, new { id = kv.Name, placeholder = kv.Description, @class = "form-control" })
-            </div>
-        </div>
+                                <div class="settingRow">
+                                    <div class="settingLabel editor-label">
+                                        <label for="@vm.Name">@(vm.Name)</label>
+                @Html.ValidationMessage(vm.Name)
+                                    </div>
+                                    <div class="settingEditor editor-field" title="@vm.Description">
+                @Html.TextBox(vm.Name, vm.Value, new { id = vm.Name, placeholder = (vm.Description ?? vm.Name), @class = "form-control" })
+                                    </div>
+                                </div>
     }
 
-    <button class="settingButton btn btn-primary btn-block" onclick="@SettingOptions.Value.EditorOptions.EditorOnclick">@SettingOptions.Value.EditorOptions.EdtiorConfirmButtonText</button>
+                <button class="settingButton btn btn-primary btn-block" onclick="@SettingOptions.Value.EditorOptions.EditorOnclick">@SettingOptions.Value.EditorOptions.EdtiorConfirmButtonText</button>
 }
