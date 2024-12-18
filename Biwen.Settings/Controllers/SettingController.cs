@@ -17,7 +17,7 @@ namespace Biwen.Settings.Controllers
     /// <summary>
     /// SettingViewModel
     /// </summary>
-    readonly record struct SettingViewModel(string Name, string? Description, string? Value);
+    public readonly record struct SettingViewModel(string Name, string? Description, string? Value);
 
     [Area("Biwen.Settings")]
     public class SettingController(

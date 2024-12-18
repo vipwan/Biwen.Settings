@@ -95,6 +95,7 @@ namespace Biwen.Settings.SettingManagers.EFCore
                 throw new ArgumentNullException(nameof(setting));
 
             var settingType = typeof(T).FullName!;
+            var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
 
             var settingContent = JsonSerializer.Serialize(setting, SerializerOptions);
             var settingEntity = _db.Settings.FirstOrDefault(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
@@ -103,11 +104,12 @@ namespace Biwen.Settings.SettingManagers.EFCore
                 settingEntity.SettingContent =
                     _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent;
                 settingEntity.LastModificationTime = DateTime.Now;
+
+                settingEntity.Description = desc?.Description;
             }
             else
             {
                 var @default = new T();
-                var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
                 _db.Settings.Add(new Setting
                 {
                     ProjectId = _options.Value.ProjectId,

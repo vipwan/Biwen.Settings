@@ -15,18 +15,14 @@ namespace Biwen.Settings.OC;
 /// </summary>
 internal class AuthAttribute : ActionFilterAttribute
 {
-
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         if (context == null)
-        {
             return;
-        }
         var options = context.HttpContext.RequestServices.GetRequiredService<IOptions<SettingOptions>>();
-        var isValid = options!.Value.PermissionValidator.Invoke(context.HttpContext);
-        if (isValid)
+        if (await options!.Value.PermissionValidator.Invoke(context.HttpContext))
         {
-            base.OnActionExecuting(context);
+            await next();
         }
         else
         {

@@ -57,7 +57,7 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
     //options.Layout = "~/Views/Shared/_Layout.cshtml";
     options.Title = "Biwen.Settings";
     options.Route = "system/settings";
-    options.PermissionValidator = (ctx) => true;
+    options.PermissionValidator = (ctx) => Task.FromResult(true);
     options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
     options.EditorOptions.EdtiorConfirmButtonText = "Submit";
     options.EditorOptions.EditorEditButtonText = "Edit";

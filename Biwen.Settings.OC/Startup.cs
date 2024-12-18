@@ -38,12 +38,12 @@ namespace Biwen.Settings.OC
 
                 options.ProjectId = $"{settings.TenantId}-{projectId}";
                 options.Title = "Biwen.Settings";
-                options.PermissionValidator = (ctx) =>
+                options.PermissionValidator = async (ctx) =>
                 {
                     //判断是否有权限访问设置页面
-                    return ctx.RequestServices
+                    return await ctx.RequestServices
                     .GetService<IAuthorizationService>()
-                    .AuthorizeAsync(ctx.User, Permissions.ManageSettings).GetAwaiter().GetResult();
+                    .AuthorizeAsync(ctx.User, Permissions.ManageSettings);
                 };
                 options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
                 options.EditorOptions.EdtiorConfirmButtonText = "Submit";
