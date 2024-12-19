@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 // Biwen.Settings Author: 万雅虎, Github: https://github.com/vipwan
 // Biwen.Settings ,NET8+ 应用配置项管理模块
-// Modify Date: 2024-09-18 17:30:25 JsonStoreOptions.cs
+// Modify Date: 2024-09-18 17:30:25 JsonFileStoreOptions.cs
 
 using static Biwen.Settings.SettingOptions;
 
@@ -12,7 +12,7 @@ namespace Biwen.Settings.SettingStores.JsonFile;
 /// <summary>
 /// JsonStore Options
 /// </summary>
-public class JsonStoreOptions
+public class JsonFileStoreOptions
 {
     /// <summary>
     /// 加密的内容配置项

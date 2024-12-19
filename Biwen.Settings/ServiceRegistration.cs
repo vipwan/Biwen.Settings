@@ -86,9 +86,9 @@ public static class ServiceRegistration
         }
         else if (currentOptions.SettingStore.StoreType == typeof(JsonStoreSettingStore))
         {
-            services.AddOptions<JsonStoreOptions>().Configure(x =>
+            services.AddOptions<JsonFileStoreOptions>().Configure(x =>
             {
-                (currentOptions.SettingStore.Options as Action<JsonStoreOptions>)?.Invoke(x);
+                (currentOptions.SettingStore.Options as Action<JsonFileStoreOptions>)?.Invoke(x);
             });
 
             //文件变更通知,自动启动:

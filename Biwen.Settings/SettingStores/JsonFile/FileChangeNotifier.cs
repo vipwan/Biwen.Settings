@@ -22,7 +22,7 @@ internal class FileChangeNotifier : IAsyncDisposable
         var sp = scope.ServiceProvider;
 
         var env = sp.GetRequiredService<IWebHostEnvironment>();
-        var jsonStoreOptions = sp.GetRequiredService<IOptions<JsonStoreOptions>>().Value;
+        var jsonStoreOptions = sp.GetRequiredService<IOptions<JsonFileStoreOptions>>().Value;
         var logger = sp.GetRequiredService<ILogger<FileChangeNotifier>>();
         var cacheProvider = sp.GetRequiredService<ICacheProvider>();
         var fullFilePath = Path.Combine(env.ContentRootPath, jsonStoreOptions.JsonPath);

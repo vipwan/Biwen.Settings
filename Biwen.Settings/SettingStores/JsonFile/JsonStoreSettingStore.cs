@@ -14,7 +14,7 @@ namespace Biwen.Settings.SettingStores.JsonFile;
 public class JsonStoreSettingStore : BaseSettingStore
 {
     private readonly IOptions<SettingOptions> _options;
-    private readonly IOptions<JsonStoreOptions> _storeOptions;
+    private readonly IOptions<JsonFileStoreOptions> _storeOptions;
     private readonly IEncryptionProvider _encryptionProvider;
 
     //格式化配置
@@ -23,7 +23,7 @@ public class JsonStoreSettingStore : BaseSettingStore
 
     public JsonStoreSettingStore(ILogger<JsonStoreSettingStore> logger,
         IOptions<SettingOptions> options,
-        IOptions<JsonStoreOptions> storeOptions,
+        IOptions<JsonFileStoreOptions> storeOptions,
         IEncryptionProvider encryptionProvider
         )
         : base(logger)
