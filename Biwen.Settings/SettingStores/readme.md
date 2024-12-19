@@ -6,13 +6,13 @@
 //options.UseStoreOfEFCore<MyDbContext>();
 
 //使用JsonStore持久化配置项
-options.UserSettingManagerOfJsonStore(options =>
+options.UserSettingStoreOfJsonStore(options =>
 {
     options.FormatJson = true;
     options.JsonPath = "systemsetting.json";
 });
         
-//自行实现的ISettingManager注册
-//options.UseSettingManager<T,V>()
+//自行实现的ISettingStore注册
+//options.UseSettingStore<T,V>()
 
 ```

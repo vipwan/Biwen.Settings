@@ -3,15 +3,15 @@
 // See the LICENSE file in the project root for more information.
 // Biwen.Settings Author: 万雅虎, Github: https://github.com/vipwan
 // Biwen.Settings ,NET8+ 应用配置项管理模块
-// Modify Date: 2024-09-18 17:30:31 JsonStoreSettingManager.cs
+// Modify Date: 2024-09-18 17:30:31 JsonStoreSettingStore.cs
 
 using Biwen.Settings.Encryption;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Biwen.Settings.SettingManagers.JsonStore;
+namespace Biwen.Settings.SettingStores.JsonFile;
 
-public class JsonStoreSettingManager : BaseSettingManager
+public class JsonStoreSettingStore : BaseSettingStore
 {
     private readonly IOptions<SettingOptions> _options;
     private readonly IOptions<JsonStoreOptions> _storeOptions;
@@ -21,7 +21,7 @@ public class JsonStoreSettingManager : BaseSettingManager
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly static Lock _lock = new();
 
-    public JsonStoreSettingManager(ILogger<JsonStoreSettingManager> logger,
+    public JsonStoreSettingStore(ILogger<JsonStoreSettingStore> logger,
         IOptions<SettingOptions> options,
         IOptions<JsonStoreOptions> storeOptions,
         IEncryptionProvider encryptionProvider

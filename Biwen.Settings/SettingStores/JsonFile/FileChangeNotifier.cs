@@ -8,7 +8,7 @@
 using Biwen.Settings.Caching;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Biwen.Settings.SettingManagers.JsonStore;
+namespace Biwen.Settings.SettingStores.JsonFile;
 
 internal class FileChangeNotifier : IAsyncDisposable
 {

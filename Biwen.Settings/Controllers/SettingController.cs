@@ -7,7 +7,7 @@
 
 using Biwen.Settings.Encryption;
 using Biwen.Settings.Mvc;
-using Biwen.Settings.SettingManagers;
+using Biwen.Settings.SettingStores;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
@@ -21,12 +21,12 @@ public readonly record struct SettingViewModel(string Name, string? Description,
 
 [Area("Biwen.Settings")]
 public class SettingController(
-    Lazy<ISettingManager> settingManager,
+    Lazy<ISettingStore> settingStore,
     IOptions<SettingOptions> options,
     IEncryptionProvider encryptionProvider,
     IHttpContextAccessor httpContextAccessor) : Controller
 {
-    private readonly Lazy<ISettingManager> _settingManager = settingManager;
+    private readonly Lazy<ISettingStore> _settingStore = settingStore;
     private readonly IOptions<SettingOptions> _options = options;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
     private readonly IEncryptionProvider _encryptionProvider = encryptionProvider;
@@ -42,7 +42,7 @@ public class SettingController(
     [SettingAuthorize]
     public IActionResult Index()
     {
-        var all = _settingManager.Value.GetAllSettings();
+        var all = _settingStore.Value.GetAllSettings();
 
         //移除的或者无效的配置 需要排除
         var settings = all.Where(
@@ -59,7 +59,7 @@ public class SettingController(
         if (string.IsNullOrEmpty(id))
             return NotFound();
 
-        var setting = _settingManager.Value.GetSetting(id);
+        var setting = _settingStore.Value.GetSetting(id);
         if (setting == null)
             return NotFound();
 
@@ -177,7 +177,7 @@ public class SettingController(
                     {
                         ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                     }
-                    var domainSetting = _settingManager.Value.GetSetting(id);
+                    var domainSetting = _settingStore.Value.GetSetting(id);
                     ViewBag.Setting = domainSetting!;
                     ViewBag.SettingValues = SettingValues(domainSetting!);
                     return View();
@@ -195,7 +195,7 @@ public class SettingController(
                     {
                         ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                     }
-                    var domainSetting = _settingManager.Value.GetSetting(id);
+                    var domainSetting = _settingStore.Value.GetSetting(id);
                     ViewBag.Setting = domainSetting!;
                     ViewBag.SettingValues = SettingValues(domainSetting!);
                     //验证不通过

@@ -6,8 +6,8 @@
 // Modify Date: 2024-09-18 17:30:57 SettingOptionsExtensions.cs
 
 using Biwen.Settings.Caching;
-using Biwen.Settings.SettingManagers.EFCore;
-using Biwen.Settings.SettingManagers.JsonStore;
+using Biwen.Settings.SettingStores.EFCore;
+using Biwen.Settings.SettingStores.JsonFile;
 using Microsoft.EntityFrameworkCore;
 
 namespace Biwen.Settings;
@@ -46,7 +46,7 @@ public static class SettingOptionsExtensions
     public static SettingOptions UseStoreOfEFCore<TDbContext>(
         this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null) where TDbContext : DbContext, IBiwenSettingsDbContext
     {
-        options.UseSettingManager<EFCoreSettingManager<TDbContext>, Action<EFCoreStoreOptions>?>(storeOptions);
+        options.UseSettingStore<EFCoreSettingStore<TDbContext>, Action<EFCoreStoreOptions>?>(storeOptions);
         return options;
     }
 
@@ -58,7 +58,7 @@ public static class SettingOptionsExtensions
     /// <returns></returns>
     public static SettingOptions UseStoreOfJsonFile(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
     {
-        options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storeOptions);
+        options.UseSettingStore<JsonStoreSettingStore, Action<JsonStoreOptions>?>(storeOptions);
         return options;
     }
 }

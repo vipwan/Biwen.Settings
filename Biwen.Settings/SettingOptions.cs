@@ -54,7 +54,7 @@ public class SettingOptions
     /// <summary>
     /// 默认使用EntityFrameworkCore持久化配置项
     /// </summary>
-    public (Type? ManagerType, object? Options) SettingManager { get; private set; } = (null, null);
+    public (Type? StoreType, object? Options) SettingStore { get; private set; } = (null, null);
 
 
     /// <summary>
@@ -67,14 +67,14 @@ public class SettingOptions
     }
 
     /// <summary>
-    /// 使用SettingManager
+    /// 使用SettingStore
     /// </summary>
-    /// <typeparam name="T">ISettingManager</typeparam>
+    /// <typeparam name="T">ISettingStore</typeparam>
     /// <typeparam name="V">扩展信息</typeparam>
     /// <param name="extend"></param>
-    public void UseSettingManager<T, V>(V extend) where T : class, ISettingManager
+    public void UseSettingStore<T, V>(V extend) where T : class, ISettingStore
     {
-        SettingManager = (typeof(T), extend);
+        SettingStore = (typeof(T), extend);
     }
 
     /// <summary>

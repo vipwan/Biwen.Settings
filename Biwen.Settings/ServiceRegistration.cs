@@ -8,9 +8,9 @@
 using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.EndpointNotify;
-using Biwen.Settings.SettingManagers;
-using Biwen.Settings.SettingManagers.EFCore;
-using Biwen.Settings.SettingManagers.JsonStore;
+using Biwen.Settings.SettingStores;
+using Biwen.Settings.SettingStores.EFCore;
+using Biwen.Settings.SettingStores.JsonFile;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -72,42 +72,42 @@ public static class ServiceRegistration
 
         #endregion
 
-        #region 注入SettingManager
+        #region 注入SettingStore
 
-        if (currentOptions.SettingManager.ManagerType == typeof(EFCoreSettingManager<>))
+        if (currentOptions.SettingStore.StoreType == typeof(EFCoreSettingStore<>))
         {
-            if (currentOptions.SettingManager.Options == null)
+            if (currentOptions.SettingStore.Options == null)
                 throw new BiwenException("EFCoreStoreOptions need set!");
 
             services.AddOptions<EFCoreStoreOptions>().Configure(x =>
             {
-                (currentOptions.SettingManager.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
+                (currentOptions.SettingStore.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
             });
         }
-        else if (currentOptions.SettingManager.ManagerType == typeof(JsonStoreSettingManager))
+        else if (currentOptions.SettingStore.StoreType == typeof(JsonStoreSettingStore))
         {
             services.AddOptions<JsonStoreOptions>().Configure(x =>
             {
-                (currentOptions.SettingManager.Options as Action<JsonStoreOptions>)?.Invoke(x);
+                (currentOptions.SettingStore.Options as Action<JsonStoreOptions>)?.Invoke(x);
             });
 
             //文件变更通知,自动启动:
             services.AddActivatedSingleton<FileChangeNotifier>();
         }
-        else if (currentOptions.SettingManager.ManagerType == null)
+        else if (currentOptions.SettingStore.StoreType == null)
         {
-            throw new BiwenException("Require ISettingManager!");
+            throw new BiwenException("Require ISettingStore!");
         }
 
-        services.AddScoped(currentOptions.SettingManager.ManagerType!);
-        services.AddScoped<ISettingManager, SettingManagerDecorator>(sp =>
+        services.AddScoped(currentOptions.SettingStore.StoreType!);
+        services.AddScoped<ISettingStore, SettingStoreDecorator>(sp =>
         {
-            var manager = sp.GetRequiredService(currentOptions.SettingManager.ManagerType!);
-            return new SettingManagerDecorator((ISettingManager)manager, sp);
+            var store = sp.GetRequiredService(currentOptions.SettingStore.StoreType!);
+            return new SettingStoreDecorator((ISettingStore)store, sp);
         });
 
-        //注入Lazy<ISettingManager>:
-        services.AddScoped(sp => new Lazy<ISettingManager>(sp.GetRequiredService<ISettingManager>));
+        //注入Lazy<ISettingStore>:
+        services.AddScoped(sp => new Lazy<ISettingStore>(sp.GetRequiredService<ISettingStore>));
 
         //SaveSettingService
         services.AddScoped<SaveSettingService>();
@@ -196,15 +196,15 @@ public static class ServiceRegistration
 
     static object GetSetting(Type x, IServiceProvider sp)
     {
-        var settingManager = sp.GetRequiredService<ISettingManager>();
+        var settingStore = sp.GetRequiredService<ISettingStore>();
 
         var md = _cachedMethods.GetOrAdd(x, (type) =>
         {
-            MethodInfo methodLoad = settingManager.GetType().GetMethod(nameof(settingManager.Get))!;
+            MethodInfo methodLoad = settingStore.GetType().GetMethod(nameof(settingStore.Get))!;
             MethodInfo generic = methodLoad.MakeGenericMethod(type);
             return generic;
         });
-        return md!.Invoke(settingManager, null)!;
+        return md!.Invoke(settingStore, null)!;
     }
 
     #endregion

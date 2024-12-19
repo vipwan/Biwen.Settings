@@ -34,8 +34,8 @@ public abstract class SettingBase<T> : ISetting,
     public void Configure(T options)
     {
         using var scope = ServiceRegistration.ServiceProvider.CreateScope();
-        var settingManager = scope.ServiceProvider.GetRequiredService<ISettingManager>();
-        var setting = settingManager.Get<T>();
+        var settingStore = scope.ServiceProvider.GetRequiredService<ISettingStore>();
+        var setting = settingStore.Get<T>();
         //将配置项的值赋值给options
         //options = setting;
         scope.ServiceProvider.GetService<IConfiguration>()?.Bind(typeof(T).Name, options);
@@ -49,8 +49,8 @@ public abstract class SettingBase<T> : ISetting,
     public void PostConfigure(string? name, T options)
     {
         using var scope = ServiceRegistration.ServiceProvider.CreateScope();
-        var settingManager = scope.ServiceProvider.GetRequiredService<ISettingManager>();
-        var setting = settingManager.Get<T>();
+        var settingStore = scope.ServiceProvider.GetRequiredService<ISettingStore>();
+        var setting = settingStore.Get<T>();
         //将配置项的值赋值给options
         //options = setting;
         scope.ServiceProvider.GetService<IConfiguration>()?.Bind(typeof(T).Name, options);

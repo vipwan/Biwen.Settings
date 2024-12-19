@@ -31,13 +31,13 @@
 	- 修复多租户情况下，无法获取到正确的Setting的问题
 
 ### 1.3.1
-    - 提供JsonFile的ISettingManager支持.
+    - 提供JsonFile的ISettingStore支持.
 
 ### 1.3.0
     - 提供INotify<T> 订阅配置变更
 
 ### 1.2.2
-	- 提供ISettingManager 自定义持久层
+	- 提供ISettingStore 自定义持久层
 
 ### 1.2.1
 	- 提供CachingProvider自定义功能,系统自带NullCacheProvider,MemoryCacheProvider

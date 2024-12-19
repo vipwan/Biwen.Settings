@@ -7,7 +7,7 @@
 
 using static Biwen.Settings.SettingOptions;
 
-namespace Biwen.Settings.SettingManagers.JsonStore;
+namespace Biwen.Settings.SettingStores.JsonFile;
 
 /// <summary>
 /// JsonStore Options

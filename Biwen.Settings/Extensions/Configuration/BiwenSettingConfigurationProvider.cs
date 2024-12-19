@@ -65,8 +65,8 @@ internal class BiwenSettingConfigurationProvider : ConfigurationProvider, IDispo
         Dictionary<string, string?> dics = [];
 
         using var scope = Settings.ServiceRegistration.ServiceProvider.CreateScope();
-        var settingManager = scope.ServiceProvider.GetRequiredService<ISettingManager>();
-        var settings = settingManager.GetAllSettings()!;
+        var settingStore = scope.ServiceProvider.GetRequiredService<ISettingStore>();
+        var settings = settingStore.GetAllSettings()!;
         foreach (var setting in settings)
         {
             if (setting.SettingContent is null) continue;

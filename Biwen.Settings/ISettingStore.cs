@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 // Biwen.Settings Author: 万雅虎, Github: https://github.com/vipwan
 // Biwen.Settings ,NET8+ 应用配置项管理模块
-// Modify Date: 2024-09-18 17:28:46 ISettingManager.cs
+// Modify Date: 2024-09-18 17:28:46 ISettingStore.cs
 
 using Biwen.Settings.Caching;
 using Biwen.Settings.EndpointNotify;
@@ -11,9 +11,9 @@ using Biwen.Settings.EndpointNotify;
 namespace Biwen.Settings;
 
 /// <summary>
-/// 需要实现自己的SettingManager请继承至BaseSettingManager
+/// 需要实现自己的SettingStore请继承至BaseSettingStore
 /// </summary>
-public interface ISettingManager
+public interface ISettingStore
 {
     /// <summary>
     /// 持久化存储.并刷新缓存
@@ -44,13 +44,13 @@ public interface ISettingManager
 }
 
 /// <summary>
-/// SettingManager的装饰器基类
+/// SettingStore的装饰器基类
 /// </summary>
-internal sealed class SettingManagerDecorator(
-    ISettingManager settingManager,
-    IServiceProvider serviceProvider) : ISettingManager
+internal sealed class SettingStoreDecorator(
+    ISettingStore settingStore,
+    IServiceProvider serviceProvider) : ISettingStore
 {
-    private readonly ISettingManager _settingManager = settingManager;
+    private readonly ISettingStore _settingStore = settingStore;
     private readonly Lazy<ICacheProvider> _cacheProvider = new(serviceProvider.GetRequiredService<ICacheProvider>());
     private readonly Lazy<IMedirator> _medirator = new(serviceProvider.GetRequiredService<IMedirator>());
     private readonly Lazy<NotifyServices> _notifyServices = new(serviceProvider.GetRequiredService<NotifyServices>());
@@ -60,7 +60,7 @@ internal sealed class SettingManagerDecorator(
     public async void Save<T>(T setting) where T : ISetting, new()
     {
         //Save
-        _settingManager.Save(setting);
+        _settingStore.Save(setting);
         //Remove Cache
         await _cacheProvider.Value.RemoveAsync(string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId));
         //Notify
@@ -74,29 +74,29 @@ internal sealed class SettingManagerDecorator(
     {
         var retn = _cacheProvider.Value.GetOrCreateAsync<T>(
             string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId),
-            () => _settingManager.Get<T>()
+            () => _settingStore.Get<T>()
         ).GetAwaiter().GetResult();
         return retn!;
     }
 
     public List<Setting> GetAllSettings()
     {
-        return _settingManager.GetAllSettings();
+        return _settingStore.GetAllSettings();
     }
 
     public Setting? GetSetting(string settingType)
     {
-        return _settingManager.GetSetting(settingType);
+        return _settingStore.GetSetting(settingType);
     }
 }
 
 
 /// <summary>
-/// BaseSettingManager
+/// BaseSettingStore
 /// </summary>
-public abstract class BaseSettingManager(ILogger<ISettingManager> logger) : ISettingManager
+public abstract class BaseSettingStore(ILogger<ISettingStore> logger) : ISettingStore
 {
-    protected readonly ILogger<ISettingManager> _logger = logger;
+    protected readonly ILogger<ISettingStore> _logger = logger;
 
     public abstract void Save<T>(T setting) where T : ISetting, new();
 

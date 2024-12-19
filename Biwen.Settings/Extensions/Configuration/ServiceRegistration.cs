@@ -35,7 +35,7 @@ public static class ServiceRegistration
         }
         IConfigurationBuilder configBuilder = manager;
         configBuilder.Add(new BiwenSettingConfigurationSource(autoRefresh));
-        var settings = ASS.InAllRequiredAssemblies.ThatInherit(typeof(ISetting)).Where(x => x.IsClass && !x.IsAbstract).ToList();
+        var settings = ASS.InAllRequiredAssemblies.ThatInherit<ISetting>().Where(x => x.IsClass && !x.IsAbstract).ToList();
         //注册ISetting
         settings.ForEach(x =>
         {

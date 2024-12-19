@@ -3,30 +3,30 @@
 // See the LICENSE file in the project root for more information.
 // Biwen.Settings Author: 万雅虎, Github: https://github.com/vipwan
 // Biwen.Settings ,NET8+ 应用配置项管理模块
-// Modify Date: 2024-09-18 17:30:06 EntityFrameworkCoreSettingManager.cs
+// Modify Date: 2024-09-18 17:30:06 EntityFrameworkCoreSettingStore.cs
 
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Biwen.Settings.Encryption;
 
-namespace Biwen.Settings.SettingManagers.EFCore;
+namespace Biwen.Settings.SettingStores.EFCore;
 
 
 /// <summary>
 /// 默认EntityFrameworkCore持久化
 /// </summary>
-internal sealed class EFCoreSettingManager<TDbContext> : BaseSettingManager where TDbContext : DbContext, IBiwenSettingsDbContext
+internal sealed class EFCoreSettingStore<TDbContext> : BaseSettingStore where TDbContext : DbContext, IBiwenSettingsDbContext
 {
     private readonly IBiwenSettingsDbContext _db;
     private readonly IOptions<SettingOptions> _options;
     private readonly IOptions<EFCoreStoreOptions> _storeOptions;
     private readonly IEncryptionProvider _encryptionProvider;
 
-    public EFCoreSettingManager(
+    public EFCoreSettingStore(
         IServiceProvider serviceProvider,
         //IBiwenSettingsDbContext db,
-        ILogger<EFCoreSettingManager<TDbContext>> logger,
+        ILogger<EFCoreSettingStore<TDbContext>> logger,
         IOptions<EFCoreStoreOptions> storeOptions,
         IEncryptionProvider encryptionProvider,
         IOptions<SettingOptions> options) : base(logger)

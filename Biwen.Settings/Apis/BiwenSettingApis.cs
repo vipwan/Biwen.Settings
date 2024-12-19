@@ -9,7 +9,7 @@ using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
 using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.Mvc;
-using Biwen.Settings.SettingManagers;
+using Biwen.Settings.SettingStores;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -65,20 +65,20 @@ public static class BiwenSettingApis
     #region invokes
 
     static Results<NotFound, JsonHttpResult<IEnumerable<SettingDto>>> GetAll(
-        [FromServices] ISettingManager settingManager,
+        [FromServices] ISettingStore settingStore,
         [FromServices] IEncryptionProvider encryptionProvider)
     {
-        var all = settingManager.GetAllSettings();
+        var all = settingStore.GetAllSettings();
         return TypedResults.Json(all.Select(x => x.MapperToDto(encryptionProvider)));
     }
 
     static Results<NotFound, JsonHttpResult<SettingDto>> GetById(
-        [FromServices] ISettingManager settingManager,
+        [FromServices] ISettingStore settingStore,
         [FromServices] IEncryptionProvider encryptionProvider,
         [FromRoute] string id)
     {
         if (string.IsNullOrEmpty(id)) return TypedResults.NotFound();
-        var setting = settingManager.GetSetting(id);
+        var setting = settingStore.GetSetting(id);
         return setting == null ? TypedResults.NotFound() : TypedResults.Json(setting.MapperToDto(encryptionProvider));
     }
 

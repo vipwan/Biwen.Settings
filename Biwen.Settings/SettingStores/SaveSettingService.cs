@@ -5,9 +5,9 @@
 // Biwen.Settings ,NET8+ 应用配置项管理模块
 // Modify Date: 2024-09-18 17:30:37 SaveSettingService.cs
 
-namespace Biwen.Settings.SettingManagers;
+namespace Biwen.Settings.SettingStores;
 
-internal class SaveSettingService(ILogger<SaveSettingService> logger, ISettingManager settingManager, IAsyncContext<SettingRecord> asyncContext)
+internal class SaveSettingService(ILogger<SaveSettingService> logger, ISettingStore settingStore, IAsyncContext<SettingRecord> asyncContext)
 {
     public async Task SaveSettingAsync()
     {
@@ -17,8 +17,8 @@ internal class SaveSettingService(ILogger<SaveSettingService> logger, ISettingMa
             return;
         }
         //Save
-        var mdSave = settingManager.GetType().GetMethod(nameof(ISettingManager.Save))!.MakeGenericMethod(record?.SettingType!);
-        mdSave.Invoke(settingManager, [record?.Setting!]);
+        var mdSave = settingStore.GetType().GetMethod(nameof(ISettingStore.Save))!.MakeGenericMethod(record?.SettingType!);
+        mdSave.Invoke(settingStore, [record?.Setting!]);
         await Task.CompletedTask;
     }
 
