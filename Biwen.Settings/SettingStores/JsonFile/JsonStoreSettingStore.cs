@@ -19,6 +19,18 @@ public class JsonStoreSettingStore : BaseSettingStore
 
     //格式化配置
     private readonly JsonSerializerOptions _serializerOptions;
+
+    private readonly JsonSerializerOptions _contentJsonSerializerOptions = new()
+    {
+        IgnoreReadOnlyProperties = true,
+        IgnoreReadOnlyFields = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        //不缩进
+        WriteIndented = false,
+        //允许不转义特殊字符
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+
     private readonly static Lock _lock = new();
 
     public JsonStoreSettingStore(ILogger<JsonStoreSettingStore> logger,
@@ -36,7 +48,8 @@ public class JsonStoreSettingStore : BaseSettingStore
             IgnoreReadOnlyProperties = true,
             IgnoreReadOnlyFields = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            WriteIndented = _storeOptions.Value.FormatJson
+            WriteIndented = _storeOptions.Value.FormatJson,
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
 
         if (!File.Exists(_storeOptions.Value.JsonPath))
@@ -109,7 +122,7 @@ public class JsonStoreSettingStore : BaseSettingStore
             if (stored == null)
             {
                 stored = [];
-                var plainContent = JsonSerializer.Serialize(setting);
+                var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
 
                 stored!.Add(new Setting
                 {
@@ -126,7 +139,7 @@ public class JsonStoreSettingStore : BaseSettingStore
             {
                 stored.RemoveAll(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == typeof(T).FullName);
 
-                var plainContent = JsonSerializer.Serialize(setting);
+                var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
 
                 stored.Add(new Setting
                 {
