@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<SignAssembly>False</SignAssembly>
-		<NoWarn>GEN031;GEN052</NoWarn>
+		<NoWarn>GEN031</NoWarn>
 	</PropertyGroup>
 
 	<Import Project="..\Release.props" />

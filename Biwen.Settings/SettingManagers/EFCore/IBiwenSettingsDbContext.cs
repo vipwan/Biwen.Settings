@@ -7,13 +7,12 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Biwen.Settings.SettingManagers.EFCore
+namespace Biwen.Settings.SettingManagers.EFCore;
+
+public interface IBiwenSettingsDbContext
 {
-    public interface IBiwenSettingsDbContext
-    {
-        /// <summary>
-        /// DbSet
-        /// </summary>
-        DbSet<Setting> Settings { get; set; }
-    }
+    /// <summary>
+    /// DbSet
+    /// </summary>
+    DbSet<Setting> Settings { get; set; }
 }

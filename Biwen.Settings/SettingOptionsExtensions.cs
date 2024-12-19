@@ -10,57 +10,55 @@ using Biwen.Settings.SettingManagers.EFCore;
 using Biwen.Settings.SettingManagers.JsonStore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Biwen.Settings
+namespace Biwen.Settings;
+
+public static class SettingOptionsExtensions
 {
-    public static class SettingOptionsExtensions
+    /// <summary>
+    /// 使用内存缓存
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public static SettingOptions UseCacheOfMemory(this SettingOptions options)
     {
-        /// <summary>
-        /// 使用内存缓存
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public static SettingOptions UseCacheOfMemory(this SettingOptions options)
-        {
-            options.UseCache<MemoryCacheProvider>();
-            return options;
-        }
-
-        /// <summary>
-        /// Default不使用缓存
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public static SettingOptions UseCacheOfNull(this SettingOptions options)
-        {
-            options.UseCache<NullCacheProvider>();
-            return options;
-        }
-
-        /// <summary>
-        /// 使用EFCore持久化配置项
-        /// </summary>
-        /// <typeparam name="TDbContext"></typeparam>
-        /// <param name="options"></param>
-        /// <param name="storeOptions"></param>
-        /// <returns></returns>
-        public static SettingOptions UseStoreOfEFCore<TDbContext>(
-            this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null) where TDbContext : DbContext, IBiwenSettingsDbContext
-        {
-            options.UseSettingManager<EntityFrameworkCoreSettingManager<TDbContext>, Action<EFCoreStoreOptions>?>(storeOptions);
-            return options;
-        }
-
-        /// <summary>
-        /// 使用JsonStore持久化配置项
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="storeOptions"></param>
-        /// <returns></returns>
-        public static SettingOptions UseStoreOfJsonFile(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
-        {
-            options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storeOptions);
-            return options;
-        }
+        options.UseCache<MemoryCacheProvider>();
+        return options;
     }
 
+    /// <summary>
+    /// Default不使用缓存
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public static SettingOptions UseCacheOfNull(this SettingOptions options)
+    {
+        options.UseCache<NullCacheProvider>();
+        return options;
+    }
+
+    /// <summary>
+    /// 使用EFCore持久化配置项
+    /// </summary>
+    /// <typeparam name="TDbContext"></typeparam>
+    /// <param name="options"></param>
+    /// <param name="storeOptions"></param>
+    /// <returns></returns>
+    public static SettingOptions UseStoreOfEFCore<TDbContext>(
+        this SettingOptions options, Action<EFCoreStoreOptions>? storeOptions = null) where TDbContext : DbContext, IBiwenSettingsDbContext
+    {
+        options.UseSettingManager<EFCoreSettingManager<TDbContext>, Action<EFCoreStoreOptions>?>(storeOptions);
+        return options;
+    }
+
+    /// <summary>
+    /// 使用JsonStore持久化配置项
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="storeOptions"></param>
+    /// <returns></returns>
+    public static SettingOptions UseStoreOfJsonFile(this SettingOptions options, Action<JsonStoreOptions>? storeOptions = null)
+    {
+        options.UseSettingManager<JsonStoreSettingManager, Action<JsonStoreOptions>?>(storeOptions);
+        return options;
+    }
 }
