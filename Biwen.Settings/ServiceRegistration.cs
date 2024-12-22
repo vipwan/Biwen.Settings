@@ -76,8 +76,7 @@ public static class ServiceRegistration
 
         if (currentOptions.SettingStore.StoreType == typeof(EFCoreSettingStore<>))
         {
-            if (currentOptions.SettingStore.Options == null)
-                throw new BiwenException("EFCoreStoreOptions need set!");
+            ArgumentNullException.ThrowIfNull(currentOptions.SettingStore.Options, "EFCoreStoreOptions need set!");
 
             services.AddOptions<EFCoreStoreOptions>().Configure(x =>
             {

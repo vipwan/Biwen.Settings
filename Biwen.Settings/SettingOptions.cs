@@ -15,44 +15,36 @@ namespace Biwen.Settings;
 public class SettingOptions
 {
     /// <summary>
-    /// 权限验证器,如果返回false则不允许访问设置页面
+    /// 权限验证器,如果返回false则不允许访问设置页面,默认:允许任意访问
     /// </summary>
     public Func<HttpContext, Task<bool>> PermissionValidator { get; set; } = _ => Task.FromResult(true);
     /// <summary>
-    /// 管理页面路由路径
+    /// 管理页面路由路径,默认:system/setting
     /// </summary>
     public string Route { get; set; } = "system/setting";
 
 
     /// <summary>
-    /// Api前缀
+    /// Minimal Api前缀,默认:biwensetting/api
     /// </summary>
     public string ApiPrefix { get; set; } = "biwensetting/api";
 
     /// <summary>
-    /// Api EndpointConventionBuilder
+    /// Api EndpointConventionBuilder,默认:null
     /// </summary>
     public Action<IEndpointConventionBuilder>? ApiConventionBuilder { get; set; } = null;
 
-
     /// <summary>
-    /// 是否开启提醒的Notify端点
+    /// 是否开启提醒的Notify端点,默认:false
     /// </summary>
     public bool MapNotifyEndpoint { get; set; } = false;
 
-
-
     /// <summary>
-    /// Layout布局
-    /// </summary>
-    [Obsolete("Layout后续不在使用,请添加Areas/Biwen.Settings/Views/Setting/_Layout.cshtml 覆盖", false)]
-    public string Layout { get; set; } = "_Layout.cshtml";
-    /// <summary>
-    /// 管理页面标题
+    /// 管理页面标题,默认:设置中心
     /// </summary>
     public string Title { get; set; } = "设置中心";
     /// <summary>
-    /// 项目标识 用于区分不同的项目,比如:日志系统,文件系统;或者环境,比如:开发环境,测试环境,生产环境
+    /// 项目标识 用于区分不同的项目,比如:日志系统,文件系统;或者环境,比如:开发环境,测试环境,生产环境,默认:default
     /// </summary>
     public string ProjectId { get; set; } = "default";
 
@@ -68,14 +60,14 @@ public class SettingOptions
 
     /// <summary>
     /// 默认不使用任何缓存
-    /// 不支持直接调用,请使用UseCache方法
+    /// 不支持直接调用,请使用UseCache方法,默认:NullCacheProvider
     /// </summary>
     public Type CacheProvider { get; private set; } = typeof(NullCacheProvider);
 
     /// <summary>
-    /// 默认使用EntityFrameworkCore持久化配置项
+    /// SettingStore
     /// </summary>
-    public (Type? StoreType, object? Options) SettingStore { get; private set; } = (null, null);
+    internal (Type? StoreType, object? Options) SettingStore { get; private set; } = (null, null);
 
 
     /// <summary>
@@ -149,7 +141,7 @@ public class SettingOptions
 public class NotifyOptions
 {
     /// <summary>
-    /// 是否启用当前服务为通知的生产者
+    /// 是否启用当前服务为通知的生产者,默认:false
     /// </summary>
     public bool IsNotifyEnable { get; set; } = false;
 
@@ -173,18 +165,21 @@ public class NotifyOptions
 public class EditorOptions
 {
     /// <summary>
-    /// js Onclick代码
+    /// js Onclick代码,默认:return confirm('确定要修改吗!?如果格式错误将使系统异常!');
     /// </summary>
     public string? EditorOnclick { get; set; } = "return confirm('确定要修改吗!?如果格式错误将使系统异常!');";
     /// <summary>
-    /// 按钮文本
+    /// 按钮确认文本,默认:确认修改
     /// </summary>
     public string? EdtiorConfirmButtonText { get; set; } = "确认修改";
 
+    /// <summary>
+    /// 按钮文本,默认:编辑
+    /// </summary>
     public string? EditorEditButtonText { get; set; } = "编辑";
 
     /// <summary>
-    /// 是否分页展示,注意Layout必须引用JQuery
+    /// 是否分页展示,注意Layout必须引用JQuery,默认:true
     /// </summary>
     public bool ShouldPagenation { get; set; } = true;
 

@@ -43,7 +43,7 @@ builder.Services.Configure<GarnetClientOptions>(options =>
 {
 });
 
-builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
+builder.Services.AddBiwenSettings((options =>
 {
 
 #if DEBUG

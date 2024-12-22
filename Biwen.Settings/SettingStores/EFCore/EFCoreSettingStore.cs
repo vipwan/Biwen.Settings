@@ -91,8 +91,7 @@ internal sealed class EFCoreSettingStore<TDbContext> : BaseSettingStore where TD
 
     public override void Save<T>(T setting)
     {
-        if (setting == null)
-            throw new ArgumentNullException(nameof(setting));
+        ArgumentNullException.ThrowIfNull(setting, nameof(setting));
 
         var settingType = typeof(T).FullName!;
         var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
