@@ -15,7 +15,7 @@
 		<PackageTags>configuration;setting;netcore;orchardcore</PackageTags>
 		<PackageReleaseNotes>提供对OrchardCore的支持</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<NoWarn>GEN031;GEN052</NoWarn>
+		<NoWarn>GEN031</NoWarn>
 	</PropertyGroup>
 
 	<Import Project="..\Version.props" />

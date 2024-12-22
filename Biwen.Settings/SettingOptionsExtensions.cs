@@ -58,7 +58,7 @@ public static class SettingOptionsExtensions
     /// <returns></returns>
     public static SettingOptions UseStoreOfJsonFile(this SettingOptions options, Action<JsonFileStoreOptions>? storeOptions = null)
     {
-        options.UseSettingStore<JsonStoreSettingStore, Action<JsonFileStoreOptions>?>(storeOptions);
+        options.UseSettingStore<JsonFileSettingStore, Action<JsonFileStoreOptions>?>(storeOptions);
         return options;
     }
 }

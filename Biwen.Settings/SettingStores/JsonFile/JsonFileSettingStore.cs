@@ -11,7 +11,7 @@ using System.Text.Json.Serialization;
 
 namespace Biwen.Settings.SettingStores.JsonFile;
 
-public class JsonStoreSettingStore : BaseSettingStore
+public class JsonFileSettingStore : BaseSettingStore
 {
     private readonly IOptions<SettingOptions> _options;
     private readonly IOptions<JsonFileStoreOptions> _storeOptions;
@@ -33,7 +33,7 @@ public class JsonStoreSettingStore : BaseSettingStore
 
     private readonly static Lock _lock = new();
 
-    public JsonStoreSettingStore(ILogger<JsonStoreSettingStore> logger,
+    public JsonFileSettingStore(ILogger<JsonFileSettingStore> logger,
         IOptions<SettingOptions> options,
         IOptions<JsonFileStoreOptions> storeOptions,
         IEncryptionProvider encryptionProvider

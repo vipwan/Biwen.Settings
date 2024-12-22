@@ -84,7 +84,7 @@ public static class ServiceRegistration
                 (currentOptions.SettingStore.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
             });
         }
-        else if (currentOptions.SettingStore.StoreType == typeof(JsonStoreSettingStore))
+        else if (currentOptions.SettingStore.StoreType == typeof(JsonFileSettingStore))
         {
             services.AddOptions<JsonFileStoreOptions>().Configure(x =>
             {
