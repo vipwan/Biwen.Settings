@@ -29,7 +29,7 @@ public static class BiwenSettingApis
     /// <param name="apiPrefix"></param>
     /// <param name="mapNotifyEndpoint">是否配置Settings变更消费者</param>
     /// <returns></returns>
-    public static RouteGroupBuilder MapBiwenSettingApi(
+    internal static RouteGroupBuilder MapBiwenSettingApi(
         this IEndpointRouteBuilder endpoint,
         string apiPrefix = "biwensetting/api",
         bool mapNotifyEndpoint = false)

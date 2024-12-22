@@ -85,6 +85,13 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
         "http://localhost:5150"
     ];
 
+    options.MapNotifyEndpoint = true;
+    options.ApiConventionBuilder = (builder) =>
+    {
+        builder.WithTags("BiwenSettingApi").WithOpenApi();
+    };
+
+
     //使用JsonStore
     //options.UseStoreOfJsonFile(options =>
     //{
@@ -132,11 +139,7 @@ app.UseRouting();
 
 app.MapRazorPages();
 
-app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
-{
-    builder.WithTags("BiwenSettingApi").WithOpenApi();
-});
-
+app.UseBiwenSettings();
 
 //测试服务,访问/test 返回站点名称
 app.MapGet("/test", (Biwen.Settings.TestWebUI.Services.TestService service) => service.GetSiteName())

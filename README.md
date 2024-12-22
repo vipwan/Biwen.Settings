@@ -150,6 +150,13 @@ options.UserStoreOfJsonFile(options =>
     options.FormatJson = true;
     options.JsonPath = "systemsetting.json";
 });
+
+
+options.MapNotifyEndpoint = true;
+options.ApiConventionBuilder = (builder) =>
+{
+    builder.WithTags("BiwenSettingApi").WithOpenApi();
+};
         
 //自行实现的ISettingStore注册
 //options.UseSettingStore<T,V>()
@@ -158,10 +165,7 @@ options.UserStoreOfJsonFile(options =>
 //提供对`IOptions`和`IConfiguration`直接支持:
 builder.Configuration.AddBiwenSettingConfiguration(builder.Services, true);
 
-app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
-{
-builder.WithTags("BiwenSettingApi").WithOpenApi();
-});
+app.UseBiwenSettings();
 
 ```
 

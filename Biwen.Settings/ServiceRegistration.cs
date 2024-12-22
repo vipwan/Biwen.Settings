@@ -213,15 +213,8 @@ public static class ServiceRegistration
     /// Use BiwenSettings
     /// </summary>
     /// <param name="app"></param>
-    /// <param name="apiPrefix"></param>
-    /// <param name="mapNotifyEndpoint">是否配置Settings变更消费者</param>
-    /// <param name="builder">需要对MinimalApi更多的扩展操作</param>
     /// <returns></returns>
-    public static IApplicationBuilder UseBiwenSettings(
-        this WebApplication app,
-        string apiPrefix = "biwensetting/api",
-        bool mapNotifyEndpoint = false,
-        Action<IEndpointConventionBuilder>? builder = null)
+    public static IApplicationBuilder UseBiwenSettings(this WebApplication app)
     {
         var settingOptions = app.Services.GetRequiredService<IOptions<SettingOptions>>();
         if (settingOptions.Value.EditorOptions.ShouldPagenation)
@@ -254,8 +247,8 @@ public static class ServiceRegistration
                defaults: new { controller = "Setting", action = "Edit" });
 
         // WebApi
-        var route = app.MapBiwenSettingApi(apiPrefix, mapNotifyEndpoint);
-        builder?.Invoke(route);
+        var route = app.MapBiwenSettingApi(settingOptions.Value.ApiPrefix, settingOptions.Value.MapNotifyEndpoint);
+        settingOptions.Value.ApiConventionBuilder?.Invoke(route);
         return app;
     }
 }

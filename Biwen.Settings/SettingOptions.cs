@@ -7,6 +7,7 @@
 
 using Biwen.Settings.Caching;
 using Biwen.Settings.Encryption;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
 namespace Biwen.Settings;
@@ -21,6 +22,26 @@ public class SettingOptions
     /// 管理页面路由路径
     /// </summary>
     public string Route { get; set; } = "system/setting";
+
+
+    /// <summary>
+    /// Api前缀
+    /// </summary>
+    public string ApiPrefix { get; set; } = "biwensetting/api";
+
+    /// <summary>
+    /// Api EndpointConventionBuilder
+    /// </summary>
+    public Action<IEndpointConventionBuilder>? ApiConventionBuilder { get; set; } = null;
+
+
+    /// <summary>
+    /// 是否开启提醒的Notify端点
+    /// </summary>
+    public bool MapNotifyEndpoint { get; set; } = false;
+
+
+
     /// <summary>
     /// Layout布局
     /// </summary>
