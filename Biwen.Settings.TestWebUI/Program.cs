@@ -5,6 +5,7 @@ using Biwen.Settings.Encryption;
 using Biwen.Settings.TestWebUI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpLogging;
+using Biwen.Settings.Redis;
 
 
 Console.WriteLine($"Biwen.Settings Version:{Biwen.Settings.Generated.AssemblyMetadata.Version}");
@@ -37,11 +38,16 @@ builder.Services.AddHttpLogging(options =>
     options.CombineLogs = true;
 });
 
-
 //配置garnet client
-builder.Services.Configure<GarnetClientOptions>(options =>
+builder.Services.AddGarnet(o =>
 {
 });
+
+builder.Services.AddCsRedisClient(o =>
+{
+    o.RedisConnString = "127.0.0.1:6379";
+});
+
 
 builder.Services.AddBiwenSettings((options =>
 {
@@ -70,6 +76,9 @@ builder.Services.AddBiwenSettings((options =>
     //options.UseCacheOfNull();
     options.UseCacheOfMemory();
     //options.UseCacheOfGarnet();
+
+    //使用Redis缓存
+    //options.UseCacheOfRedis();
 
     //加密提供者,空加密为默认实现
     options.UseEncryption<EmptyEncryptionProvider>();

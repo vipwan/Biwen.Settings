@@ -9,11 +9,6 @@
 	<Import Project="..\Release.props" />
 	<Import Project="..\Version.props" />
 
-	<ItemGroup>
-		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.Garnet" Version="1.0.47" />
-		<PackageReference Include="System.Text.Json" Version="9.0.0" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\README.md">
@@ -24,6 +19,11 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Biwen.Settings\Biwen.Settings.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" />
+		<PackageReference Include="CSRedisCore" Version="3.8.803" />
 	</ItemGroup>
 
 </Project>

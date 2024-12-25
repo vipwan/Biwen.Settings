@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1C90F597
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biwen.Settings.Tests", "Biwen.Settings.Tests\Biwen.Settings.Tests.csproj", "{D9C522F9-DA08-4D96-B907-54123D9A2104}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biwen.Settings.Redis", "Biwen.Settings.Redis\Biwen.Settings.Redis.csproj", "{0B9DD3C7-0969-4828-9C91-871B32469A08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{D9C522F9-DA08-4D96-B907-54123D9A2104}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9C522F9-DA08-4D96-B907-54123D9A2104}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9C522F9-DA08-4D96-B907-54123D9A2104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B9DD3C7-0969-4828-9C91-871B32469A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B9DD3C7-0969-4828-9C91-871B32469A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B9DD3C7-0969-4828-9C91-871B32469A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B9DD3C7-0969-4828-9C91-871B32469A08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{45F44F14-FC61-470D-A093-367AED2DA567} = {A9DE5678-8CC4-4063-8B3C-FF3162E4BBF9}
 		{D9C522F9-DA08-4D96-B907-54123D9A2104} = {1C90F597-6FDE-4233-AFBA-A47195D5062A}
+		{0B9DD3C7-0969-4828-9C91-871B32469A08} = {A9DE5678-8CC4-4063-8B3C-FF3162E4BBF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9266020E-C3B7-47A6-84E0-9A4FED9DAB67}
