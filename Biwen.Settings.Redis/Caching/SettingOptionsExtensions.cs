@@ -2,7 +2,9 @@
 // The Biwen.Settings.Caching.Garnet licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#pragma warning disable IDE0130 // 命名空间与文件夹结构不匹配
 namespace Biwen.Settings;
+#pragma warning restore IDE0130 // 命名空间与文件夹结构不匹配
 
 using Biwen.Settings.Redis.Caching;
 

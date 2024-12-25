@@ -6,7 +6,6 @@
 // Modify Date: 2024-12-25 14:17:05 ServiceCollectionExtensions.cs
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Biwen.Settings.Caching.Garnet;
 

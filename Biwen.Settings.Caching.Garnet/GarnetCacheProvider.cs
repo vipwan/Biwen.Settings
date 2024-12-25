@@ -3,13 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using Garnet.client;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 using System.Text.Json;
 
 namespace Biwen.Settings.Caching.Garnet;
 
-public class GarnetCacheProvider(IOptions<GarnetClientOptions> optons) : ICacheProvider
+public class GarnetCacheProvider(IOptions<GarnetClientOptions> optons, ILogger<GarnetCacheProvider> logger) : ICacheProvider
 {
     private readonly IOptions<GarnetClientOptions> _options = optons;
     private static readonly ConcurrentDictionary<string, object?> Keys = new();
@@ -18,6 +19,9 @@ public class GarnetCacheProvider(IOptions<GarnetClientOptions> optons) : ICacheP
 
     public async Task<T?> GetOrCreateAsync<T>(string key, Func<T?> factory, int cacheTime = 86400) where T : ISetting
     {
+
+        logger.LogDebug("GetOrCreateAsync {key}", key);
+
         Keys.TryAdd(key, null);
 
         using var db = new GarnetClient(
@@ -48,9 +52,10 @@ public class GarnetCacheProvider(IOptions<GarnetClientOptions> optons) : ICacheP
         return JsonSerializer.Deserialize<T?>(value);
     }
 
-
     public async Task RemoveAsync(string key)
     {
+        logger.LogDebug("RemoveAsync {key}", key);
+
         Keys.TryRemove(key, out _);
 
         using var db = new GarnetClient(
@@ -66,6 +71,8 @@ public class GarnetCacheProvider(IOptions<GarnetClientOptions> optons) : ICacheP
 
     public async Task RemoveAllAsync()
     {
+        logger.LogDebug("RemoveAllAsync");
+
         foreach (var key in Keys.Keys)
         {
             await RemoveAsync(key);

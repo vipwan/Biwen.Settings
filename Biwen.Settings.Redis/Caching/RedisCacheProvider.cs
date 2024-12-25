@@ -7,10 +7,11 @@
 
 using Biwen.Settings.Caching;
 using CSRedis;
+using Microsoft.Extensions.Logging;
 
 namespace Biwen.Settings.Redis.Caching;
 
-public class RedisCacheProvider(CSRedisClient client) : ICacheProvider
+public class RedisCacheProvider(CSRedisClient client, ILogger<RedisCacheProvider> logger) : ICacheProvider
 {
     private const string SettingKeyFormat = "__BiwenSetting__CsRedis_";
 
@@ -22,6 +23,8 @@ public class RedisCacheProvider(CSRedisClient client) : ICacheProvider
 
         //add to cache key list
         SettingKeys.Add(cacheKey);
+
+        logger.LogDebug("GetOrCreateAsync: {key}", key);
 
         if (client.Exists(cacheKey))
         {
@@ -35,6 +38,8 @@ public class RedisCacheProvider(CSRedisClient client) : ICacheProvider
 
     public async Task RemoveAllAsync()
     {
+        logger.LogDebug("RemoveAllAsync");
+
         await client.DelAsync([.. SettingKeys]);
         //清空缓存key列表
         SettingKeys.Clear();
@@ -42,6 +47,8 @@ public class RedisCacheProvider(CSRedisClient client) : ICacheProvider
 
     public async Task RemoveAsync(string key)
     {
+        logger.LogDebug("RemoveAsync: {key}", key);
+
         await client.DelAsync($"{SettingKeyFormat}{key}");
     }
 }
