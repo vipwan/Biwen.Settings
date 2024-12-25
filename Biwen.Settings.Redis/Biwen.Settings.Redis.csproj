@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" />
+		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" PrivateAssets="all" />
 		<PackageReference Include="CSRedisCore" Version="3.8.803" />
 	</ItemGroup>
 
