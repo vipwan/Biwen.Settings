@@ -94,8 +94,9 @@ builder.Services.AddBiwenSettings((options =>
         "http://localhost:5150"
     ];
 
-    options.MapNotifyEndpoint = true;
-    options.ApiConventionBuilder = (builder) =>
+    options.ApiOptions.ApiEnabled = true;
+    options.ApiOptions.MapNotifyEndpoint = true;
+    options.ApiOptions.ApiConventionBuilder = (builder) =>
     {
         builder.WithTags("BiwenSettingApi").WithOpenApi();
     };

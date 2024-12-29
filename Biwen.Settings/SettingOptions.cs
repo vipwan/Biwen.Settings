@@ -23,22 +23,6 @@ public class SettingOptions
     /// </summary>
     public string Route { get; set; } = "system/setting";
 
-
-    /// <summary>
-    /// Minimal Api前缀,默认:biwensetting/api
-    /// </summary>
-    public string ApiPrefix { get; set; } = "biwensetting/api";
-
-    /// <summary>
-    /// Api EndpointConventionBuilder,默认:null
-    /// </summary>
-    public Action<IEndpointConventionBuilder>? ApiConventionBuilder { get; set; } = null;
-
-    /// <summary>
-    /// 是否开启提醒的Notify端点,默认:false
-    /// </summary>
-    public bool MapNotifyEndpoint { get; set; } = false;
-
     /// <summary>
     /// 管理页面标题,默认:设置中心
     /// </summary>
@@ -131,8 +115,9 @@ public class SettingOptions
     public NotifyOptions NotifyOptions { get; set; } = new();
 
     /// <summary>
-    /// 变更通知选项
+    /// WebApi相关配置
     /// </summary>
+    public ApiOptions ApiOptions { get; set; } = new();
 }
 
 /// <summary>
@@ -183,4 +168,32 @@ public class EditorOptions
     /// </summary>
     public bool ShouldPagenation { get; set; } = true;
 
+}
+
+
+/// <summary>
+/// ApiOptions
+/// </summary>
+public class ApiOptions
+{
+    /// <summary>
+    /// 是否开启Api,默认:true
+    /// </summary>
+    public bool ApiEnabled { get; set; } = true;
+
+
+    /// <summary>
+    /// Minimal Api前缀,默认:biwensetting/api
+    /// </summary>
+    public string ApiPrefix { get; set; } = "biwensetting/api";
+
+    /// <summary>
+    /// Api EndpointConventionBuilder,默认:null
+    /// </summary>
+    public Action<IEndpointConventionBuilder>? ApiConventionBuilder { get; set; } = null;
+
+    /// <summary>
+    /// 是否开启提醒的Notify端点,默认:false
+    /// </summary>
+    public bool MapNotifyEndpoint { get; set; } = false;
 }

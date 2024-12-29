@@ -246,8 +246,11 @@ public static class ServiceRegistration
                defaults: new { controller = "Setting", action = "Edit" });
 
         // WebApi
-        var route = app.MapBiwenSettingApi(settingOptions.Value.ApiPrefix, settingOptions.Value.MapNotifyEndpoint);
-        settingOptions.Value.ApiConventionBuilder?.Invoke(route);
+        if (settingOptions.Value.ApiOptions.ApiEnabled)
+        {
+            var route = app.MapBiwenSettingApi(settingOptions.Value.ApiOptions.ApiPrefix, settingOptions.Value.ApiOptions.MapNotifyEndpoint);
+            settingOptions.Value.ApiOptions.ApiConventionBuilder?.Invoke(route);
+        }
         return app;
     }
 }
