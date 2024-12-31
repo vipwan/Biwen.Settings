@@ -15,7 +15,7 @@
 		<PackageTags>configuration;setting;netcore;orchardcore</PackageTags>
 		<PackageReleaseNotes>提供对OrchardCore的支持</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<NoWarn>GEN031;GEN052</NoWarn>
+		<NoWarn>GEN031</NoWarn>
 	</PropertyGroup>
 
 	<Import Project="..\Version.props" />
@@ -53,16 +53,8 @@
 		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.DisplayManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.Navigation" Version="$(OrchardVer)" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="System.Text.Json" Version="8.0.5" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
 		<PackageReference Include="System.Text.Json" Version="9.0.0" />
 	</ItemGroup>
-
-
 
 	<ItemGroup>
 		<ProjectReference Include="..\Biwen.Settings\Biwen.Settings.csproj" />

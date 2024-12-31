@@ -75,7 +75,7 @@ dotnet ef migrations add biwenSettings
 dotnet ef database update
 ```
 
-### 1.2 使用自定义SettingManager
+### 1.2 使用自定义SettingStore
 
 - 直接跳入step 2.2
 
@@ -92,10 +92,10 @@ builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseInMemoryDatabase("BiwenSettings");
 });
 ```
-- 2.2 如果使用自定义仓储,请实现ISettingManager并修改AddBiwenSettings()
+- 2.2 如果使用自定义仓储,请实现ISettingStore并修改AddBiwenSettings()
 
 ```csharp
-options.UseSettingManager<T,V>()
+options.UseSettingStore<T,V>()
 ```
 
 ### step 3
@@ -150,18 +150,22 @@ options.UserStoreOfJsonFile(options =>
     options.FormatJson = true;
     options.JsonPath = "systemsetting.json";
 });
+
+
+options.MapNotifyEndpoint = true;
+options.ApiConventionBuilder = (builder) =>
+{
+    builder.WithTags("BiwenSettingApi").WithOpenApi();
+};
         
-//自行实现的ISettingManager注册
-//options.UseSettingManager<T,V>()
+//自行实现的ISettingStore注册
+//options.UseSettingStore<T,V>()
 });
 
 //提供对`IOptions`和`IConfiguration`直接支持:
 builder.Configuration.AddBiwenSettingConfiguration(builder.Services, true);
 
-app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
-{
-builder.WithTags("BiwenSettingApi").WithOpenApi();
-});
+app.UseBiwenSettings();
 
 ```
 

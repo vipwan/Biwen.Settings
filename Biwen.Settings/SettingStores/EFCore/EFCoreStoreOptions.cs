@@ -3,17 +3,17 @@
 // See the LICENSE file in the project root for more information.
 // Biwen.Settings Author: 万雅虎, Github: https://github.com/vipwan
 // Biwen.Settings ,NET8+ 应用配置项管理模块
-// Modify Date: 2024-09-18 17:30:12 IBiwenSettingsDbContext.cs
+// Modify Date: 2024-09-18 17:29:58 EFCoreStoreOptions.cs
 
-using Microsoft.EntityFrameworkCore;
+using static Biwen.Settings.SettingOptions;
 
-namespace Biwen.Settings.SettingManagers.EFCore
+namespace Biwen.Settings.SettingStores.EFCore;
+
+public class EFCoreStoreOptions
 {
-    public interface IBiwenSettingsDbContext
-    {
-        /// <summary>
-        /// DbSet
-        /// </summary>
-        DbSet<Setting> Settings { get; set; }
-    }
+    /// <summary>
+    /// 加密的内容配置项
+    /// </summary>
+    public EncryptionOptions EncryptionOptions { get; set; } = new();
+
 }

@@ -18,7 +18,7 @@ internal class MinimalAuthFilter : IEndpointFilter
         EndpointFilterDelegate next)
     {
         var options = context.HttpContext.RequestServices.GetService<IOptions<SettingOptions>>()!.Value!;
-        if (options.PermissionValidator(context.HttpContext))
+        if (await options.PermissionValidator(context.HttpContext))
         {
             return await next(context);
         }

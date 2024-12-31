@@ -5,6 +5,6 @@
 // Biwen.Settings ,NET8+ 应用配置项管理模块
 // Modify Date: 2024-09-18 17:30:45 SettingRecord.cs
 
-namespace Biwen.Settings.SettingManagers;
+namespace Biwen.Settings.SettingStores;
 
 internal record SettingRecord(Type SettingType, object Setting);

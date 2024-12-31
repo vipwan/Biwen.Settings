@@ -13,7 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="Biwen.Settings.Tests"/>
+		<InternalsVisibleTo Include="Biwen.Settings.Tests" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,6 +29,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Biwen.Settings.Caching.Garnet\Biwen.Settings.Caching.Garnet.csproj" />
+		<ProjectReference Include="..\Biwen.Settings.Redis\Biwen.Settings.Redis.csproj" />
 		<ProjectReference Include="..\Biwen.Settings\Biwen.Settings.csproj" />
 	</ItemGroup>
 

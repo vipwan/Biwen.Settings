@@ -3,9 +3,16 @@
 // See the LICENSE file in the project root for more information.
 // Biwen.Settings Author: 万雅虎, Github: https://github.com/vipwan
 // Biwen.Settings ,NET8+ 应用配置项管理模块
-// Modify Date: 2024-09-18 17:28:33 InternalsVisible.cs
+// Modify Date: 2024-09-18 17:30:12 IBiwenSettingsDbContext.cs
 
-using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
 
-[assembly: InternalsVisibleTo("Biwen.Settings.Tests")]
-[assembly: InternalsVisibleTo("Biwen.Settings.OC")]
+namespace Biwen.Settings.SettingStores.EFCore;
+
+public interface IBiwenSettingsDbContext
+{
+    /// <summary>
+    /// DbSet
+    /// </summary>
+    DbSet<Setting> Settings { get; set; }
+}

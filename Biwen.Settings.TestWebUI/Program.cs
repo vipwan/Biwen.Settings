@@ -5,6 +5,7 @@ using Biwen.Settings.Encryption;
 using Biwen.Settings.TestWebUI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpLogging;
+using Biwen.Settings.Redis;
 
 
 Console.WriteLine($"Biwen.Settings Version:{Biwen.Settings.Generated.AssemblyMetadata.Version}");
@@ -18,6 +19,9 @@ builder.Services.AddRazorPages();
 //swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add services to the container.
+builder.Services.AddScoped<Biwen.Settings.TestWebUI.Services.TestService>();
 
 
 //注册DbContext
@@ -34,13 +38,18 @@ builder.Services.AddHttpLogging(options =>
     options.CombineLogs = true;
 });
 
-
 //配置garnet client
-builder.Services.Configure<GarnetClientOptions>(options =>
+builder.Services.AddGarnet(o =>
 {
 });
 
-builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
+builder.Services.AddCsRedisClient(o =>
+{
+    o.RedisConnString = "127.0.0.1:6379";
+});
+
+
+builder.Services.AddBiwenSettings((options =>
 {
 
 #if DEBUG
@@ -54,7 +63,7 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
     //options.Layout = "~/Views/Shared/_Layout.cshtml";
     options.Title = "Biwen.Settings";
     options.Route = "system/settings";
-    options.PermissionValidator = (ctx) => true;
+    options.PermissionValidator = (ctx) => Task.FromResult(true);
     options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
     options.EditorOptions.EdtiorConfirmButtonText = "Submit";
     options.EditorOptions.EditorEditButtonText = "Edit";
@@ -65,8 +74,11 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
     //支持缓存提供者,默认不使用缓存
     //您也可以使用Biwen.Settings提供内存缓存:Biwen.Settings.Caching.MemoryCacheProvider
     //options.UseCacheOfNull();
-    options.UseCacheOfMemory();
+    options.UseCacheOfMemory(30);
     //options.UseCacheOfGarnet();
+
+    //使用Redis缓存
+    //options.UseCacheOfRedis();
 
     //加密提供者,空加密为默认实现
     options.UseEncryption<EmptyEncryptionProvider>();
@@ -81,6 +93,14 @@ builder.Services.AddBiwenSettings((Action<SettingOptions>)(options =>
     [
         "http://localhost:5150"
     ];
+
+    options.ApiOptions.ApiEnabled = true;
+    options.ApiOptions.MapNotifyEndpoint = true;
+    options.ApiOptions.ApiConventionBuilder = (builder) =>
+    {
+        builder.WithTags("BiwenSettingApi").WithOpenApi();
+    };
+
 
     //使用JsonStore
     //options.UseStoreOfJsonFile(options =>
@@ -105,18 +125,22 @@ if (app.Environment.IsDevelopment())
 {
     app.UseHttpLogging();
     app.UseDeveloperExceptionPage();
+
+    //swagger ui
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
     app.UseExceptionHandler("/Error");
 }
 
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-
+#if NET9_0_OR_GREATER
+app.MapStaticAssets();
+#else
 app.UseStaticFiles();
+#endif
+
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -125,10 +149,12 @@ app.UseRouting();
 
 app.MapRazorPages();
 
-app.UseBiwenSettings(mapNotifyEndpoint: true, builder: builder =>
-{
-    builder.WithTags("BiwenSettingApi").WithOpenApi();
-});
+app.UseBiwenSettings();
+
+//测试服务,访问/test 返回站点名称
+app.MapGet("/test", (Biwen.Settings.TestWebUI.Services.TestService service) => service.GetSiteName())
+    .WithTags(". Test");
+
 
 app.Run();
 

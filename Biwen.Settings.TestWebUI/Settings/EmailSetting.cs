@@ -8,34 +8,27 @@ namespace Biwen.Settings.TestWebUI
     public class EmailSetting : ValidationSettingBase<EmailSetting>
     {
         [Description("SMTP服务器")]
+        [Required, StringLength(128, MinimumLength = 6)]
         public string Host { get; set; } = "smtp.qq.com";
 
         /// <summary>
         /// DataAnnotations测试,300-699
         /// </summary>
-        [Range(300, 699)]
+        [Range(300, 699), Required]
         public int Port { get; set; } = 465;
 
-        [StringLength(50, MinimumLength = 3)]
+        [StringLength(128, MinimumLength = 3), Required]
         public string UserName { get; set; } = "";
+
+        [StringLength(128, MinimumLength = 3), Required]
         public string Password { get; set; } = "";
 
+        [StringLength(128, MinimumLength = 3), Required]
         public string From { get; set; } = "";
 
         public override int Order => 500;
 
-
-        public EmailSetting()
-        {
-            //验证规则
-            RuleFor(x => x.Host).NotEmpty().Length(6, 128);
-            RuleFor(x => x.Port).NotNull().NotEmpty().GreaterThan(0);
-            RuleFor(x => x.UserName).NotNull().NotEmpty().Length(3, 128);
-            RuleFor(x => x.Password).NotNull().NotEmpty().Length(3, 128);
-            RuleFor(x => x.From).NotNull().NotEmpty().Length(3, 128);
-        }
     }
-
 
     /// <summary>
     /// 站点基础配置
