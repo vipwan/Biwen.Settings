@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<PackageVersion>2.5.0</PackageVersion>
+		<PackageVersion>2.5.1</PackageVersion>
 		<PackageReleaseNotes>提供对IConfiguration和IOptions的集成支持</PackageReleaseNotes>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
