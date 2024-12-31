@@ -14,11 +14,12 @@ public static class SettingOptionsExtensions
     /// 使用CsRedis缓存
     /// </summary>
     /// <param name="options"></param>
+    /// <param name="cacheTime">缓存时间,默认:86400秒</param>
     /// <returns></returns>
 
-    public static SettingOptions UseCacheOfRedis(this SettingOptions options)
+    public static SettingOptions UseCacheOfRedis(this SettingOptions options, int cacheTime = 86400)
     {
-        options.UseCache<RedisCacheProvider>();
+        options.UseCache<RedisCacheProvider>(cacheTime);
         return options;
     }
 }

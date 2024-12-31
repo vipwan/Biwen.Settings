@@ -74,7 +74,8 @@ internal sealed class SettingStoreDecorator(
     {
         var retn = _cacheProvider.Value.GetOrCreateAsync<T>(
             string.Format(Consts.CacheKeyFormat, typeof(T).FullName, _options.Value.ProjectId),
-            () => _settingStore.Get<T>()
+            () => _settingStore.Get<T>(),
+            _options.Value.CacheTime
         ).GetAwaiter().GetResult();
         return retn!;
     }

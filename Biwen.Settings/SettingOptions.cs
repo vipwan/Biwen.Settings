@@ -48,6 +48,13 @@ public class SettingOptions
     /// </summary>
     public Type CacheProvider { get; private set; } = typeof(NullCacheProvider);
 
+
+    /// <summary>
+    /// 缓存时间,默认:86400秒
+    /// </summary>
+    internal int CacheTime { get; private set; } = 86400;
+
+
     /// <summary>
     /// SettingStore
     /// </summary>
@@ -58,8 +65,9 @@ public class SettingOptions
     /// 使用的缓存提供者
     /// </summary>
     /// <param name="provider"></param>
-    public void UseCache<T>() where T : class, ICacheProvider
+    public void UseCache<T>(int cacheTime = 86400) where T : class, ICacheProvider
     {
+        CacheTime = cacheTime;//缓存时间
         CacheProvider = typeof(T);
     }
 

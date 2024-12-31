@@ -14,11 +14,12 @@ public static class SettingOptionsExtensions
     /// 使用Garnet缓存
     /// </summary>
     /// <param name="options"></param>
+    /// <param name="cacheTime">缓存时间,默认86400秒</param>
     /// <returns></returns>
 
-    public static SettingOptions UseCacheOfGarnet(this SettingOptions options)
+    public static SettingOptions UseCacheOfGarnet(this SettingOptions options, int cacheTime = 86400)
     {
-        options.UseCache<GarnetCacheProvider>();
+        options.UseCache<GarnetCacheProvider>(cacheTime);
         return options;
     }
 }
