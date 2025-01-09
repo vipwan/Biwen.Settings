@@ -31,8 +31,6 @@ public class JsonFileSettingStore : BaseSettingStore
         Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
 
-    private readonly static Lock _lock = new();
-
     public JsonFileSettingStore(ILogger<JsonFileSettingStore> logger,
         IOptions<SettingOptions> options,
         IOptions<JsonFileStoreOptions> storeOptions,
@@ -108,52 +106,62 @@ public class JsonFileSettingStore : BaseSettingStore
     }
 
 
-
     public override void Save<T>(T setting)
     {
-        lock (_lock)
+        using var fs = new FileStream(
+            _storeOptions.Value.JsonPath,
+            FileMode.OpenOrCreate,
+            FileAccess.ReadWrite,
+            FileShare.None);//独占
+
+        using var sr = new StreamReader(fs);
+
+        var json = sr.ReadToEnd();
+
+        var stored = JsonSerializer.Deserialize<List<Setting>>(json);
+
+        var @default = new T();
+        var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
+
+        if (stored == null)
         {
-            var json = File.ReadAllText(_storeOptions.Value.JsonPath);
-            var stored = JsonSerializer.Deserialize<List<Setting>>(json);
+            stored = [];
+            var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
 
-            var @default = new T();
-            var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
-
-            if (stored == null)
+            stored!.Add(new Setting
             {
-                stored = [];
-                var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
-
-                stored!.Add(new Setting
-                {
-                    ProjectId = _options.Value.ProjectId,
-                    SettingName = setting.SettingName!,
-                    SettingType = typeof(T).FullName!,
-                    Description = desc?.Description,
-                    Order = setting.Order,
-                    LastModificationTime = DateTime.Now,
-                    SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
-                });
-            }
-            else
-            {
-                stored.RemoveAll(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == typeof(T).FullName);
-
-                var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
-
-                stored.Add(new Setting
-                {
-                    ProjectId = _options.Value.ProjectId,
-                    SettingName = setting.SettingName!,
-                    SettingType = typeof(T).FullName!,
-                    Description = desc?.Description,
-                    Order = setting.Order,
-                    LastModificationTime = DateTime.Now,
-                    SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
-                });
-            }
-            //Store
-            File.WriteAllText(_storeOptions.Value.JsonPath, JsonSerializer.Serialize(stored, _serializerOptions));
+                ProjectId = _options.Value.ProjectId,
+                SettingName = setting.SettingName!,
+                SettingType = typeof(T).FullName!,
+                Description = desc?.Description,
+                Order = setting.Order,
+                LastModificationTime = DateTime.Now,
+                SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
+            });
         }
+        else
+        {
+            stored.RemoveAll(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == typeof(T).FullName);
+
+            var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
+
+            stored.Add(new Setting
+            {
+                ProjectId = _options.Value.ProjectId,
+                SettingName = setting.SettingName!,
+                SettingType = typeof(T).FullName!,
+                Description = desc?.Description,
+                Order = setting.Order,
+                LastModificationTime = DateTime.Now,
+                SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
+            });
+        }
+
+        //清空:
+        fs.SetLength(0);
+        //Store
+        using var sw = new StreamWriter(fs);
+
+        sw.Write(JsonSerializer.Serialize(stored, _serializerOptions));
     }
 }

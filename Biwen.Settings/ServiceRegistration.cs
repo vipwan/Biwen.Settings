@@ -168,9 +168,7 @@ public static class ServiceRegistration
 
     #region internal
 
-    static readonly Lock _lock = new();//锁
     static readonly Type InterfaceINotify = typeof(INotify<>);
-
     static IEnumerable<Type> _notifys = null!;
 
     static bool IsToGenericInterface(Type type, Type baseInterface)
@@ -185,9 +183,8 @@ public static class ServiceRegistration
     {
         get
         {
-            lock (_lock)
-                return _notifys ??= ASS.InAllRequiredAssemblies.Where(x =>
-                !x.IsAbstract && x.IsClass && x.IsPublic && IsToGenericInterface(x, InterfaceINotify));
+            return _notifys ??= ASS.InAllRequiredAssemblies.Where(x =>
+            !x.IsAbstract && x.IsClass && x.IsPublic && IsToGenericInterface(x, InterfaceINotify));
         }
     }
 

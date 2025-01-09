@@ -84,7 +84,7 @@ builder.Services.AddBiwenSettings((options =>
     options.UseEncryption<EmptyEncryptionProvider>();
 
     //使用EFCoreStore
-    options.UseStoreOfEFCore<MyDbContext>();
+    //options.UseStoreOfEFCore<MyDbContext>();
 
     //集群的通知服务配置
     options.NotifyOptions.IsNotifyEnable = true;
@@ -103,11 +103,11 @@ builder.Services.AddBiwenSettings((options =>
 
 
     //使用JsonStore
-    //options.UseStoreOfJsonFile(options =>
-    //{
-    //    options.FormatJson = true;
-    //    options.JsonPath = "systemsettings.json";
-    //});
+    options.UseStoreOfJsonFile(options =>
+    {
+        options.FormatJson = true;
+        options.JsonPath = "systemsettings.json";
+    });
 
 }));
 
