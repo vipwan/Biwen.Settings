@@ -11,7 +11,7 @@ using System.Text.Json.Serialization;
 
 namespace Biwen.Settings.SettingStores.JsonFile;
 
-public class JsonFileSettingStore : BaseSettingStore
+internal sealed class JsonFileSettingStore : BaseSettingStore
 {
     private readonly IOptions<SettingOptions> _options;
     private readonly IOptions<JsonFileStoreOptions> _storeOptions;
@@ -56,14 +56,12 @@ public class JsonFileSettingStore : BaseSettingStore
         }
     }
 
-    public override T Get<T>()
+    public override async Task<T> GetAsync<T>()
     {
-
         var @default = new T();
         var settingType = typeof(T).FullName!;
 
-
-        var json = File.ReadAllText(_storeOptions.Value.JsonPath);
+        var json = await File.ReadAllTextAsync(_storeOptions.Value.JsonPath);
         var stored = JsonSerializer.Deserialize<List<Setting>>(json)?.FirstOrDefault(
             x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
 
@@ -73,7 +71,7 @@ public class JsonFileSettingStore : BaseSettingStore
             return JsonSerializer.Deserialize<T>(plainContent)!;
         }
 
-        Save(@default);
+        await SaveAsync(@default);
 
         return @default;
     }
@@ -106,7 +104,7 @@ public class JsonFileSettingStore : BaseSettingStore
     }
 
 
-    public override void Save<T>(T setting)
+    public override async Task SaveAsync<T>(T setting)
     {
         using var fs = new FileStream(
             _storeOptions.Value.JsonPath,
@@ -116,7 +114,7 @@ public class JsonFileSettingStore : BaseSettingStore
 
         using var sr = new StreamReader(fs);
 
-        var json = sr.ReadToEnd();
+        var json = await sr.ReadToEndAsync();
 
         var stored = JsonSerializer.Deserialize<List<Setting>>(json);
 
@@ -162,6 +160,6 @@ public class JsonFileSettingStore : BaseSettingStore
         //Store
         using var sw = new StreamWriter(fs);
 
-        sw.Write(JsonSerializer.Serialize(stored, _serializerOptions));
+        await sw.WriteAsync(JsonSerializer.Serialize(stored, _serializerOptions));
     }
 }

@@ -193,15 +193,23 @@ public static class ServiceRegistration
     static object GetSetting(Type x, IServiceProvider sp)
     {
         var settingStore = sp.GetRequiredService<ISettingStore>();
-
         var md = _cachedMethods.GetOrAdd(x, (type) =>
         {
-            MethodInfo methodLoad = settingStore.GetType().GetMethod(nameof(settingStore.Get))!;
+            MethodInfo methodLoad = settingStore.GetType().GetMethod(nameof(settingStore.GetAsync))!;
             MethodInfo generic = methodLoad.MakeGenericMethod(type);
             return generic;
         });
-        return md!.Invoke(settingStore, null)!;
+
+        //异步方法:
+        var task = (Task)md!.Invoke(settingStore, null)!;
+        if (!task.IsCompletedSuccessfully)
+        {
+            throw new InvalidOperationException();
+        }
+        var resultProperty = task.GetType().GetProperty("Result")!;
+        return resultProperty.GetValue(task)!;
     }
+
 
     #endregion
 
