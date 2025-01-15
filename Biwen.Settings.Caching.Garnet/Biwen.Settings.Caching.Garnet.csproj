@@ -11,8 +11,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.Garnet" Version="1.0.48" />
-		<PackageReference Include="System.Text.Json" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Garnet" Version="1.0.50" />
+		<PackageReference Include="System.Text.Json" Version="9.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

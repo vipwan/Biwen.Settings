@@ -9,15 +9,15 @@
 
 	<PropertyGroup Label="Package versions used in this repository">
 		<FluentValidationAspNetCoreVer>11.3.0</FluentValidationAspNetCoreVer>
-		<MicrosoftExtensionsVer>9.0.0</MicrosoftExtensionsVer>
+		<MicrosoftExtensionsVer>9.1.0</MicrosoftExtensionsVer>
 		<OrchardVer>2.1.3</OrchardVer>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<NetCoreMainVer>8.0.11</NetCoreMainVer>
+		<NetCoreMainVer>8.0.12</NetCoreMainVer>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<NetCoreMainVer>9.0.0</NetCoreMainVer>
+		<NetCoreMainVer>9.0.1</NetCoreMainVer>
 	</PropertyGroup>
 
 
