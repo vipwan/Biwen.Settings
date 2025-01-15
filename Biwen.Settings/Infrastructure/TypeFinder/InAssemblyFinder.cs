@@ -73,7 +73,7 @@ public interface IInAssemblyFinder : IEnumerable<Type>
 
 internal class InAssemblyFinder : IInAssemblyFinder
 {
-    private IRule? MainRule;
+    private CombinedRule? MainRule;
     private bool IsFrozen;
 
     private readonly Assembly[] Assemblies;

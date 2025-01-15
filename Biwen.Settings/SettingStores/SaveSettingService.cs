@@ -17,7 +17,7 @@ internal class SaveSettingService(ILogger<SaveSettingService> logger, ISettingSt
             return;
         }
         //Save
-        var mdSave = settingStore.GetType().GetMethod(nameof(ISettingStore.Save))!.MakeGenericMethod(record?.SettingType!);
+        var mdSave = settingStore.GetType().GetMethod(nameof(ISettingStore.SaveAsync))!.MakeGenericMethod(record?.SettingType!);
         mdSave.Invoke(settingStore, [record?.Setting!]);
         await Task.CompletedTask;
     }

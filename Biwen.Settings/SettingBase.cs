@@ -35,7 +35,7 @@ public abstract class SettingBase<T> : ISetting,
     {
         using var scope = ServiceRegistration.ServiceProvider.CreateScope();
         var settingStore = scope.ServiceProvider.GetRequiredService<ISettingStore>();
-        var setting = settingStore.Get<T>();
+        var setting = settingStore.GetAsync<T>().GetAwaiter().GetResult();
         //将配置项的值赋值给options
         //options = setting;
         scope.ServiceProvider.GetService<IConfiguration>()?.Bind(typeof(T).Name, options);
@@ -50,7 +50,7 @@ public abstract class SettingBase<T> : ISetting,
     {
         using var scope = ServiceRegistration.ServiceProvider.CreateScope();
         var settingStore = scope.ServiceProvider.GetRequiredService<ISettingStore>();
-        var setting = settingStore.Get<T>();
+        var setting = settingStore.GetAsync<T>().GetAwaiter().GetResult();
         //将配置项的值赋值给options
         //options = setting;
         scope.ServiceProvider.GetService<IConfiguration>()?.Bind(typeof(T).Name, options);
