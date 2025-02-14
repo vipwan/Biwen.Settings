@@ -53,7 +53,7 @@
 		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.DisplayManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.Navigation" Version="$(OrchardVer)" />
-		<PackageReference Include="System.Text.Json" Version="9.0.1" />
+		<PackageReference Include="System.Text.Json" Version="$(NetCoreMainVer)" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -9,7 +9,14 @@ namespace Biwen.Settings.Caching.Garnet;
 /// </summary>
 public class GarnetClientOptions
 {
+    /// <summary>
+    /// ip地址,默认:127.0.0.1
+    /// </summary>
     public string? Host { get; set; } = "127.0.0.1";
+
+    /// <summary>
+    /// 端口,默认:3278
+    /// </summary>
     public int Port { get; set; } = 3278;
 
     public string? UserName { get; set; } = null;
