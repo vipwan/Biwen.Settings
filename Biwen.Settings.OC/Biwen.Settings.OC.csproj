@@ -47,13 +47,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" PrivateAssets="all" />
+		<PackageReference Include="Biwen.AutoClassGen" Version="$(AutoClassGen)" PrivateAssets="all" />
 		<PackageReference Include="OrchardCore.Module.Targets" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.ContentManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.DisplayManagement" Version="$(OrchardVer)" />
 		<PackageReference Include="OrchardCore.Navigation" Version="$(OrchardVer)" />
-		<PackageReference Include="System.Text.Json" Version="$(NetCoreMainVer)" />
+		<PackageReference Include="System.Text.Json" Version="$(STJ)" />
 	</ItemGroup>
 
 	<ItemGroup>
