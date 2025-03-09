@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<PackageVersion>2.5.3</PackageVersion>
+		<AutoClassGen>1.5.5</AutoClassGen>
 		<PackageReleaseNotes>提供对IConfiguration和IOptions的集成支持</PackageReleaseNotes>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
@@ -10,6 +11,7 @@
 	<PropertyGroup Label="Package versions used in this repository">
 		<FluentValidationAspNetCoreVer>11.3.0</FluentValidationAspNetCoreVer>
 		<MicrosoftExtensionsVer>9.2.0</MicrosoftExtensionsVer>
+		<STJ>9.0.2</STJ>
 		<OrchardVer>2.1.4</OrchardVer>
 	</PropertyGroup>
 
