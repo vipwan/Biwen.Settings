@@ -10,16 +10,16 @@
 
 	<PropertyGroup Label="Package versions used in this repository">
 		<FluentValidationAspNetCoreVer>11.3.0</FluentValidationAspNetCoreVer>
-		<MicrosoftExtensionsVer>9.2.0</MicrosoftExtensionsVer>
-		<STJ>9.0.2</STJ>
+		<MicrosoftExtensionsVer>9.3.0</MicrosoftExtensionsVer>
+		<STJ>9.0.3</STJ>
 		<OrchardVer>2.1.4</OrchardVer>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<NetCoreMainVer>8.0.13</NetCoreMainVer>
+		<NetCoreMainVer>8.0.14</NetCoreMainVer>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<NetCoreMainVer>9.0.2</NetCoreMainVer>
+		<NetCoreMainVer>9.0.3</NetCoreMainVer>
 	</PropertyGroup>
 
 
