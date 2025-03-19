@@ -67,7 +67,11 @@ builder.Services.AddBiwenSettings((options =>
     options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
     options.EditorOptions.EdtiorConfirmButtonText = "Submit";
     options.EditorOptions.EditorEditButtonText = "Edit";
+
     options.EditorOptions.ShouldPagenation = true;
+    //分页大小
+    options.EditorOptions.PageSize = 10;
+
     //开启AutoFluentValidation
     options.AutoFluentValidationOption.Enable = true;
 

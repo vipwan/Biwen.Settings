@@ -176,6 +176,11 @@ public class EditorOptions
     /// </summary>
     public bool ShouldPagenation { get; set; } = true;
 
+    /// <summary>
+    /// 分页大小,默认:10
+    /// </summary>
+    public int PageSize { get; set; } = 10;
+
 }
 
 

@@ -38,7 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Update="Areas\Biwen.Settings\Views\Setting\_Layout.cshtml">
+		<Content Update="Areas\Biwen.Settings\Views\Setting\_Layout2.cshtml">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>

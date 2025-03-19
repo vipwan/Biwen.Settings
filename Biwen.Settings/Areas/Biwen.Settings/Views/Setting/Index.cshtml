@@ -5,52 +5,88 @@
 
 @{
     var settings = ViewBag.Settings as IEnumerable<Biwen.Settings.Domains.Setting>;
-    Layout = "_Layout";//SettingOptions.Value.Layout;
+    Layout = "_Layout";
     ViewData["Title"] = SettingOptions.Value.Title;
+
+    // 分页参数
+    var shouldPagenation = SettingOptions.Value.EditorOptions.ShouldPagenation;
+    var pageSize = SettingOptions.Value.EditorOptions.PageSize;
+    var currentPage = Context.Request.Query["page"].ToString();
+    int.TryParse(currentPage, out int page);
+    page = page <= 0 ? 1 : page;
+    
+    var totalItems = settings?.Count() ?? 0;
+    var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+    var items = shouldPagenation 
+        ? settings?.Skip((page - 1) * pageSize).Take(pageSize)
+        : settings;
 }
 
-@if (SettingOptions.Value.EditorOptions.ShouldPagenation)
-{
-    <link href="/Content/jquery.dataTables.min.css" rel="stylesheet" />
-}
+<div class="container-fluid py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <h4 class="mb-0">@ViewData["Title"]</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="settingTable table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="settingTh1" scope="col">@L["#"]</th>
+                            <th class="settingTh3" scope="col">@L["描述"]</th>
+                            <th class="settingTh3" scope="col">@L["排序"]</th>
+                            <th class="settingTh4" scope="col">@L["编辑"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var setting in items!)
+                        {
+                            <tr>
+                                <th class="settingThr1" scope="row">@(setting.SettingName)</th>
+                                <td class="settingThr2">@(setting.Description)</td>
+                                <td class="settingThr3">@(setting.Order)</td>
+                                <td class="settingThr4">
+                                    @Html.ActionLink(SettingOptions.Value.EditorOptions.EditorEditButtonText, "Edit", "Setting", 
+                                        new { id = setting.SettingType, area = "Biwen.Settings" }, 
+                                        new { @class = "btn btn-sm btn-primary" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-<table class="settingTable table table-striped">
-    <thead>
-        <tr>
-            <th class="settingTh1" scope="col">@L["#"]</th>
-            <th class="settingTh3" scope="col">@L["描述"]</th>
-            <th class="settingTh3" scope="col">@L["排序"]</th>
-            <th class="settingTh4" scope="col">@L["编辑"]</th>
-        </tr>
-    </thead>
-    <tbody>
+            @if (shouldPagenation && totalPages > 1)
+            {
+                <nav aria-label="Page navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        @if (page > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="?page=@(page-1)" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        }
 
-        @foreach (var setting in settings!)
-        {
-            <tr>
-                <th class="settingThr1" scope="row">@(setting.SettingName)</th>
-                <td class="settingThr2">@(setting.Description)</td>
-                <td class="settingThr3">@(setting.Order)</td>
-                <td class="settingThr4">@Html.ActionLink(SettingOptions.Value.EditorOptions.EditorEditButtonText, "Edit", "Setting", new { id = setting.SettingType, area = "Biwen.Settings" })</td>
-            </tr>
-        }
+                        @for (int i = 1; i <= totalPages; i++)
+                        {
+                            <li class="page-item @(i == page ? "active" : "")">
+                                <a class="page-link" href="?page=@i">@i</a>
+                            </li>
+                        }
 
-    </tbody>
-</table>
-
-@if (SettingOptions.Value.EditorOptions.ShouldPagenation)
-{
-
-    @section Scripts {
-    <script src="/Content/jquery.dataTables.min.js"></script>
-    <script>
-        $(function () {
-            $('.settingTable').DataTable({
-                order: [[3, 'desc']]
-            });
-        });
-    </script>
-    }
-
-
-}
+                        @if (page < totalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="?page=@(page+1)" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>

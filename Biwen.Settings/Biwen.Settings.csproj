@@ -7,10 +7,11 @@
 
 	<Import Project="..\Release.props" />
 	<Import Project="..\Version.props" />
+	<ItemGroup>
+	  <None Remove="Content\biwen-settings.css" />
+	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="Content\jquery.dataTables.min.css" />
-		<EmbeddedResource Include="Content\jquery.dataTables.min.js" />
 		<EmbeddedResource Include="Content\jquery-3.7.0.min.js" />
 	</ItemGroup>
 
@@ -36,6 +37,10 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Content\biwen-settings.css" />
 	</ItemGroup>
 
 
