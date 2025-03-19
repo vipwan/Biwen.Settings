@@ -112,8 +112,7 @@ builder.Services.AddBiwenSettings(options =>
 #if !DEBUG
     options.ProjectId = $"Biwen.Settings.TestWebUI-{"Production"}";
 #endif
-//自定义布局
-options.Layout = "~/Views/Shared/_Layout.cshtml";
+
 options.Title = "Biwen.Settings";
 //路由地址 ,http://..../system/settings
 options.Route = "system/settings";
@@ -123,6 +122,8 @@ options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
 options.EditorOptions.EdtiorConfirmButtonText = "Submit";
 options.EditorOptions.EditorEditButtonText = "Edit";
 options.EditorOptions.ShouldPagenation = true;
+//分页大小
+options.EditorOptions.PageSize = 10;
 
 //开启AutoFluentValidation
 options.AutoFluentValidationOption.Enable = true;
