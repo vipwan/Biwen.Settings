@@ -7,8 +7,9 @@
 
 	<Import Project="..\Release.props" />
 	<Import Project="..\Version.props" />
+
 	<ItemGroup>
-	  <None Remove="Content\biwen-settings.css" />
+		<EmbeddedResource Include="Content\biwen-settings.css" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,9 +40,6 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <EmbeddedResource Include="Content\biwen-settings.css" />
-	</ItemGroup>
 
 
 
