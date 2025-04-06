@@ -101,9 +101,8 @@ builder.Services.AddBiwenSettings((options =>
     options.ApiOptions.MapNotifyEndpoint = true;
     options.ApiOptions.ApiConventionBuilder = (builder) =>
     {
-        builder.WithTags("BiwenSettingApi").WithOpenApi();
+        builder.WithOpenApi();
     };
-
 
     //使用JsonStore
     //options.UseStoreOfJsonFile(options =>
