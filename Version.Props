@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<PackageVersion>2.6.0</PackageVersion>
-		<AutoClassGen>1.5.5</AutoClassGen>
+		<AutoClassGen>1.6.0</AutoClassGen>
 		<PackageReleaseNotes>提供对IConfiguration和IOptions的集成支持</PackageReleaseNotes>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
