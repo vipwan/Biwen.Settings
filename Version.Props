@@ -1,8 +1,8 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<PackageVersion>2.6.0</PackageVersion>
-		<AutoClassGen>1.7.0</AutoClassGen>
+		<PackageVersion>2.6.1</PackageVersion>
+		<AutoClassGen>1.8.1</AutoClassGen>
 		<PackageReleaseNotes>提供对IConfiguration和IOptions的集成支持</PackageReleaseNotes>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
