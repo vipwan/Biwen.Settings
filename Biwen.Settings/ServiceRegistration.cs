@@ -72,12 +72,15 @@ public static class ServiceRegistration
 
         #endregion
 
+        var isEfCoreStore = false;
+
         #region 注入SettingStore
 
-        if (currentOptions.SettingStore.StoreType == typeof(EFCoreSettingStore<>))
+        if (currentOptions.SettingStore.StoreType?.IsGenericType is true &&
+            currentOptions.SettingStore.StoreType.GetGenericTypeDefinition() == typeof(EFCoreSettingStore<>))
         {
-            ArgumentNullException.ThrowIfNull(currentOptions.SettingStore.Options, "EFCoreStoreOptions need set!");
-
+            isEfCoreStore = true;//EFCoreStore
+            //ArgumentNullException.ThrowIfNull(currentOptions.SettingStore.Options, "EFCoreStoreOptions need set!");
             services.AddOptions<EFCoreStoreOptions>().Configure(x =>
             {
                 (currentOptions.SettingStore.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
@@ -142,18 +145,32 @@ public static class ServiceRegistration
         //消费者通知服务
         services.AddScoped<NotifyServices>();
 
+        // 初始化设置
+        using var scopeStart = services.BuildServiceProvider().CreateScope();
+        // 当使用EFCoreStore的时候需要EnsureCreated!
+        if (isEfCoreStore)
+        {
+            //获取DbContext,并确认EnsureCreated:
+            //EFCoreSettingStore<>
+            var dbContextType = currentOptions.SettingStore.StoreType.GetGenericArguments()[0];
+            using var dbContext = (Microsoft.EntityFrameworkCore.DbContext)scopeStart.ServiceProvider.GetService(dbContextType)!;
+            dbContext.Database.EnsureCreated();//解决SQLite数据库不存在的问题!
+        }
+
         //注册ISetting
         foreach (var settingType in settings)
         {
             //Self DI
             services.AddScoped(settingType, sp => GetSetting(settingType, sp));
-        };
+        }
+        ;
 
         //sp
         ServiceProvider = services.BuildServiceProvider();
 
         // 初始化设置
-        using var scope = ServiceProvider.CreateScope();
+        using var scope = services.BuildServiceProvider().CreateScope();
+
         settings.AsParallel().ForAll(settingType =>
         {
             try { var setting = scope.ServiceProvider.GetRequiredService(settingType) as ISetting; }
