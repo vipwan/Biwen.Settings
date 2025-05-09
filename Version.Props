@@ -9,7 +9,6 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package versions used in this repository">
-		<FluentValidationAspNetCoreVer>11.3.0</FluentValidationAspNetCoreVer>
 		<MicrosoftExtensionsVer>9.4.0</MicrosoftExtensionsVer>
 		<STJ>9.0.4</STJ>
 		<OrchardVer>2.1.4</OrchardVer>

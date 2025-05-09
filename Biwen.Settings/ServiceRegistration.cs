@@ -11,7 +11,6 @@ using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.SettingStores;
 using Biwen.Settings.SettingStores.EFCore;
 using Biwen.Settings.SettingStores.JsonFile;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
@@ -137,7 +136,7 @@ public static class ServiceRegistration
         if (currentOptions.AutoFluentValidationOption.Enable)
         {
             //注册验证器
-            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblies(ASS.AllRequiredAssemblies);
         }
 
         var settings = ASS.InAllRequiredAssemblies.ThatInherit<ISetting>().Where(x => x.IsClass && !x.IsAbstract).ToArray();

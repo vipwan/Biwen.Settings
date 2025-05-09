@@ -29,7 +29,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Biwen.AutoClassGen" Version="$(AutoClassGen)" PrivateAssets="all" />
-		<PackageReference Include="FluentValidation.AspNetCore" Version="$(FluentValidationAspNetCoreVer)" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(NetCoreMainVer)" />
 		<PackageReference Include="Microsoft.AspNetCore.AsyncState" Version="$(MicrosoftExtensionsVer)" />
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(NetCoreMainVer)" />
