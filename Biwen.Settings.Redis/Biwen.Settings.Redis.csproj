@@ -23,7 +23,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Biwen.AutoClassGen" Version="$(AutoClassGen)" PrivateAssets="all" />
-		<PackageReference Include="CSRedisCore" Version="3.8.804" />
+		<PackageReference Include="CSRedisCore" Version="3.8.805" />
 	</ItemGroup>
 
 </Project>
