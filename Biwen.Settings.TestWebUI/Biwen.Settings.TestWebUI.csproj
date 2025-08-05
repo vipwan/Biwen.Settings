@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package versions used in this repository">
-		<MicrosoftExtensionsVer>9.7.0</MicrosoftExtensionsVer>
-		<NetCoreMainVer>9.0.7</NetCoreMainVer>
+		<MicrosoftExtensionsVer>9.8.0</MicrosoftExtensionsVer>
+		<NetCoreMainVer>9.0.8</NetCoreMainVer>
 	</PropertyGroup>
 
 	<ItemGroup>
