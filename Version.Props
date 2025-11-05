@@ -2,23 +2,23 @@
 
 	<PropertyGroup>
 		<PackageVersion>2.6.1</PackageVersion>
-		<AutoClassGen>1.8.1</AutoClassGen>
+		<AutoClassGen>1.8.7</AutoClassGen>
 		<PackageReleaseNotes>提供对IConfiguration和IOptions的集成支持</PackageReleaseNotes>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package versions used in this repository">
-		<MicrosoftExtensionsVer>9.8.0</MicrosoftExtensionsVer>
-		<STJ>9.0.8</STJ>
-		<OrchardVer>2.1.7</OrchardVer>
+		<MicrosoftExtensionsVer>9.10.0</MicrosoftExtensionsVer>
+		<STJ>9.0.10</STJ>
+		<OrchardVer>2.2.1</OrchardVer>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<NetCoreMainVer>8.0.19</NetCoreMainVer>
+		<NetCoreMainVer>8.0.21</NetCoreMainVer>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<NetCoreMainVer>9.0.8</NetCoreMainVer>
+		<NetCoreMainVer>9.0.10</NetCoreMainVer>
 	</PropertyGroup>
 
 

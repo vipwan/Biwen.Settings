@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package versions used in this repository">
-		<MicrosoftExtensionsVer>9.8.0</MicrosoftExtensionsVer>
-		<NetCoreMainVer>9.0.8</NetCoreMainVer>
+		<MicrosoftExtensionsVer>9.10.0</MicrosoftExtensionsVer>
+		<NetCoreMainVer>9.0.10</NetCoreMainVer>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,7 +24,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(NetCoreMainVer)" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(NetCoreMainVer)" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>
