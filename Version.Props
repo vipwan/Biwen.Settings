@@ -9,17 +9,19 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package versions used in this repository">
-		<MicrosoftExtensionsVer>9.10.0</MicrosoftExtensionsVer>
-		<STJ>9.0.10</STJ>
+		<MicrosoftExtensionsVer>10.0.0</MicrosoftExtensionsVer>
+		<STJ>10.0.0</STJ>
 		<OrchardVer>2.2.1</OrchardVer>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<NetCoreMainVer>8.0.21</NetCoreMainVer>
+		<NetCoreMainVer>8.0.22</NetCoreMainVer>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<NetCoreMainVer>9.0.10</NetCoreMainVer>
+		<NetCoreMainVer>9.0.11</NetCoreMainVer>
 	</PropertyGroup>
-
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'">
+		<NetCoreMainVer>10.0.0</NetCoreMainVer>
+	</PropertyGroup>
 
 </Project>
