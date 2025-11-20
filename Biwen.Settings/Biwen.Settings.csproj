@@ -32,8 +32,8 @@
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(NetCoreMainVer)" />
 		<PackageReference Include="Microsoft.AspNetCore.AsyncState" Version="$(MicrosoftExtensionsVer)" />
-		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(NetCoreMainVer)" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="$(NetCoreMainVer)" />
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsVer)" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="$(MicrosoftExtensionsVer)" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
