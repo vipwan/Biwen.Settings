@@ -24,7 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Biwen.Settings.TestWebUI\Biwen.Settings.TestWebUI.csproj" />
+		<ProjectReference Include="..\Biwen.Settings.Server\Biwen.Settings.Server.csproj" />
 		<ProjectReference Include="..\Biwen.Settings\Biwen.Settings.csproj" />
 	</ItemGroup>
 

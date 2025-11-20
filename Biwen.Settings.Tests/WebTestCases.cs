@@ -1,14 +1,14 @@
 ﻿using Alba;
 using Biwen.Settings.Tests.WebTests;
-using Biwen.Settings.TestWebUI;
+using Biwen.Settings.Server;
 using System.Text.Json.Nodes;
 
 namespace Biwen.Settings.Tests
 {
     using static Microsoft.AspNetCore.Builder.BiwenSettingApis;
 
-    public class WebTestCases(WebAppFixture<TestWebUI.Program> app, ITestOutputHelper testOutput) :
-        IClassFixture<WebAppFixture<TestWebUI.Program>>
+    public class WebTestCases(WebAppFixture<Server.Program> app, ITestOutputHelper testOutput) :
+        IClassFixture<WebAppFixture<Server.Program>>
     {
         private readonly IAlbaHost _host = app.AlbaHost;
         private readonly ITestOutputHelper _testOutput = testOutput;
@@ -36,7 +36,7 @@ namespace Biwen.Settings.Tests
         {
 
             var type = "Biwen.Settings.TestWebUI.GithubSetting";
-            var host = await AlbaHost.For<TestWebUI.Program>();
+            var host = await AlbaHost.For<Server.Program>();
 
             var result = await _host.Scenario(x =>
             {
