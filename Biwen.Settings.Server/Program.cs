@@ -142,13 +142,7 @@ else
     app.UseExceptionHandler("/Error");
 }
 
-#if NET9_0_OR_GREATER
 app.MapStaticAssets();
-#else
-app.UseStaticFiles();
-#endif
-
-
 app.UseAuthentication();
 app.UseAuthorization();
 

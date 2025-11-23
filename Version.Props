@@ -12,10 +12,6 @@
 		<MicrosoftExtensionsVer>10.0.0</MicrosoftExtensionsVer>
 		<STJ>10.0.0</STJ>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<NetCoreMainVer>8.0.22</NetCoreMainVer>
-	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
 		<NetCoreMainVer>9.0.11</NetCoreMainVer>
 	</PropertyGroup>
