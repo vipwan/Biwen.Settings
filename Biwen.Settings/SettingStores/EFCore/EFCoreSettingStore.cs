@@ -49,12 +49,12 @@ internal sealed class EFCoreSettingStore<TDbContext> : BaseSettingStore where TD
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
-    public override T Get<T>()
+    public override async Task<T> GetAsync<T>()
     {
         var @default = new T();
         var settingType = typeof(T).FullName!;
 
-        var setting = _db.Settings.FirstOrDefault(
+        var setting = await _db.Settings.FirstOrDefaultAsync(
             x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
 
         if (setting != null)
@@ -77,7 +77,7 @@ internal sealed class EFCoreSettingStore<TDbContext> : BaseSettingStore where TD
                 LastModificationTime = DateTime.Now,
                 SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
             });
-            (_db as DbContext)!.SaveChanges();
+            await (_db as DbContext)!.SaveChangesAsync();
         }
 
         if (@default == null)
@@ -89,7 +89,7 @@ internal sealed class EFCoreSettingStore<TDbContext> : BaseSettingStore where TD
         return @default;
     }
 
-    public override void Save<T>(T setting)
+    public override async Task SaveAsync<T>(T setting)
     {
         ArgumentNullException.ThrowIfNull(setting, nameof(setting));
 
@@ -120,7 +120,7 @@ internal sealed class EFCoreSettingStore<TDbContext> : BaseSettingStore where TD
                 SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(settingContent) : settingContent
             });
         }
-        (_db as DbContext)!.SaveChanges();
+        await (_db as DbContext)!.SaveChangesAsync();
         _logger.LogInformation("SaveSetting: {settingType},{settingContent}", settingType, settingContent);
     }
 

@@ -11,7 +11,7 @@ using System.Text.Json.Serialization;
 
 namespace Biwen.Settings.SettingStores.JsonFile;
 
-public class JsonFileSettingStore : BaseSettingStore
+internal sealed class JsonFileSettingStore : BaseSettingStore
 {
     private readonly IOptions<SettingOptions> _options;
     private readonly IOptions<JsonFileStoreOptions> _storeOptions;
@@ -30,8 +30,6 @@ public class JsonFileSettingStore : BaseSettingStore
         //允许不转义特殊字符
         Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
-
-    private readonly static Lock _lock = new();
 
     public JsonFileSettingStore(ILogger<JsonFileSettingStore> logger,
         IOptions<SettingOptions> options,
@@ -58,14 +56,12 @@ public class JsonFileSettingStore : BaseSettingStore
         }
     }
 
-    public override T Get<T>()
+    public override async Task<T> GetAsync<T>()
     {
-
         var @default = new T();
         var settingType = typeof(T).FullName!;
 
-
-        var json = File.ReadAllText(_storeOptions.Value.JsonPath);
+        var json = await File.ReadAllTextAsync(_storeOptions.Value.JsonPath);
         var stored = JsonSerializer.Deserialize<List<Setting>>(json)?.FirstOrDefault(
             x => x.ProjectId == _options.Value.ProjectId && x.SettingType == settingType);
 
@@ -75,7 +71,7 @@ public class JsonFileSettingStore : BaseSettingStore
             return JsonSerializer.Deserialize<T>(plainContent)!;
         }
 
-        Save(@default);
+        await SaveAsync(@default);
 
         return @default;
     }
@@ -108,52 +104,62 @@ public class JsonFileSettingStore : BaseSettingStore
     }
 
 
-
-    public override void Save<T>(T setting)
+    public override async Task SaveAsync<T>(T setting)
     {
-        lock (_lock)
+        using var fs = new FileStream(
+            _storeOptions.Value.JsonPath,
+            FileMode.OpenOrCreate,
+            FileAccess.ReadWrite,
+            FileShare.None);//独占
+
+        using var sr = new StreamReader(fs);
+
+        var json = await sr.ReadToEndAsync();
+
+        var stored = JsonSerializer.Deserialize<List<Setting>>(json);
+
+        var @default = new T();
+        var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
+
+        if (stored == null)
         {
-            var json = File.ReadAllText(_storeOptions.Value.JsonPath);
-            var stored = JsonSerializer.Deserialize<List<Setting>>(json);
+            stored = [];
+            var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
 
-            var @default = new T();
-            var desc = typeof(T).GetCustomAttribute<DescriptionAttribute>(false);
-
-            if (stored == null)
+            stored!.Add(new Setting
             {
-                stored = [];
-                var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
-
-                stored!.Add(new Setting
-                {
-                    ProjectId = _options.Value.ProjectId,
-                    SettingName = setting.SettingName!,
-                    SettingType = typeof(T).FullName!,
-                    Description = desc?.Description,
-                    Order = setting.Order,
-                    LastModificationTime = DateTime.Now,
-                    SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
-                });
-            }
-            else
-            {
-                stored.RemoveAll(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == typeof(T).FullName);
-
-                var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
-
-                stored.Add(new Setting
-                {
-                    ProjectId = _options.Value.ProjectId,
-                    SettingName = setting.SettingName!,
-                    SettingType = typeof(T).FullName!,
-                    Description = desc?.Description,
-                    Order = setting.Order,
-                    LastModificationTime = DateTime.Now,
-                    SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
-                });
-            }
-            //Store
-            File.WriteAllText(_storeOptions.Value.JsonPath, JsonSerializer.Serialize(stored, _serializerOptions));
+                ProjectId = _options.Value.ProjectId,
+                SettingName = setting.SettingName!,
+                SettingType = typeof(T).FullName!,
+                Description = desc?.Description,
+                Order = setting.Order,
+                LastModificationTime = DateTime.Now,
+                SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
+            });
         }
+        else
+        {
+            stored.RemoveAll(x => x.ProjectId == _options.Value.ProjectId && x.SettingType == typeof(T).FullName);
+
+            var plainContent = JsonSerializer.Serialize(setting, _contentJsonSerializerOptions);
+
+            stored.Add(new Setting
+            {
+                ProjectId = _options.Value.ProjectId,
+                SettingName = setting.SettingName!,
+                SettingType = typeof(T).FullName!,
+                Description = desc?.Description,
+                Order = setting.Order,
+                LastModificationTime = DateTime.Now,
+                SettingContent = _storeOptions.Value.EncryptionOptions.Enable ? _encryptionProvider.Encrypt(plainContent) : plainContent
+            });
+        }
+
+        //清空:
+        fs.SetLength(0);
+        //Store
+        using var sw = new StreamWriter(fs);
+
+        await sw.WriteAsync(JsonSerializer.Serialize(stored, _serializerOptions));
     }
 }

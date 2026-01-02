@@ -3,6 +3,7 @@
 @using Microsoft.Extensions.Options;
 @using System.Text.Json;
 @inject IOptions<SettingOptions> SettingOptions;
+@inject IStringLocalizer<UI> L
 
 @{
     var setting = ViewBag.Setting as Biwen.Settings.Domains.Setting;
@@ -11,23 +12,58 @@
     ViewData["Title"] = $"Edit-{setting!.SettingName}";
 }
 
-@using (Html.BeginForm())
-{
-    <h3 class="settingH3">@(setting!.SettingName)</h3>
-    <h5 class="settingH5">@(setting!.Description)</h5>
-    @Html.ValidationSummary()
-    foreach (var vm in settingValues!)
-    {
-        <div class="settingRow">
-            <div class="settingLabel editor-label">
-                <label for="@vm.Name">@(vm.Name)</label>
-                @Html.ValidationMessage(vm.Name)
-            </div>
-            <div class="settingEditor editor-field" title="@vm.Description">
-                @Html.TextBox(vm.Name, vm.Value, new { id = vm.Name, placeholder = (vm.Description ?? vm.Name), @class = "form-control" })
+<div class="container-fluid py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">@ViewData["Title"]</h4>
+                <a href="@Url.Action("Index", "Setting", new { area = "Biwen.Settings" })" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left"></i> @L["返回"]
+                </a>
             </div>
         </div>
-    }
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                <div class="mb-4">
+                    <h5 class="text-muted mb-2">@(setting!.SettingName)</h5>
+                    <p class="text-muted mb-0">@(setting!.Description)</p>
+                </div>
 
-    <button class="settingButton btn btn-primary btn-block" onclick="@SettingOptions.Value.EditorOptions.EditorOnclick">@SettingOptions.Value.EditorOptions.EdtiorConfirmButtonText</button>
-}
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        @Html.ValidationSummary()
+                    </div>
+                }
+
+                <div class="settings-form">
+                    @foreach (var vm in settingValues!)
+                    {
+                        <div class="mb-4">
+                            <div class="form-group">
+                                <label for="@vm.Name" class="form-label">@(vm.Name)</label>
+                                @if (!string.IsNullOrEmpty(vm.Description))
+                                {
+                                    <small class="form-text text-muted d-block mb-2">@vm.Description</small>
+                                }
+                                @Html.TextBox(vm.Name, vm.Value, new { 
+                                    id = vm.Name, 
+                                    placeholder = (vm.Description ?? vm.Name), 
+                                    @class = "form-control" 
+                                })
+                                @Html.ValidationMessage(vm.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary" onclick="@SettingOptions.Value.EditorOptions.EditorOnclick">
+                        <i class="bi bi-check-lg"></i> @SettingOptions.Value.EditorOptions.EdtiorConfirmButtonText
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

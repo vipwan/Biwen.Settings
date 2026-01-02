@@ -11,7 +11,6 @@ using Biwen.Settings.EndpointNotify;
 using Biwen.Settings.SettingStores;
 using Biwen.Settings.SettingStores.EFCore;
 using Biwen.Settings.SettingStores.JsonFile;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
@@ -72,12 +71,15 @@ public static class ServiceRegistration
 
         #endregion
 
+        var isEfCoreStore = false;
+
         #region 注入SettingStore
 
-        if (currentOptions.SettingStore.StoreType == typeof(EFCoreSettingStore<>))
+        if (currentOptions.SettingStore.StoreType?.IsGenericType is true &&
+            currentOptions.SettingStore.StoreType.GetGenericTypeDefinition() == typeof(EFCoreSettingStore<>))
         {
-            ArgumentNullException.ThrowIfNull(currentOptions.SettingStore.Options, "EFCoreStoreOptions need set!");
-
+            isEfCoreStore = true;//EFCoreStore
+            //ArgumentNullException.ThrowIfNull(currentOptions.SettingStore.Options, "EFCoreStoreOptions need set!");
             services.AddOptions<EFCoreStoreOptions>().Configure(x =>
             {
                 (currentOptions.SettingStore.Options as Action<EFCoreStoreOptions>)?.Invoke(x);
@@ -134,7 +136,7 @@ public static class ServiceRegistration
         if (currentOptions.AutoFluentValidationOption.Enable)
         {
             //注册验证器
-            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblies(ASS.AllRequiredAssemblies);
         }
 
         var settings = ASS.InAllRequiredAssemblies.ThatInherit<ISetting>().Where(x => x.IsClass && !x.IsAbstract).ToArray();
@@ -142,18 +144,32 @@ public static class ServiceRegistration
         //消费者通知服务
         services.AddScoped<NotifyServices>();
 
+        // 初始化设置
+        using var scopeStart = services.BuildServiceProvider().CreateScope();
+        // 当使用EFCoreStore的时候需要EnsureCreated!
+        if (isEfCoreStore)
+        {
+            //获取DbContext,并确认EnsureCreated:
+            //EFCoreSettingStore<>
+            var dbContextType = currentOptions.SettingStore.StoreType.GetGenericArguments()[0];
+            using var dbContext = (Microsoft.EntityFrameworkCore.DbContext)scopeStart.ServiceProvider.GetService(dbContextType)!;
+            dbContext.Database.EnsureCreated();//解决SQLite数据库不存在的问题!
+        }
+
         //注册ISetting
         foreach (var settingType in settings)
         {
             //Self DI
             services.AddScoped(settingType, sp => GetSetting(settingType, sp));
-        };
+        }
+        ;
 
         //sp
         ServiceProvider = services.BuildServiceProvider();
 
         // 初始化设置
-        using var scope = ServiceProvider.CreateScope();
+        using var scope = services.BuildServiceProvider().CreateScope();
+
         settings.AsParallel().ForAll(settingType =>
         {
             try { var setting = scope.ServiceProvider.GetRequiredService(settingType) as ISetting; }
@@ -168,9 +184,7 @@ public static class ServiceRegistration
 
     #region internal
 
-    static readonly Lock _lock = new();//锁
     static readonly Type InterfaceINotify = typeof(INotify<>);
-
     static IEnumerable<Type> _notifys = null!;
 
     static bool IsToGenericInterface(Type type, Type baseInterface)
@@ -185,9 +199,8 @@ public static class ServiceRegistration
     {
         get
         {
-            lock (_lock)
-                return _notifys ??= ASS.InAllRequiredAssemblies.Where(x =>
-                !x.IsAbstract && x.IsClass && x.IsPublic && IsToGenericInterface(x, InterfaceINotify));
+            return _notifys ??= ASS.InAllRequiredAssemblies.Where(x =>
+            !x.IsAbstract && x.IsClass && x.IsPublic && IsToGenericInterface(x, InterfaceINotify));
         }
     }
 
@@ -196,15 +209,23 @@ public static class ServiceRegistration
     static object GetSetting(Type x, IServiceProvider sp)
     {
         var settingStore = sp.GetRequiredService<ISettingStore>();
-
         var md = _cachedMethods.GetOrAdd(x, (type) =>
         {
-            MethodInfo methodLoad = settingStore.GetType().GetMethod(nameof(settingStore.Get))!;
+            MethodInfo methodLoad = settingStore.GetType().GetMethod(nameof(settingStore.GetAsync))!;
             MethodInfo generic = methodLoad.MakeGenericMethod(type);
             return generic;
         });
-        return md!.Invoke(settingStore, null)!;
+
+        //异步方法:
+        var task = (Task)md!.Invoke(settingStore, null)!;
+        if (!task.IsCompletedSuccessfully)
+        {
+            throw new InvalidOperationException();
+        }
+        var resultProperty = task.GetType().GetProperty("Result")!;
+        return resultProperty.GetValue(task)!;
     }
+
 
     #endregion
 

@@ -6,6 +6,7 @@ using Garnet.client;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
+using System.Net;
 using System.Text.Json;
 
 namespace Biwen.Settings.Caching.Garnet;
@@ -19,14 +20,13 @@ public class GarnetCacheProvider(IOptions<GarnetClientOptions> optons, ILogger<G
 
     public async Task<T?> GetOrCreateAsync<T>(string key, Func<T?> factory, int cacheTime = 86400) where T : ISetting
     {
-
         logger.LogDebug("GetOrCreateAsync {key}", key);
 
         Keys.TryAdd(key, null);
 
+        var endpoint = new IPEndPoint(IPAddress.Parse(_options.Value.Host!), _options.Value.Port);
         using var db = new GarnetClient(
-            address: _options.Value.Host,
-            port: _options.Value.Port,
+            endpoint,
             authUsername: _options.Value.UserName,
             authPassword: _options.Value.Password
             );
@@ -58,9 +58,9 @@ public class GarnetCacheProvider(IOptions<GarnetClientOptions> optons, ILogger<G
 
         Keys.TryRemove(key, out _);
 
+        var endpoint = new IPEndPoint(IPAddress.Parse(_options.Value.Host!), _options.Value.Port);
         using var db = new GarnetClient(
-                        address: _options.Value.Host,
-                        port: _options.Value.Port,
+                        endpoint,
                         authUsername: _options.Value.UserName,
                         authPassword: _options.Value.Password
                         );

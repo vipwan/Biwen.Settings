@@ -22,6 +22,9 @@ namespace Microsoft.AspNetCore.Builder;
 
 public static class BiwenSettingApis
 {
+
+    private static string RootNamespace => typeof(ISetting).Namespace!;
+
     /// <summary>
     /// 注册BiwenSetting Api
     /// </summary>
@@ -36,6 +39,10 @@ public static class BiwenSettingApis
     {
         //group
         var group = endpoint.MapGroup(apiPrefix);
+
+        //tags
+        group.WithTags(RootNamespace);
+
         //auth
         group.AddEndpointFilter<MinimalAuthFilter>();
         //all
@@ -53,7 +60,8 @@ public static class BiwenSettingApis
 
             //DTO
             notifyEndpoint.Accepts<NofityDto>(contentType: "application/json");
-            OpenApiRouteHandlerBuilderExtensions.WithTags(notifyEndpoint, "Notify");
+            notifyEndpoint.WithTags(RootNamespace);
+
 #if !DEBUG
             notifyEndpoint.ExcludeFromDescription();//排除在Swagger文档中
 #endif

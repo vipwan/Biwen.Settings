@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Biwen.Settings.TestWebUI/BiwenSettings.db
+/Biwen.Settings.TestWebUI/BiwenSettings.db-shm
+/Biwen.Settings.TestWebUI/BiwenSettings.db-wal

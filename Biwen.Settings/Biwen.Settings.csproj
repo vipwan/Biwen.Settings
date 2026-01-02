@@ -10,8 +10,10 @@
 	<Import Project="..\Version.props" />
 
 	<ItemGroup>
-		<EmbeddedResource Include="Content\jquery.dataTables.min.css" />
-		<EmbeddedResource Include="Content\jquery.dataTables.min.js" />
+		<EmbeddedResource Include="Content\biwen-settings.css" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<EmbeddedResource Include="Content\jquery-3.7.0.min.js" />
 	</ItemGroup>
 
@@ -27,12 +29,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Include="Backport.System.Threading.Lock" Version="3.1.4">
+		<PackageReference Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))" Include="Backport.System.Threading.Lock" Version="3.1.5">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>analyzers</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Biwen.AutoClassGen" Version="1.5.4" PrivateAssets="all" />
-		<PackageReference Include="FluentValidation.AspNetCore" Version="$(FluentValidationAspNetCoreVer)" />
+		<PackageReference Include="Biwen.AutoClassGen" Version="$(AutoClassGen)" PrivateAssets="all" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(NetCoreMainVer)" />
 		<PackageReference Include="Microsoft.AspNetCore.AsyncState" Version="$(MicrosoftExtensionsVer)" />
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(NetCoreMainVer)" />
@@ -42,10 +44,5 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-
-
-
-
-
 
 </Project>

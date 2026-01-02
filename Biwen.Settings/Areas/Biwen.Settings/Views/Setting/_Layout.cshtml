@@ -1,35 +1,37 @@
-﻿﻿@using Microsoft.AspNetCore.Hosting
-@using Microsoft.AspNetCore.Mvc.ViewEngines
-@inject IWebHostEnvironment Environment
-@inject IStringLocalizer<UI> L
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] @Environment.ApplicationName</title>
+    <title>@ViewData["Title"] - Biwen.Settings</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="/Content/jquery-3.7.0.min.js"></script>
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link href="/Content/biwen-settings.css" rel="stylesheet" />
+
+    <!-- 自定义样式 -->
+    @RenderSection("Styles", required: false)
 </head>
 <body>
-    <div class="container">
-        <main role="main" class="pb-1">
-            <div>
-                <h2>@L["配置中心"]</h2>
-                <hr />
-                <div class="row">
-                    <div class="col-md-3">
-                        <partial name="_ManageNav" />
-                    </div>
-                    <div class="col-md-9">
-                        @RenderBody()
-                    </div>
-                </div>
-            </div>
-        </main>
+    <div class="container-fluid">
+        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+            <strong>重要提示：</strong> 您可以自定义此布局文件！：
+            <ul class="mb-0">
+                <li>目标位置：<code>Areas/Biwen.Settings/Views/Setting/_Layout.cshtml</code></li>
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        @RenderBody()
     </div>
 
-    <script src="/Content/jquery-3.7.0.min.js"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
-
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

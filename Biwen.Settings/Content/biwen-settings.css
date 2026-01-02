@@ -1,0 +1,77 @@
+﻿/* 通用卡片样式 */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+
+/* 表格样式 */
+.settingTable {
+    margin-bottom: 0;
+}
+
+.settingTable th {
+    font-weight: 600;
+    color: #495057;
+}
+
+.settingTable td {
+    vertical-align: middle;
+}
+
+/* 表单样式 */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-text {
+    font-size: 0.875rem;
+}
+
+/* 布局样式 */
+.settings-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 按钮样式 */
+.btn-primary {
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-outline-secondary {
+    padding: 0.25rem 0.75rem;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+}
+
+/* 警告框样式 */
+.alert {
+    border-radius: 0.5rem;
+}
+
+/* 分页样式 */
+.pagination {
+    margin-bottom: 0;
+}
+
+.page-link {
+    color: #0d6efd;
+}
+
+.page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+} 

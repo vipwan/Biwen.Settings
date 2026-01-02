@@ -60,14 +60,17 @@ builder.Services.AddBiwenSettings((options =>
     options.ProjectId = $"Biwen.Settings.TestWebUI-{"Production"}";
 #endif
 
-    //options.Layout = "~/Views/Shared/_Layout.cshtml";
     options.Title = "Biwen.Settings";
     options.Route = "system/settings";
     options.PermissionValidator = (ctx) => Task.FromResult(true);
     options.EditorOptions.EditorOnclick = "return confirm('Are You Sure!?');";
     options.EditorOptions.EdtiorConfirmButtonText = "Submit";
     options.EditorOptions.EditorEditButtonText = "Edit";
+
     options.EditorOptions.ShouldPagenation = true;
+    //分页大小
+    options.EditorOptions.PageSize = 10;
+
     //开启AutoFluentValidation
     options.AutoFluentValidationOption.Enable = true;
 
@@ -98,9 +101,8 @@ builder.Services.AddBiwenSettings((options =>
     options.ApiOptions.MapNotifyEndpoint = true;
     options.ApiOptions.ApiConventionBuilder = (builder) =>
     {
-        builder.WithTags("BiwenSettingApi").WithOpenApi();
+        builder.WithOpenApi();
     };
-
 
     //使用JsonStore
     //options.UseStoreOfJsonFile(options =>
